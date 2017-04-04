@@ -1,0 +1,33 @@
+
+//fonts
+$primaryFont: "OpenSans";
+$primaryBoldFont: "OpenSansBold";
+$primaryLightFont: "OpenSansLight";
+$primaryItalicFont: "OpenSansItalic";
+$iconFont: "FontAwesome";
+$fontPath: "../../fonts";
+
+//colors
+$alertBackground: #FFFDF0;
+$bodyBackground: #EEE;
+
+$white: #FFFFFF;
+$black: #000000;
+$darkerGrey: #BBB;
+$lighterGrey: #f3f3f3;
+
+//openMrs colors
+$highlight: darken(#009384, 15%);
+$text: darken(#5B57A6, 20%);
+$subtleText: darken($darkerGrey, 25%);
+$subtlerText: $darkerGrey;
+$disabled: #CCCCCC;
+$brightGreen: #00CC00;
+
+$link: #007FFF;
+$focus: #FFFDF7;
+
+$success: #A1D030;
+$alert: #FFA000;
+$error: #ff6666;
+$successBackground: #ddffdd;

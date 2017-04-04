@@ -1,0 +1,89 @@
+.note-container {
+  position: relative;
+  text-align: center;
+
+  .note {
+    text-align: left;
+    min-width: 340px;
+    padding: 10px;
+    margin: 10px auto;
+    display: inline-block;
+    overflow: hidden;
+    clear: both;
+    position: relative;
+    border-radius: 3px;
+
+    .text {
+      display: inline-block;
+      
+      i {
+        display: inline-block;
+        vertical-align: top;
+        padding: 0;
+      }
+      p {
+        margin: 0 20px 0 10px;
+        max-width: 93.5%;
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+        top: 5px;
+        text-align: left;
+      }
+    }
+
+    .close-icon {
+      top: 5px;
+      right: 5px;
+      position: absolute;
+      font-size: 0.25em;
+      cursor: pointer;
+    }
+
+    .actions, #actions {
+      margin: 20px 10px 0 45px;
+    }
+
+    &.error {
+      .icon {
+        i {
+          padding: 0px 3px;
+          font-size: 1.5em;
+        }
+      }
+    }
+
+    &.warning, &.success, &.error {
+      border: 1px solid transparent;
+    }
+
+    &.warning {
+      color: $alert;
+      background: $alertBackground;
+      border-color: $alert;
+    }
+
+    &.success {
+      color: white;
+      background: $success;
+      border-color: darken($success, 10%);
+
+      .icon i {
+        color: darken($success,40%);
+        background: $success;
+        border-color: darken($success,40%);
+      }
+    }
+
+    &.error {
+      color: white;
+      background: $error;
+
+      .icon i {
+        background: white;
+        color: lighten($error, 10%);
+        border-color: white;
+      }
+    }
+  }
+}

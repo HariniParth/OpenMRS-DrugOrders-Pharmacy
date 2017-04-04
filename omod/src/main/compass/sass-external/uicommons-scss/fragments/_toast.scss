@@ -1,0 +1,56 @@
+.toast-item {
+  font-family: $primaryFont, Arial, sans-serif;
+  font-size: 16px;
+  background-color: transparent;
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.80), rgba(0, 0, 0, 0.88));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), inset 0 0 0 1px rgba(255,255,255,0.1);
+  border: 1px solid #000;
+  -webkit-border-radius: 4px;
+}
+
+.toast-item-image {
+  background: 0;
+  font-family: $iconFont;
+  font-size: 1.7em;
+  width: auto;
+  height: auto;
+  padding: 7px;
+}
+
+.toast-item-close {
+  @extend .icon-remove;
+  font-size: 0.8em;
+  background: 0;
+  font-family: $iconFont;
+  height: auto;
+  width: auto;
+  cursor: pointer;
+  color: white;
+}
+
+.toast-item-image-success {
+  @extend .icon-ok;
+  color: $success;
+}
+
+.toast-item-image-alert {
+  @extend .icon-exclamation-sign;
+  color: $alert;
+  font-size: 2em;
+}
+
+.toast-item-image-error {
+  @extend .icon-remove;
+  color: lighten($error, 10%);
+}
+
+.toast-record-location, .toast-record-id {
+  font-size: 1.4em;
+  font-weight: bold;
+  display: block;
+  color: white;
+}
+
+.toast-record-found {
+  color: #ccc;
+}

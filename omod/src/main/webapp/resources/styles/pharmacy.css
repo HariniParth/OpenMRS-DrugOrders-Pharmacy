@@ -1,0 +1,349 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 3, 2016, 7:38:38 PM
+    Author     : harini-geek
+*/
+
+.info-body{
+    width: 100%;
+    overflow: hidden;
+    background-color: white;
+}
+
+.info-body #currentDrugOrdersWindow{
+    width: 60%;
+    float: left;
+}
+
+.info-body #pharmaOrderViewWindow, .info-body #pharmaOrderActionWindow, .info-body #pharmaGroupViewWindow{
+    width: 38%;
+    float: right;
+}
+
+.info-body #line-break{
+    width: 60%;
+    border: 2px solid #00463f;
+}
+
+#patient-search-bar{
+    width: 100%;
+}
+
+#orderSearchField{
+    width: 40%;
+    float: left;
+}
+
+#orderSearchButton{
+    width: 10%;
+    float: left;
+}
+
+.fields{
+    padding-left: 10px;
+}
+
+.additionalInformation, #drugDetails{
+    font-size: 14px;
+    margin-left: 40px;
+    padding-bottom: 10px;
+}
+
+.dispatchFields{
+    margin-left: 40px;
+}
+
+#searchResults{
+    padding: 10px;
+}
+
+#view_order_detail{
+    width: 100%;
+}
+
+#order_label{
+    width: 30%;
+    float: left;
+}
+
+#order_value{
+    width: 70%;
+    float: right;
+}
+
+.dialog input[type="text"]{
+    width: 80% !important;
+    box-sizing: border-box !important;
+}
+
+.dialog .dialog-header{
+    text-align: center !important;
+}
+
+#header{
+    text-align: left;
+    font-weight: bold;
+}
+
+#heading{
+    padding-top: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#pharmaOrderView, #pharmaGroupView, #patient-search-bar, #activeOrdersWindow, #removeHold{
+    background: #F9F9F9;
+    border: 1px solid #eee;
+    color: #363463;
+}
+
+.patientRow:hover, .orderRow:hover, .groupRow:hover,.singleRow:hover{
+    background: #75b2f0;
+    color: white;
+    cursor: pointer;
+}
+
+.setHome:hover td:not(:first-child), .singleHome:hover td:not(:first-child){
+    background: #75b2f0;
+    color: white;
+}
+
+.selectSingle > input, .selectGroup > input{
+    margin: auto;
+}
+
+#associatedOrdersTableWrapper .dataTables_wrapper, #otherOrdersTableWrapper .dataTables_wrapper, .dataTables_wrapper, #activeOrdersWindow .dataTables_wrapper{
+    _height: 152px;
+    min-height: 152px;
+}
+
+.icon-minus-sign.edit-action, .additionalInformation, #pharmaGroupActionButtons, #statusLabel, #printLabel, #confirmButtons, #contactLabel, #ordererContact, .dispatchFields, #removeHold{
+    display: none;
+}
+
+#currentDrugOrdersTable, #associatedOrdersTable, #allOrdersTable, #currentGroupOrdersTable, #drugName{
+    font-size: 13px;
+}
+
+input[type=submit], input[type=button]{
+    width: 90px;
+    height: 35px;
+}
+
+.pageLinks:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.group{
+    min-height: 350px;
+    max-height: 350px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    white-space:nowrap
+}
+
+.groupItem{
+    width: 90%;
+    margin: auto;
+}
+
+#singleOrder{
+    width: 90%;
+    margin: auto;
+    border: 2px dashed gainsboro;
+}
+
+form select, .form select {
+    min-width: 10px !important;
+    min-height: 5px !important;
+    display: inline !important;
+    margin-top: 0px !important;
+    padding: 0px !important;
+}
+
+.dataTables_filter label:first-child{
+    text-align: left !important;
+    margin-top: 0px !important;
+}
+
+.dataTables_length label{
+    text-align: right !important;
+    margin-top: 0px !important;
+}
+
+.groupHome{
+    width: 100%;
+    overflow: hidden;
+}
+
+.groupHome .l11{
+    width: 70%;
+    float: left;
+}
+
+.groupHome .l12{
+    width: 30%;
+    float: right;
+}
+
+.l11 .l21{
+    width: 31%;
+    float: left;
+    overflow-wrap: break-word;
+}
+
+.l11 .l22{
+    width: 69%;
+    float: right;
+}
+
+.l12 .l23{
+    width: 36%;
+    float: left;
+}
+
+.l12 .l24{
+    width: 64%;
+    float: right;
+    overflow-wrap: break-word;
+}
+
+.l22 .l31{
+    width: 73%;
+    float: left;
+    overflow-wrap: break-word;
+}
+
+.l22 .l32{
+    width: 27%;
+    float: right;
+}
+
+.groupElement{
+    width: 100%;
+}
+
+.groupElement .d1{
+    width: 47%;
+    float: left;
+}
+
+.groupElement .d2{
+    width: 53%;
+    float: right;
+}
+
+.groupElement .d1 .g1{
+    width: 60%;
+    float: left;
+}
+
+.groupElement .d1 .g2{
+    width: 40%;
+    float: right;
+}
+
+.groupElement .d1 .g1 .c1{
+    width: 90%;
+    float: left;
+    overflow-wrap: break-word;
+}
+
+.groupElement .d1 .g1 .c2{
+    width: 10%;
+    float: right;
+}
+
+.groupElement .d1 .g2 .c3{
+    width: 90%;
+    float: left;
+    overflow-wrap: break-word;
+}
+
+.groupElement .d1 .g2 .c4{
+    width: 10%;
+    float: right;
+}
+
+.groupElement .d2 .d3{
+    width: 25%;
+    float: left;
+}
+
+.groupElement .d2 .d4{
+    width: 75%;
+    float: right;
+}
+
+.groupElement .d2 .d4 .g4{
+    width: 50%;
+    float: left;
+}
+
+.groupElement .d2 .d4 .g5{
+    width: 50%;
+    float: right;
+}
+
+#clear{
+    font-size: 12px;
+    color: blue;
+    float: right;
+}
+
+#clear:hover{
+    cursor: pointer;
+}
+
+#selectedAction{
+    color: red;
+    font-weight: bold;
+}
+
+.orderRow td{
+    color: #363463;
+}
+
+.groupElement.discontinued .d1 .g2 span{
+    text-decoration: none !important;
+}
+
+.groupHome.onHold > div > div:not(.l21), .singleHome.onHold td:not(:first-child):not(:nth-child(2)), .singleRow.onHold > *, .groupElement.onHold > *{
+    color: orange;
+}
+
+.groupHome.forDiscard > div > div:not(.l21), .groupHome.forDiscard > div > div > *, .singleHome.forDiscard > td:not(:first-child):not(:nth-child(2)), .singleRow.forDiscard > *, .groupElement.forDiscard > div > div > *{
+    color: orangered;
+    text-decoration: line-through;
+}
+
+.groupElement, #removeHold, .additionalInformation{
+    overflow: hidden;
+}
+
+.comments:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#asterisk{
+    color: red;
+    font-size: 10px;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+#patientTableWrapper .dataTables_wrapper, #nonActiveTableWrapper .dataTables_wrapper{
+    _height: 75px;
+    min-height: 75px;
+}
+
+.drugExpiryDate, .commentForPatient{
+    width: 90% !important;
+    box-sizing: border-box !important;
+}

@@ -1,0 +1,18 @@
+#login-form {
+  p {
+    margin-right: 20px;
+    text-align: right;
+
+    input[type=text], input[type=password] {
+      margin-bottom: 20px;
+    }
+    
+    input[type=submit] {
+      padding: 8px 40px;
+    }
+  }
+
+  .error-message {
+    text-align: none;
+  }
+}

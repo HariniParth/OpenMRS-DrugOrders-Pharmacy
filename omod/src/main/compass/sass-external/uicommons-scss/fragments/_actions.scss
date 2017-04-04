@@ -1,0 +1,38 @@
+@mixin action-icon($hoverColor: black) {
+  position: relative;
+  display: inline;
+  text-decoration: none;
+  color: $darkerGrey;
+  font-size: 1em;
+  cursor: pointer;
+
+  &:hover {
+    color: $hoverColor;
+  }
+}
+
+.delete-action {
+  @include action-icon($error);
+}
+
+.edit-action {
+  @include action-icon($link);
+}
+
+.add-action {
+  @include action-icon($brightGreen);
+}
+
+// TODO get rid of this and use delete-action instead
+.delete-item {
+  position: relative;
+  display: inline;
+  text-decoration: none;
+  color: $darkerGrey;
+  font-size: 1em;
+  cursor: pointer;
+
+  &:hover {
+    color: $error;
+  }
+}

@@ -1,0 +1,36 @@
+@import "compass/css3";
+
+@mixin ids {
+  max-width: 520px;
+  display: inline-block;
+  float: right;
+  text-align: right;
+  margin-left: 20px;
+  em {
+    width: 120px;
+    display: inline-block;
+    color: #888;
+    font-style: normal;
+    font-size: 0.9em;
+    border-bottom: 1px solid #DDD;
+  }
+  span {
+    background: #666;
+    color: white;
+    letter-spacing: 1px;
+    margin: 5px;
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 0.8em;
+    @include border-radius(50px);
+    a, a:link, a:visited {
+      color: #FFF;
+    }
+    &.add-id {
+      background: none;
+      a, a:link, a:visited {
+        color: $link;
+      }
+    }
+  }
+}

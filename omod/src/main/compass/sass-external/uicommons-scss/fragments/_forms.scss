@@ -1,0 +1,32 @@
+#who-where-when-edit {
+  margin-bottom: 6px;
+  border-bottom: 1px solid #ccc;
+
+  label {
+      margin-top: 0;
+  }
+}
+
+#who-where-when-view {
+  width: 600px;
+  margin: 0;
+  margin-bottom: 30px;
+
+  td {
+    padding-left: 5px;
+
+    label {
+      margin-top: 0;
+    }
+  }
+}
+
+#who-where-when-edit, #who-where-when-view {
+  p, td {
+    min-width: 200px;
+  }
+  p {
+    display: inline-block;
+    margin-right: 10px;
+  }
+}

@@ -1,0 +1,87 @@
+header {
+  position: relative;
+  background-color: $highlight;
+  color: #CCC;
+  line-height: 1em;
+  @include border-radius(5px);
+
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+
+  a, a:visited, a:hover, a:link {
+    color: white;
+  }
+
+  h1 {
+    color: #FFF;
+    margin: 0;
+    padding: 10px
+  }
+
+  .logo {
+    float: left;
+    margin: 4px;
+    
+    img {
+      width: 120px;
+    }
+  }
+
+  .user-options {
+    text-align: right;
+
+    li {
+      display: inline-block;
+      margin: 10px 0 10px 20px;
+
+      &.change-location, &.logout {
+        color: white;
+      }
+
+      &.change-location {
+        border: 1px solid lighten($highlight, 5%);
+        @include border-radius(3px);
+
+        a {
+          display: block;
+        }
+
+        &:hover, .focus {
+          background: lighten($highlight, 5%);
+
+          a:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+
+  #session-location {
+    position: absolute;
+    display: none;
+    top: 60px;
+    left: 70px;
+    background: white;
+    border: 2px solid lighten($highlight, 5%);
+    @include border-radius(3px);
+    width: 853px;
+    font-size: 0.8em;
+    z-index: 1;
+
+    .select {
+      font-size: 1em;
+    }
+
+    li {
+      width: 239px;
+    }
+  }
+}

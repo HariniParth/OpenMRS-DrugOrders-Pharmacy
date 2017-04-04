@@ -1,0 +1,119 @@
+@import "compass/css3";
+
+.dialog, .ngdialog.ngdialog-theme-default .ngdialog-content {
+  width: 450px;
+  padding: 0 0 30px 0;
+  text-align: left;
+  background: white;
+  margin: 0 auto;
+  max-width: 100%;
+  @include border-radius(3px);
+  @include box-shadow(2px 2px 15px #999, -2px -2px 15px #999);
+
+  .dialog-header {
+    background: $highlight;
+    color: white;
+    padding: 0 20px;
+    padding-top: 5px;
+    border-bottom: darken($highlight, 20%) 1px solid;
+    @include border-top-radius(3px);
+
+    i {
+      font-size: 1.5em;
+      color: white;
+      vertical-align: middle;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    h3 {
+      display: inline-block;
+      color: white;
+      margin: 5px 0;
+      vertical-align: middle;
+    }
+  }
+
+  .dialog-content {
+    padding: 20px 30px 0 30px;
+
+    .dialog-instructions {
+      padding-top: 1em;
+      padding-bottom: 1em;
+      font-style: italic;
+    }
+
+    h5 {
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+
+      &.info {
+        border-bottom: 1px solid #eee;
+      }
+    }
+  }
+
+  ul {
+    margin-bottom: 40px;
+  }
+
+  select {
+    display: block;
+    margin: 5px 0;
+    color: $text;
+    padding: 5px 0 5px 10px;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    width: 100%;
+
+    option {
+      font-size: 1.5em;
+    }
+  }
+  
+  &.no-overlay {
+    @include box-shadow(none);
+    border: 1px solid #CCC;
+    width: 60%;
+    margin: 20px auto;
+  }
+}
+
+
+.ngdialog.ngdialog-theme-default {
+  padding-bottom: 160px;
+  padding-top: 160px;
+
+  .ngdialog-close {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .ngdialog-close:before {
+    background: transparent;
+    color: #bbb;
+    content: "\00D7";
+    font-size: 26px;
+    font-weight: 400;
+    height: 30px;
+    line-height: 26px;
+    position: absolute;
+    right: 3px;
+    text-align: center;
+    top: 3px;
+    width: 30px;
+  }
+
+  .ngdialog-close:hover:before, .ngdialog-close:active:before {
+    color: #777;
+  }
+
+  .ngdialog-message {
+    margin-bottom: .5em;
+  }
+}

@@ -1,0 +1,58 @@
+@import "compass/css3";
+
+@mixin scan-bar {
+  display: inline-block;
+  
+  &:after {
+    font-family: $iconFont;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    text-decoration: inherit;
+    content: "\f02a";
+    color: $text;
+    font-size: 2em;
+    position: absolute;
+    right: 5px;
+    top: 16%;
+  }
+}
+
+.scan-input {
+  position: relative;
+  @include scan-bar;
+
+  input {
+    padding-right: 38px;
+  }
+}
+
+.patient-search-form {
+  width: 70%;;
+  margin: 20px auto;
+
+  .search-input {
+    background: lighten($text, 5%);
+    text-align: center;
+    color: white;
+    padding: 20px 30px;
+    @include border-radius(5px);
+
+    .scan-input::after {
+      top: 7%;
+    }
+  }
+
+  label {
+    font-family: $primaryLightFont;
+    font-size: 1.2em;
+  }
+
+  input {
+    margin: 0 auto;
+  }
+
+  #patient-search-field-search {
+    width: 500px;
+  }
+}

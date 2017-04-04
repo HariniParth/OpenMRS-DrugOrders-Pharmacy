@@ -1,0 +1,421 @@
+@import "checkboxes";
+@import "compass/css3";
+
+body {
+  font-family: $primaryFont, Arial, sans-serif;
+  -webkit-font-smoothing: subpixel-antialiased;
+  max-width: 1000px;
+  margin: 10px auto;
+  background: $bodyBackground;
+  color: $text;
+  font-size: 16px;
+}
+
+#body-wrapper {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: white;
+  @include border-radius(5px);
+}
+
+pre {
+  font-size: 16px;
+  padding: 10px;
+  background: rgb(253, 252, 223);
+}
+
+table {
+  margin: 0 auto;
+}
+
+i {
+  &.link {
+    font-size: 0.7em;
+  }
+  
+  &.small {
+    font-size: 1.2em;
+  }
+  
+  &.medium {
+    font-size: 2em;
+  }
+}
+
+ul, ol, li {
+  margin: 0;
+  padding: 0;
+}
+
+ol {
+  display: inline-block;
+}
+
+ul {
+  list-style: none;
+}
+
+ul.list {
+  margin-bottom: 10px;
+  li {
+    list-style: circle;
+    margin: 0 0 5px 30px;
+    ul li {
+      color: #666;
+    }
+  }
+}
+
+hr {
+  border: 0;
+  border-bottom: 1px solid $white;
+}
+
+a {
+  color: $link;
+  text-decoration: none;
+
+  &:hover {
+    color: lighten($link, 10%);
+    text-decoration: underline;
+  }
+
+  &:visited, &.visited {
+    color: $link;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $highlight;
+  clear: both;
+  margin: 10px 0;
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 1.5em;
+  margin: 10px 0 20px 0;
+}
+
+h2 {
+  font-size: 1.3em;
+  color: lighten($highlight, 15%);
+
+  em {
+    font-size: 0.7em;
+    color: lighten($highlight, 30%);
+    display: block;
+  }
+}
+
+h3 {
+  font-size: 1.2em;
+
+}
+
+h4 {
+  font-size: 1.2em;
+  color: lighten($highlight, 15%);
+}
+
+h5 {
+  font-size: 1.17em;
+}
+
+h6 {
+  font-size: 1.13em;
+  color: lighten($highlight, 15%);
+}
+
+p {
+  margin: 0;
+
+  &.spaced {
+    margin-bottom: 15px;
+  }
+}
+
+strong {
+  font-family: $primaryBoldFont;
+  font-weight: normal;
+}
+
+em {
+  font-family: $primaryItalicFont;
+  font-weight: normal;
+  font-style: normal;
+}
+
+form, .form {
+  overflow: hidden;
+
+  input, select, textarea, ul.select {
+    min-width: 80%;
+    color: $text;
+    display: block;
+    padding: 5px 10px;
+    margin: 0;
+    margin-top: 5px;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+
+    &:focus {
+      outline: 2px solid $link;
+      background: $focus;
+    }
+  }
+
+  select {
+    min-width: 200px;
+  }
+
+  select[disabled] {
+    background: #EEE;
+    border: #CCC 1px solid;
+    color: #CCC;
+    font-style: normal;
+  }
+
+  .select-arrow {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+
+    &:after {
+      position: absolute;
+      display: inline-block;
+      right: 7px;
+      top: 0;
+      height: 34px;
+      content: "\f0d7";
+      font-weight: normal;
+      font-style: normal;
+      text-decoration: inherit;
+      font-family: "FontAwesome";
+      pointer-events: none;
+      margin-top: 5px;
+      padding-left: 5px;
+      line-height: 2.2em;
+      border-left: 1px solid #ccc;
+    }
+
+    select {
+      @include appearance(none);
+      border-radius: 0;
+      background: white;
+      cursor: pointer;
+    }
+
+    select[disabled] {
+      background: #EEE;
+      border: #CCC 1px solid;
+      color: #CCC;
+      font-style: normal;
+      cursor: default;
+    }
+  }
+
+  ul.select {
+    margin-top: 0;
+  }
+
+  fieldset {
+    border: 1px solid #EEE;
+    display: inline-block;
+    padding: 20px;
+    min-width: 60%;
+
+    legend {
+      text-align: left;
+      padding: 0 10px;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+  }
+
+  label {
+    display: block;
+    text-align: left;
+    margin-bottom: 0px;
+    margin-top: 8px;
+  }
+
+  p {
+    text-align: left;
+    margin-bottom: 15px;
+
+    strong {
+      display: block;
+      text-align: left;
+      clear: both;
+    }
+
+    &.radio {
+      label {
+        margin-top: 0;
+      }
+    }
+
+    &.radio-btn {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 10px 20px 0;
+      input {
+        display: inline-block;
+      }
+      label {
+        display: inline-block;
+        margin: 0;
+      }
+    }
+  }
+
+  input[type="checkbox"], input[type="radio"] {
+    min-width: 0;
+    margin: 2px 5px;
+    float: left;
+  }
+
+  input[type="checkbox"] {
+    @include check-box;
+  }
+}
+
+ul.select {
+  text-align: left;
+  margin: 0 20px;
+  padding: 0;
+  font-size: 0.8em;
+
+  li {
+    margin: 0 10px;
+    text-align: left;
+    display: inline-block;
+    width: 250px;
+    padding: 5px;
+    color: $link;
+    background-color: #FFF;
+    border-bottom: 1px solid #EFEFEF;
+
+    &:hover {
+      background-color: $link;
+      color: white;
+      cursor: pointer;
+    }
+
+    &.selected {
+      background-color: $link;
+      color: white;
+      border-color: transparent;
+    }
+  }
+}
+
+table {
+  width: 100%;
+
+  th, td {
+    padding: 5px 10px;
+    border: 1px solid #DDD;
+  }
+  
+  tr {
+    border: 1px solid $bodyBackground;
+  }
+  
+  tr:nth-child(even) {
+    background: $focus;
+  }
+  
+  tr:nth-child(odd) {
+    background: white;
+  }
+  
+  tr.hover{
+    background: lighten(desaturate($link, 20%), 20%);
+    color: white;
+    cursor: pointer;
+  }
+  
+  tr.selected{
+    background: $link;
+    color: white;
+
+    a {
+      color: white
+    }
+  }
+  
+  thead th {
+    border-bottom: 1px solid #DDD;
+    background: $lighterGrey;
+    width: auto;
+    text-align: left;
+    word-break: normal;
+    font-weight: normal;
+    font-family: $primaryBoldFont;
+  }
+}
+
+.title {
+  font-family: $primaryBoldFont;
+}
+
+.body {
+  font-weight: 400;
+}
+
+.small {
+  font-family: $primaryLightFont;
+}
+
+.clear {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.highlighted {
+  background-color: $highlight;
+  color: $white; 
+  padding: 5px;
+  margin: 5px
+ }
+
+.disabled {
+  color: $disabled;
+}
+
+.retired, .voided {
+  text-decoration: line-through;
+}
+
+input.ng-touched.ng-invalid {
+  background: #ff8888; border: 1px red solid;
+}
+
+.invisible {
+  visibility: hidden;
+}

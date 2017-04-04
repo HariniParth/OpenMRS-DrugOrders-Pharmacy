@@ -1,0 +1,12 @@
+@mixin horizontal-list {
+  display: inline-block;
+  vertical-align: text-bottom;
+  font-size: 0.9em;
+  span {
+    margin-right: 10px;
+    &:before {
+      content: "·";
+      padding-right: 5px;
+    }
+  }
+}

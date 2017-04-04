@@ -1,0 +1,50 @@
+// this file is based on looking at https://github.com/twbs/bootstrap/blob/master/less/button-groups.less
+
+@import "compass/css3";
+
+.button-group {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  > .button {
+    @include border-radius(5px);
+    position: relative;
+    float: left;
+    // Bring the "active" button to the front
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      z-index: 2;
+    }
+    &:focus {
+      // Remove focus outline when dropdown JS adds it after closing the menu
+      outline: 0;
+    }
+  }
+}
+
+// Prevent double borders when buttons are next to each other
+.button-group {
+  .button + .button,
+  .button + .button-group,
+  .button-group + .button,
+  .button-group + .button-group {
+    margin-left: -1px;
+  }
+}
+
+.button-group > .button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.button-group > .button:first-child {
+  margin-left: 0;
+  &:not(:last-child):not(.dropdown-toggle) {
+    @include border-right-radius(0);
+  }
+}
+
+.button-group > .button:last-child:not(:first-child) {
+  @include border-left-radius(0);
+}

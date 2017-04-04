@@ -1,0 +1,103 @@
+@media print {
+  @page {
+    size: portrait;
+  }
+
+  .no-print, .no-print * {
+    display: none;
+  }
+
+  header, #breadcrumbs {
+    display: none;
+  }
+
+  body {
+    background: white;
+    max-width: 100%;
+  }
+
+  #body-wrapper {
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  .patient-header, .simple-form-ui {
+    label, legend, textarea, strong, a, em, span, select, h1, h2, h3, body, input {
+      color: black !important;
+      border: none !important;
+      text-decoration: none !important;
+      margin-top: 0px;
+    } 
+
+    select {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+  }
+
+  .patient-header {
+    font-size: 0.9em;
+    border-bottom: 1px solid black !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+
+    .contact-info-label, .add-id, .edit-info, .death-message, .status-container,
+    .active-visit-started-at-message, .active-visit-message {
+      display: none !important;
+    }
+
+    #contactInfoContent {
+      display: block !important;
+    }
+  }
+
+  .simple-form-ui {
+    background: white;
+    font-size: 12px;
+
+    input[type=checkbox], .error.field-error, .submitButton.confirm, .submitButton.cancel {
+      display: none;
+    }
+
+    .section, fieldset {
+      padding: 5px;
+      min-width: auto;
+      margin-top: 10px;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    p.radio label {
+      margin-top: 3px;
+    }
+
+    input, p.radio, select {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      margin-left: 5px;
+    }
+
+    .section, input, textarea {
+      border-color: black;
+      overflow: auto;
+    }
+
+    input[type=text] {
+      width: 300px;
+      height: 22px;
+    }
+
+    textarea {
+      height: 300px;
+    }
+
+    .small {
+       input {
+        width: 35px;
+       }
+    }
+  }
+}

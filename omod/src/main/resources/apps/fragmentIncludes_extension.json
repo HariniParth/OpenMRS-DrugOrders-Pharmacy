@@ -1,0 +1,20 @@
+[
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments",
+        "extensionPointId": "patientDashboard.secondColumnFragments",
+        "extensionParams": {
+            "provider": "${project.parent.artifactId}",
+            "fragment": "drugorders"
+        }
+    },
+    
+    {
+        "id": "coreapps.activeVisitsHomepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "Pharmacy",
+        "url": "drugorders/pharmacyHome.page",
+        "icon": "icon-signin",
+        "requiredPrivilege": "App: some random privilege"
+    }
+]

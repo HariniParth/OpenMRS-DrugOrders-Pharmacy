@@ -1,0 +1,258 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 15, 2016, 1:02:07 PM
+    Author     : harini-geek
+*/
+
+.info-body{
+    width: 100%;
+    overflow: hidden;
+    background-color: white;
+}
+
+.info-body #orderList, .info-body #planList{
+    width: 60%;
+    float: left;
+}
+
+.info-body #orderExecute, .info-body #planExecute{
+    width: 38%;
+    float: right;
+}
+
+.info-body #allergyList, .info-body #orderList #pageLabel, .info-body #orderList #activeOrderWindow, .info-body #orderList .nonActiveOrderWindow, .info-body #orderExecute #medPlan, .info-body #orderExecute #createOrder, .info-body #orderExecute #editOrder, .groupDrug, #view_order_detail{
+    width: 100%;
+}
+
+#btn-place, #selectPlanButton{
+    margin: 10px;
+}
+
+.dialog .dialog-header{
+    text-align: center !important;
+}
+
+.fields{
+    padding-left: 10px;
+}
+
+.icon-plus{
+    padding-right: 10px;
+}
+
+#header{
+    text-align: left;
+    font-weight: bold;
+}
+
+#button{
+    float: right;
+    margin-right: 6px;
+}
+
+#order_label{
+    width: 30%;
+    float: left;
+}
+
+#order_value{
+    width: 70%;
+    float: right;
+}
+
+.dialog select, input[type="text"], input[type="number"]{
+    width: 80% !important;
+    box-sizing: border-box !important;
+}
+
+#line-break{
+    width: 100%;
+    border: 2px solid #00463f;
+}
+
+#activeOrdersTableWrapper .dataTables_wrapper, #nonActiveOrdersTableWrapper .dataTables_wrapper, #activePlansTableWrapper .dataTables_wrapper, #nonActivePlansTableWrapper .dataTables_wrapper{
+   _height: 152px;
+   min-height: 152px;
+}
+
+.nonActiveOrderWindow, #medPlanWindow, .plansDetailsView, .groupBlock, #createOrderWindow, #showOrderWindow, #renewOrderWindow, #definePlanWindow, #createPlanWindow, #allergicDrugOrderReasonField, #nonActiveOrdersLinkHide, #nonActivePlansLinkHide, .icon-minus-sign.edit-action, #allergicOrderReasonView, #pharmacistCommentsView, #discontinueReasonText, #discontinueReasonSelect, #removeFromGroupWindow{
+    display: none;
+}
+
+#adminLink{
+    color: #00463f;
+}
+
+#asterisk{
+    color: red;
+    font-size: 10px;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+.itemSummary{
+    font-size: 14px;
+}
+
+.desc{
+    font-size: 14px;
+    margin-left: 30px;
+}
+
+.groupBlock, .drugDetails{
+    font-size: 14px;
+    margin-left: 50px;
+}
+
+.oldGroupDetails{
+    width: 100%;
+    border: 1px solid gainsboro;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    overflow: hidden;
+}
+
+#groupOrderBlock, #discardPlanBlock, #medPlansBlock{
+    min-height: 350px;
+    max-height: 350px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.planDrug{
+    width: 100%;
+    border: 1px solid gainsboro;
+    padding-bottom: 5px;
+    overflow: hidden;
+}
+
+.planDrug .planDrugDetails{
+    float: left;
+    width: 80%;
+}
+
+.planBlock{
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid gainsboro;  
+}
+
+.planBlockDetails{
+    width: 80%;
+    float: left;
+    overflow: hidden;
+    border-right: 1px solid gainsboro;  
+}
+
+.plansDetailsView{
+    width: 90%;
+    margin-left: 30px;
+}
+
+.planDrugDetails{
+    border-right: 1px solid gainsboro;
+    float: left;
+    width: 80%;
+}
+
+#definePlanWindow, #createPlanWindow, #showOrderWindow, #confirmOrderWindow, #deletePlanWindow, #showRenewOrderView, #createOrderWindow, #medPlanWindow, #medPlanDetailsWindow, #drugOrderView, #groupOrderList, #showGroupOrderWindow{
+    background: #f3f3f3;
+    border: 1px solid #eee;
+    padding: 5px;
+    color: #363463;
+}
+
+.groupDrugName, #singleOrderView div:first-child, #planDrugName, .planBlock, #itemSpace .itemSummary, #singleOrderView, #itemSpace, .oldOrderDetails, .planDrugDetails, .planDetails, .groupDrug, #removeFromGroupWindow{
+    overflow: hidden;
+}
+
+#itemSpace{
+    margin-bottom: 15px;
+}
+
+#addOrderButton, #orderActionButton{
+    margin-right: 20px;
+}
+
+.orderRow:hover .orderInfo, .oldOrderRow:hover .oldOrderDetails, .planDrug:hover .planDrugDetails, .planDrug:hover .planDetails, .groupDrug:hover .groupDrugDetails, .oldOrderDetails:hover, .oldGroupDetails:hover{
+    background: #75b2f0;
+    color: white;
+    cursor: pointer;
+}
+
+.groupBlock{
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.groupDrug .groupDrugDetails{
+    width: 85%;
+    float: left;
+    overflow: auto;
+}
+
+.groupDrug .groupDrugDetails #groupDrugID{
+    width: 10%;
+    float: left;
+}
+
+.groupDrug .groupDrugDetails #groupDrugName{
+    width: 65%;
+    float: left;
+    overflow: hidden;
+}
+
+.groupDrug .groupDrugDetails #groupDrugDate{
+    width: 25%;
+    float: right;
+}
+
+.groupDrug .groupDrugButton{
+    width: 15%;
+    float: right;
+}
+
+.oldGroupRow .oldGroupDetails #oldOrderId, .oldOrderRow .oldOrderDetails #oldOrderId, .planDrug .planDrugDetails #planDrugId, .planDrug .planDetails #planDrugId{
+    width: 10%;
+    float: left;
+}
+
+.oldGroupRow .oldGroupDetails #oldOrderName, .oldOrderRow .oldOrderDetails #oldOrderName, .planDrug .planDrugDetails #planDrugName, .planDrug .planDetails #planDrugName{
+    width: 90%;
+    float: right;
+}
+
+.groupDrugButton #button{
+    vertical-align: top;
+}
+
+.orderRow.discontinued > .orderInfo, .groupDrug.discontinued > div:first-child > *{
+    text-decoration: line-through;
+}
+
+.orderRow.onhold > .orderInfo, .groupDrug.onhold > div:first-child > *{
+    color: orangered;
+}
+
+.dataTables_length select {
+    min-width: 10px !important;
+    min-height: 5px !important;
+    display: inline !important;
+    margin-top: 0px !important;
+    padding: 0px !important;
+}
+
+.dataTables_filter label:first-child{
+    text-align: left !important;
+    margin-top: 0px !important;
+}
+
+.dataTables_length label{
+    text-align: right !important;
+    margin-top: 0px !important;
+}

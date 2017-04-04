@@ -1,0 +1,248 @@
+.dashboard {
+	margin-top: 1px;
+	background: white;
+
+	.info-container {
+		@include column(4.5);
+	}
+
+	.action-container {
+		@include column(3);
+	}
+
+	.info-section {
+		@include column(12);
+		margin: 5px;
+		margin-top: 10px;
+	}
+
+	.info-header {
+		border-bottom: 6px solid $highlight;
+
+		i {
+			font-size: 1.3em;
+			color: $highlight;
+		}
+
+		h3 {
+			display: inline-block;
+			font-family: $primaryBoldFont;
+			font-size: 1em;
+			margin: 0;			
+		}
+	}
+
+	.info-body {
+		background: #F9F9F9;
+		border: 1px solid #eee;
+		padding: 5px;
+		color: $text;
+
+        p {
+          float: none;
+          display: inline-block;
+          max-width: 210px;
+        }
+
+        span {
+          display: inline-block;
+        }
+
+        h3, label {
+          width: 90px;
+          font-size: 0.8em;
+          font-weight: normal;
+          display: inline-block;
+          margin: 3px 5px;
+          text-align: right;
+          vertical-align: top;
+        }
+
+        fieldset {
+          border: 0;
+          padding: 0;
+          margin: 0;
+        }
+
+        legend {
+          display: none;
+        }
+
+        li {
+			line-height: 1.1em;
+			border-bottom: 1px solid #eee;
+			margin-bottom: 5px;
+
+			&:last-child {
+				border-bottom: none;
+			}
+
+			small {
+				color: #555;
+				font-size: 0.85em;
+			}
+		}
+
+		i {
+			font-size: 1em;
+		}
+
+		.view-more {
+			font-size: 0.8em;
+			display: block;
+			text-align: right;
+			margin-top: 10px;
+			cursor: pointer;
+		}
+
+		.tag {
+			float: right;
+			min-width: 66px;
+			text-align: center;
+		}
+
+        #calculated-bmi {
+          font-size: 1em;
+        }
+
+    }
+
+	.visit-link {
+		color: $text;
+		text-decoration: underline;
+		cursor: pointer;
+
+		&:hover {
+			color: $link;
+		}
+	}
+
+	.action-section {
+		margin-top: 30px;
+		background: white;
+		border: 1px solid #ddd;
+
+		ul {
+			background: $text;
+			color: white;
+			padding: 5px;
+		}
+
+		.button {
+			margin: 4px;
+			width: 58px;
+		}
+
+		h3 {
+			margin: 0;
+			color: white;
+			border-bottom: 1px solid white;
+			margin-bottom: 5px;
+			font-size: 1em;
+			margin-top: 5px;
+		}
+
+        a:not(.button) {
+            color: white;
+        }
+
+		i {
+			font-size: 1.1em;
+			margin-left: 10px;
+		}
+
+		li {
+			font-size: 0.9em;
+		}
+	}
+}
+
+.tag {
+	background: #51A351;
+	color: white;
+	display: inline;
+	padding: 2px 5px;
+	border-radius: 1px;
+	font-size: 0.8em;
+}
+
+.new-patient-header {
+  position: relative;
+  overflow: hidden;
+  background: #F9F9F9;
+  z-index: 0;
+  border-bottom: 2px solid #EEE;
+  margin-top: 3px;
+  padding: 5px 10px;
+}
+.new-patient-header .demographics {
+  display: inline-block;
+  position: relative;
+  float: left;
+  vertical-align: top;
+}
+.new-patient-header .demographics .name {
+  cursor: pointer;
+}
+.new-patient-header .demographics h1 {
+  margin: 0;
+  display: inline;
+}
+.new-patient-header .demographics h1 span {
+  display: inline-block;
+}
+.new-patient-header .demographics h1 span em {
+  font-size: 0.4em;
+  color: #888;
+  border-top: 1px solid #DDD;
+  display: block;
+}
+.new-patient-header .demographics .gender-age {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+  margin-left: 5px;
+  font-size: 0.9em;
+}
+.new-patient-header .demographics .gender-age span {
+  margin-right: 5px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #ddd;
+  color: $highlight;
+}
+.new-patient-header .identifiers {
+  display: inline;
+  float: right;
+  text-align: right;
+  margin-left: 20px;
+}
+.new-patient-header .identifiers em {
+  max-width: 170px;
+  min-width: 120px;
+  display: inline;
+  color: #888;
+  font-style: normal;
+  font-size: 0.9em;
+  border-bottom: 1px solid #DDD;
+}
+.new-patient-header .identifiers span {
+  background: #666;
+  color: white;
+  letter-spacing: 1px;
+  margin: 5px;
+  display: inline;
+  padding: 3px 8px;
+  font-size: 0.8em;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+}
+.new-patient-header .identifiers span a, .patient-header .identifiers span a:link, .patient-header .identifiers span a:visited {
+  color: #FFF;
+}
+.new-patient-header .identifiers span.add-id {
+  background: none;
+}
+.new-patient-header .identifiers span.add-id a, .patient-header .identifiers span.add-id a:link, .patient-header .identifiers span.add-id a:visited {
+  color: #007fff;
+}

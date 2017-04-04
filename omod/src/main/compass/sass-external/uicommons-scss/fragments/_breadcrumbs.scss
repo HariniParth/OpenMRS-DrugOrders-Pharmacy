@@ -1,0 +1,26 @@
+#breadcrumbs {
+	clear: both;
+  font-size: 0.9em;
+  border-bottom: 1px solid white;
+
+  a, a:link, a:visited {
+    color: #555;
+    text-decoration: underline;
+
+    &:hover {
+      color: lighten(#555, 15%);
+    }
+
+    &:first-child {
+      text-decoration: none;
+    }
+  }
+
+  li {
+    display: inline;
+    
+    &:last-child {
+      font-family: $primaryBoldFont;
+    }
+  }
+}

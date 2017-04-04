@@ -1,0 +1,57 @@
+.angular-datepicker {
+  display: inline-block;
+
+  table {
+    td, th, tr {
+      border: none;
+      padding: 5px;
+      background-color: white;
+    }
+  }
+
+  .muted {
+    color: #ccc;
+  }
+
+  .btn-success, .divider, .btn-group, li:last-child {
+    padding: 0px;
+    display: none;
+  }
+
+  .datepicker-input {
+    margin: 0 0 7px 5px;
+    text-align: left;
+    width: auto;
+    cursor: default;
+  }
+
+  .datepicker-input, .icon-calendar {
+    top: -2px;
+    position: relative;
+  }
+
+  .btn {
+    padding: 3px;
+    background: white;
+    border: 0;
+
+    &:hover {
+      background: #ddd;
+    }
+  }
+
+  .form-horizontal {
+    margin-right: 20px;
+  }
+
+  .btn-info, .btn-info:hover {
+    color: white;
+    background-color: #0044cc;
+    background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  }
+
+  .btn-block {
+    margin: 0 auto;
+    display: block;
+  }
+}
