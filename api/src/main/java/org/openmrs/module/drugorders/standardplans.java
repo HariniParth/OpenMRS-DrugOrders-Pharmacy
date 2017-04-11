@@ -23,8 +23,10 @@ public class standardplans extends BaseOpenmrsObject implements Serializable{
     private Concept drugId;
     private Integer planId;
     private Double quantity;
-    private Integer duration;
+    private Integer duration;    
     private Concept doseUnits;
+    private String planStatus;
+    private String discardReason;
     private Concept durationUnits;
     private Concept quantityUnits;
     private OrderFrequency frequency;
@@ -41,6 +43,14 @@ public class standardplans extends BaseOpenmrsObject implements Serializable{
     @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public String getPlanStatus() {
+        return planStatus;
+    }
+
+    public void setPlanStatus(String planStatus) {
+        this.planStatus = planStatus;
     }
     
     public Integer getPlanId() {
@@ -115,6 +125,14 @@ public class standardplans extends BaseOpenmrsObject implements Serializable{
         this.duration = duration;
     }
 
+    public String getDiscardReason() {
+        return discardReason;
+    }
+
+    public void setDiscardReason(String discardReason) {
+        this.discardReason = discardReason;
+    }
+    
     public Concept getDurationUnits() {
         return durationUnits;
     }

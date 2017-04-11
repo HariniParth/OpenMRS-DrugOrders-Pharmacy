@@ -28,6 +28,7 @@
         <div id="line-break"></div><br/><br/>
         
         <form method="post" id="adminPageForm">
+            <input type="hidden" id="recordedMedPlan" value="${ recordedMedPlan }"/>
             <input type="hidden" id="selectedMedPlan" name="selectedMedPlan" />
             <input type="hidden" id="selectedPlanItem" name="selectedPlanItem" />
             
@@ -68,7 +69,7 @@
                                                                 <strong class="planItem">${ med.drugId.getDisplayString().toUpperCase() }</strong>
                                                             </div><br/>
 
-                                                            <div class="groupBlock">
+                                                            <div class="groupItem">
                                                                 <div id="view_order_detail">
                                                                     <div id="order_label">Dose</div>
                                                                     <div id="order_value">${ med.dose }</div>
@@ -179,7 +180,7 @@
 
 <script type="text/javascript">
     jq(".show-details").click(function(){
-        jq(this).parent().nextAll(".groupBlock").first().show();
+        jq(this).parent().nextAll(".groupItem").first().show();
         jq(this).hide();
         jq(this).next(".hide-details").show();
     });
@@ -187,7 +188,7 @@
 
 <script type="text/javascript">
     jq(".hide-details").click(function(){
-        jq(this).parent().nextAll(".groupBlock").first().hide();
+        jq(this).parent().nextAll(".groupItem").first().hide();
         jq(this).hide();
         jq(this).prev(".show-details").show();
     });

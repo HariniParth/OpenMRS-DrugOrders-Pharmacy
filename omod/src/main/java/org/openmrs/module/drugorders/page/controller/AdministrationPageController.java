@@ -7,6 +7,7 @@ package org.openmrs.module.drugorders.page.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
@@ -44,6 +45,7 @@ public class AdministrationPageController {
                             @RequestParam(value = "drugFrequency", required = false) String drugFrequency,
                             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
                             @RequestParam(value = "planToDiscard", required = false) String planToDiscard,
+                            @RequestParam(value = "discardReason", required = false) String discardReason,                            
                             @RequestParam(value = "drugId", required = false) String drugId,
                             @RequestParam(value = "action", required = false) String action){
                 
@@ -53,15 +55,20 @@ public class AdministrationPageController {
                     case "definePlan":
                         newplans newplan = new newplans();
                         
-                        if(ConceptName(definePlanName.trim()) == null){
-                            drugordersActivator activator = new drugordersActivator();
-                            Concept planConcept =  activator.saveConcept(definePlanName.trim(), Context.getConceptService().getConceptClassByName("Diagnosis"));
-                            newplan.setPlanName(planConcept);
-                        } 
-                        else
-                            newplan.setPlanName(ConceptName(definePlanName.trim()));
+                        if(Context.getService(newplansService.class).getMedicationPlan(ConceptName(definePlanName.trim())) == null){
+                            if(ConceptName(definePlanName.trim()) == null){
+                                drugordersActivator activator = new drugordersActivator();
+                                Concept planConcept =  activator.saveConcept(definePlanName.trim(), Context.getConceptService().getConceptClassByName("Diagnosis"));
+                                newplan.setPlanName(planConcept);
+                            } 
+                            else
+                                newplan.setPlanName(ConceptName(definePlanName.trim()));
+                        } else
+                            newplan.setPlanName(Context.getService(newplansService.class).getMedicationPlan(ConceptName(definePlanName.trim())).getPlanName());
+                        
                         
                         newplan.setPlanDesc(definePlanDesc);
+                        newplan.setPlanStatus("Active");
                         Context.getService(newplansService.class).saveMedicationPlan(newplan);
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
                         break;
@@ -78,6 +85,7 @@ public class AdministrationPageController {
                         else
                             medPlans.setDrugId(ConceptName(drugName.trim()));
                         
+                        medPlans.setPlanStatus("Active");
                         medPlans.setRoute(ConceptName(drugRoute));
                         medPlans.setDose(Double.valueOf(drugDose));
                         medPlans.setDoseUnits(ConceptName(drugDoseUnits));
@@ -108,26 +116,27 @@ public class AdministrationPageController {
                         
                     case "deletePlan":
                         if(groupCheckBox.length > 0){
-                            int deleteId = 0;
                             for(int i=0;i<groupCheckBox.length;i++){
                                 int id = Integer.parseInt(Long.toString(groupCheckBox[i]));
                                 standardplans medPlan = Context.getService(standardplansService.class).getMedicationPlan(id);
-                                if(deleteId == 0)
-                                    deleteId = medPlan.getPlanId();
-                                Context.getService(standardplansService.class).deleteMedicationPlan(medPlan);
+                                medPlan.setPlanStatus("Non-Active");
+                                medPlan.setDiscardReason(discardReason);
                             }
-                        }   
-                        if(Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(ConceptName(planToDiscard)).getId()).isEmpty())
-                            Context.getService(newplansService.class).deleteMedicationPlan(Context.getService(newplansService.class).getMedicationPlan(ConceptName(planToDiscard)));
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Plan Discarded!");
+                        }
+                        if(Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(ConceptName(planToDiscard)).getId()).isEmpty()){
+                            Context.getService(newplansService.class).getMedicationPlan(ConceptName(planToDiscard)).setPlanStatus("Non-Active");
+                            Context.getService(newplansService.class).getMedicationPlan(ConceptName(planToDiscard)).setDiscardReason(discardReason);
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Plan Discarded!");
+                        }                        
                         break;
                         
                     case "deleteDrug":
                         if(groupCheckBox.length > 0){
                             int id = Integer.parseInt(Long.toString(groupCheckBox[0]));
                             standardplans medPlan = Context.getService(standardplansService.class).getMedicationPlan(id);
-                            Context.getService(standardplansService.class).deleteMedicationPlan(medPlan);
-                            InfoErrorMessageUtil.flashInfoMessage(session, "Drug Discarded!");
+                            medPlan.setPlanStatus("Non-Active");
+                            medPlan.setDiscardReason(discardReason);
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Drug removed from Plan!");
                         }   
                         break;
                 }
@@ -137,15 +146,35 @@ public class AdministrationPageController {
             }
         }
         
+        if(!planToDiscard.isEmpty())
+            model.addAttribute("recordedMedPlan", planToDiscard);
+        else 
+            if(!planName.isEmpty())
+                model.addAttribute("recordedMedPlan", planName);
+        else
+            model.addAttribute("recordedMedPlan", null);
+        
         HashMap<Concept,List<standardplans>> allMedicationPlans = new HashMap<>();
         
         List<newplans> newPlans = Context.getService(newplansService.class).getAllMedicationPlans();
-        model.addAttribute("newPlans", newPlans);
+        List<newplans> activePlans = new ArrayList<>();
+        for(newplans newPlan : newPlans){
+            if(newPlan.getPlanStatus().equals("Active"))
+                activePlans.add(newPlan);
+        }
+        
+        model.addAttribute("newPlans", activePlans);
         
         for(newplans newPlan : newPlans){
             List<standardplans> medicationPlans = Context.getService(standardplansService.class).getMedicationPlans(newPlan.getId());
-            allMedicationPlans.put(newPlan.getPlanName(), medicationPlans);
+            List<standardplans> activeItems = new ArrayList<>();
+            for(standardplans medPlan : medicationPlans){
+                if(medPlan.getPlanStatus().equals("Active"))
+                    activeItems.add(medPlan);
+            }
+            allMedicationPlans.put(newPlan.getPlanName(), activeItems);
         }
+        
         model.addAttribute("allMedicationPlans", allMedicationPlans);
     }
     

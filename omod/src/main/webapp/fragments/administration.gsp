@@ -171,7 +171,7 @@
             <br/><br/><br/>
 
             <input type="hidden" name="action" value="addPlan" />
-            <button class="confirm right" id="planSaveButton" type="submit">${ ui.message("Confirm") }</button>
+            <button class="confirm right" id="planSaveButton" type="button" onclick="createStandardPlan()">${ ui.message("Confirm") }</button>
             <button class="cancel left" type="button" onclick="hideMedPlanCreateWindow()">${ ui.message("Cancel") }</button><br/><br/>
         </form>
     </div>
@@ -191,7 +191,7 @@
         </div>
 
         <div>
-            <form method="post">
+            <form method="post" id="discardPlanForm">
                 
                 <% selectedPlan.each { discardPlans -> %>
                     <% discardPlans.each { discardPlan -> %>
@@ -199,6 +199,7 @@
 
                         <div class="fields" id="discardPlanBlock">
                             <% discardPlan.value.each { plan -> %>
+                                
                                 <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ plan.id }" checked="true" />
                                 <i class="icon-plus-sign  edit-action" title="${ ui.message("Show") }"></i>
                                 <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"></i>
@@ -247,7 +248,7 @@
                                 </div>
                             <% } %>
                         </div>
-                        <input name="planToDiscard" value="${ discardPlan.key }" type="hidden" /> 
+                        <input id="planToDiscard" name="planToDiscard" value="${ discardPlan.key }" type="hidden" /> 
                     <% } %>                    
                 <% } %>
                 
@@ -255,13 +256,22 @@
                     <input name="action" value="deletePlan" type="hidden" />
                 <% } else { %>
                     <input name="action" value="deleteDrug" type="hidden" /> 
-                <% } %>
-                               
-                <button class="confirm right" id="btn-place" type="submit" onclick="">${ ui.message("Confirm") }</button>
-                <button class="cancel" id="btn-place" type="button" onclick="hideMedPlanDeleteWindow()">${ ui.message("Cancel") }</button>
+                <% } %><br/>
+                
+                <div class="fields">
+                    <p><strong>Enter Reason To Discard</strong></p>
+                    <input id="discardReason" type="text" name="discardReason" />
+                </div><br/>
+
+                <button class="confirm right" id="btn-place" type="button" onclick="discardMedPlan()">${ ui.message("Confirm") }</button>
+                <button class="cancel" id="btn-place" type="button" onclick="hideMedPlanDiscardWindow()">${ ui.message("Cancel") }</button>
             </form>
         </div>
     </div>
+    
+    <script type="text/javascript">
+        jq("#deletePlanWindow").show();
+    </script>
 <% } %>
 
 <script type="text/javascript">
@@ -330,14 +340,15 @@
 </script>
 
 <script type="text/javascript">
+    jq("#discardPlanBlock .icon-minus-sign").show();
+    jq("#discardPlanBlock .icon-plus-sign").hide();
+    
     jq(".icon-plus-sign").click(function(){
         jq(this).nextAll(".groupBlock").first().show();
         jq(this).hide();
         jq(this).next(".icon-minus-sign").show();
     });
-</script>
-
-<script type="text/javascript">
+    
     jq(".icon-minus-sign").click(function(){
         jq(this).nextAll(".groupBlock").first().hide();
         jq(this).hide();

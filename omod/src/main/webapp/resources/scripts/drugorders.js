@@ -27,7 +27,7 @@ $(document).ready( function() {
                     else if(ID === "createPlanWindow")
                         hideMedPlanCreateWindow();
                     else if(ID === "deletePlanWindow")
-                        hideMedPlanDeleteWindow();
+                        hideMedPlanDiscardWindow();
                     else if(ID === "createOrderWindow")
                         hideIndividualOrderDetailsWindow();
                     else if(ID === "showGroupOrderWindow")
@@ -138,6 +138,17 @@ function highlight(){
                         }
                     });
                 }
+            }
+        });
+    }
+    
+    var planActioned = $("#recordedMedPlan").val().toUpperCase();
+    if(planActioned !== ""){
+        var $rowsNo = $('#medPlansTable tbody tr .planDetails').filter(function () {
+            if($.trim($(this).find('.fields').find('.planName').text()) === planActioned){
+                $(this).find('.fields').find('.icon-plus-sign').hide();
+                $(this).find('.fields').find('.icon-minus-sign').show();
+                $(this).find('.plansDetailsView').show();
             }
         });
     }
@@ -437,6 +448,14 @@ function discardMedPlanOrder(plan){
     $("#activePlanForm").submit();
 }
 
+function createStandardPlan(){
+    $("#createPlanForm").submit();
+}
+
+function discardMedPlan(){
+    $("#discardPlanForm").submit();
+}
+
 function renewMedPlanWindow(plan){
     $("#selectedNonActivePlan").val(plan);
     $("#nonActivePlanForm").submit();
@@ -553,10 +572,11 @@ function deleteMedPlanItem(planID){
     $("#adminPageForm").submit();  
 }
 
-function hideMedPlanDeleteWindow(){
+function hideMedPlanDiscardWindow(){
     jq("#deletePlanWindow").hide();
     $("#selectedPlanItem").val("");
     $("#selectedMedPlan").val("");
+    $("#planToDiscard").val("");
 }
 
 function showRenewGroupOrderWindow(orderID){

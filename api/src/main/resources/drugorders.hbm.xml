@@ -35,6 +35,19 @@
 
     </class>
 
+    <class name="newplans" table="new_plans">
+
+        <id name="id" type="int" column="id" unsaved-value="0">
+            <generator class="native" />
+        </id>
+        <discriminator column="id" insert="false" />
+        <many-to-one name="planName" column="plan_name" class="org.openmrs.Concept" />
+        <property name="planDesc" column="plan_desc" type="java.lang.String" length="255" ></property> 
+        <property name="planStatus" column="plan_status" type="java.lang.String" ></property>
+        <property name="discardReason" column="discard_reason" type="java.lang.String" ></property>
+        
+    </class>
+    
     <class name="standardplans" table="standard_plans">
 
         <id name="id" type="int" column="id" unsaved-value="0">
@@ -51,7 +64,9 @@
         <many-to-one name="durationUnits" column="duration_units" class="org.openmrs.Concept" />
         <many-to-one name="route" column="route" class="org.openmrs.Concept" />
         <many-to-one name="frequency" column="frequency" class="org.openmrs.OrderFrequency" />
-
+        <property name="planStatus" column="plan_status" type="java.lang.String" ></property>
+        <property name="discardReason" column="discard_reason" type="java.lang.String" ></property>
+        
     </class>
     
     <class name="planorders" table="plan_orders">
@@ -64,17 +79,6 @@
         <property name="orderId" column="order_id" not-null="false" ></property>
         <property name="patientId" column="patient_id" not-null="false" ></property>
         <many-to-one name="diseaseId" column="disease_id" class="org.openmrs.Concept" />
-        
-    </class>
-    
-    <class name="newplans" table="new_plans">
-
-        <id name="id" type="int" column="id" unsaved-value="0">
-            <generator class="native" />
-        </id>
-        <discriminator column="id" insert="false" />
-        <many-to-one name="planName" column="plan_name" class="org.openmrs.Concept" />
-        <property name="planDesc" column="plan_desc" type="java.lang.String" length="255" ></property> 
         
     </class>
     

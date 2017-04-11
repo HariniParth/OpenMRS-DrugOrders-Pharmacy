@@ -18,6 +18,8 @@ public class newplans extends BaseOpenmrsObject implements Serializable{
     private Integer id;
     private String planDesc;
     private Concept planName;    
+    private String planStatus;
+    private String discardReason;
     
     public newplans(){
         
@@ -47,6 +49,22 @@ public class newplans extends BaseOpenmrsObject implements Serializable{
 
     public void setPlanDesc(String planDesc) {
         this.planDesc = planDesc;
+    }
+    
+    public String getPlanStatus() {
+        return planStatus;
+    }
+
+    public void setPlanStatus(String planStatus) {
+        this.planStatus = planStatus;
+    }
+    
+    public String getDiscardReason() {
+        return discardReason;
+    }
+
+    public void setDiscardReason(String discardReason) {
+        this.discardReason = discardReason;
     }
     
 }

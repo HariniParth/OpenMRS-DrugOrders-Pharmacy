@@ -70,6 +70,8 @@
             </column>
             <column name="plan_name" type="int"></column>
             <column name="plan_desc" type="varchar(255)"></column>
+            <column name="plan_status" type="varchar(50)"></column>
+            <column name="discard_reason" type="varchar(50)"></column>
         </createTable>
     </changeSet>
     
@@ -88,7 +90,7 @@
         <createTable tableName="standard_plans">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
-            </column> 
+            </column>
             <column name="plan_id" type="int">
                 <constraints nullable="true" foreignKeyName="new_plan_id" references="new_plans(id)" />
             </column>
@@ -101,6 +103,8 @@
             <column name="duration_units" type="int"></column>
             <column name="route" type="int"></column>
             <column name="frequency" type="int"></column>
+            <column name="plan_status" type="varchar(50)"></column>
+            <column name="discard_reason" type="varchar(50)"></column>
         </createTable>
     </changeSet>
     
@@ -126,6 +130,7 @@
             </column>
             <column name="disease_id" type="int"></column>
             <column name="patient_id" type="int"></column>
+            
         </createTable>
     </changeSet>
     

@@ -35,13 +35,17 @@ public class AdministrationFragmentController {
         model.addAttribute("selectedMedPlan", selectedMedPlan);
         
         HashMap<String, List<standardplans>> selectedPlan = new HashMap<>();
-        List<standardplans> plans = new ArrayList<>();
         
         if(!selectedMedPlan.equals("")){
-            plans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(selectedMedPlan)).getId());
-            selectedPlan.put(selectedMedPlan, plans);
+            List<standardplans> plans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(selectedMedPlan)).getId());
+            List<standardplans> activePlans = new ArrayList<>();
+            for(standardplans plan : plans)
+                if(plan.getPlanStatus().equals("Active"))
+                    activePlans.add(plan);
+            selectedPlan.put(selectedMedPlan, activePlans);
         }
         else if(selectedPlanItem != null){
+            List<standardplans> plans = new ArrayList<>();
             standardplans plan = Context.getService(standardplansService.class).getMedicationPlan(selectedPlanItem);
             plans.add(plan);
             selectedPlan.put(Context.getService(newplansService.class).getMedicationPlan(plan.getPlanId()).getPlanName().getDisplayString(), plans);

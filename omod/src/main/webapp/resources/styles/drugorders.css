@@ -79,7 +79,7 @@ and open the template in the editor.
    min-height: 152px;
 }
 
-.nonActiveOrderWindow, #medPlanWindow, .plansDetailsView, .groupBlock, #createOrderWindow, #showOrderWindow, #renewOrderWindow, #definePlanWindow, #createPlanWindow, #allergicDrugOrderReasonField, #nonActiveOrdersLinkHide, #nonActivePlansLinkHide, .icon-minus-sign.edit-action, #allergicOrderReasonView, #pharmacistCommentsView, #discontinueReasonText, #discontinueReasonSelect, #removeFromGroupWindow{
+.nonActiveOrderWindow, #medPlanWindow, .groupItem, .plansDetailsView, #createOrderWindow, #showOrderWindow, #renewOrderWindow, #definePlanWindow, #createPlanWindow, #deletePlanWindow, #allergicDrugOrderReasonField, #nonActiveOrdersLinkHide, #nonActivePlansLinkHide, .icon-minus-sign.edit-action, #allergicOrderReasonView, #pharmacistCommentsView, #discontinueReasonText, #discontinueReasonSelect, #removeFromGroupWindow{
     display: none;
 }
 
@@ -103,7 +103,7 @@ and open the template in the editor.
     margin-left: 30px;
 }
 
-.groupBlock, .drugDetails{
+.groupBlock, .drugDetails, .groupItem{
     font-size: 14px;
     margin-left: 50px;
 }
@@ -185,7 +185,7 @@ and open the template in the editor.
     cursor: pointer;
 }
 
-.groupBlock{
+.groupBlock, .groupItem{
     margin-bottom: 20px;
     overflow: hidden;
 }

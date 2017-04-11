@@ -29,11 +29,11 @@
     <properties>
         <openMRSVersion>1.11.4</openMRSVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <uiframeworkVersion>3.2</uiframeworkVersion>
-        <appframeworkVersion>2.2.1</appframeworkVersion>
+        <uiframeworkVersion>3.4</uiframeworkVersion>
+        <appframeworkVersion>2.4</appframeworkVersion>
         <uicommonsVersion>1.7</uicommonsVersion>
-        <emrapiVersion>1.3</emrapiVersion>
-        <appuiVersion>1.3</appuiVersion>
+        <emrapiVersion>1.11.1</emrapiVersion>
+        <appuiVersion>1.4</appuiVersion>
         <allergyapiVersion>1.3</allergyapiVersion>
     </properties>
 
