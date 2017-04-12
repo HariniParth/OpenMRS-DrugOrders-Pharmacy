@@ -8,9 +8,9 @@
     </div><br/>
     
     <div class="addMedicationPlanWindow">
-        <form method="post" id="diseaseForm">
+        <form method="post" id="planForm">
             <div class="fields"><label><strong>Enter Plan Name </strong></label><br/>
-                <input type="text" id="diseaseName" name="diseaseName" oninput="autoCompletePlan()" />
+                <input type="text" id="planName" name="planName" oninput="autoCompletePlan()" />
             </div><br/><br/>            
             <button class="cancel pull-right" id="btn-place" type="button" onclick="hideMedicationPlanOrderWindow()">${ ui.message("Cancel") }</button>
         </form>
@@ -19,7 +19,7 @@
 
 <script type="text/javascript">
     jq( function() {
-        jq( "#diseaseName" ).autocomplete({
+        jq( "#planName" ).autocomplete({
             source: function( request, response ) {
                 var results = [];
                 jq.getJSON('${ ui.actionLink("getPlanNameSuggestions") }',
@@ -50,8 +50,8 @@
                 <h3 id="dialog-heading">${ ui.message("STANDARD MEDICATION PLAN") }</h3>
             </div>
             
-            <input type="hidden" id="selectedPlan" name="selectedPlan" value="${ diseaseName }" />
-            <h5 class="align-center"><strong>${ diseaseName.toUpperCase() }</strong></h5><br/>
+            <input type="hidden" id="selectedPlan" name="selectedPlan" value="${ planName }" />
+            <h5 class="align-center"><strong>${ planName.toUpperCase() }</strong></h5><br/>
             
             <div id="medPlansBlock" class="fields">
                 <% medplans.each { medplan -> %>

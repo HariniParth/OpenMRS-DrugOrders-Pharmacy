@@ -36,7 +36,7 @@
             <div class="fields" id="view_order_detail">
                 <label>Note: The patient is allergic to this drug</label>
                 <label>Enter the reasons for ordering this drug</label>
-                <input type="textarea" maxlength="100" id="allergicOrderReason" name="allergicOrderReason"/>
+                <input type="textarea" maxlength="100" id="orderReason" name="orderReason"/>
             </div><br/>
         </div>
 
@@ -45,7 +45,7 @@
                 <label>Route <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <select id="drugRoute" name="drugRoute">
+                <select id="route" name="route">
                     <option value="">Choose option</option>
                     <% routes.each { route -> %>
                         <option value="${ route.getDisplayString() }">${ route.getDisplayString() }</option>
@@ -61,7 +61,7 @@
                 <label>Dose <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="drugDose" name="drugDose"/>
+                <input type="text" id="dose" name="dose"/>
             </div>
         </div>
 
@@ -72,7 +72,7 @@
                 <label>Dose units <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <select id="drugDoseUnits" name="drugDoseUnits">
+                <select id="doseUnits" name="doseUnits">
                     <option value="">Choose option</option>
                     <% doses.each { dose -> %>
                         <option value="${ dose.getDisplayString() }">${ dose.getDisplayString() }</option>
@@ -88,7 +88,7 @@
                 <label>Quantity <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="drugQuantity" name="drugQuantity"/>
+                <input type="text" id="quantity" name="quantity"/>
             </div>
         </div>
 
@@ -115,7 +115,7 @@
                 <label>Duration <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="drugDuration" name="drugDuration" min="0"/>
+                <input type="number" id="duration" name="duration" min="0"/>
             </div>
         </div>
 
@@ -142,7 +142,7 @@
                 <label>Frequency <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <select id="drugFrequency" name="drugFrequency">
+                <select id="frequency" name="frequency">
                     <option value="">Choose option</option>
                     <% frequencies.each { frequency -> %>
                         <option value="${ frequency.getConcept().getDisplayString() }">${ frequency.getConcept().getDisplayString() }</option>
@@ -158,7 +158,7 @@
                 <label>Diagnosis <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="associatedDiagnosis" name="associatedDiagnosis" />
+                <input type="text" id="diagnosis" name="diagnosis" />
             </div>
         </div>
 
@@ -169,7 +169,7 @@
                 <label>Priority <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <select id="orderPriority" name="orderPriority">
+                <select id="priority" name="priority">
                     <% priorities.each { priority -> %>
                         <option value="${ priority.getDisplayString() }">${ priority.getDisplayString() }</option>
                     <% } %>
@@ -195,7 +195,7 @@
                 <label>Interval (days)</label>
             </div>
             <div id="order_value">
-                <input type="number" id="refillInterval" name="refillInterval" value="0" min="0">
+                <input type="number" id="interval" name="interval" value="0" min="0">
             </div>
         </div>
         
@@ -210,7 +210,7 @@
                 <label>Patient</label>
             </div>
             <div id="order_value">
-                <input type="textarea" maxlength="100" id="patientInstructions" name="patientInstructions"/>
+                <input type="textarea" maxlength="100" id="patientInstrn" name="patientInstrn"/>
             </div>
         </div>
 
@@ -221,7 +221,7 @@
                 <label>Pharmacist</label>
             </div>
             <div id="order_value">
-                <input type="textarea" maxlength="100" id="pharmacistInstructions" name="pharmacistInstructions"/>
+                <input type="textarea" maxlength="100" id="pharmacistInstrn" name="pharmacistInstrn"/>
             </div>
         </div>
 
@@ -262,7 +262,7 @@
             }
         } ),
       
-      jq( "#associatedDiagnosis" ).autocomplete({
+      jq( "#diagnosis" ).autocomplete({
         source: function( request, response ) {
           var results = [];
           jq.getJSON('${ ui.actionLink("getDiseaseNameSuggestions") }',

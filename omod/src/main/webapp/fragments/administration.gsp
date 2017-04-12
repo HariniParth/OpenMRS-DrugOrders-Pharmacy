@@ -41,7 +41,7 @@
             
             <div id="disease_field">
                 <label><strong>Enter Plan Name</strong></label>
-                <input id="adminPlanName" type="text" name="planName" />
+                <input id="adminPlan" type="text" name="adminPlan" />
             </div><br/>
             
             <p><strong>Specify Standard Formulation</strong></p>
@@ -51,7 +51,7 @@
                     <label id="label"><strong>Drug Name</strong></label>
                 </div>
                 <div id="order_value">
-                    <input id="adminDrugName" type="text" name="drugName"/>
+                    <input id="adminDrug" type="text" name="adminDrug"/>
                 </div>
             </div>
             
@@ -62,7 +62,7 @@
                     <label><strong>Route</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminRoute" name="drugRoute" class="select_field">
+                    <select id="adminRoute" name="adminRoute" class="select_field">
                         <option value="">Choose option</option>
                         <% routes.each { route -> %>
                             <option value="${ route.getDisplayString() }">${ route.getDisplayString() }</option>
@@ -78,7 +78,7 @@
                     <label><strong>Dose</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="text" id="adminDose" name="drugDose" class="select_field" />
+                    <input type="text" id="adminDose" name="adminDose" class="select_field" />
                 </div>
             </div>
 
@@ -89,7 +89,7 @@
                     <label><strong>Dose Units</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminDoseUnits" name="drugDoseUnits" class="select_field">
+                    <select id="adminDoseUnits" name="adminDoseUnits" class="select_field">
                         <option value="">Choose option</option>
                         <% doses.each { dose -> %>
                             <option value="${ dose.getDisplayString() }">${ dose.getDisplayString() }</option>
@@ -105,7 +105,7 @@
                     <label><strong>Quantity</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="text" id="adminQuantity" name="drugQuantity" class="select_field" />
+                    <input type="text" id="adminQuantity" name="adminQuantity" class="select_field" />
                 </div>
             </div>
 
@@ -116,7 +116,7 @@
                     <label><strong>Qnty Units</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminQuantityUnits" name="quantityUnits" class="select_field">
+                    <select id="adminQuantityUnits" name="adminQuantityUnits" class="select_field">
                         <option value="">Choose option</option>
                         <% quantities.each { quantity -> %>
                             <option value="${ quantity.getDisplayString() }">${ quantity.getDisplayString() }</option>
@@ -132,7 +132,7 @@
                     <label><strong>Duration</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="text" id="adminDuration" name="drugDuration" class="select_field"/>
+                    <input type="text" id="adminDuration" name="adminDuration" class="select_field"/>
                 </div>
             </div>
 
@@ -143,7 +143,7 @@
                     <label><strong>Durn Units</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminDurationUnits" name="durationUnits" class="select_field">
+                    <select id="adminDurationUnits" name="adminDurationUnits" class="select_field">
                         <option value="">Choose option</option>
                         <% durations.each { duration -> %>
                             <option value="${ duration.getDisplayString() }">${ duration.getDisplayString() }</option>
@@ -159,7 +159,7 @@
                     <label><strong>Frequency</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminFrequency" name="drugFrequency" class="select_field">
+                    <select id="adminFrequency" name="adminFrequency" class="select_field">
                         <option value="">Choose option</option>
                         <% frequencies.each { frequency -> %>
                             <option value="${ frequency.getConcept().getDisplayString() }">${ frequency.getConcept().getDisplayString() }</option>
@@ -296,7 +296,7 @@
             }
         } ),
         
-        jq( "#adminDrugName" ).autocomplete({
+        jq( "#adminDrug" ).autocomplete({
             source: function( request, response ) {
                 var results = [];
                 jq.getJSON('${ ui.actionLink("getDrugNameSuggestions") }',

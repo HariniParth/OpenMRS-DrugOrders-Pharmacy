@@ -33,16 +33,16 @@ public class AdministrationPageController {
                             @RequestParam(value = "definePlanId", required = false) String definePlanId,
                             @RequestParam(value = "definePlanName", required = false) String definePlanName,
                             @RequestParam(value = "definePlanDesc", required = false) String definePlanDesc,
-                            @RequestParam(value = "planName", required = false) String planName,
-                            @RequestParam(value = "drugName", required = false) String drugName,
-                            @RequestParam(value = "drugRoute", required = false) String drugRoute,
-                            @RequestParam(value = "drugDose", required = false) String drugDose,
-                            @RequestParam(value = "drugDoseUnits", required = false) String drugDoseUnits,
-                            @RequestParam(value = "drugQuantity", required = false) String drugQuantity,
-                            @RequestParam(value = "quantityUnits", required = false) String quantityUnits,
-                            @RequestParam(value = "drugDuration", required = false) Integer drugDuration,
-                            @RequestParam(value = "durationUnits", required = false) String durationUnits,
-                            @RequestParam(value = "drugFrequency", required = false) String drugFrequency,
+                            @RequestParam(value = "adminPlan", required = false) String adminPlan,
+                            @RequestParam(value = "adminDrug", required = false) String adminDrug,
+                            @RequestParam(value = "adminRoute", required = false) String adminRoute,
+                            @RequestParam(value = "adminDose", required = false) String adminDose,
+                            @RequestParam(value = "adminDoseUnits", required = false) String adminDoseUnits,
+                            @RequestParam(value = "adminQuantity", required = false) String adminQuantity,
+                            @RequestParam(value = "adminQuantityUnits", required = false) String adminQuantityUnits,
+                            @RequestParam(value = "adminDuration", required = false) Integer adminDuration,
+                            @RequestParam(value = "adminDurationUnits", required = false) String adminDurationUnits,
+                            @RequestParam(value = "adminFrequency", required = false) String adminFrequency,
                             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
                             @RequestParam(value = "planToDiscard", required = false) String planToDiscard,
                             @RequestParam(value = "discardReason", required = false) String discardReason,                            
@@ -75,28 +75,28 @@ public class AdministrationPageController {
                         
                     case "addPlan":
                         standardplans medPlans = new standardplans();
-                        medPlans.setPlanId(Context.getService(newplansService.class).getMedicationPlan(ConceptName(planName)).getId());
+                        medPlans.setPlanId(Context.getService(newplansService.class).getMedicationPlan(ConceptName(adminPlan)).getId());
                         
-                        if(ConceptName(drugName.trim()) == null){
+                        if(ConceptName(adminDrug.trim()) == null){
                             drugordersActivator activator = new drugordersActivator();
-                            Concept drugConcept =  activator.saveConcept(drugName.trim(), Context.getConceptService().getConceptClassByName("Drug"));
+                            Concept drugConcept =  activator.saveConcept(adminDrug.trim(), Context.getConceptService().getConceptClassByName("Drug"));
                             medPlans.setDrugId(drugConcept);
                         }
                         else
-                            medPlans.setDrugId(ConceptName(drugName.trim()));
+                            medPlans.setDrugId(ConceptName(adminDrug.trim()));
                         
                         medPlans.setPlanStatus("Active");
-                        medPlans.setRoute(ConceptName(drugRoute));
-                        medPlans.setDose(Double.valueOf(drugDose));
-                        medPlans.setDoseUnits(ConceptName(drugDoseUnits));
-                        medPlans.setDuration(drugDuration);
-                        medPlans.setDurationUnits(ConceptName(durationUnits));
-                        medPlans.setQuantity(Double.valueOf(drugQuantity));
-                        medPlans.setQuantityUnits(ConceptName(quantityUnits));
+                        medPlans.setRoute(ConceptName(adminRoute));
+                        medPlans.setDose(Double.valueOf(adminDose));
+                        medPlans.setDoseUnits(ConceptName(adminDoseUnits));
+                        medPlans.setDuration(adminDuration);
+                        medPlans.setDurationUnits(ConceptName(adminDurationUnits));
+                        medPlans.setQuantity(Double.valueOf(adminQuantity));
+                        medPlans.setQuantityUnits(ConceptName(adminQuantityUnits));
                         
-                        OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequencyByConcept(ConceptName(drugFrequency));
+                        OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequencyByConcept(ConceptName(adminFrequency));
                         if (orderFrequency == null) {
-                            medPlans.setFrequency(setOrderFrequency(drugFrequency));
+                            medPlans.setFrequency(setOrderFrequency(adminFrequency));
                         } else {
                             medPlans.setFrequency(orderFrequency);
                         }   
@@ -149,8 +149,8 @@ public class AdministrationPageController {
         if(!planToDiscard.isEmpty())
             model.addAttribute("recordedMedPlan", planToDiscard);
         else 
-            if(!planName.isEmpty())
-                model.addAttribute("recordedMedPlan", planName);
+            if(!adminPlan.isEmpty())
+                model.addAttribute("recordedMedPlan", adminPlan);
         else
             model.addAttribute("recordedMedPlan", null);
         

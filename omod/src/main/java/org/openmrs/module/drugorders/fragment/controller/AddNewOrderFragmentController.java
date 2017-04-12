@@ -34,23 +34,20 @@ public class AddNewOrderFragmentController {
     /**
      *
      * @param model
-     * @param diseaseForPlan
-     * @param diseaseName
+     * @param planName
      * @param patient
      * @param patientService
      */
     
-    public void controller(PageModel model, 
-            @RequestParam(value = "diseaseForPlan", required = false) String diseaseForPlan,
-            @RequestParam(value = "diseaseName", required = false) String diseaseName,
-            @RequestParam("patientId") Patient patient, @SpringBean("allergyService") PatientService patientService){
+    public void controller(PageModel model, @RequestParam("patientId") Patient patient,
+            @RequestParam(value = "planName", required = false) String planName,
+            @SpringBean("allergyService") PatientService patientService){
 
-        model.addAttribute("diseaseForPlan", diseaseForPlan);
-        model.addAttribute("diseaseName", diseaseName.trim());
+        model.addAttribute("planName", planName.trim());
         
         List<standardplans> medplans = new ArrayList<>();
-        if(Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(diseaseName)) != null){
-            newplans newPlan = Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(diseaseName));
+        if(Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName)) != null){
+            newplans newPlan = Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName));
             medplans = Context.getService(standardplansService.class).getMedicationPlans(newPlan.getId());
         }
         model.addAttribute("medplans", medplans);

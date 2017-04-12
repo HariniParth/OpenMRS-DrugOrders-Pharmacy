@@ -5,13 +5,11 @@
  */
 package org.openmrs.module.drugorders.fragment.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.DrugOrder;
-import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
