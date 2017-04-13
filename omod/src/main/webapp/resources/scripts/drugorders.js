@@ -380,10 +380,9 @@ function hideDrugOrderViewWindow(){
     clearHighlights();
 }
 
-function showEditSingleOrderWindow(orderType, orderClass, orderId, drugName, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, associateddiagnosis, orderReason, priority, patientInstrn, pharmacistinstructions){
+function showEditSingleOrderWindow(orderType, orderId, drugName, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, associateddiagnosis, orderReason, priority, patientInstrn, pharmacistinstructions){
     $("#orderType").text(orderType);
     $("#orderAction").val(orderType);
-    $("#orderClass").val(orderClass);
     $("#order_id").val(orderId);
     $("#drugNameEntered").val(drugName);
     $("#route").val(route);

@@ -17,13 +17,71 @@
                 </tr>
             </thead>
             <tbody>
-                <% if(ActivePlanMain.size() == 0) { %>
+                <% if(ActivePlanMain.size() == 0 && DraftPlanMain.size() == 0) { %>
                     <tr>
                         <td colspan="2" align="center">No Orders Found</td>
                         <td style="display: none;"></td>
                     </tr>
                 <% } %>
 
+                <% if(DraftPlanMain.size() > 0) { %>
+                    <div id="draftPlanList">
+                        <% DraftPlanMain.each { drugOrderMain -> %>
+                            <tr>
+                                <td>
+                                    <div class="fields">
+                                        <span class="viewDetails">
+                                            <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
+                                            <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
+                                        </span>
+                                        <strong>${ drugOrderMain.key.getDisplayString().toUpperCase() }</strong>
+                                    </div><br/>
+
+                                    <div class="plansDetailsView">
+                                        <% drugOrderMain.value.each { drugOrderMn -> %>
+
+                                            <% if(DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).priority != null) { %>
+                                                <% default_prio = DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).priority.getDisplayString(); %>
+                                            <% } %>
+
+                                            <div class="planDrug">
+
+                                                <div class="planDrugDetails" onclick="showDrugOrderViewWindow('VIEW ORDER','${ ui.format(patient.givenName) }','${ ui.format(patient.familyName) }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).startDate.format('yyyy-MM-dd') }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString() }','${ drugOrderMn.value.dose }','${ drugOrderMn.value.doseUnits.getDisplayString() }','${ drugOrderMn.value.route.getDisplayString() }','${ drugOrderMn.value.duration }','${ drugOrderMn.value.durationUnits.getDisplayString() }','${ drugOrderMn.value.quantity }','${ drugOrderMn.value.quantityUnits.getDisplayString() }','${ drugOrderMn.value.frequency }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).refill }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).isAllergicOrderReasons }','${ default_prio }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).patientInstructions }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).pharmacistInstructions }')">   
+                                                    <div id="planDrugId">
+                                                        ${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).orderId }
+                                                    </div>
+
+                                                    <div id="planDrugName">
+                                                        <div>
+                                                            <strong>${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString().toUpperCase() }</strong>
+                                                        </div>
+
+                                                        <span class="itemSummary">
+                                                            <div>Start Date: ${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).startDate.format('yyyy-MM-dd') }</div>
+                                                            <div><em>Click to view details</em></div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div id="button" class="pull-right">
+                                                    <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="showEditSingleOrderWindow('EDIT DRUG ORDER','${ drugOrderMn.value.orderId }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString() }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).startDate }','${ drugOrderMn.value.dose }','${ drugOrderMn.value.doseUnits.getDisplayString() }','${ drugOrderMn.value.route.getDisplayString() }','${ drugOrderMn.value.duration }','${ drugOrderMn.value.durationUnits.getDisplayString() }','${ drugOrderMn.value.quantity }','${ drugOrderMn.value.quantityUnits.getDisplayString() }','${ drugOrderMn.value.frequency }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).refill }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).refillInterval }','${drugOrderMain.key.getDisplayString()}','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).isAllergicOrderReasons }','${ default_prio }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).patientInstructions }','${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).pharmacistInstructions }')"></i>
+                                                    <i class="icon-trash delete-action" title="${ ui.message("Discontinue") }" onclick="discardSingleItem('${ drugOrderMn.value.orderId }')"></i>
+                                                </div><br/>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </td>   
+
+                                <td class="planDiscardButton">
+                                    <span id="button">
+                                        <i class="icon-edit edit-action" title="${ ui.message("Save") }" onclick="saveMedPlanOrder('${ drugOrderMain.key.getDisplayString() }')"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </div>
+                <% } %>
+                
                 <% ActivePlanMain.each { drugOrderMain -> %>
                     <tr>
                         <td>
@@ -38,31 +96,31 @@
                             <div class="plansDetailsView">
                                 <% drugOrderMain.value.each { drugOrderMn -> %>
 
-                                    <% if(ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).priority != null) { %>
-                                        <% default_prio = ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).priority.getDisplayString(); %>
+                                    <% if(ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).priority != null) { %>
+                                        <% default_prio = ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).priority.getDisplayString(); %>
                                     <% } %>
 
-                                    <div class="planDrug <% if(ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).forDiscard == 1) { %> discontinued <% } %> <% if(ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).onHold == 1) { %> onhold <% } %>" title="${ ui.message(ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).commentForOrderer) }">
+                                    <div class="planDrug <% if(ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).forDiscard == 1) { %> discontinued <% } %> <% if(ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).onHold == 1) { %> onhold <% } %>" title="${ ui.message(ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).commentForOrderer) }">
 
-                                        <div class="planDrugDetails" onclick="showDrugOrderViewWindow('VIEW ORDER','${ ui.format(patient.givenName) }','${ ui.format(patient.familyName) }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).startDate.format('yyyy-MM-dd') }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString() }','${ drugOrderMn.value.dose }','${ drugOrderMn.value.doseUnits.getDisplayString() }','${ drugOrderMn.value.route.getDisplayString() }','${ drugOrderMn.value.duration }','${ drugOrderMn.value.durationUnits.getDisplayString() }','${ drugOrderMn.value.quantity }','${ drugOrderMn.value.quantityUnits.getDisplayString() }','${ drugOrderMn.value.frequency }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).refill }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).isAllergicOrderReasons }','${ default_prio }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).patientInstructions }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).pharmacistInstructions }')">   
+                                        <div class="planDrugDetails" onclick="showDrugOrderViewWindow('VIEW ORDER','${ ui.format(patient.givenName) }','${ ui.format(patient.familyName) }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).startDate.format('yyyy-MM-dd') }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString() }','${ drugOrderMn.value.dose }','${ drugOrderMn.value.doseUnits.getDisplayString() }','${ drugOrderMn.value.route.getDisplayString() }','${ drugOrderMn.value.duration }','${ drugOrderMn.value.durationUnits.getDisplayString() }','${ drugOrderMn.value.quantity }','${ drugOrderMn.value.quantityUnits.getDisplayString() }','${ drugOrderMn.value.frequency }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).refill }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).isAllergicOrderReasons }','${ default_prio }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).patientInstructions }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).pharmacistInstructions }')">   
                                             <div id="planDrugId">
-                                                ${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).orderId }
+                                                ${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).orderId }
                                             </div>
                                             
                                             <div id="planDrugName">
                                                 <div>
-                                                    <strong>${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString().toUpperCase() }</strong>
+                                                    <strong>${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString().toUpperCase() }</strong>
                                                 </div>
                                                 
                                                 <span class="itemSummary">
-                                                    <div>Start Date: ${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).startDate.format('yyyy-MM-dd') }</div>
+                                                    <div>Start Date: ${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).startDate.format('yyyy-MM-dd') }</div>
                                                     <div><em>Click to view details</em></div>
                                                 </span>
                                             </div>
                                         </div>
 
                                         <div id="button" class="pull-right">
-                                            <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="showEditSingleOrderWindow('EDIT DRUG ORDER','PLAN','${ drugOrderMn.value.orderId }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString() }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).startDate }','${ drugOrderMn.value.dose }','${ drugOrderMn.value.doseUnits.getDisplayString() }','${ drugOrderMn.value.route.getDisplayString() }','${ drugOrderMn.value.duration }','${ drugOrderMn.value.durationUnits.getDisplayString() }','${ drugOrderMn.value.quantity }','${ drugOrderMn.value.quantityUnits.getDisplayString() }','${ drugOrderMn.value.frequency }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).refill }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).refillInterval }','${drugOrderMain.key.getDisplayString()}','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).isAllergicOrderReasons }','${ default_prio }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).patientInstructions }','${ ActivePlanExtension.get(drugOrderMain.key).get(drugOrderMn.key).pharmacistInstructions }')"></i>
+                                            <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="showEditSingleOrderWindow('EDIT DRUG ORDER','${ drugOrderMn.value.orderId }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString() }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).startDate }','${ drugOrderMn.value.dose }','${ drugOrderMn.value.doseUnits.getDisplayString() }','${ drugOrderMn.value.route.getDisplayString() }','${ drugOrderMn.value.duration }','${ drugOrderMn.value.durationUnits.getDisplayString() }','${ drugOrderMn.value.quantity }','${ drugOrderMn.value.quantityUnits.getDisplayString() }','${ drugOrderMn.value.frequency }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).refill }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).refillInterval }','${drugOrderMain.key.getDisplayString()}','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).isAllergicOrderReasons }','${ default_prio }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).patientInstructions }','${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).pharmacistInstructions }')"></i>
                                             <i class="icon-trash delete-action" title="${ ui.message("Discontinue") }" onclick="discardSingleItem('${ drugOrderMn.value.orderId }')"></i>
                                         </div><br/>
                                     </div>

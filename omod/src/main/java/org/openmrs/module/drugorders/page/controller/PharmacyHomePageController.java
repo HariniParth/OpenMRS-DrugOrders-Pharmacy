@@ -79,9 +79,9 @@ public class PharmacyHomePageController {
         List<drugorders> ordersOnHold = Context.getService(drugordersService.class).getOrdersOnHold();
         List<drugorders> ordersForDiscard = Context.getService(drugordersService.class).getOrdersForDiscard();
         
-        List<drugorders> patientSingleOrders = new ArrayList<>();
-        HashMap<Integer, List<drugorders>> patientGroupOrders = new HashMap<>();
-        HashMap<Integer, List<drugorders>> patientPlanOrders = new HashMap<>();
+        List<drugorders> singleOrders = new ArrayList<>();
+        HashMap<Integer, List<drugorders>> groupOrders = new HashMap<>();
+        HashMap<Integer, List<drugorders>> planOrders = new HashMap<>();
         
         HashMap<Integer,String> ordererName = new HashMap<>();
         HashMap<Integer,String> patientName = new HashMap<>();
@@ -91,12 +91,12 @@ public class PharmacyHomePageController {
                         
             switch (order.getOrderStatus()) {
                 case "Active":
-                    patientSingleOrders.add(order);
+                    singleOrders.add(order);
                     ordererName.put(order.getOrderId(), physician.getGivenName()+" "+physician.getFamilyName());
                     break;
                     
                 case "Active-Group":
-                    if(!patientGroupOrders.containsKey(order.getGroupId())){
+                    if(!groupOrders.containsKey(order.getGroupId())){
                         
                         List<drugorders> allGroupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(order.getGroupId());
                         
@@ -108,24 +108,24 @@ public class PharmacyHomePageController {
                                 ordererName.put(groupOrder.getOrderId(), physician.getGivenName()+" "+physician.getFamilyName());
                             }
                         }
-                        patientGroupOrders.put(order.getGroupId(), activeGroupOrders);
+                        groupOrders.put(order.getGroupId(), activeGroupOrders);
                     }   break;
                     
                 case "Active-Plan":
-                    planorders planOrder = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
-                    if(!patientPlanOrders.containsKey(planOrder.getPlanId())){
+                    planorders planorders = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
+                    if(!planOrders.containsKey(planorders.getPlanId())){
                         
-                        List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(planOrder.getPlanId());
+                        List<planorders> allPlanOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(planorders.getPlanId());
                         
                         List<drugorders> activePlanOrders = new ArrayList<>();
                         
-                        for(planorders plan : planOrders){
-                            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(plan.getOrderId()).getOrderStatus().equals("Active-Plan")){
-                                activePlanOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(plan.getOrderId()));
-                                ordererName.put(plan.getOrderId(), physician.getGivenName()+" "+physician.getFamilyName());
+                        for(planorders planOrder : allPlanOrders){
+                            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getOrderStatus().equals("Active-Plan")){
+                                activePlanOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
+                                ordererName.put(planOrder.getOrderId(), physician.getGivenName()+" "+physician.getFamilyName());
                             }
                         }
-                    patientPlanOrders.put(planOrder.getPlanId(), activePlanOrders);
+                    planOrders.put(planorders.getPlanId(), activePlanOrders);
                 }   break;
             }
             
@@ -137,8 +137,8 @@ public class PharmacyHomePageController {
         }
         model.addAttribute("patientName", patientName);
         model.addAttribute("ordererName", ordererName);
-        model.addAttribute("patientSingles", patientSingleOrders);
-        model.addAttribute("patientGroups", patientGroupOrders);
-        model.addAttribute("patientPlans", patientPlanOrders);
+        model.addAttribute("patientSingles", singleOrders);
+        model.addAttribute("patientGroups", groupOrders);
+        model.addAttribute("patientPlans", planOrders);
     }
 }

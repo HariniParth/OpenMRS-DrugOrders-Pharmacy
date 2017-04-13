@@ -69,7 +69,6 @@ public class DrugordersPageController {
             @SpringBean("allergyService") PatientService patientService, HttpSession session,
             @RequestParam(value = "action", required = false) String action,
             @RequestParam(value = "order_id", required = false) Integer orderId,
-            @RequestParam(value = "orderClass", required = false) String orderClass,
             @RequestParam(value = "groupOrderID", required = false) Integer groupOrderID,
             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
             @RequestParam(value = "selectedPlan", required = false) String selectedPlan,
@@ -260,7 +259,7 @@ public class DrugordersPageController {
                 
                 if ("EDIT DRUG ORDER".equals(action)) {
                     
-                    drugorders originalOrderExtension = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
+                    drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
                     Context.getOrderService().voidOrder(Context.getOrderService().getOrder(orderId), "Discontinued");
 
                     DrugOrder drugOrder = null;
@@ -268,30 +267,34 @@ public class DrugordersPageController {
 
                     int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
                     createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
-                    originalOrderExtension.setOrderStatus("Non-Active");
                     
-                    switch (orderClass) {
-                        case "PLAN":
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Plan");
-                            Context.getService(planordersService.class).getDrugOrderByOrderID(originalOrderExtension.getOrderId()).setOrderId(order);
-                            break;
-                        case "SINGLE":
+                    switch (originalOrder.getOrderStatus()) {
+                        case "Active":
                             Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active");
                             break;
-                        case "GROUP":
+                        case "Active-Plan":
+                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Plan");
+                            Context.getService(planordersService.class).getDrugOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
+                            break;
+                        case "Draft-Plan":
+                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Draft-Plan");
+                            Context.getService(planordersService.class).getDrugOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
+                            break;
+                        case "Active-Group":
                             Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(originalOrderExtension.getGroupId());
-                            originalOrderExtension.setGroupId(null);
+                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(originalOrder.getGroupId());
+                            originalOrder.setGroupId(null);
                             break;
                     }
+                    originalOrder.setOrderStatus("Non-Active");
                     
                     InfoErrorMessageUtil.flashInfoMessage(session, "Order Changes Saved!");
                 }
 
                 if ("RENEW DRUG ORDER".equals(action)) {
                     
-                    drugorders originalOrderExtension = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
-                    String name = originalOrderExtension.getDrugName().getDisplayString();
+                    drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
+                    String name = originalOrder.getDrugName().getDisplayString();
 
                     DrugOrder drugOrder = null;
                     drugorders drugorder = null;

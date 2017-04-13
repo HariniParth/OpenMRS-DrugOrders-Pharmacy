@@ -227,7 +227,6 @@
 
         <br/><br/><br/>
         
-        <input type="hidden" id="orderClass" name="orderClass" />
         <input type="hidden" id="orderAction" name="action" />
         <input type="hidden" id="order_id" name="order_id" />
         

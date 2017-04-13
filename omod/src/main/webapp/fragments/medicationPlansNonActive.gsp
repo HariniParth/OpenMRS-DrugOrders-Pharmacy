@@ -37,17 +37,17 @@
                                 <div class="plansDetailsView">
                                     <% planMain.value.each { orderMain -> %>
                                         <div class="planDrug">
-                                            <% if(NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).priority != null) { %>
-                                                <% default_prio = NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).priority.getDisplayString(); %>
+                                            <% if(NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).priority != null) { %>
+                                                <% default_prio = NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).priority.getDisplayString(); %>
                                             <% } %>
 
                                             <div class="planDetails">
                                                 <div id="planDrugId">
-                                                    ${ NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).orderId }
+                                                    ${ NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).orderId }
                                                 </div>
                                                 
-                                                <div id="planDrugName" onclick="showDrugOrderViewWindow('VIEW ORDER','${ ui.format(patient.givenName) }','${ ui.format(patient.familyName) }','${ NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).startDate.format('yyyy-MM-dd') }','${ NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).drugName.getDisplayString() }','${ orderMain.value.dose }','${ orderMain.value.doseUnits.getDisplayString() }','${ orderMain.value.route.getDisplayString() }','${ orderMain.value.duration }','${ orderMain.value.durationUnits.getDisplayString() }','${ orderMain.value.quantity }','${ orderMain.value.quantityUnits.getDisplayString() }','${ orderMain.value.frequency }','${ NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).refill }','${ NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).isAllergicOrderReasons }','${ default_prio }','${ NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).patientInstructions }','${ NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).pharmacistInstructions }')">   
-                                                    <div><strong>${ NonActivePlanExtension.get(planOrderMain.key).get(planMain.key).get(orderMain.key).drugName.getDisplayString().toUpperCase() }</strong></div>
+                                                <div id="planDrugName" onclick="showDrugOrderViewWindow('VIEW ORDER','${ ui.format(patient.givenName) }','${ ui.format(patient.familyName) }','${ NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).startDate.format('yyyy-MM-dd') }','${ NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).drugName.getDisplayString() }','${ orderMain.value.dose }','${ orderMain.value.doseUnits.getDisplayString() }','${ orderMain.value.route.getDisplayString() }','${ orderMain.value.duration }','${ orderMain.value.durationUnits.getDisplayString() }','${ orderMain.value.quantity }','${ orderMain.value.quantityUnits.getDisplayString() }','${ orderMain.value.frequency }','${ NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).refill }','${ NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).isAllergicOrderReasons }','${ default_prio }','${ NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).patientInstructions }','${ NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).pharmacistInstructions }')">   
+                                                    <div><strong>${ NonActivePlanExtn.get(planOrderMain.key).get(planMain.key).get(orderMain.key).drugName.getDisplayString().toUpperCase() }</strong></div>
                                                     <div class="itemSummary"><em>Click to view details</em></div>
                                                 </div><br/>
                                             </div>

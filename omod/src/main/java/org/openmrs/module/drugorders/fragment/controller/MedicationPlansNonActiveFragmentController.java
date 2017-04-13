@@ -30,36 +30,36 @@ public class MedicationPlansNonActiveFragmentController {
         HashMap<Integer, HashMap<Concept, HashMap<Integer, DrugOrder>>> NonActivePlanMain = new HashMap<>();
 
         //Data structure to store the 'drugorders' object properties for all the non-active orders for the given disease
-        HashMap<Integer, HashMap<Concept, HashMap<Integer, drugorders>>> NonActivePlanExtension = new HashMap<>();
+        HashMap<Integer, HashMap<Concept, HashMap<Integer, drugorders>>> NonActivePlanExtn = new HashMap<>();
         
-        List<drugorders> nonActiveMedOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active-Plan");
+        List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active-Plan");
         
-        for(drugorders nonActiveMedOrder : nonActiveMedOrders){
-            planorders nonActiveMedPlan = Context.getService(planordersService.class).getDrugOrderByOrderID(nonActiveMedOrder.getOrderId());
+        for(drugorders order : orders){
+            planorders nonActiveMedPlan = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
             
             if(!NonActivePlanMain.containsKey(nonActiveMedPlan.getPlanId())){
-                List<planorders> ordersByPlan = Context.getService(planordersService.class).getDrugOrdersByPlanID(nonActiveMedPlan.getPlanId());
+                List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(nonActiveMedPlan.getPlanId());
                 
-                HashMap<Concept, HashMap<Integer, DrugOrder>> planMain = new HashMap<>();
-                HashMap<Concept, HashMap<Integer, drugorders>> planExtn = new HashMap<>();
+                HashMap<Concept, HashMap<Integer, DrugOrder>> p_main = new HashMap<>();
+                HashMap<Concept, HashMap<Integer, drugorders>> p_extn = new HashMap<>();
                 
-                HashMap<Integer,DrugOrder> orderMain = new HashMap<>();
-                HashMap<Integer,drugorders> orderExtn = new HashMap<>();
+                HashMap<Integer,DrugOrder> o_main = new HashMap<>();
+                HashMap<Integer,drugorders> o_extn = new HashMap<>();
                 
-                for(planorders orderByPlan : ordersByPlan){
-                    int order = orderByPlan.getOrderId();
-                    orderMain.put(order, (DrugOrder) Context.getOrderService().getOrder(order));
-                    orderExtn.put(order, Context.getService(drugordersService.class).getDrugOrderByOrderID(order));
+                for(planorders plan : plans){
+                    int id = plan.getOrderId();
+                    o_main.put(id, (DrugOrder) Context.getOrderService().getOrder(id));
+                    o_extn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                 }
                 
-                planMain.put(nonActiveMedPlan.getDiseaseId(), orderMain);
-                planExtn.put(nonActiveMedPlan.getDiseaseId(), orderExtn);
+                p_main.put(nonActiveMedPlan.getDiseaseId(), o_main);
+                p_extn.put(nonActiveMedPlan.getDiseaseId(), o_extn);
                 
-                NonActivePlanMain.put(nonActiveMedPlan.getPlanId(), planMain);
-                NonActivePlanExtension.put(nonActiveMedPlan.getPlanId(), planExtn);
+                NonActivePlanMain.put(nonActiveMedPlan.getPlanId(), p_main);
+                NonActivePlanExtn.put(nonActiveMedPlan.getPlanId(), p_extn);
             }
         }
         model.addAttribute("NonActivePlanMain", NonActivePlanMain);
-        model.addAttribute("NonActivePlanExtension", NonActivePlanExtension);
+        model.addAttribute("NonActivePlanExtn", NonActivePlanExtn);
     }
 }

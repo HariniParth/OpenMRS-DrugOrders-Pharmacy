@@ -28,35 +28,65 @@ public class MedicationPlansFragmentController {
         
         //Data structure to store the 'Drug Order' object properties for all the active orders for the given disease
         HashMap<Concept,HashMap<Integer,DrugOrder>> ActivePlanMain = new HashMap <>();
-        
         //Data structure to store the 'drugorders' object properties for all the active orders for the given disease
-        HashMap <Concept,HashMap<Integer,drugorders>> ActivePlanExtension = new HashMap <>();
+        HashMap<Concept,HashMap<Integer,drugorders>> ActivePlanExtn = new HashMap <>();
         
-        List<drugorders> activeMedOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan");
-        
-        for(drugorders activeMedOrder : activeMedOrders){
-            planorders activeMedPlan = Context.getService(planordersService.class).getDrugOrderByOrderID(activeMedOrder.getOrderId());
+        List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan");
+        for(drugorders order : orders){
+            planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
             
-            if(!ActivePlanMain.containsKey(activeMedPlan.getDiseaseId())){
+            if(!ActivePlanMain.containsKey(p_order.getDiseaseId())){
                 
-                HashMap<Integer,DrugOrder> drugOrderMain = new HashMap<>();
-                HashMap<Integer,drugorders> drugOrderExtension = new HashMap<>();
-                List<planorders> ordersForPlan = Context.getService(planordersService.class).getDrugOrdersByPlanID(activeMedPlan.getPlanId());
+                HashMap<Integer,DrugOrder> main = new HashMap<>();
+                HashMap<Integer,drugorders> extn = new HashMap<>();
+                List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(p_order.getPlanId());
                 
-                for(planorders orderPlan : ordersForPlan){
-                    int order = orderPlan.getOrderId();
-                    if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order).getOrderStatus().equals("Active-Plan")){
-                        drugOrderMain.put(order, (DrugOrder) Context.getOrderService().getOrder(order));
-                        drugOrderExtension.put(order, Context.getService(drugordersService.class).getDrugOrderByOrderID(order));
+                for(planorders plan : plans){
+                    int id = plan.getOrderId();
+                    if(Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus().equals("Active-Plan")){
+                        main.put(id, (DrugOrder) Context.getOrderService().getOrder(id));
+                        extn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                     }
                 }
                 
-                ActivePlanMain.put(activeMedPlan.getDiseaseId(), drugOrderMain);
-                ActivePlanExtension.put(activeMedPlan.getDiseaseId(), drugOrderExtension);
+                ActivePlanMain.put(p_order.getDiseaseId(), main);
+                ActivePlanExtn.put(p_order.getDiseaseId(), extn);
             }
         }
             
         model.addAttribute("ActivePlanMain", ActivePlanMain);
-        model.addAttribute("ActivePlanExtension", ActivePlanExtension);
+        model.addAttribute("ActivePlanExtn", ActivePlanExtn);
+        
+        
+        //Data structure to store the 'Drug Order' object properties for all the draft orders for the given disease
+        HashMap<Concept,HashMap<Integer,DrugOrder>> DraftPlanMain = new HashMap <>();
+        //Data structure to store the 'drugorders' object properties for all the draft orders for the given disease
+        HashMap<Concept,HashMap<Integer,drugorders>> DraftPlanExtn = new HashMap <>();
+        
+        orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Plan");
+        for(drugorders order : orders){
+            planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
+            
+            if(!DraftPlanMain.containsKey(p_order.getDiseaseId())){
+                
+                HashMap<Integer,DrugOrder> main = new HashMap<>();
+                HashMap<Integer,drugorders> extn = new HashMap<>();
+                List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(p_order.getPlanId());
+                
+                for(planorders plan : plans){
+                    int id = plan.getOrderId();
+                    if(Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus().equals("Draft-Plan")){
+                        main.put(id, (DrugOrder) Context.getOrderService().getOrder(id));
+                        extn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
+                    }
+                }
+                
+                DraftPlanMain.put(p_order.getDiseaseId(), main);
+                DraftPlanExtn.put(p_order.getDiseaseId(), extn);
+            }
+        }
+            
+        model.addAttribute("DraftPlanMain", DraftPlanMain);
+        model.addAttribute("DraftPlanExtn", DraftPlanExtn);
     }
 }

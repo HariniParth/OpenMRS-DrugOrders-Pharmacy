@@ -124,17 +124,20 @@
 <% } %>
 
 <script type="text/javascript">
+    
+    jq("#medPlansBlock .icon-minus-sign").show();
+    jq("#medPlansBlock .icon-plus-sign").hide();
+    
     jq(".icon-plus-sign").click(function(){
         jq(this).parent().nextAll(".groupBlock").first().show();
         jq(this).hide();
         jq(this).next(".icon-minus-sign").show();
     });
-</script>
-
-<script type="text/javascript">
+    
     jq(".icon-minus-sign").click(function(){
         jq(this).parent().nextAll(".groupBlock").first().hide();
         jq(this).hide();
         jq(this).prev(".icon-plus-sign").show();
     });
+    
 </script>
