@@ -10,32 +10,6 @@ var removeFromHoldDialog = null;
 
 $(document).ready( function() {
     
-    $(document).mouseup(function (e){
-        if(e.target.nodeName !== "TD"){
-            var objects = $('.dialog');
-            $(objects).each(function(){
-                if (!$(this).is(e.target) && $(this).has(e.target).length === 0){
-                    $(this).hide();
-                    clearHighlights();
-                }
-                else if(document.getElementById('pharma_order_details')){
-                    highlight();
-                }
-                else if(document.getElementsByClassName('group_order_order_details')){
-                    highlightGroup();
-                }
-            });
-        }        
-    });
-    
-    if(document.getElementById('pharma_order_details')){
-        highlight();
-    }
-    
-    if(document.getElementsByClassName('group_order_order_details')){
-        highlightGroup();
-    }
-    
     removeFromHoldDialog = emr.setupConfirmationDialog({
         selector: '#removeHold',
         actions: {
@@ -45,8 +19,7 @@ $(document).ready( function() {
         }
     });
     
-    $("#confirmBtn1").prop("disabled", true);
-    $("#confirmBtn2").prop("disabled", true);
+    highlight();
     
     $('.groupCheckBox').on('change', function() {
         enableConfirmBtn();
@@ -81,68 +54,49 @@ function enableConfirmBtn(){
 }
 
 function highlight(){
-    var selectedOrder = $("#pharma_order_details").val().replace(/(\w+).*/,"$1").toUpperCase();
+    var pharmaPlan = $("#pharmaPlan").val();
+    var pharmaGroup = $("#pharmaGroup").val();
+    var pharmaSingle = $("#pharmaSingle").val();
     
-    if(selectedOrder !== undefined){
-        var $rowsNo = $('#currentDrugOrdersTable tbody tr').filter(function () {
-            if($.trim($(this).find('td').eq(1).text()) === selectedOrder){
-                $(this).css({"background": "#75b2f0","color": "white"});
+    var currentSelected;
+    
+    if(pharmaPlan !== "" || pharmaGroup !== ""){
+        if(pharmaGroup !== "")
+            currentSelected = pharmaGroup;
+        else
+            currentSelected = pharmaPlan;
+        
+        var $rows2 = $('#currentGroupOrdersTable tbody .groupRow').filter(function () {
+            var givenGroup = $.trim($(this).find('td').eq(0).text());
+            if(givenGroup === currentSelected){
+                $(this).children('td').slice(1, 2).css({"background": "#75b2f0","color": "white"});
+            }
+        });
+    }       
+     
+    else if(pharmaSingle !== ""){
+        currentSelected = pharmaSingle;
+        
+        var $rows1 = $('#currentGroupOrdersTable tbody .singleRow').filter(function () {
+            var givenOrder = $.trim($(this).find('td').eq(0).text());
+            if(givenOrder === currentSelected){
+                $(this).children('td').slice(1, 6).css({"background": "#75b2f0","color": "white"});
             }
         });
     }
 }
 
-function highlightGroup(){
-    var $rowsN1 = $('#currentGroupOrdersTable tbody .singleRow').filter(function () {
-            
-        var givenDrug = $.trim($(this).find('td').eq(1).text());
-        var matching = false;
-
-        $(".group_order_order_details").each(function(){
-            var selectedDrug = $(this).val().split(",")[0].toUpperCase();
-
-            if(selectedDrug === givenDrug)
-                matching = true;
-        });
-
-        if(matching){
-            $(this).css({"background": "#75b2f0","color": "white"});
-        }
-    });
-    
-    var $rowsN2 = $('#currentGroupOrdersTable tbody .groupRow').filter(function () {
-            
-        var givenDrug = $.trim($(this).find('td').eq(1).find('div').children('div').first().children('div').first().text());
-        var matching = false;
-
-        $(".group_order_order_details").each(function(){
-            var selectedDrug = $(this).val().split(",")[0].toUpperCase();
-
-            if(selectedDrug === givenDrug)
-                matching = true;
-        });
-
-        if(matching){
-            $(this).css({"background": "#75b2f0","color": "white"});
-        }
-    });
-}
-
 function clearHighlights(){
     
     jq(".groupRow").each(function(){
-        jq(this).css({'background-color':'','color':''});
+        jq(this).children('td').slice(1, 2).css({'background-color':'','color':''});
     });
     jq(".singleRow").each(function(){
-        jq(this).css({'background-color':'','color':''});
+        jq(this).children('td').slice(1, 6).css({'background-color':'','color':''});
     });
     jq(".orderRow").each(function(){
         jq(this).css({'background-color':'','color':''});
     });
-}
-
-function closeAllOrdersWindow(){
-    jq("#allOrdersTableWrapper").hide();
 }
 
 function autoCompletePatientName(patientNameList){
@@ -170,21 +124,6 @@ function selectedGroupOrder(groupID){
 function selectedSingleOrder(orderID){
     $("#orderID").val(orderID);
     $("#groupOrdersForm").submit();
-}
-
-function selectedOrder(orderID){
-    $("#singleID").val(orderID);
-    $("#individualOrderForm").submit();
-}
-
-function associatedOrder(orderID){
-    $("#assocID").val(orderID);
-    $("#associatedOrderForm").submit();
-}
-
-function otherOrder(orderID){
-    $("#otherID").val(orderID);
-    $("#otherOrderForm").submit();
 }
 
 function showPharmaConfirmationSection(action){
@@ -240,6 +179,9 @@ function confirmDispatch(){
 
 function closePharmaGroupView(){
     jq("#pharmaGroupView").hide();
+    $("#pharmaSingle").val();
+    $("#pharmaGroup").val();
+    $("#pharmaPlan").val();
     clearHighlights();
 }
 

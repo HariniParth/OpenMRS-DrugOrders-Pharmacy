@@ -20,12 +20,12 @@
             <div class="group">
                 <% groupOrderMain.each { groupOrder -> %>
                     <% list_of_orders = list_of_orders + groupOrder.key + "," %>
-
+                    
                     <div class="groupItem">
                                 
                         <div id="view_order_detail">
                             <span id="drugName">
-                                <h5><input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ groupOrder.key }" ng-model="groupCheckBox" /></span>
+                                <h5><input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ groupOrder.key }" ng-model="groupCheckBox" checked="checked" /></span>
                                     <i class="icon-plus-sign edit-action" title="${ ui.message("Show") }"></i>
                                     <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"></i>
                                     <strong>${ groupOrderExtn.get(groupOrder.key).drugName.getDisplayString() }</strong>
@@ -115,9 +115,10 @@
                     <% provider_name = provider.get(groupOrder.key) %>
                 <% } %>
             </div>
-
-            <input type="hidden" id="group_order_ID" name="group_order_ID" value="${ list_of_orders }" readonly />
-            <input type="hidden" id="orderer_email" name="orderer_email" value="" readonly />
+            
+            <input type="hidden" id="pharmaPlan" value="${ planID }" />
+            <input type="hidden" id="pharmaGroup" value="${ groupID }" />
+            <input type="hidden" id="pharmaSingle" value="${ orderID }" />
             
             <label class="fields" id="statusLabel"><br/>Order Status: <span id="selectedAction"></span></label>
             
@@ -130,7 +131,7 @@
                     <input class="confirm right" type="button" value="Dispatch" onclick="showPharmaConfirmationSection('Dispatch')" /> <br/><br/>
                     <input class="confirm right" type="button" value="On Hold" onclick="showPharmaConfirmationSection('On Hold')" /> <br/><br/>
                     <input class="confirm right" type="button" value="Discard" onclick="showPharmaConfirmationSection('Discard')" />
-                    <input class="cancel left"   type="submit" value="Cancel"  />
+                    <input class="cancel left"   type="button" value="Cancel" onclick="closePharmaGroupView()"  />
                 </div>
             </span>
             
@@ -160,7 +161,10 @@
     </div>
 <% } %>
 
-<script type="text/javascript">    
+<script type="text/javascript">
+    jq("#pharmaGroupView .icon-plus-sign").hide();
+    jq("#pharmaGroupView .icon-minus-sign").show();
+    
     jq(".icon-plus-sign").click(function(){
         jq(this).parent().parent().parent().nextAll(".additionalInformation").first().show();
         jq(this).hide();

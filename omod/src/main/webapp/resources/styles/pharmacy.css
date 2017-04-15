@@ -75,6 +75,14 @@ and open the template in the editor.
     float: right;
 }
 
+#ordererEmail{
+    text-decoration: underline;
+}
+
+#ordererEmail:hover{
+    cursor: pointer;
+}
+
 .dialog input[type="text"]{
     width: 80% !important;
     box-sizing: border-box !important;
@@ -101,7 +109,7 @@ and open the template in the editor.
     color: #363463;
 }
 
-.patientRow:hover, .orderRow:hover, .groupRow:hover,.singleRow:hover{
+.patientRow:hover, .orderRow:hover, .groupRow:hover td:not(:first-child), .singleRow:hover td:not(:first-child){
     background: #75b2f0;
     color: white;
     cursor: pointer;
@@ -121,7 +129,7 @@ and open the template in the editor.
     min-height: 152px;
 }
 
-.icon-minus-sign.edit-action, .additionalInformation, #pharmaGroupActionButtons, #statusLabel, #printLabel, #confirmButtons, #contactLabel, #ordererContact, .dispatchFields, #removeHold{
+.icon-minus-sign.edit-action, #pharmaGroupActionButtons, #statusLabel, #printLabel, #confirmButtons, #contactLabel, #ordererContact, .dispatchFields, #removeHold{
     display: none;
 }
 
@@ -229,64 +237,74 @@ form select, .form select {
 }
 
 .groupElement .d1{
-    width: 47%;
+    width: 78%;
     float: left;
+    overflow: hidden;
+}
+
+.groupElement .d1 .e1{
+    width: 61%;
+    float: left;
+}
+
+.groupElement .d1 .e1 .g1{
+    width: 59%;
+    float: left;
+}
+
+.groupElement .d1 .e1 .g1 .c1{
+    width: 90%;
+    float: left;
+    overflow-wrap: break-word;
+}
+
+.groupElement .d1 .e1 .g1 .c2{
+    width: 10%;
+    float: right;
+}
+
+.groupElement .d1 .e1 .g2{
+    width: 41%;
+    float: right;
+}
+
+.groupElement .d1 .e1 .g2 .c3{
+    width: 90%;
+    float: left;
+}
+
+.groupElement .d1 .e1 .g2 .c4{
+    width: 10%;
+    float: right;
+}
+
+.groupElement .d1 .e2{
+    width: 39%;
+    float: right;
+}
+
+.groupElement .d1 .e2 .g3{
+    width: 41%;
+    float: left;
+}
+
+.groupElement .d1 .e2 .g4{
+    width: 59%;
+    float: right;
 }
 
 .groupElement .d2{
-    width: 53%;
+    width: 22%;
     float: right;
 }
 
-.groupElement .d1 .g1{
-    width: 60%;
+.groupElement .d2 .g5{
+    width: 8%;
     float: left;
 }
 
-.groupElement .d1 .g2{
-    width: 40%;
-    float: right;
-}
-
-.groupElement .d1 .g1 .c1{
-    width: 90%;
-    float: left;
-    overflow-wrap: break-word;
-}
-
-.groupElement .d1 .g1 .c2{
-    width: 10%;
-    float: right;
-}
-
-.groupElement .d1 .g2 .c3{
-    width: 90%;
-    float: left;
-    overflow-wrap: break-word;
-}
-
-.groupElement .d1 .g2 .c4{
-    width: 10%;
-    float: right;
-}
-
-.groupElement .d2 .d3{
-    width: 25%;
-    float: left;
-}
-
-.groupElement .d2 .d4{
-    width: 75%;
-    float: right;
-}
-
-.groupElement .d2 .d4 .g4{
-    width: 50%;
-    float: left;
-}
-
-.groupElement .d2 .d4 .g5{
-    width: 50%;
+.groupElement .d2 .g6{
+    width: 92%;
     float: right;
 }
 

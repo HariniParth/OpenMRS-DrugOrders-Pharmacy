@@ -48,7 +48,6 @@ public class PharmacyPatientPageController {
             @RequestParam(value = "action", required = false) String action,
             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
             @RequestParam(value = "pharmaGroupAction", required = false) String groupAction,
-            @RequestParam(value = "group_order_ID", required = false) String group_order_ID,
             @RequestParam(value = "groupComments", required = false) String groupComments,
             @RequestParam(value = "drugExpiryDate", required = false) Date[] drugExpiryDate,
             @RequestParam(value = "commentForPatient", required = false) String[] commentForPatient) {

@@ -31,10 +31,6 @@ public class PharmaGroupViewFragmentController {
                             @RequestParam(value = "groupID", required = false) String groupID,
                             @RequestParam(value = "orderID", required = false) String orderID){
         
-        model.addAttribute("planID", planID);
-        model.addAttribute("groupID", groupID);
-        model.addAttribute("orderID", orderID);
-        
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 1);
         Date expiryDate = cal.getTime();
@@ -44,10 +40,13 @@ public class PharmaGroupViewFragmentController {
         HashMap<Integer,DrugOrder> groupOrderMain = new HashMap<>();
         HashMap<Integer,drugorders> groupOrderExtn = new HashMap<>();
         
+        StringBuilder sb = new StringBuilder();
         if(!planID.equals("")){
-
+            
             //Get the list of Med Plan Orders ordered for this Patient to treat this Disease
             List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(Integer.parseInt(planID));
+            sb.append(plans.get(0).getDiseaseId().getDisplayString());
+            
             for(planorders plan : plans){
                 
                 drugorders dorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(plan.getOrderId());
@@ -87,6 +86,10 @@ public class PharmaGroupViewFragmentController {
             
             provider.put(DrugOrder.getOrderId(), DrugOrder.getOrderer().getPerson().getGivenName() + " " + DrugOrder.getOrderer().getPerson().getFamilyName() + ", " + StringUtils.capitalize(DrugOrder.getOrderer().getIdentifier()));
         }
+        
+        model.addAttribute("planID", sb.toString());
+        model.addAttribute("groupID", groupID);
+        model.addAttribute("orderID", orderID);
         
         model.addAttribute("groupOrderMain", groupOrderMain);
         model.addAttribute("groupOrderExtn", groupOrderExtn);
