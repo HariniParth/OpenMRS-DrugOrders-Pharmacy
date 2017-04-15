@@ -28,11 +28,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class EditDrugOrderFragmentController {
         
     public void controller(PageModel model,@RequestParam("patientId") Patient patient,
-                            @RequestParam(value = "selectedActivePlan", required = false) String selectedActivePlan,
+                            @RequestParam(value = "selectedActivePlan", required = false) Integer selectedActivePlan,
                             @RequestParam(value = "selectedNonActivePlan", required = false) String selectedNonActivePlan,
                             @RequestParam(value = "selectedActiveGroup", required = false) String selectedActiveGroup,
                             @RequestParam(value = "selectedNonActiveGroup", required = false) String selectedNonActiveGroup,
-                            @RequestParam(value = "selectedActiveItem", required = false) String selectedActiveItem,
+                            @RequestParam(value = "selectedActiveItem", required = false) Integer selectedActiveItem,
                             @RequestParam(value = "selectedActiveOrder", required = false) String selectedActiveOrder,
                             @RequestParam(value = "associatedDiagnosis", required = false) String associatedDiagnosis){
 
@@ -77,21 +77,16 @@ public class EditDrugOrderFragmentController {
             }
         }
                         
-        if(StringUtils.isNotBlank(selectedActivePlan)){
+        if(selectedActivePlan != null){
             try {
-                int group = 0;
-                Concept planConcept = Context.getConceptService().getConceptByName(selectedActivePlan);
-                List<drugorders> planOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan");
+                int group = selectedActivePlan;
+                List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(group);
                 
-                for(drugorders planOrder: planOrders){
-                    if(planOrder.getAssociatedDiagnosis() == planConcept){
-                        groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
-                        groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
-                        if(group == 0)
-                            group = Context.getService(planordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getPlanId();
-                    }
+                for(planorders planOrder: planOrders){
+                    groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
+                    groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
                 }
-                model.addAttribute("plan", planConcept.getDisplayString().toUpperCase());
+                model.addAttribute("plan", planOrders.get(0).getDiseaseId().getDisplayString().toUpperCase());
                 model.addAttribute("group", group);
                 model.addAttribute("groupOrderAction", "DISCARD MED PLAN");
                 
@@ -119,18 +114,18 @@ public class EditDrugOrderFragmentController {
             }
         }
                 
-        if(StringUtils.isNotBlank(selectedActiveOrder) || StringUtils.isNotBlank(selectedActiveItem)){
+        if(StringUtils.isNotBlank(selectedActiveOrder) || selectedActiveItem != null){
             try {
-                int group = 0;
+                int id = 0;
                 if(StringUtils.isNotBlank(selectedActiveOrder))
-                    group = Integer.parseInt(selectedActiveOrder);
-                else if(StringUtils.isNotBlank(selectedActiveItem))
-                    group = Integer.parseInt(selectedActiveItem);
+                    id = Integer.parseInt(selectedActiveOrder);
+                else if(selectedActiveItem != null)
+                    id = selectedActiveItem;
                 
-                groupMain.put(group, (DrugOrder) Context.getOrderService().getOrder(group));
-                groupExtn.put(group, Context.getService(drugordersService.class).getDrugOrderByOrderID(group));
+                groupMain.put(id, (DrugOrder) Context.getOrderService().getOrder(id));
+                groupExtn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                 
-                model.addAttribute("group", group);
+                model.addAttribute("group", id);
                 model.addAttribute("groupOrderAction", "DISCONTINUE ORDER");
                 
             } catch(NumberFormatException | APIException e){

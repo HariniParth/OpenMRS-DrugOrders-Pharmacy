@@ -478,6 +478,11 @@ function renewMedPlanWindow(plan){
     $("#nonActivePlanForm").submit();
 }
 
+function saveMedPlanOrder(planId){
+    $("#activatePlan").val(planId);
+    $("#activePlanForm").submit();
+}
+
 function autoCompletePlan(){
     $("#planName").autocomplete({
         select : function(event, ui){

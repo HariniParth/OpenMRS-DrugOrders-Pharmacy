@@ -7,7 +7,6 @@ package org.openmrs.module.drugorders.fragment.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
@@ -24,18 +23,26 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class MedicationPlansFragmentController {
     
-    public void controller(PageModel model, @RequestParam("patientId") Patient patient){
+    public void controller(PageModel model, @RequestParam("patientId") Patient patient,
+                            @RequestParam(value = "activatePlan", required = false) Integer activatePlan){
+        
+        //Activate saved draft med plans
+        if(activatePlan != null){
+            List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(activatePlan);
+            for(planorders order : planOrders)
+                Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).setOrderStatus("Active-Plan");
+        }
         
         //Data structure to store the 'Drug Order' object properties for all the active orders for the given disease
-        HashMap<Concept,HashMap<Integer,DrugOrder>> ActivePlanMain = new HashMap <>();
+        HashMap<Integer,HashMap<Integer,DrugOrder>> ActivePlanMain = new HashMap <>();
         //Data structure to store the 'drugorders' object properties for all the active orders for the given disease
-        HashMap<Concept,HashMap<Integer,drugorders>> ActivePlanExtn = new HashMap <>();
+        HashMap<Integer,HashMap<Integer,drugorders>> ActivePlanExtn = new HashMap <>();
         
         List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan");
         for(drugorders order : orders){
             planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
             
-            if(!ActivePlanMain.containsKey(p_order.getDiseaseId())){
+            if(!ActivePlanMain.containsKey(p_order.getPlanId())){
                 
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 HashMap<Integer,drugorders> extn = new HashMap<>();
@@ -49,8 +56,8 @@ public class MedicationPlansFragmentController {
                     }
                 }
                 
-                ActivePlanMain.put(p_order.getDiseaseId(), main);
-                ActivePlanExtn.put(p_order.getDiseaseId(), extn);
+                ActivePlanMain.put(p_order.getPlanId(), main);
+                ActivePlanExtn.put(p_order.getPlanId(), extn);
             }
         }
             
@@ -59,15 +66,15 @@ public class MedicationPlansFragmentController {
         
         
         //Data structure to store the 'Drug Order' object properties for all the draft orders for the given disease
-        HashMap<Concept,HashMap<Integer,DrugOrder>> DraftPlanMain = new HashMap <>();
+        HashMap<Integer,HashMap<Integer,DrugOrder>> DraftPlanMain = new HashMap <>();
         //Data structure to store the 'drugorders' object properties for all the draft orders for the given disease
-        HashMap<Concept,HashMap<Integer,drugorders>> DraftPlanExtn = new HashMap <>();
+        HashMap<Integer,HashMap<Integer,drugorders>> DraftPlanExtn = new HashMap <>();
         
         orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Plan");
         for(drugorders order : orders){
             planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
             
-            if(!DraftPlanMain.containsKey(p_order.getDiseaseId())){
+            if(!DraftPlanMain.containsKey(p_order.getPlanId())){
                 
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 HashMap<Integer,drugorders> extn = new HashMap<>();
@@ -81,8 +88,8 @@ public class MedicationPlansFragmentController {
                     }
                 }
                 
-                DraftPlanMain.put(p_order.getDiseaseId(), main);
-                DraftPlanExtn.put(p_order.getDiseaseId(), extn);
+                DraftPlanMain.put(p_order.getPlanId(), main);
+                DraftPlanExtn.put(p_order.getPlanId(), extn);
             }
         }
             
