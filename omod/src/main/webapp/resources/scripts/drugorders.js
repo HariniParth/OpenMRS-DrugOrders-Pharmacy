@@ -4,40 +4,14 @@
  * and open the template in the editor.
  */
 
-/* global diagnosis, jq, emr */
+/* global diagnosis, jq, emr, Event */
 
 var removeFromGroupDialog = null;
 
 $(document).ready( function() {
     
-    $(document).mouseup(function (e){
-        var objects = $('.dialog');
-        if(e.target.nodeName !== "A" && e.target.nodeName !== "TD"){
-            $(objects).each(function(){
-                if (!$(this).is(e.target) && $(this).has(e.target).length === 0){
-                    $(this).hide();
-                    clearHighlights();
-
-                    var ID = $(this).attr("id");
-
-                    if(ID === "showOrderWindow")
-                        hideDrugOrderViewWindow();
-                    else if(ID === "definePlanWindow")
-                        hideMedPlanDefineWindow();
-                    else if(ID === "createPlanWindow")
-                        hideMedPlanCreateWindow();
-                    else if(ID === "deletePlanWindow")
-                        hideMedPlanDiscardWindow();
-                    else if(ID === "createOrderWindow")
-                        hideIndividualOrderDetailsWindow();
-                    else if(ID === "showGroupOrderWindow")
-                        hideGroupOrderWindow();
-                }
-            }); 
-        }  
-    });
-
     highlight();
+    
     $("#planSaveButton").prop("disabled", true);
     $("#addOrderButton").prop("disabled", true);
     $("#planDefineButton").prop("disabled", true);
@@ -193,8 +167,17 @@ function adminRecord(){
 }
 
 function showMedicationPlanOrderWindow(){
-    jq("#medPlanWindow").show();
-    document.getElementById("medPlanWindow").style.display = 'block';
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        jq("#medPlanWindow").show();
+        document.getElementById("medPlanWindow").style.display = 'block';
+    }
 }
 
 function hideMedicationPlanOrderWindow(){
@@ -206,11 +189,20 @@ function hideMedicationPlansWindow(){
 }
 
 function showIndividualOrderDetailsWindow(orderType){
-    $("#orderType").text(orderType);
-    $("#orderAction").val(orderType);
-    jq("#confirmOrderWindow").hide();
-    jq("#createOrderWindow").show();
-    document.getElementById("createOrderWindow").style.display = 'block';
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        $("#orderType").text(orderType);
+        $("#orderAction").val(orderType);
+        jq("#confirmOrderWindow").hide();
+        jq("#createOrderWindow").show();
+        document.getElementById("createOrderWindow").style.display = 'block';
+    }
 }
 
 function hideIndividualOrderDetailsWindow(){
@@ -347,32 +339,39 @@ function checkAdminFields(){
         document.getElementById("adminFrequency").style.borderColor = "";
 }
 
-function showDrugOrderViewWindow(action, givenName, lastName, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, orderReason, priority, patientInstrn, pharmacistInstrn, pharmaComments){
-    
-    $("#activeOrderAction").text(action);
-    $("#patient_name").text(givenName+" "+lastName);
-    $("#start_date").text(startdate);
-    $("#order_priority").text(priority);
-    $("#order_refills").text(numRefills);
-    $("#order_details").text(drugname +" "+dose+" "+doseUnits+" "+route+" "+duration+" "+durationUnits+" "+quantity+" "+quantityUnits+" "+frequency);
-    
-    if(orderReason !== "" && orderReason !== "null"){
-        $("#order_reason").text(orderReason);
-        jq("#allergicOrderReasonView").show();
-        document.getElementById("allergicOrderReasonView").style.display = 'block';
+function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, orderReason, priority, patientInstrn, pharmacistInstrn, pharmaComments){
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        $("#activeOrderAction").text(action);
+        $("#start_date").text(startdate);
+        $("#order_priority").text(priority);
+        $("#order_refills").text(numRefills);
+        $("#order_details").text(drugname +" "+dose+" "+doseUnits+" "+route+" "+duration+" "+durationUnits+" "+quantity+" "+quantityUnits+" "+frequency);
+
+        if(orderReason !== "" && orderReason !== "null"){
+            $("#order_reason").text(orderReason);
+            jq("#allergicOrderReasonView").show();
+            document.getElementById("allergicOrderReasonView").style.display = 'block';
+        }
+
+        $("#patient_instructions").text(patientInstrn);
+        $("#pharmacist_instructions").text(pharmacistInstrn);
+
+        if(pharmaComments !== "" && pharmaComments !== null && pharmaComments !== "null" && pharmaComments !== undefined){
+            $("#pharma_comments").text(pharmaComments);
+            jq("#pharmacistCommentsView").show();
+            document.getElementById("pharmacistCommentsView").style.display = 'block';
+        }
+
+        jq("#showOrderWindow").show();
+        document.getElementById("showOrderWindow").style.display = 'block';
     }
-    
-    $("#patient_instructions").text(patientInstrn);
-    $("#pharmacist_instructions").text(pharmacistInstrn);
-    
-    if(pharmaComments !== "" && pharmaComments !== null && pharmaComments !== "null" && pharmaComments !== undefined){
-        $("#pharma_comments").text(pharmaComments);
-        jq("#pharmacistCommentsView").show();
-        document.getElementById("pharmacistCommentsView").style.display = 'block';
-    }
-    
-    jq("#showOrderWindow").show();
-    document.getElementById("showOrderWindow").style.display = 'block';
 }
 
 function hideDrugOrderViewWindow(){
@@ -380,57 +379,75 @@ function hideDrugOrderViewWindow(){
     clearHighlights();
 }
 
-function showEditSingleOrderWindow(orderType, orderId, drugName, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, associateddiagnosis, orderReason, priority, patientInstrn, pharmacistinstructions){
-    $("#orderType").text(orderType);
-    $("#orderAction").val(orderType);
-    $("#order_id").val(orderId);
-    $("#drugNameEntered").val(drugName);
-    $("#route").val(route);
-    $("#dose").val(dose);
-    $("#doseUnits").val(doseUnits);
-    $("#quantity").val(quantity);
-    $("#quantityUnits").val(quantityUnits);
-    $("#duration").val(duration);
-    $("#durationUnits").val(durationUnits);
-    $("#frequency").val(frequency);
-    $("#refill").val(numRefills);
-    $("#interval").val(interval);
-    $("#priority").val(priority);
-    $("#diagnosis").val(associateddiagnosis);
-    if(orderReason !== "" && orderReason !== "null"){
-        $("#orderReason").val(orderReason);
-        jq("#allergicDrugOrderReasonField").show();
-        document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
+function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, diagnosis, orderReason, priority, patientInstrn, pharmacistinstructions){
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        $("#orderType").text(orderType);
+        $("#orderAction").val(orderType);
+        $("#order_id").val(orderId);
+        $("#drugNameEntered").val(name);
+        $("#route").val(route);
+        $("#dose").val(dose);
+        $("#doseUnits").val(doseUnits);
+        $("#quantity").val(quantity);
+        $("#quantityUnits").val(quantityUnits);
+        $("#duration").val(duration);
+        $("#durationUnits").val(durationUnits);
+        $("#frequency").val(frequency);
+        $("#refill").val(numRefills);
+        $("#interval").val(interval);
+        $("#priority").val(priority);
+        $("#diagnosis").val(diagnosis);
+        if(orderReason !== "" && orderReason !== "null"){
+            $("#orderReason").val(orderReason);
+            jq("#allergicDrugOrderReasonField").show();
+            document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
+        }
+        $("#patientInstrn").val(patientInstrn);
+        $("#pharmacistInstrn").val(pharmacistinstructions);
+        $("#addOrderButton").prop("disabled", false);
+        jq("#createOrderWindow").show();
+        document.getElementById("createOrderWindow").style.display = 'block';
     }
-    $("#patientInstrn").val(patientInstrn);
-    $("#pharmacistInstrn").val(pharmacistinstructions);
-    $("#addOrderButton").prop("disabled", false);
-    jq("#createOrderWindow").show();
-    document.getElementById("createOrderWindow").style.display = 'block';
 }
 
-function showRenewOrderWindow(orderType,orderId,drugName,dose,doseUnits,route,duration,durationUnits,quantity,quantityUnits,frequency,numRefills,interval,associateddiagnosis,priority,patientinstructions,pharmacistinstructions){
-    $("#orderType").text(orderType);
-    $("#orderAction").val(orderType);
-    $("#order_id").val(orderId);
-    $("#drugNameEntered").val(drugName);
-    $("#route").val(route);
-    $("#dose").val(dose);
-    $("#doseUnits").val(doseUnits);
-    $("#quantity").val(quantity);
-    $("#quantityUnits").val(quantityUnits);
-    $("#duration").val(duration);
-    $("#durationUnits").val(durationUnits);
-    $("#frequency").val(frequency);
-    $("#priority").val(priority);
-    $("#refill").val(numRefills);
-    $("#interval").val(interval);
-    $("#diagnosis").val(associateddiagnosis);
-    $("#patientInstrn").val(patientinstructions);
-    $("#pharmacistInstrn").val(pharmacistinstructions);
-    $("#addOrderButton").prop("disabled", false);
-    jq("#createOrderWindow").show();
-    document.getElementById("createOrderWindow").style.display = 'block';
+function showRenewOrderWindow(orderType, orderId, name, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, refills, interval, diagnosis, priority, patientInstrn, pharmacistInstrn){
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        $("#orderType").text(orderType);
+        $("#orderAction").val(orderType);
+        $("#order_id").val(orderId);
+        $("#drugNameEntered").val(name);
+        $("#route").val(route);
+        $("#dose").val(dose);
+        $("#doseUnits").val(doseUnits);
+        $("#quantity").val(quantity);
+        $("#quantityUnits").val(quantityUnits);
+        $("#duration").val(duration);
+        $("#durationUnits").val(durationUnits);
+        $("#frequency").val(frequency);
+        $("#priority").val(priority);
+        $("#refill").val(refills);
+        $("#interval").val(interval);
+        $("#diagnosis").val(diagnosis);
+        $("#patientInstrn").val(patientInstrn);
+        $("#pharmacistInstrn").val(pharmacistInstrn);
+        $("#addOrderButton").prop("disabled", false);
+        jq("#createOrderWindow").show();
+        document.getElementById("createOrderWindow").style.display = 'block';
+    }
 }
 
 function discardSingleOrder(order){
@@ -494,9 +511,18 @@ function autoCompleteDrug(drug, allergies){
 }
 
 function displayPlanCreationWindow(){
-    $("#defineAction").val("definePlan");
-    jq("#definePlanWindow").show();
-    document.getElementById("definePlanWindow").style.display = 'block';
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        $("#defineAction").val("definePlan");
+        jq("#definePlanWindow").show();
+        document.getElementById("definePlanWindow").style.display = 'block';
+    }
 }
 
 function hideMedPlanDefineWindow(){
@@ -508,11 +534,20 @@ function hideMedPlanDefineWindow(){
 }
 
 function addPlanItemWindow(planName){
-    jq("#createPlanWindow").show();
-    document.getElementById("createPlanWindow").style.display = 'block';
-    $("#adminActionType").text("ADD DRUG TO PLAN");
-    $("#adminPlan").val(planName);
-    checkAdminFields();
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        jq("#createPlanWindow").show();
+        document.getElementById("createPlanWindow").style.display = 'block';
+        $("#adminActionType").text("ADD DRUG TO PLAN");
+        $("#adminPlan").val(planName);
+        checkAdminFields();
+    }
 }
 
 function hideMedPlanCreateWindow(){
@@ -536,21 +571,30 @@ function hideMedPlanCreateWindow(){
 }
 
 function editPlanItemDetails(planId, planName, drugName, dose, doseUnits, route, quantity, quantityUnits, duration, durationUnits, frequency){
-    jq("#createPlanWindow").show();
-    document.getElementById("createPlanWindow").style.display = 'block';
-    $("#adminActionType").text("EDIT PLAN");
-    $("#planId").val(planId);
-    $("#adminPlan").val(planName);
-    $("#adminDrug").val(drugName);
-    $("#adminDose").val(dose);
-    $("#adminDoseUnits").val(doseUnits);
-    $("#adminRoute").val(route);
-    $("#adminQuantity").val(quantity);
-    $("#adminQuantityUnits").val(quantityUnits);
-    $("#adminDuration").val(duration);
-    $("#adminDurationUnits").val(durationUnits);
-    $("#adminFrequency").val(frequency);
-    $("#planSaveButton").prop("disabled", false);
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        jq("#createPlanWindow").show();
+        document.getElementById("createPlanWindow").style.display = 'block';
+        $("#adminActionType").text("EDIT PLAN");
+        $("#planId").val(planId);
+        $("#adminPlan").val(planName);
+        $("#adminDrug").val(drugName);
+        $("#adminDose").val(dose);
+        $("#adminDoseUnits").val(doseUnits);
+        $("#adminRoute").val(route);
+        $("#adminQuantity").val(quantity);
+        $("#adminQuantityUnits").val(quantityUnits);
+        $("#adminDuration").val(duration);
+        $("#adminDurationUnits").val(durationUnits);
+        $("#adminFrequency").val(frequency);
+        $("#planSaveButton").prop("disabled", false);
+    }
 }
 
 function deleteMedPlan(planName){
@@ -559,12 +603,21 @@ function deleteMedPlan(planName){
 }
 
 function renameMedPlan(id, planName, planDesc){
-    $("#definePlanId").val(id);
-    $("#defineAction").val("renamePlan");
-    $("#definePlanName").val(planName);
-    $("#definePlanDesc").val(planDesc);
-    jq("#definePlanWindow").show();
-    document.getElementById("definePlanWindow").style.display = 'block';
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        $("#definePlanId").val(id);
+        $("#defineAction").val("renamePlan");
+        $("#definePlanName").val(planName);
+        $("#definePlanDesc").val(planDesc);
+        jq("#definePlanWindow").show();
+        document.getElementById("definePlanWindow").style.display = 'block';
+    }
 }
 
 function deleteMedPlanItem(planID){
@@ -597,12 +650,21 @@ function hideGroupOrderWindow(){
 }
 
 function showAddOrderToGroupWindow(orderType,groupID){
-    $("#order_id").val(groupID);
-    $("#orderType").text(orderType);
-    $("#orderAction").val(orderType);
-    jq("#confirmOrderWindow").hide();
-    jq("#createOrderWindow").show();
-    document.getElementById("createOrderWindow").style.display = 'block';
+    var dialogOpen = false;
+    var objects = $('.dialog');
+    $(objects).each(function(){
+        if ($(this).is(':visible')){
+            dialogOpen = true;
+        }
+    });
+    if(!dialogOpen){
+        $("#order_id").val(groupID);
+        $("#orderType").text(orderType);
+        $("#orderAction").val(orderType);
+        jq("#confirmOrderWindow").hide();
+        jq("#createOrderWindow").show();
+        document.getElementById("createOrderWindow").style.display = 'block';
+    }
 }
 
 function discontinueReason(){

@@ -179,7 +179,7 @@ and open the template in the editor.
     margin-right: 20px;
 }
 
-.orderRow:hover .orderInfo, .oldOrderRow:hover .oldOrderDetails, .planDrug:hover .planDrugDetails, .planDrug:hover .planDetails, .groupDrug:hover .groupDrugDetails, .oldOrderDetails:hover, .oldGroupDetails:hover{
+.orderRow:hover td:not(:first-child):not(:last-child), .oldOrderRow:hover .oldOrderDetails, .planDrug:hover .planDrugDetails, .planDrug:hover .planDetails, .groupDrug:hover .groupDrugDetails, .oldOrderDetails:hover, .oldGroupDetails:hover{
     background: #75b2f0;
     color: white;
     cursor: pointer;
@@ -231,11 +231,11 @@ and open the template in the editor.
     vertical-align: top;
 }
 
-.orderRow.discontinued > .orderInfo, .groupDrug.discontinued > div:first-child > *{
+.orderRow.discontinued td:not(:first-child):not(:last-child), .groupDrug.discontinued > div:first-child > *{
     text-decoration: line-through;
 }
 
-.orderRow.onhold > .orderInfo, .groupDrug.onhold > div:first-child > *{
+.orderRow.onhold td:not(:first-child):not(:last-child), .groupDrug.onhold > div:first-child > *{
     color: orangered;
 }
 
