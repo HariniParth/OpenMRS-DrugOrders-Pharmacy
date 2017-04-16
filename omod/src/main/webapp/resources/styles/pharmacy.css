@@ -327,15 +327,11 @@ form select, .form select {
     color: #363463;
 }
 
-.groupElement.discontinued .d1 .g2 span{
-    text-decoration: none !important;
-}
-
 .groupHome.onHold > div > div:not(.l21), .singleHome.onHold td:not(:first-child):not(:nth-child(2)), .singleRow.onHold > *, .groupElement.onHold > *{
     color: orange;
 }
 
-.groupHome.forDiscard > div > div:not(.l21), .groupHome.forDiscard > div > div > *, .singleHome.forDiscard > td:not(:first-child):not(:nth-child(2)), .singleRow.forDiscard > *, .groupElement.forDiscard > div > div > *{
+.groupHome.forDiscard > div > div:not(.l21), .groupHome.forDiscard > div > div > *, .singleHome.forDiscard > td:not(:first-child):not(:nth-child(2)), .singleRow.forDiscard > *, .groupElement.forDiscard *{
     color: orangered;
     text-decoration: line-through;
 }

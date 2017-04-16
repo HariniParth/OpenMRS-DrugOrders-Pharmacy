@@ -95,16 +95,16 @@ $(document).ready( function() {
 });
 
 function highlight(){
-    var selectedPlan = $("#discardPlan").text().toUpperCase();
-    var selectedDrug = $(".discardDrug");
     
+    var selectedPlan = $("#discardPlan").text();
     if(selectedPlan !== ""){
         var $rowsNo = $('#medPlansTable tbody tr .planDetails').filter(function () {
-            if($.trim($(this).find('.fields').find('.planName').text()) === selectedPlan){
+            if($.trim($(this).find('.fields').find('.planName').text()) === selectedPlan.toUpperCase()){
                 $(this).find('.fields').find('.icon-plus-sign').hide();
                 $(this).find('.fields').find('.icon-minus-sign').show();
                 $(this).find('.plansDetailsView').show();
                 
+                var selectedDrug = $(".discardDrug");
                 if(selectedDrug.size() === 1){
                     $(this).find('.plansDetailsView').find('.planBlock').find('.planBlockDetails').find('.planItem').each(function(){
                         if($(this).text() === selectedDrug.text().toUpperCase()){
@@ -127,6 +127,37 @@ function highlight(){
             }
         });
     }
+    
+    var selectedAction = $("#groupOrderAction").text();
+    if(selectedAction !== ""){
+        if(selectedAction === "DISCONTINUE ORDER"){
+            var selectedOrder = $("#groupOrderID").val();
+            var $rowsNo1 = $('#activeOrdersTable tbody .orderRow').filter(function () {
+                if($.trim($(this).children('td').slice(1, 2).text()) === selectedOrder){
+                    $(this).children('td').slice(1, 4).css({"background": "#75b2f0","color": "white"});
+                }
+            });
+            
+            var $rowsNo2 = $('#activeOrdersTable tbody .groupRow').filter(function () {
+                $(this).children('td').slice(1, 2).find('.groupDrug').each(function(){
+                    if($.trim($(this).find('.groupDrugDetails').find('#groupDrugID').text()) === selectedOrder){
+                        $(this).find('.groupDrugDetails').css({"background": "#75b2f0","color": "white"});
+                    }
+                });
+            });
+            
+            var $rowsNo3 = $('#activePlansTable tbody tr').filter(function () {
+                $(this).children('td').slice(0, 1).find('.plansDetailsView').find('.planDrug').each(function(){
+                    if($.trim($(this).find('.planDrugDetails').find('#planDrugId').text()) === selectedOrder){
+                        $(this).parent().show();
+                        $(this).parent().parent().find('.fields').find('.icon-plus-sign').hide();
+                        $(this).parent().parent().find('.fields').find('.icon-minus-sign').show();
+                        $(this).find('.planDrugDetails').css({"background": "#75b2f0","color": "white"});
+                    }
+                });
+            });
+        }
+    }    
 }
 
 function clearHighlights(){
@@ -649,9 +680,7 @@ function showDiscardGroupOrderWindow(orderID){
 
 function hideGroupOrderWindow(){
     jq("#showGroupOrderWindow").hide();
-    jq(".oldGroupRow").each(function(){
-        jq(this).children('td').slice(0, 1).css({'background-color':'','color':''});
-    });
+    clearHighlights();
 }
 
 function showAddOrderToGroupWindow(orderType,groupID){

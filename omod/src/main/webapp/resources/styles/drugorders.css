@@ -231,12 +231,13 @@ and open the template in the editor.
     vertical-align: top;
 }
 
-.orderRow.discontinued td:not(:first-child):not(:last-child), .groupDrug.discontinued > div:first-child > *{
+.orderRow.discontinued td:not(:first-child):not(:last-child), .groupDrug.discontinued > div:first-child > *, .planDrug.discontinued > div:first-child > *{
     text-decoration: line-through;
+    color: orangered;
 }
 
-.orderRow.onhold td:not(:first-child):not(:last-child), .groupDrug.onhold > div:first-child > *{
-    color: orangered;
+.orderRow.onhold td:not(:first-child):not(:last-child), .groupDrug.onhold > div:first-child > *, .planDrug.onhold > div:first-child > *{
+    color: orange;
 }
 
 .dataTables_length select {

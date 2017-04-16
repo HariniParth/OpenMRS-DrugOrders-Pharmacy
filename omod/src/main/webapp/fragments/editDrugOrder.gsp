@@ -221,14 +221,15 @@
 <% } %>
 
 <script type="text/javascript">
+    jq("#groupOrderBlock .icon-plus-sign").hide();
+    jq("#groupOrderBlock .icon-minus-sign").show();
+    
     jq(".icon-plus-sign").click(function(){
         jq(this).parent().nextAll(".groupBlock").first().show();
         jq(this).hide();
         jq(this).nextAll(".icon-minus-sign").show();
     });
-</script>
-
-<script type="text/javascript">
+    
     jq(".icon-minus-sign").click(function(){
         jq(this).parent().nextAll(".groupBlock").first().hide();
         jq(this).hide();

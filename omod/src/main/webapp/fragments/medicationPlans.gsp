@@ -31,10 +31,8 @@
                             <tr>
                                 <td>
                                     <div class="fields">
-                                        <span class="viewDetails">
-                                            <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
-                                            <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                        </span>
+                                        <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
+                                        <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
                                         <strong>${ DraftPlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
                                     </div><br/>
 
@@ -89,10 +87,8 @@
                         <tr>
                             <td>
                                 <div class="fields">
-                                    <span class="viewDetails">
-                                        <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
-                                        <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                    </span>
+                                    <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
+                                    <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
                                     <strong>${ ActivePlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
                                 </div><br/>
 
@@ -167,7 +163,7 @@
 
 <script type="text/javascript">
     jq(".icon-plus-sign").click(function(){
-        jq(this).parent().parent().nextAll(".plansDetailsView").first().show();
+        jq(this).parent().nextAll(".plansDetailsView").first().show();
         jq(this).hide();
         jq(this).next(".icon-minus-sign").show();
     });
@@ -175,7 +171,7 @@
 
 <script type="text/javascript">
     jq(".icon-minus-sign").click(function(){
-        jq(this).parent().parent().nextAll(".plansDetailsView").first().hide();
+        jq(this).parent().nextAll(".plansDetailsView").first().hide();
         jq(this).hide();
         jq(this).prev(".icon-plus-sign").show();
     });
