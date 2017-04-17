@@ -91,7 +91,9 @@
                                     <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
                                     <strong>${ ActivePlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
                                 </div><br/>
-
+                                
+                                <span class="hidden" id="id">${ drugOrderMain.key }</span>
+                                
                                 <div class="plansDetailsView">
                                     <% drugOrderMain.value.each { drugOrderMn -> %>
 

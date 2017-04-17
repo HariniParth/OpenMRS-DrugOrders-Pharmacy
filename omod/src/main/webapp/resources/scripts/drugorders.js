@@ -111,6 +111,10 @@ function highlight(){
                             $(this).parent().parent().css({"background": "#75b2f0","color": "white"});
                         }
                     });
+                } else {
+                    $(this).find('.plansDetailsView').find('.planBlock').each(function(){
+                        $(this).find('.planBlockDetails').css({"background": "#75b2f0","color": "white"});
+                    });
                 }
             }
         });
@@ -130,8 +134,10 @@ function highlight(){
     
     var selectedAction = $("#groupOrderAction").text();
     if(selectedAction !== ""){
-        if(selectedAction === "DISCONTINUE ORDER"){
-            var selectedOrder = $("#groupOrderID").val();
+        var selectedOrder = $("#groupOrderID").val();
+        
+        if(selectedAction === "DISCONTINUE ORDER"){            
+            
             var $rowsNo1 = $('#activeOrdersTable tbody .orderRow').filter(function () {
                 if($.trim($(this).children('td').slice(1, 2).text()) === selectedOrder){
                     $(this).children('td').slice(1, 4).css({"background": "#75b2f0","color": "white"});
@@ -157,6 +163,29 @@ function highlight(){
                 });
             });
         }
+        
+        else if(selectedAction === "DISCARD ORDER GROUP"){
+            var $rowsNo = $('#activeOrdersTable tbody .groupRow').filter(function () {
+                if($.trim($(this).children('td').slice(0, 1).find('#id').text()) === selectedOrder){
+                    $(this).children('td').slice(1, 2).find('.groupDrug').each(function(){
+                        $(this).find('.groupDrugDetails').css({"background": "#75b2f0","color": "white"});
+                    });
+                }
+            });
+        }
+        
+        else if(selectedAction === "DISCARD MED PLAN"){
+            var $rowsNo = $('#activePlansTable tbody tr').filter(function () {
+                if($.trim($(this).children('td').slice(0, 1).find('#id').text()) === selectedOrder){
+                    $(this).children('td').slice(0, 1).find('.fields').find('.icon-plus-sign').hide();
+                    $(this).children('td').slice(0, 1).find('.fields').find('.icon-minus-sign').show();
+                    $(this).children('td').slice(0, 1).find('.plansDetailsView').find('.planDrug').each(function(){
+                        $(this).find('.planDrugDetails').css({"background": "#75b2f0","color": "white"});
+                    });  
+                    $(this).find('.plansDetailsView').show();
+                }
+            });
+        }
     }    
 }
 
@@ -176,8 +205,8 @@ function clearHighlights(){
     jq(".planDrug").each(function(){
         jq(this).children('div').slice(0, 1).css({'background-color':'','color':''});
     });
-    jq(".planBlock").each(function(){
-        jq(this).children('div').slice(0, 1).css({'background-color':'','color':''});
+    jq('.planBlock').each(function(){
+        $(this).find('.planBlockDetails').css({'background-color':'','color':''});
     });
 }
 

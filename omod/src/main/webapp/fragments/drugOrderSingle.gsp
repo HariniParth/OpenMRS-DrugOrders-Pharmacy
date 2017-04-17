@@ -57,7 +57,11 @@
                     <% def orderList = "" %>
                     <tr class="groupRow">
     
-                        <td><input type="checkbox" name="groupCheckBox" value="${ existingDrugOrder.key }" ng-model="groupCheckBox" /></td>
+                        <td>
+                            <input type="checkbox" name="groupCheckBox" value="${ existingDrugOrder.key }" ng-model="groupCheckBox" />
+                            <span class="hidden" id="id">${ existingDrugOrder.key }</span>
+                        </td>
+                        
                         <td colspan="4" class="groupDetails">
                             <% existingDrugOrder.value.each { existingOrder -> %>
                                 <% if(existingOrder.orderStatus == "Active-Group") { %>
