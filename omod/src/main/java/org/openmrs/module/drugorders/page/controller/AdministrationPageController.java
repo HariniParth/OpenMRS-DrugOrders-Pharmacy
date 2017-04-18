@@ -44,7 +44,7 @@ public class AdministrationPageController {
                             @RequestParam(value = "adminDurationUnits", required = false) String adminDurationUnits,
                             @RequestParam(value = "adminFrequency", required = false) String adminFrequency,
                             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
-                            @RequestParam(value = "planToDiscard", required = false) String planToDiscard,
+                            @RequestParam(value = "planToDiscard", required = false) Integer planToDiscard,
                             @RequestParam(value = "discardReason", required = false) String discardReason,                            
                             @RequestParam(value = "drugId", required = false) String drugId,
                             @RequestParam(value = "action", required = false) String action){
@@ -73,7 +73,7 @@ public class AdministrationPageController {
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
                         break;
                         
-                    case "addPlan":
+                    case "extendPlan":
                         standardplans medPlans = new standardplans();
                         medPlans.setPlanId(Context.getService(newplansService.class).getMedicationPlan(ConceptName(adminPlan)).getId());
                         
@@ -114,7 +114,7 @@ public class AdministrationPageController {
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Renamed!");
                         break;
                         
-                    case "deletePlan":
+                    case "discardPlan":
                         if(groupCheckBox.length > 0){
                             for(int i=0;i<groupCheckBox.length;i++){
                                 int id = Integer.parseInt(Long.toString(groupCheckBox[i]));
@@ -123,14 +123,21 @@ public class AdministrationPageController {
                                 medPlan.setDiscardReason(discardReason);
                             }
                         }
-                        if(Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(ConceptName(planToDiscard)).getId()).isEmpty()){
-                            Context.getService(newplansService.class).getMedicationPlan(ConceptName(planToDiscard)).setPlanStatus("Non-Active");
-                            Context.getService(newplansService.class).getMedicationPlan(ConceptName(planToDiscard)).setDiscardReason(discardReason);
+                        
+                        boolean allDrugsDiscarded = true;
+                        List<standardplans> allPlans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(planToDiscard).getId());
+                        for(standardplans plan : allPlans)
+                            if(plan.getPlanStatus().equals("Active"))
+                                allDrugsDiscarded = false;
+                        
+                        if(allDrugsDiscarded){
+                            Context.getService(newplansService.class).getMedicationPlan(planToDiscard).setPlanStatus("Non-Active");
+                            Context.getService(newplansService.class).getMedicationPlan(planToDiscard).setDiscardReason(discardReason);
                             InfoErrorMessageUtil.flashInfoMessage(session, "Plan Discarded!");
                         }                        
                         break;
                         
-                    case "deleteDrug":
+                    case "discardDrug":
                         if(groupCheckBox.length > 0){
                             int id = Integer.parseInt(Long.toString(groupCheckBox[0]));
                             standardplans medPlan = Context.getService(standardplansService.class).getMedicationPlan(id);
@@ -146,8 +153,8 @@ public class AdministrationPageController {
             }
         }
         
-        if(!planToDiscard.isEmpty())
-            model.addAttribute("recordedMedPlan", planToDiscard);
+        if(planToDiscard != null)
+            model.addAttribute("recordedMedPlan", Context.getService(newplansService.class).getMedicationPlan(planToDiscard).getPlanName().getDisplayString());
         else 
             if(!adminPlan.isEmpty())
                 model.addAttribute("recordedMedPlan", adminPlan);

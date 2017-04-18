@@ -47,88 +47,91 @@
                     <% if(newPlans.size() > 0) { %>
                         <div>
                             <% newPlans.each { newPlan -> %>
-                                <tr>
-                                    <td class="planDetails">
-                                        <div class="fields">
-                                            <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
-                                            <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                            <strong class="planName">${ newPlan.planName.getDisplayString().toUpperCase() }</strong>
-                                        </div>
+                                <% if(newPlan.planStatus == "Active") { %>
+                                    <tr>
+                                        <td class="planDetails">
+                                            <div class="fields">
+                                                <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
+                                                <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
+                                                <strong class="planName">${ newPlan.planName.getDisplayString().toUpperCase() }</strong>
+                                            </div>
 
-                                        <div class="desc">${ newPlan.planDesc }</div><br/>
-                                        
-                                        <div class="plansDetailsView">
-                                            <% medPlan = allMedicationPlans.get(newPlan.planName) %>
-                                            <% if(medPlan.size() > 0) { %>
-                                                <% medPlan.each { med -> %>
-                                                    <div class="planBlock">
-                                                        <div class="planBlockDetails">
-                                                            <div>
-                                                                <i class="show-details icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
-                                                                <i class="hide-details icon-minus-sign icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                                                <strong class="planItem">${ med.drugId.getDisplayString().toUpperCase() }</strong>
-                                                            </div><br/>
+                                            <div class="desc">${ newPlan.planDesc }</div><br/>
 
-                                                            <div class="groupItem">
-                                                                <div id="view_order_detail">
-                                                                    <div id="order_label">Dose</div>
-                                                                    <div id="order_value">${ med.dose }</div>
-                                                                </div>
+                                            <div class="plansDetailsView">
+                                                <% medPlan = allMedicationPlans.get(newPlan.planName) %>
+                                                
+                                                <% if(medPlan.size() > 0) { %>
+                                                    <% medPlan.each { med -> %>
+                                                        <div class="planBlock">
+                                                            <div class="planBlockDetails">
+                                                                <div>
+                                                                    <i class="show-details icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
+                                                                    <i class="hide-details icon-minus-sign icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
+                                                                    <strong class="planItem">${ med.drugId.getDisplayString().toUpperCase() }</strong>
+                                                                </div><br/>
 
-                                                                <div id="view_order_detail">
-                                                                    <div id="order_label">Dose units</div>
-                                                                    <div id="order_value">${ med.doseUnits.getDisplayString() }</div>
-                                                                </div>
+                                                                <div class="groupItem">
+                                                                    <div id="view_order_detail">
+                                                                        <div id="order_label">Dose</div>
+                                                                        <div id="order_value">${ med.dose }</div>
+                                                                    </div>
 
-                                                                <div id="view_order_detail">
-                                                                    <div id="order_label">Route</div>
-                                                                    <div id="order_value">${ med.route.getDisplayString() }</div>
-                                                                </div>
+                                                                    <div id="view_order_detail">
+                                                                        <div id="order_label">Dose units</div>
+                                                                        <div id="order_value">${ med.doseUnits.getDisplayString() }</div>
+                                                                    </div>
 
-                                                                <div id="view_order_detail">
-                                                                    <div id="order_label">Quantity</div>
-                                                                    <div id="order_value">${ med.quantity }</div>
-                                                                </div>
+                                                                    <div id="view_order_detail">
+                                                                        <div id="order_label">Route</div>
+                                                                        <div id="order_value">${ med.route.getDisplayString() }</div>
+                                                                    </div>
 
-                                                                <div id="view_order_detail">
-                                                                    <div id="order_label">Qnty units</div>
-                                                                    <div id="order_value">${ med.quantityUnits.getDisplayString() }</div>
-                                                                </div>
+                                                                    <div id="view_order_detail">
+                                                                        <div id="order_label">Quantity</div>
+                                                                        <div id="order_value">${ med.quantity }</div>
+                                                                    </div>
 
-                                                                <div id="view_order_detail">
-                                                                    <div id="order_label">Duration</div>
-                                                                    <div id="order_value">${ med.duration }</div>
-                                                                </div>
+                                                                    <div id="view_order_detail">
+                                                                        <div id="order_label">Qnty units</div>
+                                                                        <div id="order_value">${ med.quantityUnits.getDisplayString() }</div>
+                                                                    </div>
 
-                                                                <div id="view_order_detail">
-                                                                    <div id="order_label">Durn units</div>
-                                                                    <div id="order_value">${ med.durationUnits.getDisplayString() }</div>
-                                                                </div>
+                                                                    <div id="view_order_detail">
+                                                                        <div id="order_label">Duration</div>
+                                                                        <div id="order_value">${ med.duration }</div>
+                                                                    </div>
 
-                                                                <div id="view_order_detail">
-                                                                    <div id="order_label">Frequency</div>
-                                                                    <div id="order_value">${ med.frequency }</div>
+                                                                    <div id="view_order_detail">
+                                                                        <div id="order_label">Durn units</div>
+                                                                        <div id="order_value">${ med.durationUnits.getDisplayString() }</div>
+                                                                    </div>
+
+                                                                    <div id="view_order_detail">
+                                                                        <div id="order_label">Frequency</div>
+                                                                        <div id="order_value">${ med.frequency }</div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
 
-                                                        <div id="button" class="pull-right">
-                                                            <i class="icon-trash delete-action" title="${ ui.message("Discard") }" onclick="deleteMedPlanItem('${ med.id }')"></i>
-                                                            <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="editPlanItemDetails('${ med.id }','${ newPlan.planName.getDisplayString() }','${ med.drugId.getDisplayString() }','${ med.dose }','${ med.doseUnits.getDisplayString() }','${ med.route.getDisplayString() }','${ med.quantity }','${ med.quantityUnits.getDisplayString() }','${ med.duration }','${ med.durationUnits.getDisplayString() }','${ med.frequency }')"></i>
-                                                        </div><br/>
-                                                    </div>
-                                                <% } %><br/>
-                                            <% } %>
-                                        </div>
-                                    </td>
-                                    <td class="planButtons">
-                                        <span>
-                                            <i class="icon-trash delete-action" title="${ ui.message("Discard Plan") }" onclick="deleteMedPlan('${ newPlan.planName.getDisplayString() }')"></i>
-                                            <i class="icon-edit edit-action" title="${ ui.message("Rename Plan") }" onclick="renameMedPlan('${ newPlan.id }','${ newPlan.planName.getDisplayString() }','${ newPlan.planDesc }')"></i>
-                                            <i class="icon-plus edit-action" title="${ ui.message("Add Drug To Plan") }" onclick="addPlanItemWindow('${ newPlan.planName.getDisplayString() }')"></i>
-                                        </span>
-                                    </td>
-                                </tr>
+                                                            <div id="button" class="pull-right">
+                                                                <i class="icon-trash delete-action" title="${ ui.message("Discard") }" onclick="deleteMedPlanItem('${ med.id }')"></i>
+                                                                <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="editPlanItemDetails('${ med.id }','${ newPlan.planName.getDisplayString() }','${ med.drugId.getDisplayString() }','${ med.dose }','${ med.doseUnits.getDisplayString() }','${ med.route.getDisplayString() }','${ med.quantity }','${ med.quantityUnits.getDisplayString() }','${ med.duration }','${ med.durationUnits.getDisplayString() }','${ med.frequency }')"></i>
+                                                            </div><br/>
+                                                        </div>
+                                                    <% } %><br/>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                        <td class="planButtons">
+                                            <span>
+                                                <i class="icon-trash delete-action" title="${ ui.message("Discard Plan") }" onclick="deleteMedPlan('${ newPlan.id }')"></i>
+                                                <i class="icon-edit edit-action" title="${ ui.message("Rename Plan") }" onclick="renameMedPlan('${ newPlan.id }','${ newPlan.planName.getDisplayString() }','${ newPlan.planDesc }')"></i>
+                                                <i class="icon-plus edit-action" title="${ ui.message("Add Drug To Plan") }" onclick="addPlanItemWindow('${ newPlan.planName.getDisplayString() }')"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <% } %>
                             <% } %>
                         </div>
                     <% } %>            

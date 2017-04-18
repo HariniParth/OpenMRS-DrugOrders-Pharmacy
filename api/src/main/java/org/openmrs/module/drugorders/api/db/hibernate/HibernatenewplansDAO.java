@@ -58,7 +58,7 @@ public class HibernatenewplansDAO implements newplansDAO {
     @Override
     public newplans getMedicationPlan(Concept planName){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(newplans.class);
-        crit.add(Restrictions.eq("planName", planName));
+        crit.add(Restrictions.eq("planName", planName)).add(Restrictions.eq("planStatus", "Active"));
         return (newplans) crit.uniqueResult();
     };
     

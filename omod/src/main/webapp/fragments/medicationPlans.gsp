@@ -36,6 +36,8 @@
                                         <strong>${ DraftPlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
                                     </div><br/>
 
+                                    <span class="hidden" id="id">${ drugOrderMain.key }</span>
+                                    
                                     <div class="plansDetailsView">
                                         <% drugOrderMain.value.each { drugOrderMn -> %>
 

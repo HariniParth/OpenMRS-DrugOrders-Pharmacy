@@ -29,26 +29,31 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class AdministrationFragmentController {
     
-    public void controller(PageModel model, @RequestParam(value = "selectedMedPlan", required = false) String selectedMedPlan,
+    public void controller(PageModel model, @RequestParam(value = "selectedMedPlan", required = false) Integer selectedMedPlan,
                                             @RequestParam(value = "selectedPlanItem", required = false) Integer selectedPlanItem){
 
         model.addAttribute("selectedMedPlan", selectedMedPlan);
         
-        HashMap<String, List<standardplans>> selectedPlan = new HashMap<>();
+        HashMap<Integer,HashMap<Concept, List<standardplans>>> selectedPlan = new HashMap<>();
+        HashMap<Concept, List<standardplans>> plansByName = new HashMap<>();
         
-        if(!selectedMedPlan.equals("")){
-            List<standardplans> plans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(selectedMedPlan)).getId());
+        if(selectedMedPlan != null){
+            List<standardplans> plans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(selectedMedPlan).getId());
             List<standardplans> activePlans = new ArrayList<>();
             for(standardplans plan : plans)
                 if(plan.getPlanStatus().equals("Active"))
                     activePlans.add(plan);
-            selectedPlan.put(selectedMedPlan, activePlans);
+            
+            plansByName.put(Context.getService(newplansService.class).getMedicationPlan(selectedMedPlan).getPlanName(), activePlans);
+            selectedPlan.put(selectedMedPlan, plansByName);
         }
+        
         else if(selectedPlanItem != null){
             List<standardplans> plans = new ArrayList<>();
             standardplans plan = Context.getService(standardplansService.class).getMedicationPlan(selectedPlanItem);
             plans.add(plan);
-            selectedPlan.put(Context.getService(newplansService.class).getMedicationPlan(plan.getPlanId()).getPlanName().getDisplayString(), plans);
+            plansByName.put(Context.getService(newplansService.class).getMedicationPlan(plan.getPlanId()).getPlanName(), plans);
+            selectedPlan.put(plan.getPlanId(), plansByName);
         }
             
         model.addAttribute("selectedPlan", selectedPlan);

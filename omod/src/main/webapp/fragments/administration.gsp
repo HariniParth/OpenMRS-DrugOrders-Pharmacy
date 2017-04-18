@@ -170,7 +170,7 @@
 
             <br/><br/><br/>
 
-            <input type="hidden" name="action" value="addPlan" />
+            <input type="hidden" name="action" value="extendPlan" />
             <button class="confirm right" id="planSaveButton" type="button" onclick="createStandardPlan()">${ ui.message("Confirm") }</button>
             <button class="cancel left" type="button" onclick="hideMedPlanCreateWindow()">${ ui.message("Cancel") }</button><br/><br/>
         </form>
@@ -182,7 +182,7 @@
     <div id="deletePlanWindow" class="dialog">
         <div class="dialog-header">
             <h3 id="dialog-heading">
-                <% if(selectedMedPlan != "") { %>
+                <% if(selectedMedPlan != null) { %>
                     ${ ui.message("DISCARD PLAN") }
                 <% } else { %>
                     ${ ui.message("DISCARD DRUG") }
@@ -194,8 +194,8 @@
             <form method="post" id="discardPlanForm">
                 
                 <% selectedPlan.each { discardPlans -> %>
-                    <% discardPlans.each { discardPlan -> %>
-                        <h5 class="align-center"><strong id="discardPlan">${ discardPlan.key }</strong></h5><br/>
+                    <% discardPlans.value.each { discardPlan -> %>
+                        <h5 class="align-center"><strong id="discardPlan">${ discardPlan.key.getDisplayString() }</strong></h5><br/>
 
                         <div class="fields" id="discardPlanBlock">
                             <% discardPlan.value.each { plan -> %>
@@ -248,14 +248,14 @@
                                 </div>
                             <% } %>
                         </div>
-                        <input id="planToDiscard" name="planToDiscard" value="${ discardPlan.key }" type="hidden" /> 
-                    <% } %>                    
+                    <% } %>    
+                    <input id="planToDiscard" name="planToDiscard" value="${ discardPlans.key }" type="hidden" /> 
                 <% } %>
                 
-                <% if(selectedMedPlan != "") { %>
-                    <input name="action" value="deletePlan" type="hidden" />
+                <% if(selectedMedPlan != null) { %>
+                    <input name="action" value="discardPlan" type="hidden" />
                 <% } else { %>
-                    <input name="action" value="deleteDrug" type="hidden" /> 
+                    <input name="action" value="discardDrug" type="hidden" /> 
                 <% } %><br/>
                 
                 <div class="fields">

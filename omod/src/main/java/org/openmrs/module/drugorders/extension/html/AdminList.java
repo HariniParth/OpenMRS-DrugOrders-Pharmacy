@@ -22,27 +22,32 @@ import org.openmrs.module.web.extension.AdministrationSectionExt;
 public class AdminList extends AdministrationSectionExt {
 	
 	/**
+         * @return 
 	 * @see AdministrationSectionExt#getMediaType()
 	 */
+        @Override
 	public Extension.MEDIA_TYPE getMediaType() {
-		return Extension.MEDIA_TYPE.html;
+            return Extension.MEDIA_TYPE.html;
 	}
 	
 	/**
+         * @return 
 	 * @see AdministrationSectionExt#getTitle()
 	 */
+        @Override
 	public String getTitle() {
-		return "drugorders.title";
+            return "drugorders.title";
 	}
 	
 	/**
+         * @return 
 	 * @see AdministrationSectionExt#getLinks()
 	 */
+        @Override
 	public Map<String, String> getLinks() {
-		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("/module/drugorders/manage.form", "drugorders.manage");
-                map.put("/pages/drugorders/administration.page", "drugorders.administration");
-		return map;
+            LinkedHashMap<String, String> map = new LinkedHashMap<>();
+            map.put("/pages/drugorders/administration.page", "drugorders.administration");
+            return map;
 	}
 	
 }

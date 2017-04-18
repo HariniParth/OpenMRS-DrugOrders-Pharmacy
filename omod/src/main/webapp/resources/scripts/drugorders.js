@@ -633,6 +633,8 @@ function hideMedPlanCreateWindow(){
     $('#createPlanForm input, #createPlanForm select').each(function(){
         this.style.borderColor = "";
     });
+    
+    clearHighlights();
 }
 
 function editPlanItemDetails(planId, planName, drugName, dose, doseUnits, route, quantity, quantityUnits, duration, durationUnits, frequency){
@@ -662,8 +664,8 @@ function editPlanItemDetails(planId, planName, drugName, dose, doseUnits, route,
     }
 }
 
-function deleteMedPlan(planName){
-    $("#selectedMedPlan").val(planName);
+function deleteMedPlan(planID){
+    $("#selectedMedPlan").val(planID);
     $("#adminPageForm").submit();    
 }
 
@@ -695,6 +697,8 @@ function hideMedPlanDiscardWindow(){
     $("#selectedPlanItem").val("");
     $("#selectedMedPlan").val("");
     $("#planToDiscard").val("");
+    $("#discardPlan").text("");
+    clearHighlights();
 }
 
 function showRenewGroupOrderWindow(orderID){
