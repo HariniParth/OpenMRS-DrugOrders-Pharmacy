@@ -48,7 +48,11 @@ public class AddNewOrderFragmentController {
         List<standardplans> medplans = new ArrayList<>();
         if(Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName)) != null && Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName)).getPlanStatus().equals("Active")){
             newplans newPlan = Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName));
-            medplans = Context.getService(standardplansService.class).getMedicationPlans(newPlan.getId());
+            List<standardplans> standardplans = Context.getService(standardplansService.class).getMedicationPlans(newPlan.getId());
+            
+            for(standardplans standardplan : standardplans)
+                if(standardplan.getPlanStatus().equals("Active"))
+                    medplans.add(standardplan);
         }
         model.addAttribute("medplans", medplans);
                 
