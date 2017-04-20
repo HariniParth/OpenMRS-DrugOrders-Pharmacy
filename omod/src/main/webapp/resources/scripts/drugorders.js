@@ -91,7 +91,7 @@ $(document).ready( function() {
             	$("#removeFromGroupForm").submit();
             }
         }
-    });
+    });       
 });
 
 function highlight(){
@@ -136,7 +136,11 @@ function highlight(){
     if(selectedAction !== ""){
         var selectedOrder = $("#groupOrderID").val();
         
-        if(selectedAction === "DISCONTINUE ORDER"){            
+        if(selectedAction === "DISCONTINUE ORDER"){
+            
+            if($("#discardType").val() === "Active-Plan"){
+                jq("#activeOrderWindow").hide();
+            }
             
             var $rowsNo1 = $('#activeOrdersTable tbody .orderRow').filter(function () {
                 if($.trim($(this).children('td').slice(1, 2).text()) === selectedOrder){
@@ -175,6 +179,7 @@ function highlight(){
         }
         
         else if(selectedAction === "DISCARD MED PLAN"){
+            jq("#activeOrderWindow").hide();
             var $rowsNo = $('#activePlansTable tbody tr').filter(function () {
                 if($.trim($(this).children('td').slice(0, 1).find('#id').text()) === selectedOrder){
                     $(this).children('td').slice(0, 1).find('.fields').find('.icon-plus-sign').hide();
@@ -185,6 +190,10 @@ function highlight(){
                     $(this).find('.plansDetailsView').show();
                 }
             });
+        }
+        
+        else if(selectedAction === "RENEW MED PLAN"){
+            jq("#activeOrderWindow").hide();
         }
     }    
 }
@@ -235,16 +244,19 @@ function showMedicationPlanOrderWindow(){
         }
     });
     if(!dialogOpen){
-        jq("#medPlanWindow").show();
+        jq("#medPlanWindow").show(); 
         document.getElementById("medPlanWindow").style.display = 'block';
+        jq("#activeOrderWindow").hide();
     }
 }
 
 function hideMedicationPlanOrderWindow(){
     jq("#medPlanWindow").hide();
+    jq("#activeOrderWindow").show();
 }
 
 function hideMedicationPlansWindow(){
+    jq("#activeOrderWindow").show();
     jq("#medPlanDetailsWindow").hide();
 }
 
@@ -267,6 +279,7 @@ function showIndividualOrderDetailsWindow(orderType){
 
 function hideIndividualOrderDetailsWindow(){
     jq("#createOrderWindow").hide();
+    jq("#activeOrderWindow").show();
     jq("#allergicDrugOrderReasonField").hide();
     $("#orderType").text("");
     $("#orderAction").val("");
@@ -399,7 +412,7 @@ function checkAdminFields(){
         document.getElementById("adminFrequency").style.borderColor = "";
 }
 
-function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, orderReason, priority, patientInstrn, pharmacistInstrn, pharmaComments){
+function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, orderReason, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -408,11 +421,15 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         }
     });
     if(!dialogOpen){
+        if(orderStatus === "Active-Plan" || orderStatus === "Non-Active-Plan"){
+            jq("#activeOrderWindow").hide();
+        }
+        
         $("#activeOrderAction").text(action);
         $("#start_date").text(startdate);
         $("#order_priority").text(priority);
         $("#order_refills").text(numRefills);
-        $("#order_details").text(drugname +" "+dose+" "+doseUnits+" "+route+" "+duration+" "+durationUnits+" "+quantity+" "+quantityUnits+" "+frequency);
+        $("#order_details").text(drugname +", "+dose+" "+doseUnits+", "+route+", "+duration+" "+durationUnits+", "+quantity+" "+quantityUnits+", "+frequency);
 
         if(orderReason !== "" && orderReason !== "null"){
             $("#order_reason").text(orderReason);
@@ -435,11 +452,12 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
 }
 
 function hideDrugOrderViewWindow(){
-    jq("#showOrderWindow").hide();    
+    jq("#activeOrderWindow").show();
+    jq("#showOrderWindow").hide();
     clearHighlights();
 }
 
-function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, diagnosis, orderReason, priority, patientInstrn, pharmacistinstructions){
+function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, diagnosis, orderReason, priority, patientInstrn, pharmacistInstrn, orderStatus){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -448,6 +466,10 @@ function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, do
         }
     });
     if(!dialogOpen){
+        if(orderStatus === "Active-Plan"){
+            jq("#activeOrderWindow").hide();
+        }
+        
         $("#orderType").text(orderType);
         $("#orderAction").val(orderType);
         $("#order_id").val(orderId);
@@ -470,7 +492,7 @@ function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, do
             document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
         }
         $("#patientInstrn").val(patientInstrn);
-        $("#pharmacistInstrn").val(pharmacistinstructions);
+        $("#pharmacistInstrn").val(pharmacistInstrn);
         $("#addOrderButton").prop("disabled", false);
         jq("#createOrderWindow").show();
         document.getElementById("createOrderWindow").style.display = 'block';
@@ -712,8 +734,9 @@ function showDiscardGroupOrderWindow(orderID){
 }
 
 function hideGroupOrderWindow(){
-    jq("#showGroupOrderWindow").hide();
     clearHighlights();
+    jq("#activeOrderWindow").show();
+    jq("#showGroupOrderWindow").hide();
 }
 
 function showAddOrderToGroupWindow(orderType,groupID){

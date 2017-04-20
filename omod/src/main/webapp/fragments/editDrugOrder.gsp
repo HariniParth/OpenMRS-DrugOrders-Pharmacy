@@ -194,6 +194,10 @@
             <input type="hidden" id="groupOrderID" name="groupOrderID" value="${ group }" />
             <input type="hidden" id="groupAction" name="action" value="${ groupOrderAction }" />
             
+            <% if(groupOrderAction == "DISCONTINUE ORDER") { %>
+                <input type="hidden" id="discardType" name="discardType" value="${ discardType }" />
+            <% } %>
+            
             <div id="view_order_detail" class="fields">
                 <div id="discontinueReasonSelect">
                     <label><strong>Select the reason to discontinue</strong></label>

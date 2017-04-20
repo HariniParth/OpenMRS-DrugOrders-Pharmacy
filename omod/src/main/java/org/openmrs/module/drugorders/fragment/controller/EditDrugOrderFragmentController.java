@@ -126,6 +126,7 @@ public class EditDrugOrderFragmentController {
                 groupExtn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                 
                 model.addAttribute("group", id);
+                model.addAttribute("discardType", Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus());
                 model.addAttribute("groupOrderAction", "DISCONTINUE ORDER");
                 
             } catch(NumberFormatException | APIException e){

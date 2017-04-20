@@ -36,53 +36,51 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
         
     <div id="orderList">
  
-        <div id="pageLabel"> 
-            <div id="line-break"></div>
-            <h3>
-                <i class="icon-medicine"></i>
-                <strong>${ ui.message("ACTIVE INDIVIDUAL DRUG ORDERS") }</strong>
-                <i class="icon-plus edit-action right" title="${ ui.message("CREATE DRUG ORDER") }" onclick="showIndividualOrderDetailsWindow('CREATE DRUG ORDER')"></i>
-            </h3>
-            <div id="line-break"></div>
-        </div><br/>
-        
         <div id="activeOrderWindow">
-            ${ ui.includeFragment("drugorders", "drugOrderSingle") }
-        </div><br/><br/>
-                
-        <span>
+            
+            <div id="pageLabel"> 
+                <div id="line-break"></div>
+                <h3>
+                    <i class="icon-medicine"></i>
+                    <strong>${ ui.message("ACTIVE INDIVIDUAL DRUG ORDERS") }</strong>
+                    <i class="icon-plus edit-action right" title="${ ui.message("CREATE DRUG ORDER") }" onclick="showIndividualOrderDetailsWindow('CREATE DRUG ORDER')"></i>
+                </h3>
+                <div id="line-break"></div>
+            </div><br/>
+        
+            ${ ui.includeFragment("drugorders", "drugOrderSingle") } <br/><br/>
+            
             <i class="icon-plus-sign edit-action" title="${ ui.message("Show") }"> Discontinued/Canceled/Fulfilled Orders</i>
-            <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"> Discontinued/Canceled/Fulfilled Orders</i>
-        </span><br/><br/>
+            <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"> Discontinued/Canceled/Fulfilled Orders</i> <br/><br/>
         
-        <div class="nonActiveOrderWindow">
-            ${ ui.includeFragment("drugorders", "drugOrderSingleNonActive") }
+            <div class="nonActiveOrderWindow">
+                ${ ui.includeFragment("drugorders", "drugOrderSingleNonActive") } <br/>
+            </div><br/>
+        
         </div>
-
-        <br/><br/>
         
-        <div id="pageLabel">
-            <div id="line-break"></div>
-            <h3>
-                <i class="icon-medicine"></i>
-                <strong>${ ui.message("ACTIVE MEDICATION PLAN ORDERS") }</strong>
-                <i class="icon-plus edit-action right" title="${ ui.message("CREATE MEDICATION PLAN") }" onclick="showMedicationPlanOrderWindow()"></i>
-            </h3>
-            <div id="line-break"></div>
-        </div><br/>
-        
-        <div id="activeOrderWindow">
-            ${ ui.includeFragment("drugorders", "medicationPlans") }
-        </div><br/><br/>
-        
-        <span>
+        <div id="activePlanWindow">
+            
+            <div id="pageLabel">
+                <div id="line-break"></div>
+                <h3>
+                    <i class="icon-medicine"></i>
+                    <strong>${ ui.message("ACTIVE MEDICATION PLAN ORDERS") }</strong>
+                    <i class="icon-plus edit-action right" title="${ ui.message("CREATE MEDICATION PLAN") }" onclick="showMedicationPlanOrderWindow()"></i>
+                </h3>
+                <div id="line-break"></div>
+            </div><br/>
+            
+            ${ ui.includeFragment("drugorders", "medicationPlans") } <br/><br/>
+            
             <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"> Discontinued/Canceled/Fulfilled Orders</i>
-            <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"> Discontinued/Canceled/Fulfilled Orders</i>
-        </span><br/><br/>
+            <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"> Discontinued/Canceled/Fulfilled Orders</i> <br/><br/>
         
-        <div class="nonActiveOrderWindow">
-            ${ ui.includeFragment("drugorders", "medicationPlansNonActive") }
-        </div>
+            <div class="nonActiveOrderWindow">
+                ${ ui.includeFragment("drugorders", "medicationPlansNonActive") }
+            </div>
+        
+        </div>  
         
     </div>
     
@@ -106,7 +104,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 <script type="text/javascript">
     jq(".icon-plus-sign").click(function(){
-        jq(this).parent().nextAll(".nonActiveOrderWindow").first().show();
+        jq(this).nextAll(".nonActiveOrderWindow").first().show();
         jq(this).hide();
         jq(this).nextAll(".icon-minus-sign").show();
     });
@@ -114,7 +112,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 <script type="text/javascript">
     jq(".icon-minus-sign").click(function(){
-        jq(this).parent().nextAll(".nonActiveOrderWindow").first().hide();
+        jq(this).nextAll(".nonActiveOrderWindow").first().hide();
         jq(this).hide();
         jq(this).prevAll(".icon-plus-sign").show();
     });

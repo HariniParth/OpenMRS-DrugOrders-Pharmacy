@@ -123,6 +123,7 @@
     </div>
     
     <script type="text/javascript">
+        jq("#activeOrderWindow").hide();
         jq("#medPlanDetailsWindow").show();
         
         jq("#medPlansBlock .icon-plus-sign").hide();

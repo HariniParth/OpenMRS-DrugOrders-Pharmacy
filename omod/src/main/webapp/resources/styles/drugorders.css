@@ -24,7 +24,7 @@ and open the template in the editor.
     float: right;
 }
 
-.info-body #allergyList, .info-body #orderList #pageLabel, .info-body #orderList #activeOrderWindow, .info-body #orderList .nonActiveOrderWindow, .info-body #orderExecute #medPlan, .info-body #orderExecute #createOrder, .info-body #orderExecute #editOrder, .groupDrug, #view_order_detail{
+.info-body #allergyList, .info-body #orderList #pageLabel, .info-body #orderList #activeOrderWindow, .info-body #orderList #activePlanWindow, .info-body #orderList .nonActiveOrderWindow, .info-body #orderExecute #medPlan, .info-body #orderExecute #createOrder, .info-body #orderExecute #editOrder, .groupDrug, #view_order_detail{
     width: 100%;
 }
 
