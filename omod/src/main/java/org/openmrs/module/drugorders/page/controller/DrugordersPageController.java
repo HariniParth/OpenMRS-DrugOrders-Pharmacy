@@ -91,23 +91,16 @@ public class DrugordersPageController {
                 if ("CREATE DRUG ORDER".equals(action)) {
                     if (!(drugName.equals("")) && !(route.equals("")) && !(dose.equals("")) && !(doseUnits.equals("")) && !(quantity.equals("")) && !(quantityUnits.equals("")) && !(frequency.equals("")) && (duration != null) && !(durationUnits.equals(""))) {
                         
-                        drugorders o = Context.getService(drugordersService.class).getDrugOrderByDrugAndPatient(ConceptName(drugName), patient);
-                        if(o == null || !o.getOrderStatus().equals("Active")){
-                            
-                            DrugOrder drugOrder = null;
-                            drugorders drugorder = null;
-                            int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
-                            createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
-                            
-                            if(orderId != null){
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(orderId);
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
-                            }
-                            InfoErrorMessageUtil.flashInfoMessage(session, "Order Created!");
-                        } 
-                        else {
-                            InfoErrorMessageUtil.flashInfoMessage(session, "Order Exists!");
+                        DrugOrder drugOrder = null;
+                        drugorders drugorder = null;
+                        int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
+                        createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
+
+                        if(orderId != null){
+                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(orderId);
+                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
                         }
+                        InfoErrorMessageUtil.flashInfoMessage(session, "Order Created!");
                     }
                 }
                 
@@ -163,8 +156,10 @@ public class DrugordersPageController {
                         order.setOrderStatus("Non-Active");
                         
                         setDiscontinueReason(order, codedReason, nonCodedReason);
+                        if(Context.getService(planordersService.class).getDrugOrderByOrderID(id) != null)
+                            Context.getService(planordersService.class).getDrugOrderByOrderID(id).setPlanId(null);
+                        
                         Context.getOrderService().voidOrder(Context.getOrderService().getOrder(id), "Discontinued");
-
                         InfoErrorMessageUtil.flashInfoMessage(session, "Order Discontinued!");
                     }
                 }
@@ -251,7 +246,7 @@ public class DrugordersPageController {
                             createDrugOrderExtension(drugorder, order, patientID, orderExtn.getDrugName().getDisplayString(), Calendar.getInstance().getTime(), "", orderExtn.getAssociatedDiagnosis().getDisplayString(), orderExtn.getPriority().getDisplayString(), "Active-Plan", orderExtn.getRefill(), orderExtn.getRefillInterval(), "", "");
                             createPlanOrder(order, planID, patientID, orderExtn.getAssociatedDiagnosis().getDisplayString());
 
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Plan");
+                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Draft-Plan");
                         }
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Renewed!");
                     }                        

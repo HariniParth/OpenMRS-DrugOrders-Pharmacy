@@ -574,26 +574,25 @@ function autoCompletePlan(){
     });
 }
 
-function autoCompleteDrug(drug, allergies){
-    $("#drugNameEntered").autocomplete({
-       select : function( event , ui ) {
-            var allergyList = allergies.split(",");
-            var isAllergic = false;
-            $.each(allergyList,function(index,value){
-                var drugname = value.replace("[","").replace("]","").trim();
-                var selectedDrug = (ui.item.label).trim();
-                if(selectedDrug === drugname){
-                    isAllergic = true;
-                } 
-            });
-            if(isAllergic){
-                jq("#allergicDrugOrderReasonField").show();
-                document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
-            } else {
-                jq("#allergicDrugOrderReasonField").hide();
-            }
-            validate();
+function autoCompleteDrug(allergies){
+    var allergyList = allergies.split(",");
+    
+    $("#drugNameEntered").change(function(){
+        var isAllergic = false;
+        $.each(allergyList,function(index,value){
+            var drugname = value.replace("[","").replace("]","").trim();
+            var selectedDrug = $("#drugNameEntered").val().trim();
+            if(selectedDrug === drugname){
+                isAllergic = true;
+            } 
+        });
+        if(isAllergic){
+            jq("#allergicDrugOrderReasonField").show();
+            document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
+        } else {
+            jq("#allergicDrugOrderReasonField").hide();
         }
+        validate();
     });
 }
 

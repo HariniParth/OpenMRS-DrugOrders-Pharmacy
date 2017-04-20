@@ -52,15 +52,7 @@ public class AddDrugOrderSingleDetailsFragmentController {
         } else {
             model.addAttribute("allergicDrugs", "null");
         }        
-        
-        List<Concept> drugs = ConceptList("Drug");
-        
-        List<String> drugsNames = new ArrayList<>();
-        for(Concept drug : drugs){
-            drugsNames.add(drug.getDisplayString());
-        }
-        model.addAttribute("drugsNames", drugsNames);
-        
+                
         List<Concept> doses = ConceptList("Units of Dose");
         model.addAttribute("doses", doses);        
         
