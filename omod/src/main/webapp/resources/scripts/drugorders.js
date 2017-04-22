@@ -138,7 +138,7 @@ function highlight(){
         
         if(selectedAction === "DISCONTINUE ORDER"){
             
-            if($("#discardType").val() === "Active-Plan"){
+            if($("#discardType").val() === "Active-Plan" || $("#discardType").val() === "Draft-Plan"){
                 jq("#activeOrderWindow").hide();
             }
             
@@ -421,7 +421,7 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         }
     });
     if(!dialogOpen){
-        if(orderStatus === "Active-Plan" || orderStatus === "Non-Active-Plan"){
+        if(orderStatus === "Active-Plan" || orderStatus === "Draft-Plan" || orderStatus === "Non-Active-Plan"){
             jq("#activeOrderWindow").hide();
         }
         
@@ -466,7 +466,7 @@ function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, do
         }
     });
     if(!dialogOpen){
-        if(orderStatus === "Active-Plan"){
+        if(orderStatus === "Active-Plan" || orderStatus === "Draft-Plan"){
             jq("#activeOrderWindow").hide();
         }
         
