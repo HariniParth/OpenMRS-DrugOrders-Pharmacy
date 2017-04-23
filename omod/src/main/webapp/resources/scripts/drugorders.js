@@ -10,7 +10,7 @@ var removeFromGroupDialog = null;
 var saveDraftOrderDialog = null;
 
 $(document).ready( function() {
-    
+      
     highlight();
     
     $("#planSaveButton").prop("disabled", true);
@@ -98,6 +98,14 @@ $(document).ready( function() {
             }
         }
     });
+    
+    $("#pageRedirect").mouseover(function(e){
+        if(document.getElementById("draftPlanList")){
+            $("#pageRedirect").off('click');
+        } else {
+            $(this).hide();
+        }
+    }); 
     
     removeFromGroupDialog = emr.setupConfirmationDialog({
         selector: '#removeFromGroupWindow',

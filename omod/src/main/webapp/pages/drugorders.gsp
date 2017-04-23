@@ -4,18 +4,19 @@
     ui.includeJavascript("drugorders", "drugorders.js")
     def editAction = false;
 %>
-        
+
+<div id="pageRedirect"></div>
 <script type="text/javascript">
     var breadcrumbs = [
         { icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
         { label: "${ ui.format(patient.familyName) }, ${ ui.format(patient.givenName) }" , link: '${ui.pageLink("coreapps", "clinicianfacing/patient", [patientId: patient.id])}'},
         { label: "${ ui.message("drugorders.drugorders") }" }
     ];
-     
+
     var patient = { id: ${ patient.id } };
 
 </script>
- 
+
 ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 <div class="info-body">
