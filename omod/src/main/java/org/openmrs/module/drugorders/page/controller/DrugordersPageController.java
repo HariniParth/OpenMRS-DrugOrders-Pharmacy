@@ -298,6 +298,12 @@ public class DrugordersPageController {
                     InfoErrorMessageUtil.flashInfoMessage(session, "Order Renewed!");
                 }   
                 
+                if ("saveDraft".equals(action)){
+                    List<drugorders> draftOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Plan");
+                    for(drugorders draftOrder : draftOrders)
+                        draftOrder.setOrderStatus("Active-Plan");
+                }
+                
             } catch (APIException | NumberFormatException e) {
                 System.out.println(e.toString());
             }

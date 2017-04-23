@@ -7,6 +7,7 @@
 /* global diagnosis, jq, emr, Event */
 
 var removeFromGroupDialog = null;
+var saveDraftOrderDialog = null;
 
 $(document).ready( function() {
     
@@ -79,6 +80,23 @@ $(document).ready( function() {
             else
                 this.style.borderColor = "";
         });
+    });
+      
+    saveDraftOrderDialog = emr.setupConfirmationDialog({
+        selector: '#saveDraftPlan',
+        actions: {
+            cancel: function() {
+            	saveDraftOrderDialog.close();
+            }
+        }
+    });
+    
+    $(document).mouseup(function (e){
+        if(document.getElementById("draftPlanList")){
+            if (!$("#draftPlanRow").is(e.target) && $("#draftPlanRow").has(e.target).length === 0 && !$("#createOrderWindow").is(e.target) && $("#createOrderWindow").has(e.target).length === 0 && !$("#showGroupOrderWindow").is(e.target) && $("#showGroupOrderWindow").has(e.target).length === 0 && e.target.nodeName !== "TD"){
+                saveDraftOrderDialog.show();
+            }
+        }
     });
     
     removeFromGroupDialog = emr.setupConfirmationDialog({
@@ -773,4 +791,9 @@ function discontinueReason(){
 function removeFromGroup(OrderId){
     $("#removeFromGroup").val(OrderId);
     removeFromGroupDialog.show();
+}
+
+function saveDraftOrders(){
+    $("#saveDraft").val("saveDraft");
+    $("#saveDraftPlanForm").submit();
 }

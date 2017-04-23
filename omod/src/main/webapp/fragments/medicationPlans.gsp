@@ -28,7 +28,7 @@
                 <% if(DraftPlanMain.size() > 0) { %>
                     <div id="draftPlanList">
                         <% DraftPlanMain.each { drugOrderMain -> %>
-                            <tr>
+                            <tr id="draftPlanRow">
                                 <td>
                                     <div class="fields">
                                         <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>

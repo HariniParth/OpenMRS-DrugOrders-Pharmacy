@@ -59,6 +59,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
         
         </div>
         
+        ${ ui.includeFragment("drugorders", "saveDraftOrders") }
+        
         <div id="activePlanWindow">
             
             <div id="pageLabel">
