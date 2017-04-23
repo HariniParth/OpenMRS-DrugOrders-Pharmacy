@@ -69,11 +69,11 @@ $(document).ready( function() {
         }        
     });
     
-    $('.allergicPlanItemOrderReason').each(function(){
+    $('.planOrderReason').each(function(){
         this.style.borderColor = "orangered";
     });
     
-    $('.allergicPlanItemOrderReason').each(function(){
+    $('.planOrderReason').each(function(){
         $(this).on('change', function(){
             if($(this).val() === "")
                 this.style.borderColor = "orangered";

@@ -68,7 +68,7 @@
                         <% if(allergicDrugs.contains(medplan.drugId.getDisplayString())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>
                             Enter reasons to order this drug <br/>
-                            <input type="textarea" class="allergicPlanItemOrderReason" name="allergicPlanItemOrderReason" />
+                            <input type="textarea" class="planOrderReason" name="planOrderReason" />
                         <% } %>
                     </div><br/>
                         

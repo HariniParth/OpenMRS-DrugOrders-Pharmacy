@@ -41,13 +41,13 @@ public class MedicationPlansFragmentController {
         List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan");
         for(drugorders order : orders){
             planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
-            
+
             if(!ActivePlanMain.containsKey(p_order.getPlanId())){
-                
+
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 HashMap<Integer,drugorders> extn = new HashMap<>();
                 List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(p_order.getPlanId());
-                
+
                 for(planorders plan : plans){
                     int id = plan.getOrderId();
                     if(Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus().equals("Active-Plan")){
@@ -55,7 +55,7 @@ public class MedicationPlansFragmentController {
                         extn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                     }
                 }
-                
+
                 ActivePlanMain.put(p_order.getPlanId(), main);
                 ActivePlanExtn.put(p_order.getPlanId(), extn);
             }
@@ -73,13 +73,13 @@ public class MedicationPlansFragmentController {
         orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Plan");
         for(drugorders order : orders){
             planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
-            
+
             if(!DraftPlanMain.containsKey(p_order.getPlanId())){
-                
+
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 HashMap<Integer,drugorders> extn = new HashMap<>();
                 List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(p_order.getPlanId());
-                
+
                 for(planorders plan : plans){
                     int id = plan.getOrderId();
                     if(Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus().equals("Draft-Plan")){
@@ -87,7 +87,7 @@ public class MedicationPlansFragmentController {
                         extn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                     }
                 }
-                
+
                 DraftPlanMain.put(p_order.getPlanId(), main);
                 DraftPlanExtn.put(p_order.getPlanId(), extn);
             }
