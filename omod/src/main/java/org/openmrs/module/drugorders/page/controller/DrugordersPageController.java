@@ -125,7 +125,7 @@ public class DrugordersPageController {
                             
                             if(planOrderList.contains(standardPlan.getDrugId().toString())){
                                 String reason = "";
-                                if(allergicDrugList.size() > 0){
+                                if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
                                     if(allergicDrugList.contains(standardPlan.getDrugId().getDisplayString())){
                                         reason = allergicPlanOrderReason.get(0);
                                         allergicPlanOrderReason.remove(0);
