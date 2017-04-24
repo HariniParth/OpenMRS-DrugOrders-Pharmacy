@@ -438,7 +438,7 @@ function checkAdminFields(){
         document.getElementById("adminFrequency").style.borderColor = "";
 }
 
-function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, orderReason, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus){
+function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, orderReason, diagnosis, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -452,11 +452,13 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         }
         
         $("#activeOrderAction").text(action);
-        $("#start_date").text(startdate);
+        $("#order_diagnosis").text(diagnosis);
+        $("#start_date").text(startdate);        
         $("#order_priority").text(priority);
         $("#order_refills").text(numRefills);
-        $("#order_details").text(drugname +", "+dose+" "+doseUnits+", "+route+", "+duration+" "+durationUnits+", "+quantity+" "+quantityUnits+", "+frequency);
-
+        $("#order_details").text(drugname +", "+dose+" "+doseUnits+", "+route+", "+quantity+" "+quantityUnits);
+        $("#order_duration").text(duration+" "+durationUnits+", "+frequency);
+        
         if(orderReason !== "" && orderReason !== "null"){
             $("#order_reason").text(orderReason);
             jq("#allergicOrderReasonView").show();

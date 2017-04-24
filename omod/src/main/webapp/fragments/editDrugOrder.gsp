@@ -33,6 +33,28 @@
         
         <div class="fields" id="view_order_detail">
             <div id="order_label">
+                <label><strong>Duration</strong></label>
+            </div>
+            <div id="order_value">
+                <label id="order_duration"></label>
+            </div>
+        </div>
+        
+        <br/><br/>
+        
+        <div class="fields" id="view_order_detail">
+            <div id="order_label">
+                <label><strong>Diagnosis</strong></label>
+            </div>
+            <div id="order_value">
+                <label id="order_diagnosis"></label>
+            </div>
+        </div>
+        
+        <br/><br/>
+        
+        <div class="fields" id="view_order_detail">
+            <div id="order_label">
                 <label><strong>Priority</strong></label>
             </div>
             <div id="order_value">
@@ -101,11 +123,8 @@
                 </div>
             </div><br/><br/>
         </div>
-
-        <div id="btn-place">
-            <button class="cancel right" onclick="hideDrugOrderViewWindow()">${ ui.message("Close") }</button>
-        </div>
         
+        <button class="cancel right" id="btn-place" onclick="hideDrugOrderViewWindow()">${ ui.message("Close") }</button>        
     </div>
 </div>
     
