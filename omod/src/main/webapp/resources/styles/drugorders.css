@@ -89,10 +89,6 @@ and open the template in the editor.
     display: none;
 }
 
-#adminLink{
-    color: #00463f;
-}
-
 #asterisk{
     color: red;
     font-size: 10px;
@@ -173,12 +169,8 @@ and open the template in the editor.
     color: #363463;
 }
 
-.groupDrugName, #viewOrderWindow, #singleOrderView div:first-child, #planDrugName, .planBlock, #itemSpace .itemSummary, #singleOrderView, #itemSpace, .oldOrderDetails, .planDrugDetails, .planDetails, .groupDrug, #removeFromGroupWindow, #saveDraftPlan{
+.groupDrugName, #viewOrderWindow, #singleOrderView div:first-child, #planDrugName, .planBlock, .itemSummary, #singleOrderView, .oldOrderDetails, .planDrugDetails, .planDetails, .groupDrug, #removeFromGroupWindow, #saveDraftPlan{
     overflow: hidden;
-}
-
-#itemSpace{
-    margin-bottom: 15px;
 }
 
 #singleOrderView{

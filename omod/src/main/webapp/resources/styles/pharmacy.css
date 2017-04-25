@@ -19,7 +19,7 @@ and open the template in the editor.
     float: left;
 }
 
-.info-body #pharmaOrderViewWindow, .info-body #pharmaOrderActionWindow, .info-body #pharmaGroupViewWindow{
+.info-body #pharmaGroupViewWindow{
     width: 38%;
     float: right;
 }
@@ -31,16 +31,6 @@ and open the template in the editor.
 
 #patient-search-bar{
     width: 100%;
-}
-
-#orderSearchField{
-    width: 40%;
-    float: left;
-}
-
-#orderSearchButton{
-    width: 10%;
-    float: left;
 }
 
 .fields{
@@ -62,10 +52,6 @@ and open the template in the editor.
     margin-left: 40px;
 }
 
-#searchResults{
-    padding: 10px;
-}
-
 #view_order_detail{
     width: 100%;
 }
@@ -78,14 +64,6 @@ and open the template in the editor.
 #order_value{
     width: 70%;
     float: right;
-}
-
-#ordererEmail{
-    text-decoration: underline;
-}
-
-#ordererEmail:hover{
-    cursor: pointer;
 }
 
 .dialog input[type="text"]{
@@ -108,7 +86,7 @@ and open the template in the editor.
     text-align: center;
 }
 
-#pharmaOrderView, #pharmaGroupView, #patient-search-bar, #activeOrdersWindow, #removeHold{
+#pharmaGroupView, #patient-search-bar, #activeOrdersWindow, #removeHold{
     background: #F9F9F9;
     border: 1px solid #eee;
     color: #363463;
@@ -129,27 +107,22 @@ and open the template in the editor.
     margin: auto;
 }
 
-#associatedOrdersTableWrapper .dataTables_wrapper, #otherOrdersTableWrapper .dataTables_wrapper, .dataTables_wrapper, #activeOrdersWindow .dataTables_wrapper{
+#activeOrdersWindow .dataTables_wrapper{
     _height: 152px;
     min-height: 152px;
 }
 
-.icon-minus-sign.edit-action, #pharmaGroupActionButtons, #statusLabel, #printLabel, #confirmButtons, #contactLabel, #ordererContact, .dispatchFields, #removeHold{
+.icon-minus-sign.edit-action, #pharmaGroupActionButtons, #statusLabel, #printLabel, #confirmButtons, .dispatchFields, #removeHold{
     display: none;
 }
 
-#currentDrugOrdersTable, #associatedOrdersTable, #allOrdersTable, #currentGroupOrdersTable, #drugName{
+#currentGroupOrdersTable, #drugName{
     font-size: 13px;
 }
 
 input[type=submit], input[type=button]{
     width: 90px;
     height: 35px;
-}
-
-.pageLinks:hover{
-    cursor: pointer;
-    text-decoration: underline;
 }
 
 .group{
@@ -163,12 +136,6 @@ input[type=submit], input[type=button]{
 .groupItem{
     width: 90%;
     margin: auto;
-}
-
-#singleOrder{
-    width: 90%;
-    margin: auto;
-    border: 2px dashed gainsboro;
 }
 
 form select, .form select {

@@ -102,6 +102,11 @@
                                     <div id="order_label">Pharmacy</div>
                                     <div id="order_value">${ groupOrderExtn.get(groupOrder.key).pharmacistInstructions }</div>
                                 </div>
+                                
+                                <div class="fields" id="view_order_detail">
+                                    <div id="order_label">-</div>
+                                    <div id="order_value">-</div>
+                                </div>
                             </div>
                         </div>
                         

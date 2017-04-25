@@ -101,7 +101,6 @@ function clearHighlights(){
 
 function autoCompletePatientName(patientNameList){
     var list = patientNameList.replace("[","").replace("]","").split(',');
-    console.log(list);
     $("#patient_full_name").autocomplete({
         source : list,
         select : function( event , ui ) {
@@ -132,7 +131,6 @@ function showPharmaConfirmationSection(action){
     
     $("#selectedAction").text(action);
     $("#pharmaGroupAction").val(action);
-    $("#pharmaSingleAction").val(action);
     jq("#pharmaGroupButtons").hide();
     
     if(action === "On Hold" || action === "Discard"){        
@@ -151,9 +149,7 @@ function showPharmaConfirmationSection(action){
 
 function showPharmaOrderViewSection(){
     
-    $("#selectedAction").text("");
-    $("#pharmaSingleAction").text("");
-    
+    $("#selectedAction").text("");    
     jq("#printLabel").hide();
     jq("#statusLabel").hide();
     jq("#confirmButtons").hide();
@@ -164,7 +160,7 @@ function showPharmaOrderViewSection(){
     document.getElementById("pharmaGroupButtons").style.display = 'block';
 }
 
-function clearPatientTableFIlters(){
+function clearPatientTableFilters(){
     $("#patient_full_name").val("");
     $("#searchByPatient").submit();
 }
@@ -173,20 +169,11 @@ function submitDispatch(){
     $("#groupActionForm").submit();
 }
 
-function confirmDispatch(){
-    $("#orderActionForm").submit();
-}
-
 function closePharmaGroupView(){
     jq("#pharmaGroupView").hide();
     $("#pharmaSingle").val();
     $("#pharmaGroup").val();
     $("#pharmaPlan").val();
-    clearHighlights();
-}
-
-function closePharmaOrderView(){
-    jq("#pharmaOrderView").hide();
     clearHighlights();
 }
 
