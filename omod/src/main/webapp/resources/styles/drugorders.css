@@ -85,7 +85,7 @@ and open the template in the editor.
    min-height: 152px;
 }
 
-.nonActiveOrderWindow, #medPlanWindow, #saveDraftPlan, #medPlanDetailsWindow, #showGroupOrderWindow, .groupItem, .plansDetailsView, #createOrderWindow, #showOrderWindow, #renewOrderWindow, #definePlanWindow, #createPlanWindow, #deletePlanWindow, #allergicDrugOrderReasonField, #nonActiveOrdersLinkHide, #nonActivePlansLinkHide, .icon-minus-sign.edit-action, #allergicOrderReasonView, #pharmacistCommentsView, #discontinueReasonText, #discontinueReasonSelect, #removeFromGroupWindow{
+.nonActiveOrderWindow, #medPlanWindow, #saveDraftPlan, #medPlanDetailsWindow, #showGroupOrderWindow, .groupItem, .plansDetailsView, #createOrderWindow, #viewOrderWindow, #renewOrderWindow, #definePlanWindow, #createPlanWindow, #deletePlanWindow, #allergicDrugOrderReasonField, #nonActiveOrdersLinkHide, #nonActivePlansLinkHide, .icon-minus-sign.edit-action, #allergicOrderReasonView, #pharmacistCommentsView, #discontinueReasonText, #discontinueReasonSelect, #removeFromGroupWindow{
     display: none;
 }
 
@@ -166,19 +166,27 @@ and open the template in the editor.
     width: 80%;
 }
 
-#definePlanWindow, #createPlanWindow, #saveDraftPlan, #showOrderWindow, #confirmOrderWindow, #deletePlanWindow, #showRenewOrderView, #createOrderWindow, #medPlanWindow, #medPlanDetailsWindow, #drugOrderView, #groupOrderList, #showGroupOrderWindow{
+#definePlanWindow, #createPlanWindow, #saveDraftPlan, #viewOrderWindow, #confirmOrderWindow, #deletePlanWindow, #showRenewOrderView, #createOrderWindow, #medPlanWindow, #medPlanDetailsWindow, #drugOrderView, #groupOrderList, #showGroupOrderWindow{
     background: #f3f3f3;
     border: 1px solid #eee;
     padding: 5px;
     color: #363463;
 }
 
-.groupDrugName, #singleOrderView div:first-child, #planDrugName, .planBlock, #itemSpace .itemSummary, #singleOrderView, #itemSpace, .oldOrderDetails, .planDrugDetails, .planDetails, .groupDrug, #removeFromGroupWindow, #saveDraftPlan{
+.groupDrugName, #viewOrderWindow, #singleOrderView div:first-child, #planDrugName, .planBlock, #itemSpace .itemSummary, #singleOrderView, #itemSpace, .oldOrderDetails, .planDrugDetails, .planDetails, .groupDrug, #removeFromGroupWindow, #saveDraftPlan{
     overflow: hidden;
 }
 
 #itemSpace{
     margin-bottom: 15px;
+}
+
+#singleOrderView{
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    white-space: nowrap;
 }
 
 #addOrderButton, #orderActionButton{

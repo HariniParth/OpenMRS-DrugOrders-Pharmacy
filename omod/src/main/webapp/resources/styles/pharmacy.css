@@ -47,10 +47,15 @@ and open the template in the editor.
     padding-left: 10px;
 }
 
-.additionalInformation, #drugDetails{
+.drugDetails{
     font-size: 14px;
     margin-left: 40px;
     padding-bottom: 10px;
+}
+
+.additionalInformation{
+    font-size: 14px;
+    overflow-x: visible;
 }
 
 .dispatchFields{
@@ -152,7 +157,7 @@ input[type=submit], input[type=button]{
     max-height: 350px;
     overflow-y: scroll;
     overflow-x: scroll;
-    white-space:nowrap
+    white-space: nowrap;
 }
 
 .groupItem{
@@ -336,7 +341,7 @@ form select, .form select {
     text-decoration: line-through;
 }
 
-.groupElement, #removeHold, .additionalInformation{
+.groupElement, #removeHold, .additionalInformation div:first-child{
     overflow: hidden;
 }
 

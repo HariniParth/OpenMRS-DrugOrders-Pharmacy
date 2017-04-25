@@ -4,16 +4,17 @@
     def allergic_order = "";
 %>
 
-<div id="showOrderWindow" class="dialog">
+<div id="viewOrderWindow" class="dialog">
 
     <div class="dialog-header">
         <h3 id="dialog-heading"><label id="activeOrderAction"></label></h3>
-    </div><br/>
+    </div>
+    <h4 class="align-center"><strong>Selected Order</strong></h4><br/>
     
     <div id="singleOrderView">
         <div class="fields" id="view_order_detail">
             <div id="order_label">
-                <label><strong>Order</strong></label>
+                <label><strong>Drug</strong></label>
             </div>
             <div id="order_value">
                 <label id="order_details"></label>
@@ -90,31 +91,34 @@
             <label><strong>Instructions from Physician for</strong></label>
         </div><br/>
 
-        <div id="patientInstructions">
-            <div class="fields" id="view_order_detail">
-                <div id="order_label">
-                    <label><strong>Patient</strong></label>
-                </div>
-                <div id="order_value">
-                    <label id="patient_instructions"></label>
-                </div>
-            </div><br/>
+        <div class="fields" id="view_order_detail">
+            <div id="order_label">
+                <label><strong>Patient</strong></label>
+            </div>
+            <div id="order_value">
+                <label id="patient_instructions"></label>
+            </div>
         </div>
+        
+        <br/><br/>
 
-        <div id="pharmacistInstructions">
-            <div class="fields" id="view_order_detail">
-                <div id="order_label">
-                    <label><strong>Pharmacist</strong></label>
-                </div>
-                <div id="order_value">
-                    <label id="pharmacist_instructions"></label>
-                </div>
-            </div><br/>
+        <div class="fields" id="view_order_detail">
+            <div id="order_label">
+                <label><strong>Pharmacist</strong></label>
+            </div>
+            <div id="order_value">
+                <label id="pharmacist_instructions"></label>
+            </div>
         </div>
+        
+        <br/><br/>
         
         <div id="pharmacistCommentsView">
             <div class="fields" id="view_order_detail">
-                <label><strong>Pharmacist's Comments for</strong></label><br/><br/>
+                <label><strong>Pharmacist's Comments for</strong></label>
+            </div><br/>
+            
+            <div class="fields" id="view_order_detail">
                 <div id="order_label">
                     <label><strong>Physician</strong></label>
                 </div>
@@ -123,9 +127,8 @@
                 </div>
             </div><br/><br/>
         </div>
-        
-        <button class="cancel right" id="btn-place" onclick="hideDrugOrderViewWindow()">${ ui.message("Close") }</button>        
-    </div>
+    </div><br/>
+    <button class="cancel right" id="btn-place" onclick="hideDrugOrderViewWindow()">${ ui.message("Close") }</button>
 </div>
     
 

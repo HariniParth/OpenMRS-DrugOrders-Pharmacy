@@ -456,7 +456,8 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         $("#start_date").text(startdate);        
         $("#order_priority").text(priority);
         $("#order_refills").text(numRefills);
-        $("#order_details").text(drugname +", "+dose+" "+doseUnits+", "+route+", "+quantity+" "+quantityUnits);
+        var order_details = $('<div>').text(drugname +"\nDose: "+dose+" "+doseUnits+"\nRoute: "+route+"\nQuantity: "+quantity+" "+quantityUnits).text();
+        $("#order_details").html(order_details.replace(/\n/g,'<br/>'));
         $("#order_duration").text(duration+" "+durationUnits+", "+frequency);
         
         if(orderReason !== "" && orderReason !== "null"){
@@ -474,14 +475,14 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
             document.getElementById("pharmacistCommentsView").style.display = 'block';
         }
 
-        jq("#showOrderWindow").show();
-        document.getElementById("showOrderWindow").style.display = 'block';
+        jq("#viewOrderWindow").show();
+        document.getElementById("viewOrderWindow").style.display = 'block';
     }
 }
 
 function hideDrugOrderViewWindow(){
     jq("#activeOrderWindow").show();
-    jq("#showOrderWindow").hide();
+    jq("#viewOrderWindow").hide();
     clearHighlights();
 }
 
