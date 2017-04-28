@@ -339,10 +339,7 @@
     
 </script>
 
-<script type="text/javascript">
-    jq("#discardPlanBlock .icon-minus-sign").show();
-    jq("#discardPlanBlock .icon-plus-sign").hide();
-    
+<script type="text/javascript">    
     jq(".icon-plus-sign").click(function(){
         jq(this).nextAll(".groupBlock").first().show();
         jq(this).hide();

@@ -44,6 +44,7 @@ and open the template in the editor.
 }
 
 .additionalInformation{
+    display: none;
     font-size: 14px;
     overflow-x: visible;
 }

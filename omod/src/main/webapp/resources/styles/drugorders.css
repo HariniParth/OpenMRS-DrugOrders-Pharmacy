@@ -85,7 +85,7 @@ and open the template in the editor.
    min-height: 152px;
 }
 
-.nonActiveOrderWindow, #medPlanWindow, #saveDraftPlan, #medPlanDetailsWindow, #showGroupOrderWindow, .groupItem, .plansDetailsView, #createOrderWindow, #viewOrderWindow, #renewOrderWindow, #definePlanWindow, #createPlanWindow, #deletePlanWindow, #allergicDrugOrderReasonField, #nonActiveOrdersLinkHide, #nonActivePlansLinkHide, .icon-minus-sign.edit-action, #allergicOrderReasonView, #pharmacistCommentsView, #discontinueReasonText, #discontinueReasonSelect, #removeFromGroupWindow{
+.nonActiveOrderWindow, #medPlanWindow, #saveDraftPlan, #medPlanDetailsWindow, #showGroupOrderWindow, .groupItem, .plansDetailsView, #createOrderWindow, #viewOrderWindow, #renewOrderWindow, #definePlanWindow, #createPlanWindow, #deletePlanWindow, #allergicDrugOrderReasonField, #nonActiveOrdersLinkHide, #nonActivePlansLinkHide, .icon-minus-sign.edit-action, #allergicOrderReasonView, #pharmacistCommentsView, #discontinueReasonText, #discontinueReasonSelect, #removeFromGroupWindow, .groupBlock{
     display: none;
 }
 

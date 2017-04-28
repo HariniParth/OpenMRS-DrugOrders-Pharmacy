@@ -171,10 +171,7 @@
     </div>
 <% } %>
 
-<script type="text/javascript">
-    jq("#pharmaGroupView .icon-plus-sign").hide();
-    jq("#pharmaGroupView .icon-minus-sign").show();
-    
+<script type="text/javascript">    
     jq(".icon-plus-sign").click(function(){
         jq(this).parent().parent().parent().nextAll(".drugDetails").first().children(".additionalInformation").show();
         jq(this).hide();

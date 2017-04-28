@@ -248,9 +248,6 @@
     <script type="text/javascript">
         jq("#showGroupOrderWindow").show();
         
-        jq("#groupOrderBlock .icon-plus-sign").hide();
-        jq("#groupOrderBlock .icon-minus-sign").show();
-
         jq(".icon-plus-sign").click(function(){
             jq(this).parent().nextAll(".groupBlock").first().show();
             jq(this).hide();

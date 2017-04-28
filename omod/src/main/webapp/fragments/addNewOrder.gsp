@@ -124,10 +124,7 @@
     
     <script type="text/javascript">
         jq("#activeOrderWindow").hide();
-        jq("#medPlanDetailsWindow").show();
-        
-        jq("#medPlansBlock .icon-plus-sign").hide();
-        jq("#medPlansBlock .icon-minus-sign").show();        
+        jq("#medPlanDetailsWindow").show();       
 
         jq(".icon-plus-sign").click(function(){
             jq(this).parent().nextAll(".groupBlock").first().show();
