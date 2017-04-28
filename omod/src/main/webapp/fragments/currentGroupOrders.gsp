@@ -61,7 +61,7 @@
                                 <div class="ordererID">
                                     <div class="g5"></div>
                                     <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }')">${ OrdererName.get(order.orderId) }</div>
-                                </div><br/><br/>
+                                </div>
                             
                             <% } %>
                         </td>

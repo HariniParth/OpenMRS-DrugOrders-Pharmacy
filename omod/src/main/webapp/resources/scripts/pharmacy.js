@@ -23,7 +23,7 @@ $(document).ready( function() {
     contactOrdererDialog = emr.setupConfirmationDialog({
         selector: '#contactOrderer'
     });
-    
+        
     highlight();
     
     $('.groupCheckBox').on('change', function() {
@@ -129,16 +129,22 @@ function autoCompletePatientName(patientNameList){
 
 function selectedPlanOrder(planID){
     $("#planID").val(planID);
+    $("#orderNumber").val("");
+    $("#ordererName").val("");
     $("#groupOrdersForm").submit();
 }
 
 function selectedGroupOrder(groupID){
     $("#groupID").val(groupID);
+    $("#orderNumber").val("");
+    $("#ordererName").val("");
     $("#groupOrdersForm").submit();
 }
 
 function selectedSingleOrder(orderID){
     $("#orderID").val(orderID);
+    $("#orderNumber").val("");
+    $("#ordererName").val("");
     $("#groupOrdersForm").submit();
 }
 
