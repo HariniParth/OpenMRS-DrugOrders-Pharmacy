@@ -113,12 +113,12 @@ public class PharmacyPatientPageController {
                             Context.getService(drugordersService.class).saveDrugOrder(drugorder);
                         }
                     }
+                    InfoErrorMessageUtil.flashInfoMessage(session, "Order Status - " + groupAction);
                 }
             } 
             catch (NumberFormatException | APIException e) {
                 System.out.println(e.toString());
             }
-            InfoErrorMessageUtil.flashInfoMessage(session, "Order Status - " + groupAction);
         }
         model.addAttribute("group_order_status", groupAction);
     }

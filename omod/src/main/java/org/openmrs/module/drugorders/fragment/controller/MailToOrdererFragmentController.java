@@ -35,9 +35,13 @@ public class MailToOrdererFragmentController {
     public void controller(PageModel model, @RequestParam("patientId") Patient patient,
                             @RequestParam(value = "pharmaGroupAction", required = false) String groupAction,
                             @RequestParam(value = "groupComments", required = false) String groupComments,
-                            @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox) throws ParseException{
+                            @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
+                            @RequestParam(value = "ordererName", required = false) String ordererName,
+                            @RequestParam(value = "orderNumber", required = false) String orderNumber) throws ParseException{
        
         model.addAttribute("groupAction", groupAction);
+        model.addAttribute("ordererName", ordererName);
+        model.addAttribute("orderNumber", orderNumber);
         model.addAttribute("patientID", patient.getPatientId());
         model.addAttribute("patientName", patient.getGivenName()+" "+patient.getFamilyName());
         

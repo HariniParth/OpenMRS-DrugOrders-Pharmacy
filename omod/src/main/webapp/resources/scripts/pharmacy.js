@@ -7,6 +7,7 @@
 /* global jq, emr */
 
 var removeFromHoldDialog = null;
+var contactOrdererDialog = null;
 
 $(document).ready( function() {
     
@@ -19,6 +20,10 @@ $(document).ready( function() {
         }
     });
     
+    contactOrdererDialog = emr.setupConfirmationDialog({
+        selector: '#contactOrderer'
+    });
+    
     highlight();
     
     $('.groupCheckBox').on('change', function() {
@@ -29,6 +34,18 @@ $(document).ready( function() {
 
 function showRemoveOrderHoldWindow(){
     removeFromHoldDialog.show();
+}
+
+function showOrdererContact(ordererName, orderID){
+    $("#orderNumber").val(orderID);
+    $("#ordererName").val(ordererName);
+    $("#ordererEmail").text(ordererName);
+    $("#ordererPhone").text(ordererName);
+    contactOrdererDialog.show();
+}
+
+function contactOrderer(){
+    $("#groupOrdersForm").submit();
 }
 
 function removeHoldOnOrders(){

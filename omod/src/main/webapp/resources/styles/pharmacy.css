@@ -87,7 +87,7 @@ and open the template in the editor.
     text-align: center;
 }
 
-#pharmaGroupView, #patient-search-bar, #activeOrdersWindow, #removeHold{
+#pharmaGroupView, #patient-search-bar, #activeOrdersWindow, #removeHold, #contactOrderer{
     background: #F9F9F9;
     border: 1px solid #eee;
     color: #363463;
@@ -113,7 +113,7 @@ and open the template in the editor.
     min-height: 152px;
 }
 
-.icon-minus-sign.edit-action, #pharmaGroupActionButtons, #statusLabel, #printLabel, #confirmButtons, .dispatchFields, #removeHold{
+.icon-minus-sign.edit-action, #pharmaGroupActionButtons, #statusLabel, #printLabel, #confirmButtons, .dispatchFields, #removeHold, #contactOrderer{
     display: none;
 }
 
@@ -206,10 +206,6 @@ form select, .form select {
 }
 
 .groupElement{
-    width: 100%;
-}
-
-.groupElement .d1{
     width: 78%;
     float: left;
     overflow: hidden;
@@ -266,19 +262,24 @@ form select, .form select {
     float: right;
 }
 
-.groupElement .d2{
+.ordererID{
     width: 22%;
     float: right;
 }
 
-.groupElement .d2 .g5{
+.ordererID .g5{
     width: 8%;
     float: left;
 }
 
-.groupElement .d2 .g6{
+.ordererID .g6{
     width: 92%;
     float: right;
+}
+
+.g6:hover, #ordererEmail:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 #clear{
@@ -300,17 +301,21 @@ form select, .form select {
     color: #363463;
 }
 
-.groupHome.onHold > div > div:not(.l21), .singleHome.onHold td:not(:first-child):not(:nth-child(2)), .singleRow.onHold > *, .groupElement.onHold > *{
+.groupHome.onHold > div > div:not(.l21), .singleHome.onHold td:not(:first-child):not(:nth-child(2)), .singleRow.onHold td:not(:first-child):not(:last-child), .groupElement.onHold > *{
     color: orange;
 }
 
-.groupHome.forDiscard > div > div:not(.l21), .groupHome.forDiscard > div > div > *, .singleHome.forDiscard > td:not(:first-child):not(:nth-child(2)), .singleRow.forDiscard > *, .groupElement.forDiscard *{
+.groupHome.forDiscard > div > div:not(.l21), .groupHome.forDiscard > div > div > *, .singleHome.forDiscard > td:not(:first-child):not(:nth-child(2)), .singleRow.forDiscard td:not(:first-child):not(:last-child), .groupElement.forDiscard *{
     color: orangered;
     text-decoration: line-through;
 }
 
-.groupElement, #removeHold, .additionalInformation div:first-child{
+.groupElement, #removeHold, #contactOrderer, .additionalInformation div:first-child{
     overflow: hidden;
+}
+
+#contactOrderer .fields{
+    margin: auto;
 }
 
 .comments:hover{

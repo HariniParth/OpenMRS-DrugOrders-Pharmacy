@@ -9,6 +9,8 @@
     <input type="hidden" id="planID" name="planID" />
     <input type="hidden" id="orderID" name="orderID" />
     <input type="hidden" id="groupID" name="groupID" />
+    <input type="hidden" name="orderNumber" id="orderNumber" />
+    <input type="hidden" name="ordererName" id="ordererName" />
     
     <div id="activeOrdersWindow">
         <table id="currentGroupOrdersTable">
@@ -24,13 +26,12 @@
             </thead>
             <tbody>
                 <% patientPlanOrders.each { patientPlanOrder -> %>
-                    <tr class="groupRow" onclick="selectedPlanOrder('${ patientPlanOrder.key }')">
-                        
+                    <tr class="groupRow">
                         <td>${ planName.get(patientPlanOrder.key).getDisplayString() }</td>
                         <td colspan="5">
                             <% patientPlanOrder.value.each { order -> %>
                                 
-                                <div class="groupElement <% if(order.forDiscard == 1) { %> forDiscard <% } %> <% if(order.onHold == 1) { %> onHold <% } %>" title="${ ui.message(order.commentForOrderer) }">
+                                <div class="groupElement <% if(order.forDiscard == 1) { %> forDiscard <% } %> <% if(order.onHold == 1) { %> onHold <% } %>" onclick="selectedPlanOrder('${ patientPlanOrder.key }')" title="${ ui.message(order.commentForOrderer) }">
                                     
                                     <div class="d1">
                                         <div class="e1">
@@ -55,12 +56,12 @@
                                             <div class="g4">${ last_dispatch_date }</div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="d2">
-                                        <div class="g5"></div>
-                                        <div class="g6">${ OrdererName.get(order.orderId) }</div>
-                                    </div><br/><br/>
                                 </div>
+                                
+                                <div class="ordererID">
+                                    <div class="g5"></div>
+                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }')">${ OrdererName.get(order.orderId) }</div>
+                                </div><br/><br/>
                             
                             <% } %>
                         </td>
@@ -72,12 +73,12 @@
                 <% } %>
                 
                 <% patientGroupOrders.each { patientGroupOrder -> %>
-                    <tr class="groupRow" onclick="selectedGroupOrder('${ patientGroupOrder.key }')">
+                    <tr class="groupRow">
                         <td><span class="hidden">${ patientGroupOrder.key }</span></td>
                         <td colspan="5">
                             <% patientGroupOrder.value.each { order -> %>
                                 
-                                <div class="groupElement <% if(order.forDiscard == 1) { %> forDiscard <% } %> <% if(order.onHold == 1) { %> onHold <% } %>" title="${ ui.message(order.commentForOrderer) }">
+                                <div class="groupElement <% if(order.forDiscard == 1) { %> forDiscard <% } %> <% if(order.onHold == 1) { %> onHold <% } %>" onclick="selectedGroupOrder('${ patientGroupOrder.key }')" title="${ ui.message(order.commentForOrderer) }">
                                     
                                     <div class="d1">
                                         <div class="e1">
@@ -101,12 +102,12 @@
                                             <div class="g4">${ last_dispatch_date }</div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="d2">
-                                        <div class="g5"></div>
-                                        <div class="g6">${ OrdererName.get(order.orderId) }</div>
-                                    </div><br/><br/>
                                 </div>
+                                
+                                <div class="ordererID">
+                                    <div class="g5"></div>
+                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }')">${ OrdererName.get(order.orderId) }</div>
+                                </div><br/><br/>
                             
                             <% } %>
                         </td>
@@ -118,21 +119,21 @@
                 <% } %>
 
                 <% patientSingleOrders.each { patientSingleOrder -> %>
-                    <tr class="singleRow <% if(patientSingleOrder.forDiscard == 1) { %> forDiscard <% } %> <% if(patientSingleOrder.onHold == 1) { %> onHold <% } %>" onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">
+                    <tr class="singleRow <% if(patientSingleOrder.forDiscard == 1) { %> forDiscard <% } %> <% if(patientSingleOrder.onHold == 1) { %> onHold <% } %>">
                         
                         <td><span class="hidden">${ patientSingleOrder.orderId }</span></td>
-                        <td>${ patientSingleOrder.drugName.getDisplayString().toUpperCase() }</td>
-                        <td>${ patientSingleOrder.startDate.format('yyyy-MM-dd') }</td>
-                        <td>${ patientSingleOrder.refill }</td>
+                        <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">${ patientSingleOrder.drugName.getDisplayString().toUpperCase() }</td>
+                        <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">${ patientSingleOrder.startDate.format('yyyy-MM-dd') }</td>
+                        <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">${ patientSingleOrder.refill }</td>
 
                         <% if(patientSingleOrder.lastDispatchDate != null) { %>
                             <% last_dispatch_date = patientSingleOrder.lastDispatchDate.format('yyyy-MM-dd'); %>
                         <% } else { %>
                             <% last_dispatch_date = "NA"; %>
                         <% } %>
-                        <td>${ last_dispatch_date }</td>
+                        <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">${ last_dispatch_date }</td>
                         
-                        <td>${ OrdererName.get(patientSingleOrder.orderId) }</td>
+                        <td class="g6" onclick="showOrdererContact('${ OrdererName.get(patientSingleOrder.orderId) }','${ patientSingleOrder.orderId }')">${ OrdererName.get(patientSingleOrder.orderId) }</td>
                     </tr> 
                 <% } %>
 
