@@ -48,7 +48,7 @@ $(document).ready( function() {
         }
     });
     
-    $("#drugNameEntered, #route, #dose, #doseUnits, #quantity, #quantityUnits, #duration, #durationUnits, #frequency, #diagnosis").change(function(){
+    $("#drugNameEntered, #route, #dose, #doseUnits, #quantity, #quantityUnits, #duration, #durationUnits, #frequency, #diagnosis, #orderReason").change(function(){
         validate();
         if($("#drugNameEntered").val() !== ""){
             checkFormFields();
@@ -286,7 +286,7 @@ function hideMedicationPlansWindow(){
     jq("#medPlanDetailsWindow").hide();
 }
 
-function showIndividualOrderDetailsWindow(orderType){
+function showSingleOrderDetailsWindow(orderType){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -486,7 +486,7 @@ function hideDrugOrderViewWindow(){
     clearHighlights();
 }
 
-function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, diagnosis, orderReason, priority, patientInstrn, pharmacistInstrn, orderStatus){
+function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, diagnosis, orderReason, priority, patientInstrn, pharmacistInstrn, orderStatus, allergyList){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -498,7 +498,7 @@ function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, do
         if(orderStatus === "Active-Plan" || orderStatus === "Draft-Plan"){
             jq("#activeOrderWindow").hide();
         }
-        
+        checkAllergy(name, allergyList);
         $("#orderType").text(orderType);
         $("#orderAction").val(orderType);
         $("#order_id").val(orderId);
@@ -523,40 +523,6 @@ function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, do
         $("#patientInstrn").val(patientInstrn);
         $("#pharmacistInstrn").val(pharmacistInstrn);
         $("#addOrderButton").prop("disabled", false);
-        jq("#createOrderWindow").show();
-        document.getElementById("createOrderWindow").style.display = 'block';
-    }
-}
-
-function showRenewOrderWindow(orderType, orderId, name, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, refills, interval, diagnosis, priority, patientInstrn, pharmacistInstrn, allergyList){
-    var dialogOpen = false;
-    var objects = $('.dialog');
-    $(objects).each(function(){
-        if ($(this).is(':visible')){
-            dialogOpen = true;
-        }
-    });
-    if(!dialogOpen){
-        $("#orderType").text(orderType);
-        $("#orderAction").val(orderType);
-        $("#order_id").val(orderId);
-        $("#drugNameEntered").val(name);
-        $("#route").val(route);
-        $("#dose").val(dose);
-        $("#doseUnits").val(doseUnits);
-        $("#quantity").val(quantity);
-        $("#quantityUnits").val(quantityUnits);
-        $("#duration").val(duration);
-        $("#durationUnits").val(durationUnits);
-        $("#frequency").val(frequency);
-        $("#priority").val(priority);
-        $("#refill").val(refills);
-        $("#interval").val(interval);
-        $("#diagnosis").val(diagnosis);
-        $("#patientInstrn").val(patientInstrn);
-        $("#pharmacistInstrn").val(pharmacistInstrn);
-        $("#addOrderButton").prop("disabled", false);
-        checkAllergy(name, allergyList);
         jq("#createOrderWindow").show();
         document.getElementById("createOrderWindow").style.display = 'block';
     }
@@ -636,7 +602,8 @@ function checkAllergy(drug, allergies){
         } 
     });
     if(isAllergic){
-        checkFormFields();
+        document.getElementById("orderReason").style.borderColor = "orangered";
+        
         jq("#allergicDrugOrderReasonField").show();
         document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
     } else {

@@ -43,7 +43,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                 <h3>
                     <i class="icon-medicine"></i>
                     <strong>${ ui.message("ACTIVE INDIVIDUAL DRUG ORDERS") }</strong>
-                    <i class="icon-plus edit-action right" title="${ ui.message("CREATE DRUG ORDER") }" onclick="showIndividualOrderDetailsWindow('CREATE DRUG ORDER')"></i>
+                    <i class="icon-plus edit-action right" title="${ ui.message("CREATE DRUG ORDER") }" onclick="showSingleOrderDetailsWindow('CREATE DRUG ORDER')"></i>
                 </h3>
                 <div id="line-break"></div>
             </div><br/>
