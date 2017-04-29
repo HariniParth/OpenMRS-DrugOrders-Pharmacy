@@ -69,11 +69,11 @@ $(document).ready( function() {
         }        
     });
     
-    $('.planOrderReason').each(function(){
+    $('.planOrderReason, .reviseOrderReason').each(function(){
         this.style.borderColor = "orangered";
     });
     
-    $('.planOrderReason').each(function(){
+    $('.planOrderReason, .reviseOrderReason').each(function(){
         $(this).on('change', function(){
             if($(this).val() === "")
                 this.style.borderColor = "orangered";
@@ -528,7 +528,7 @@ function showEditSingleOrderWindow(orderType, orderId, name, startDate, dose, do
     }
 }
 
-function showRenewOrderWindow(orderType, orderId, name, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, refills, interval, diagnosis, priority, patientInstrn, pharmacistInstrn){
+function showRenewOrderWindow(orderType, orderId, name, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, refills, interval, diagnosis, priority, patientInstrn, pharmacistInstrn, allergyList){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -556,6 +556,7 @@ function showRenewOrderWindow(orderType, orderId, name, dose, doseUnits, route, 
         $("#patientInstrn").val(patientInstrn);
         $("#pharmacistInstrn").val(pharmacistInstrn);
         $("#addOrderButton").prop("disabled", false);
+        checkAllergy(name, allergyList);
         jq("#createOrderWindow").show();
         document.getElementById("createOrderWindow").style.display = 'block';
     }
@@ -623,6 +624,24 @@ function autoCompleteDrug(allergies){
         }
         validate();
     });
+}
+
+function checkAllergy(drug, allergies){
+    var allergyList = allergies.split(",");
+    var isAllergic = false;
+    $.each(allergyList, function(index,value){
+        var drugname = value.replace("[","").replace("]","").trim();
+        if(drug === drugname){
+            isAllergic = true;
+        } 
+    });
+    if(isAllergic){
+        checkFormFields();
+        jq("#allergicDrugOrderReasonField").show();
+        document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
+    } else {
+        jq("#allergicDrugOrderReasonField").hide();
+    }
 }
 
 function displayPlanCreationWindow(){

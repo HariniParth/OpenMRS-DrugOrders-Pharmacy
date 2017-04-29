@@ -16,7 +16,6 @@ import org.openmrs.OrderFrequency;
 import org.openmrs.Patient;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.allergyapi.api.PatientService;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -33,25 +32,12 @@ public class AddDrugOrderSingleDetailsFragmentController {
      *
      * @param model
      * @param patient
-     * @param patientService
      */
     
-    public void controller(PageModel model, @RequestParam("patientId") Patient patient,
-                            @SpringBean("allergyService") PatientService patientService){
+    public void controller(PageModel model, @RequestParam("patientId") Patient patient){
                 
         Date startDate = Calendar.getInstance().getTime();
         model.addAttribute("startDate", startDate);
-        
-        int number_of_allergic_drugs = patientService.getAllergies(patient).size();
-        if(number_of_allergic_drugs >=1){
-            ArrayList<String> allergen = new ArrayList<>();
-            for(int i=0;i<number_of_allergic_drugs;i++){
-                allergen.add(patientService.getAllergies(patient).get(i).getAllergen().toString());
-                model.addAttribute("allergicDrugs", allergen);
-            }
-        } else {
-            model.addAttribute("allergicDrugs", "null");
-        }        
                 
         List<Concept> doses = ConceptList("Units of Dose");
         model.addAttribute("doses", doses);        

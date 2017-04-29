@@ -151,7 +151,15 @@
                         <strong>${ groupExtn.get(order.key).drugName.getDisplayString() }</strong>
                     </div>
                     
-                    <div class="drugDetails">${ order.value.dose } ${ order.value.doseUnits.getDisplayString() }, ${ order.value.quantity } ${ order.value.quantityUnits.getDisplayString() }</div><br/>
+                    <div class="drugDetails">
+                        ${ order.value.dose } ${ order.value.doseUnits.getDisplayString() }, ${ order.value.quantity } ${ order.value.quantityUnits.getDisplayString() } <br/>
+                        
+                        <% if((groupOrderAction == "RENEW MED PLAN" || groupOrderAction == "RENEW ORDER GROUP") && allergicDrugs.contains(groupExtn.get(order.key).drugName.getDisplayString())) { %>
+                            <br/> NOTE: Patient is allergic to this drug <br/>
+                            Enter reasons to order this drug <br/>
+                            <input type="textarea" class="reviseOrderReason" name="reviseOrderReason" />
+                        <% } %>
+                    </div><br/>
                         
                     <div class="groupBlock">
                         <div id="view_order_detail">

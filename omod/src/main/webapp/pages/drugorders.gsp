@@ -23,14 +23,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
     
     <div id="allergyList">
         <strong>Drug Allergies:</strong>
-        <% if (allergies.allergyStatus != "See list") { %>
-            ${ ui.message(allergies.allergyStatus) }
+        <% if (allergicDrugs.size() == 0) { %>
+            ${ ui.message("drugorders.allergies") }
         <% } else { %>
-            <% allergies.each { allergy -> %>
-                ${ allergy.allergen }
+            <% allergicDrugs.each { allergy -> %>
+                ${ allergy } 
             <% } %>
         <% } %>
-
     </div>
 
     <br/><br/>

@@ -72,14 +72,23 @@ public class DrugordersPageController {
             @RequestParam(value = "groupOrderID", required = false) Integer groupOrderID,
             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
             @RequestParam(value = "selectedPlan", required = false) String selectedPlan,
-            @RequestParam(value = "planOrderReason", required = false) String[] planOrderReason) {
+            @RequestParam(value = "planOrderReason", required = false) String[] planOrderReason,
+            @RequestParam(value = "reviseOrderReason", required = false) String[] reviseOrderReason) {
 
         int patientID = patient.getPatientId();
         drugName = drugName.trim();
         diagnosis = diagnosis.trim();
         
         Allergies allergies = patientService.getAllergies(patient);
-        model.addAttribute("allergies", allergies);
+        if(allergies.size() > 0){
+            ArrayList<String> allergen = new ArrayList<>();
+            for(Allergy allergy : allergies){
+                allergen.add(allergy.getAllergen().toString());
+                model.addAttribute("allergicDrugs", allergen);
+            }
+        } else {
+            model.addAttribute("allergicDrugs", "null");
+        }
         
         List<String> allergicDrugList = new ArrayList<>();
         for(Allergy allergy : allergies){
@@ -124,22 +133,22 @@ public class DrugordersPageController {
                         for(standardplans standardPlan : standardPlans){
                             
                             if(planOrderList.contains(standardPlan.getDrugId().toString())){
-                                String reason = "";
-                                if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
-                                    if(allergicDrugList.contains(standardPlan.getDrugId().getDisplayString())){
-                                        reason = allergicPlanOrderReason.get(0);
-                                        allergicPlanOrderReason.remove(0);
-                                    }
-                                }
-                                
                                 DrugOrder drugOrder = null;
                                 drugorders drugorder = null;                            
 
                                 int order = createNewDrugOrder(drugOrder, patient, standardPlan.getDrugId().getDisplayString(), standardPlan.getRoute().getDisplayString(), standardPlan.getDose().toString(), standardPlan.getDoseUnits().getDisplayString(), standardPlan.getQuantity().toString(), standardPlan.getQuantityUnits().getDisplayString(), standardPlan.getFrequency().getName(), standardPlan.getDuration(), standardPlan.getDurationUnits().getDisplayString());
-                                createDrugOrderExtension(drugorder, order, patientID, standardPlan.getDrugId().getDisplayString(), startDate, reason, selectedPlan, priority, "Draft-Plan", 0, 0, patientInstrn, pharmacistInstrn);
+                                createDrugOrderExtension(drugorder, order, patientID, standardPlan.getDrugId().getDisplayString(), startDate, "", selectedPlan, priority, "Draft-Plan", 0, 0, patientInstrn, pharmacistInstrn);
 
                                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setPriority(ConceptName("High"));
                                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setStartDate(Calendar.getInstance().getTime());
+                                
+                                if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
+                                    if(allergicDrugList.contains(standardPlan.getDrugId().getDisplayString())){
+                                        Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setIsAllergicOrderReasons(allergicPlanOrderReason.get(0));
+                                        allergicPlanOrderReason.remove(0);
+                                    }
+                                }
+                                
                                 createPlanOrder(order, planID, patientID, selectedPlan);
                             }
                         }
@@ -190,19 +199,32 @@ public class DrugordersPageController {
                     if(groupCheckBox.length > 0){
                         int groupID = Context.getService(drugordersService.class).getLastGroupID() + 1;
                         
+                        List<String> allergicPlanOrderReason = new ArrayList<>();
+                        for(String reason : reviseOrderReason){
+                            if(!reason.equals(""))
+                                allergicPlanOrderReason.add(reason);                
+                        }
+                    
                         for(int i=0;i<groupCheckBox.length;i++){
                             int id = Integer.parseInt(Long.toString(groupCheckBox[i]));
-                            drugorders order = Context.getService(drugordersService.class).getDrugOrderByOrderID(id);
+                            DrugOrder orderMain = (DrugOrder) Context.getOrderService().getOrder(id);
+                            drugorders orderExtn = Context.getService(drugordersService.class).getDrugOrderByOrderID(id);
                         
-                            DrugOrder drugOrderMain = (DrugOrder) Context.getOrderService().getOrder(order.getOrderId());
                             DrugOrder drugOrder = null;
                             drugorders drugorder = null;
 
-                            int orderID = createNewDrugOrder(drugOrder, patient, order.getDrugName().getDisplayString(), drugOrderMain.getRoute().getDisplayString(), drugOrderMain.getDose().toString(), drugOrderMain.getDoseUnits().getDisplayString(), drugOrderMain.getQuantity().toString(), drugOrderMain.getQuantityUnits().getDisplayString(), drugOrderMain.getFrequency().getName(), drugOrderMain.getDuration(), drugOrderMain.getDurationUnits().getDisplayString());
-                            createDrugOrderExtension(drugorder, orderID, patientID, order.getDrugName().getDisplayString(), Calendar.getInstance().getTime(), "", order.getAssociatedDiagnosis().getDisplayString(), order.getPriority().getDisplayString(), "Active-Group", order.getRefill(), order.getRefillInterval(), "", "");
+                            int order = createNewDrugOrder(drugOrder, patient, orderExtn.getDrugName().getDisplayString(), orderMain.getRoute().getDisplayString(), orderMain.getDose().toString(), orderMain.getDoseUnits().getDisplayString(), orderMain.getQuantity().toString(), orderMain.getQuantityUnits().getDisplayString(), orderMain.getFrequency().getName(), orderMain.getDuration(), orderMain.getDurationUnits().getDisplayString());
+                            createDrugOrderExtension(drugorder, order, patientID, orderExtn.getDrugName().getDisplayString(), Calendar.getInstance().getTime(), "", orderExtn.getAssociatedDiagnosis().getDisplayString(), orderExtn.getPriority().getDisplayString(), "Active-Group", orderExtn.getRefill(), orderExtn.getRefillInterval(), "", "");
 
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID).setGroupId(groupID);
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID).setOrderStatus("Active-Group");
+                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(groupID);
+                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
+                        
+                            if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
+                                if(allergicDrugList.contains(orderExtn.getDrugName().getDisplayString())){
+                                    Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setIsAllergicOrderReasons(allergicPlanOrderReason.get(0));
+                                    allergicPlanOrderReason.remove(0);
+                                }
+                            }
                         }
                         InfoErrorMessageUtil.flashInfoMessage(session, "Orders Saved!");
                     }
@@ -234,6 +256,12 @@ public class DrugordersPageController {
                     if(groupCheckBox.length > 0){
                         int planID = Context.getService(planordersService.class).getLastPlanID() + 1;
                         
+                        List<String> allergicPlanOrderReason = new ArrayList<>();
+                        for(String reason : reviseOrderReason){
+                            if(!reason.equals(""))
+                                allergicPlanOrderReason.add(reason);                
+                        }
+                        
                         for(int i=0;i<groupCheckBox.length;i++){
                             int id = Integer.parseInt(Long.toString(groupCheckBox[i]));
                             DrugOrder orderMain = (DrugOrder) Context.getOrderService().getOrder(id);
@@ -243,10 +271,15 @@ public class DrugordersPageController {
                             drugorders drugorder = null;
 
                             int order = createNewDrugOrder(drugOrder, patient, orderExtn.getDrugName().getDisplayString(), orderMain.getRoute().getDisplayString(), orderMain.getDose().toString(), orderMain.getDoseUnits().getDisplayString(), orderMain.getQuantity().toString(), orderMain.getQuantityUnits().getDisplayString(), orderMain.getFrequency().getName(), orderMain.getDuration(), orderMain.getDurationUnits().getDisplayString());
-                            createDrugOrderExtension(drugorder, order, patientID, orderExtn.getDrugName().getDisplayString(), Calendar.getInstance().getTime(), "", orderExtn.getAssociatedDiagnosis().getDisplayString(), orderExtn.getPriority().getDisplayString(), "Active-Plan", orderExtn.getRefill(), orderExtn.getRefillInterval(), "", "");
+                            createDrugOrderExtension(drugorder, order, patientID, orderExtn.getDrugName().getDisplayString(), Calendar.getInstance().getTime(), "", orderExtn.getAssociatedDiagnosis().getDisplayString(), orderExtn.getPriority().getDisplayString(), "Draft-Plan", orderExtn.getRefill(), orderExtn.getRefillInterval(), "", "");
                             createPlanOrder(order, planID, patientID, orderExtn.getAssociatedDiagnosis().getDisplayString());
-
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Draft-Plan");
+                        
+                            if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
+                                if(allergicDrugList.contains(orderExtn.getDrugName().getDisplayString())){
+                                    Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setIsAllergicOrderReasons(allergicPlanOrderReason.get(0));
+                                    allergicPlanOrderReason.remove(0);
+                                }
+                            }
                         }
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Renewed!");
                     }                        

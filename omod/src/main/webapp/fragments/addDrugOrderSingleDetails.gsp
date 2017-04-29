@@ -15,7 +15,7 @@
                 <label>Drug name <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="drugNameEntered" oninput="autoCompleteDrug('${allergicDrugs}')" name="drugNameEntered" />
+                <input type="text" id="drugNameEntered" oninput="autoCompleteDrug('${ allergicDrugs }')" name="drugNameEntered" />
             </div>
         </div>
         
@@ -239,7 +239,7 @@
 </div>
 
 
-<script type="text/javascript">
+<script type="text/javascript">    
     jq( function() {
         jq( "#drugNameEntered" ).autocomplete({
             source: function( request, response ) {
