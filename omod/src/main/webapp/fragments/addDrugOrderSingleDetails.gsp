@@ -15,7 +15,7 @@
                 <label>Drug name <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="drugNameEntered" oninput="autoCompleteDrug('${ allergicDrugs }')" name="drugNameEntered" />
+                <input type="text" id="drugNameEntered" oninput="autoCompleteDrug('${ currentOrders }','${ allergicDrugs }')" name="drugNameEntered" />
             </div>
         </div>
         
@@ -32,10 +32,17 @@
 
         <br/><br/><br/>
         
+        <div id="orderExistsField">
+            <div class="fields" id="view_order_detail">
+                <label>Note: Patient is currently prescribed this drug.</label>
+                <label>Cannot place multiple orders for the same drug.</label>
+            </div><br/>
+        </div>
+        
         <div id="allergicDrugOrderReasonField">
             <div class="fields" id="view_order_detail">
-                <label>Note: The patient is allergic to this drug</label>
-                <label>Enter the reasons for ordering this drug</label>
+                <label>Note: The patient is allergic to this drug.</label>
+                <label>Enter the reasons for ordering this drug:</label>
                 <input type="textarea" maxlength="100" id="orderReason" name="orderReason"/>
             </div><br/>
         </div>

@@ -145,7 +145,12 @@
             <div class="fields" id="groupOrderBlock">
                 <% groupMain.each { order -> %>
                     <div class="groupDrugName" id="view_order_detail">
-                        <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ order.key }" checked="true" />
+                        <% if((groupOrderAction == "RENEW MED PLAN" || groupOrderAction == "RENEW ORDER GROUP") && currentOrders.contains(groupExtn.get(order.key).drugName.getDisplayString())) { %>
+                            <input type="checkbox" class="unchecked" disabled="disabled" />
+                        <% } else { %>
+                            <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ order.key }" checked="true" />
+                        <% } %>
+                        
                         <i class="icon-plus-sign  edit-action" title="${ ui.message("Show") }"></i>
                         <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"></i>
                         <strong>${ groupExtn.get(order.key).drugName.getDisplayString() }</strong>
@@ -154,6 +159,13 @@
                     <div class="drugDetails">
                         ${ order.value.dose } ${ order.value.doseUnits.getDisplayString() }, ${ order.value.quantity } ${ order.value.quantityUnits.getDisplayString() } <br/>
                         
+                        <% if((groupOrderAction == "RENEW MED PLAN" || groupOrderAction == "RENEW ORDER GROUP") && currentOrders.contains(groupExtn.get(order.key).drugName.getDisplayString())) { %>
+                            <div id="view_order_detail">
+                                <label>Note: Drug is currently prescribed to this patient.</label>
+                                <label>Cannot place multiple orders for the same drug.</label>
+                            </div>
+                        <% } %>
+                            
                         <% if((groupOrderAction == "RENEW MED PLAN" || groupOrderAction == "RENEW ORDER GROUP") && allergicDrugs.contains(groupExtn.get(order.key).drugName.getDisplayString())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>
                             Enter reasons to order this drug <br/>

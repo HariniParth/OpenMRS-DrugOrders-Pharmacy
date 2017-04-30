@@ -56,7 +56,12 @@
             <div id="medPlansBlock" class="fields">
                 <% medplans.each { medplan -> %>
                     <div class="planDrugName">
-                        <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ medplan.drugId }" checked="true" />
+                        <% if(currentOrders.contains(medplan.drugId.getDisplayString())) { %>
+                            <input type="checkbox" class="unchecked" disabled="disabled" />
+                        <% } else { %>
+                            <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ medplan.drugId }" checked="true" />
+                        <% } %>
+                        
                         <i class="icon-plus-sign  edit-action" title="${ ui.message("Show") }"></i>
                         <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"></i>
                         <strong>${ medplan.drugId.getDisplayString() }</strong>
@@ -64,6 +69,13 @@
                         
                     <div class="drugDetails">
                         ${ medplan.dose } ${ medplan.doseUnits.getDisplayString() }, ${ medplan.quantity } ${ medplan.quantityUnits.getDisplayString() } <br/>
+                                
+                        <% if(currentOrders.contains(medplan.drugId.getDisplayString())) { %>
+                            <div id="view_order_detail">
+                                <label>Note: Drug is currently prescribed to this patient.</label>
+                                <label>Cannot place multiple orders for the same drug.</label>
+                            </div>
+                        <% } %>
                         
                         <% if(allergicDrugs.contains(medplan.drugId.getDisplayString())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>

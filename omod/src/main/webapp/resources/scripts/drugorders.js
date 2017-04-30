@@ -69,6 +69,8 @@ $(document).ready( function() {
         }        
     });
     
+    document.getElementsByClassName("unchecked").checked = false;
+    
     $('.planOrderReason, .reviseOrderReason').each(function(){
         this.style.borderColor = "orangered";
     });
@@ -306,7 +308,9 @@ function showSingleOrderDetailsWindow(orderType){
 function hideIndividualOrderDetailsWindow(){
     jq("#createOrderWindow").hide();
     jq("#activeOrderWindow").show();
+    jq("#orderExistsField").hide();
     jq("#allergicDrugOrderReasonField").hide();
+    $("#order_id").val("");
     $("#orderType").text("");
     $("#orderAction").val("");
     $("#drugNameEntered").val("");
@@ -486,7 +490,7 @@ function hideDrugOrderViewWindow(){
     clearHighlights();
 }
 
-function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, diagnosis, orderReason, priority, patientInstrn, pharmacistInstrn, orderStatus, allergyList){
+function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, diagnosis, orderReason, priority, patientInstrn, pharmacistInstrn, orderStatus, currentList, allergyList){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -498,7 +502,11 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         if(orderStatus === "Active-Plan" || orderStatus === "Draft-Plan"){
             jq("#activeOrderWindow").hide();
         }
+        if(orderType === "RENEW DRUG ORDER"){
+            checkExisting(name, currentList);
+        }        
         checkAllergy(name, allergyList);
+        
         $("#orderType").text(orderType);
         $("#orderAction").val(orderType);
         $("#order_id").val(orderId);
@@ -570,10 +578,26 @@ function autoCompletePlan(){
     });
 }
 
-function autoCompleteDrug(allergies){
-    var allergyList = allergies.split(",");
-    
+function autoCompleteDrug(currentOrders, allergies){
     $("#drugNameEntered").change(function(){
+        
+        var currentOrderList = currentOrders.split(",");
+        var orderExists = false;
+        $.each(currentOrderList, function(index, value){
+            var order = value.replace("[","").replace("]","").trim();
+            var selectedDrug = $("#drugNameEntered").val().trim();
+            if(selectedDrug === order){
+                orderExists = true;
+            }
+        });
+        if(orderExists){
+            jq("#orderExistsField").show();
+            document.getElementById("orderExistsField").style.display = 'block';
+        } else {
+            jq("#orderExistsField").hide();
+        }
+        
+        var allergyList = allergies.split(",");
         var isAllergic = false;
         $.each(allergyList,function(index,value){
             var drugname = value.replace("[","").replace("]","").trim();
@@ -590,6 +614,23 @@ function autoCompleteDrug(allergies){
         }
         validate();
     });
+}
+
+function checkExisting(drug, currentOrders){
+    var currentOrderList = currentOrders.split(",");
+    var orderExists = false;
+    $.each(currentOrderList, function(index, value){
+        var order = value.replace("[","").replace("]","").trim();
+        if(drug === order){
+            orderExists = true;
+        }
+    });
+    if(orderExists){
+        jq("#orderExistsField").show();
+        document.getElementById("orderExistsField").style.display = 'block';
+    } else {
+        jq("#orderExistsField").hide();
+    }
 }
 
 function checkAllergy(drug, allergies){

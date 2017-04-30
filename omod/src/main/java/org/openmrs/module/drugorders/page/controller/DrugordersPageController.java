@@ -44,7 +44,7 @@ import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class DrugordersPageController {
-
+    
     
     public void controller(PageModel model, @RequestParam("patientId") Patient patient, 
             @RequestParam(value = "drugNameEntered", required = false) String drugName,
@@ -80,37 +80,39 @@ public class DrugordersPageController {
         diagnosis = diagnosis.trim();
         
         Allergies allergies = patientService.getAllergies(patient);
+        ArrayList<String> allergicDrugList = new ArrayList<>();
         if(allergies.size() > 0){
-            ArrayList<String> allergen = new ArrayList<>();
             for(Allergy allergy : allergies){
-                allergen.add(allergy.getAllergen().toString());
-                model.addAttribute("allergicDrugs", allergen);
+                allergicDrugList.add(allergy.getAllergen().toString());
+                model.addAttribute("allergicDrugs", allergicDrugList);
             }
         } else {
             model.addAttribute("allergicDrugs", "null");
         }
         
-        List<String> allergicDrugList = new ArrayList<>();
-        for(Allergy allergy : allergies){
-            allergicDrugList.add(allergy.getAllergen().toString());
-        }
-                
+        List<String> currentOrders = getCurrentDrugOrders(patient);
+        
         if (StringUtils.isNotBlank(action)) {
             try {
                 if ("CREATE DRUG ORDER".equals(action)) {
-                    if (!(drugName.equals("")) && !(route.equals("")) && !(dose.equals("")) && !(doseUnits.equals("")) && !(quantity.equals("")) && !(quantityUnits.equals("")) && !(frequency.equals("")) && (duration != null) && !(durationUnits.equals(""))) {
+                    if(!currentOrders.contains(drugName)){
+                        if (!(drugName.equals("")) && !(route.equals("")) && !(dose.equals("")) && !(doseUnits.equals("")) && !(quantity.equals("")) && !(quantityUnits.equals("")) && !(frequency.equals("")) && (duration != null) && !(durationUnits.equals(""))) {
                         
-                        DrugOrder drugOrder = null;
-                        drugorders drugorder = null;
-                        int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
-                        createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
-
-                        if(orderId != null){
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(orderId);
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
+                            DrugOrder drugOrder = null;
+                            drugorders drugorder = null;
+                            int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
+                            createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
+                            currentOrders.add(drugName);
+                            
+                            if(orderId != null){
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(orderId);
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
+                            }
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Order Created!");
                         }
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Order Created!");
-                    }
+                    } else {
+                        InfoErrorMessageUtil.flashInfoMessage(session, "Drug already prescribed!");
+                    }                  
                 }
                 
                 if ("selectMedPlan".equals(action)) {
@@ -163,6 +165,7 @@ public class DrugordersPageController {
                         
                         order.setGroupId(null);
                         order.setOrderStatus("Non-Active");
+                        currentOrders.remove(order.getDrugName().getDisplayString());
                         
                         setDiscontinueReason(order, codedReason, nonCodedReason);
                         if(Context.getService(planordersService.class).getDrugOrderByOrderID(id) != null)
@@ -188,6 +191,7 @@ public class DrugordersPageController {
                                 order.setGroupId(null);
                             }                                
                             
+                            currentOrders.remove(order.getDrugName().getDisplayString());
                             setDiscontinueReason(order, codedReason, nonCodedReason);
                             Context.getOrderService().voidOrder(Context.getOrderService().getOrder(order.getOrderId()), "Discontinued");
                         }
@@ -245,6 +249,7 @@ public class DrugordersPageController {
                                 Context.getService(planordersService.class).getDrugOrderByOrderID(id).setPlanId(null);
                             }                                
                             
+                            currentOrders.remove(order.getDrugName().getDisplayString());
                             setDiscontinueReason(order, codedReason, nonCodedReason);
                             Context.getOrderService().voidOrder(Context.getOrderService().getOrder(order.getOrderId()), "Discontinued");
                         }
@@ -315,7 +320,7 @@ public class DrugordersPageController {
                             break;
                     }
                     originalOrder.setOrderStatus("Non-Active");
-                    
+                    currentOrders.remove(originalOrder.getDrugName().getDisplayString());
                     InfoErrorMessageUtil.flashInfoMessage(session, "Order Changes Saved!");
                 }
 
@@ -323,12 +328,15 @@ public class DrugordersPageController {
                     
                     drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
                     String name = originalOrder.getDrugName().getDisplayString();
-
-                    DrugOrder drugOrder = null;
-                    drugorders drugorder = null;
-                    int order = createNewDrugOrder(drugOrder, patient, name, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
-                    createDrugOrderExtension(drugorder, order, patientID, name, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
-                    InfoErrorMessageUtil.flashInfoMessage(session, "Order Renewed!");
+                    if(!currentOrders.contains(name)){
+                        DrugOrder drugOrder = null;
+                        drugorders drugorder = null;
+                        int order = createNewDrugOrder(drugOrder, patient, name, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
+                        createDrugOrderExtension(drugorder, order, patientID, name, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
+                        InfoErrorMessageUtil.flashInfoMessage(session, "Order Renewed!");
+                    } else {
+                        InfoErrorMessageUtil.flashInfoMessage(session, "Drug already prescribed!");
+                    }                    
                 }   
                 
                 if ("saveDraft".equals(action)){
@@ -341,6 +349,8 @@ public class DrugordersPageController {
                 System.out.println(e.toString());
             }
         }
+        
+        model.addAttribute("currentOrders", currentOrders);
     }
 
     private int createNewDrugOrder(DrugOrder order, Patient patient, String drugNameConfirmed, String route,
@@ -477,4 +487,35 @@ public class DrugordersPageController {
         return cal.getTime();
     }
 
+    private List<String> getCurrentDrugOrders(Patient patient){
+        
+        List<String> drugOrders = new ArrayList<>();
+        List<drugorders> orders;
+        
+        orders = getActiveOrders(patient, "Active");
+        for(drugorders order : orders) {
+            drugOrders.add(order.getDrugName().getDisplayString().trim());
+        }
+        
+        orders = getActiveOrders(patient, "Active-Plan");
+        for(drugorders order : orders) {
+            drugOrders.add(order.getDrugName().getDisplayString().trim());
+        }
+        
+        orders = getActiveOrders(patient, "Draft-Plan");
+        for(drugorders order : orders) {
+            drugOrders.add(order.getDrugName().getDisplayString().trim());
+        }
+        
+        orders = getActiveOrders(patient, "Active-Group");
+        for(drugorders order : orders) {
+            drugOrders.add(order.getDrugName().getDisplayString().trim());
+        }
+        
+        return drugOrders;
+    }
+    
+    private List<drugorders> getActiveOrders(Patient patient, String status){
+        return Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, status);
+    }
 }
