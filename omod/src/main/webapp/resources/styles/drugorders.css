@@ -110,6 +110,10 @@ and open the template in the editor.
     margin-left: 50px;
 }
 
+.drugDetails{
+    overflow-x: visible;
+}
+
 .oldGroupDetails{
     width: 100%;
     border: 1px solid gainsboro;
@@ -169,8 +173,12 @@ and open the template in the editor.
     color: #363463;
 }
 
-.groupDrugName, #viewOrderWindow, #singleOrderView div:first-child, #planDrugName, .planBlock, .itemSummary, #singleOrderView, .oldOrderDetails, .planDrugDetails, .planDetails, .groupDrug, #removeFromGroupWindow, #saveDraftPlan{
+#viewOrderWindow, #planDrugName, .planBlock, .itemSummary, #singleOrderView, .oldOrderDetails, .planDrugDetails, .planDetails, .groupDrug, #removeFromGroupWindow, #saveDraftPlan{
     overflow: hidden;
+}
+
+#singleOrderView div:first-child{
+    overflow-x: visible;
 }
 
 #singleOrderView{
@@ -210,7 +218,7 @@ and open the template in the editor.
 .groupDrug .groupDrugDetails #groupDrugName{
     width: 65%;
     float: left;
-    overflow: hidden;
+    overflow-x: visible;
 }
 
 .groupDrug .groupDrugDetails #groupDrugDate{
