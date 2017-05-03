@@ -4,9 +4,9 @@
         <h3>${ ui.message("drugorders.drugorders").toUpperCase() }</h3>
         <i class="icon-pencil edit-action right" title="${ ui.message("Add") }" onclick="location.href='${ui.pageLink("drugorders", "drugorders", [patientId: patient.patient.id])}';"></i>
     </div>
-    <div class="info-body">
+    <div class="info-body wordBreak">
         <% drugorders.each { order -> %>
-            ${ order.drugName.getDisplayString().toUpperCase() }<br/>
+            ${ order.drugName.getDisplayString().toUpperCase() } <br/>
         <% } %>
     </div>
 </div>

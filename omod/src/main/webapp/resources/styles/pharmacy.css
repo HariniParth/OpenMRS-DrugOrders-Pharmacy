@@ -339,3 +339,7 @@ form select, .form select {
     width: 90% !important;
     box-sizing: border-box !important;
 }
+
+.wordBreak{
+    word-break: break-all;
+}

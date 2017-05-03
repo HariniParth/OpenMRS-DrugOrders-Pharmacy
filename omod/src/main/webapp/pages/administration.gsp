@@ -53,10 +53,10 @@
                                             <div class="fields">
                                                 <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
                                                 <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                                <strong class="planName">${ newPlan.planName.getDisplayString().toUpperCase() }</strong>
+                                                <span class="planName"><strong class="wordBreak">${ newPlan.planName.getDisplayString().toUpperCase() }</strong></span>
                                             </div>
 
-                                            <div class="desc">${ newPlan.planDesc }</div><br/>
+                                            <div class="desc"><span class="wordBreak">${ newPlan.planDesc }</span></div><br/>
 
                                             <div class="plansDetailsView">
                                                 <% medPlan = allMedicationPlans.get(newPlan.planName) %>
@@ -68,7 +68,7 @@
                                                                 <div>
                                                                     <i class="show-details icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
                                                                     <i class="hide-details icon-minus-sign icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                                                    <strong class="planItem">${ med.drugId.getDisplayString().toUpperCase() }</strong>
+                                                                    <span class="planItem"><strong class="wordBreak">${ med.drugId.getDisplayString().toUpperCase() }</strong></span>
                                                                 </div><br/>
 
                                                                 <div class="groupItem">

@@ -33,7 +33,7 @@
                                         ${ oldOrder.orderId }
                                     </div>
                                     <div id="oldOrderName">
-                                        <div><strong>${ oldOrder.drugName.getDisplayString().toUpperCase() }</strong></div>
+                                        <div><strong class="wordBreak">${ oldOrder.drugName.getDisplayString().toUpperCase() }</strong></div>
                                         <div class="itemSummary"><em>Click to view details</em></div>
                                     </div>                                    
                                 </div>
@@ -58,7 +58,7 @@
                             </div>
                             
                             <div id="oldOrderName">
-                                <div><strong>${ oldDrugOrderExtension.drugName.getDisplayString().toUpperCase() }</strong></div>
+                                <div><strong class="wordBreak">${ oldDrugOrderExtension.drugName.getDisplayString().toUpperCase() }</strong></div>
                                 <div class="itemSummary"><em>Click to view details</em></div>
                             </div>
                         </td>

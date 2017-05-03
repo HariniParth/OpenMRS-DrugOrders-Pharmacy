@@ -27,7 +27,7 @@
             <tbody>
                 <% patientPlanOrders.each { patientPlanOrder -> %>
                     <tr class="groupRow">
-                        <td>${ planName.get(patientPlanOrder.key).getDisplayString() }</td>
+                        <td><span class="wordBreak">${ planName.get(patientPlanOrder.key).getDisplayString() }</span></td>
                         <td colspan="5">
                             <% patientPlanOrder.value.each { order -> %>
                                 
@@ -36,7 +36,7 @@
                                     <div class="d1">
                                         <div class="e1">
                                             <div class="g1">
-                                                <div class="c1">${ order.drugName.getDisplayString().toUpperCase() }</div>
+                                                <div class="c1"><span class="wordBreak">${ order.drugName.getDisplayString().toUpperCase() }</span></div>
                                                 <div class="c2"></div>
                                             </div>
                                             <div class="g2">
@@ -60,7 +60,7 @@
                                 
                                 <div class="ordererID">
                                     <div class="g5"></div>
-                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }')">${ OrdererName.get(order.orderId) }</div>
+                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }')"><span class="wordBreak">${ OrdererName.get(order.orderId) }</span></div>
                                 </div>
                             
                             <% } %>
@@ -83,7 +83,7 @@
                                     <div class="d1">
                                         <div class="e1">
                                             <div class="g1">
-                                                <div class="c1">${ order.drugName.getDisplayString().toUpperCase() }</div>
+                                                <div class="c1"><span class="wordBreak">${ order.drugName.getDisplayString().toUpperCase() }</span></div>
                                                 <div class="c2"></div>
                                             </div>
                                             <div class="g2">
@@ -106,7 +106,7 @@
                                 
                                 <div class="ordererID">
                                     <div class="g5"></div>
-                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }')">${ OrdererName.get(order.orderId) }</div>
+                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }')"><span class="wordBreak">${ OrdererName.get(order.orderId) }</span></div>
                                 </div><br/><br/>
                             
                             <% } %>
@@ -122,7 +122,7 @@
                     <tr class="singleRow <% if(patientSingleOrder.forDiscard == 1) { %> forDiscard <% } %> <% if(patientSingleOrder.onHold == 1) { %> onHold <% } %>">
                         
                         <td><span class="hidden">${ patientSingleOrder.orderId }</span></td>
-                        <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">${ patientSingleOrder.drugName.getDisplayString().toUpperCase() }</td>
+                        <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }"><span class="wordBreak">${ patientSingleOrder.drugName.getDisplayString().toUpperCase() }</span></td>
                         <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">${ patientSingleOrder.startDate.format('yyyy-MM-dd') }</td>
                         <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">${ patientSingleOrder.refill }</td>
 
@@ -133,7 +133,7 @@
                         <% } %>
                         <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">${ last_dispatch_date }</td>
                         
-                        <td class="g6" onclick="showOrdererContact('${ OrdererName.get(patientSingleOrder.orderId) }','${ patientSingleOrder.orderId }')">${ OrdererName.get(patientSingleOrder.orderId) }</td>
+                        <td class="g6" onclick="showOrdererContact('${ OrdererName.get(patientSingleOrder.orderId) }','${ patientSingleOrder.orderId }')"><span class="wordBreak">${ OrdererName.get(patientSingleOrder.orderId) }</span></td>
                     </tr> 
                 <% } %>
 

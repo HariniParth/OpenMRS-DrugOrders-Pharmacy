@@ -33,7 +33,7 @@
                                     <div class="fields">
                                         <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
                                         <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                        <strong>${ DraftPlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
+                                        <strong class="wordBreak">${ DraftPlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
                                     </div><br/>
 
                                     <span class="hidden" id="id">${ drugOrderMain.key }</span>
@@ -54,7 +54,7 @@
 
                                                     <div id="planDrugName">
                                                         <div>
-                                                            <strong>${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString().toUpperCase() }</strong>
+                                                            <strong class="wordBreak">${ DraftPlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString().toUpperCase() }</strong>
                                                         </div>
 
                                                         <span class="itemSummary">
@@ -91,7 +91,7 @@
                                 <div class="fields">
                                     <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
                                     <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                    <strong>${ ActivePlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
+                                    <strong class="wordBreak">${ ActivePlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
                                 </div><br/>
                                 
                                 <span class="hidden" id="id">${ drugOrderMain.key }</span>
@@ -112,7 +112,7 @@
 
                                                 <div id="planDrugName">
                                                     <div>
-                                                        <strong>${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString().toUpperCase() }</strong>
+                                                        <strong class="wordBreak">${ ActivePlanExtn.get(drugOrderMain.key).get(drugOrderMn.key).drugName.getDisplayString().toUpperCase() }</strong>
                                                     </div>
 
                                                     <span class="itemSummary">

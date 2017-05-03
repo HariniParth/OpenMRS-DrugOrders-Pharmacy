@@ -29,11 +29,11 @@ ${ ui.includeFragment("drugorders", "searchBarByPatient") } <br/>
         <tbody>
             <% if(patient != "") { %>
                 <tr class="patientRow" onclick="location.href='${ ui.pageLink("drugorders", "pharmacyPatient", [patientId: patient.patientId]) }';">     
-                    <td>${ patient.givenName } ${ patient.familyName }</td>
+                    <td><span class="wordBreak">${ patient.givenName } ${ patient.familyName }</span></td>
                     <td>${ patient.birthdate.format('yyyy-MM-dd') }</td>
                     <td>${ patient.age }</td>
                     <td>${ patient.gender }</td>
-                    <td>${ patient.addresses.address1[0] } ${ patient.addresses.cityVillage[0] } ${ patient.addresses.stateProvince[0] } - ${ patient.addresses.postalCode[0] } ${ patient.addresses.country[0] }</td>
+                    <td><span class="wordBreak">${ patient.addresses.address1[0] } ${ patient.addresses.cityVillage[0] } ${ patient.addresses.stateProvince[0] } - ${ patient.addresses.postalCode[0] } ${ patient.addresses.country[0] }</span></td>
                 </tr>
             <% } %>
         </tbody>
@@ -69,12 +69,12 @@ ${ ui.includeFragment("drugorders", "removeFromHold") } <br/><br/>
                                         <div class="l21">
                                             <% if(name == "") { %>
                                                 <% name = patientName.get(o.patientId.toInteger()) %>
-                                                ${ name }
+                                                <span class="wordBreak">${ name }</span>
                                             <% } %>
                                         </div>
                                         <div class="l22">
                                             <div class="l31">
-                                                ${ o.drugName.getDisplayString().toUpperCase() }
+                                                <span class="wordBreak">${ o.drugName.getDisplayString().toUpperCase() }</span>
                                             </div>
                                             <div class="l32">
                                                 ${ o.startDate.format('yyyy-MM-dd') }
@@ -92,7 +92,7 @@ ${ ui.includeFragment("drugorders", "removeFromHold") } <br/><br/>
                                             <% } %>
                                         </div>
                                         <div class="l24">
-                                            ${ ordererName.get(o.orderId) }
+                                            <span class="wordBreak">${ ordererName.get(o.orderId) }</span>
                                         </div>
                                     </div>
                                 </div>
@@ -116,12 +116,12 @@ ${ ui.includeFragment("drugorders", "removeFromHold") } <br/><br/>
                                         <div class="l21">
                                             <% if(name == "") { %>
                                                 <% name = patientName.get(o.patientId.toInteger()) %>
-                                                ${ name }
+                                                <span class="wordBreak">${ name }</span>
                                             <% } %>
                                         </div>
                                         <div class="l22">
                                             <div class="l31">
-                                                ${ o.drugName.getDisplayString().toUpperCase() }
+                                                <span class="wordBreak">${ o.drugName.getDisplayString().toUpperCase() }</span>
                                             </div>
                                             <div class="l32">
                                                 ${ o.startDate.format('yyyy-MM-dd') }
@@ -139,7 +139,7 @@ ${ ui.includeFragment("drugorders", "removeFromHold") } <br/><br/>
                                             <% } %>
                                         </div>
                                         <div class="l24">
-                                            ${ ordererName.get(o.orderId) }
+                                            <span class="wordBreak">${ ordererName.get(o.orderId) }</span>
                                         </div>
                                     </div>
                                 </div>
@@ -155,8 +155,8 @@ ${ ui.includeFragment("drugorders", "removeFromHold") } <br/><br/>
                 <% patientSingles.each { order -> %>
                     <tr class="singleHome <% if(order.forDiscard == 1) { %> forDiscard <% } %> <% if(order.onHold == 1) { %> onHold <% } %>">
                         <td class="selectSingle"><input type="checkbox" name="homeCheckbox" value="SINGLE ${ order.orderId }" /></td>
-                        <td>${ patientName.get(order.patientId.toInteger()) }</td>
-                        <td>${ order.drugName.getDisplayString().toUpperCase()}</td>
+                        <td><span class="wordBreak">${ patientName.get(order.patientId.toInteger()) }</span></td>
+                        <td><span class="wordBreak">${ order.drugName.getDisplayString().toUpperCase()}</span></td>
                         <td>${ order.startDate.format('yyyy-MM-dd') }</td>
                         <td>
                             <% if(order.onHold == 1) { %>
@@ -167,7 +167,7 @@ ${ ui.includeFragment("drugorders", "removeFromHold") } <br/><br/>
                                 <span class="comments"> ACTIVE</span>
                             <% } %>
                         </td>
-                        <td>${ ordererName.get(order.orderId) }</td>
+                        <td><span class="wordBreak">${ ordererName.get(order.orderId) }</span></td>
                     </tr>
                 <% } %>
             </tbody>
