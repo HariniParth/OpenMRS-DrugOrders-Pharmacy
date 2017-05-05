@@ -32,10 +32,16 @@ $(document).ready( function() {
     
 });
 
+/*
+ * Display the fragment to remove the hold on selected orders.
+ */
 function showRemoveOrderHoldWindow(){
     removeFromHoldDialog.show();
 }
 
+/*
+ * Display the fragment showing Orderer's contact info
+ */
 function showOrdererContact(ordererName, orderID){
     $("#orderNumber").val(orderID);
     $("#ordererName").val(ordererName);
@@ -44,14 +50,23 @@ function showOrdererContact(ordererName, orderID){
     contactOrdererDialog.show();
 }
 
+/*
+ * Submit form to display mail fragment for selected order.
+ */
 function contactOrderer(){
     $("#groupOrdersForm").submit();
 }
 
+/*
+ * Submit form to remove hold on orders.
+ */
 function removeHoldOnOrders(){
     $("#nonActiveTableForm").submit();
 }
 
+/*
+ * Enable submission of order action if one or more drugs are selected.
+ */
 function enableConfirmBtn(){
     
     var selected = false;
@@ -70,6 +85,9 @@ function enableConfirmBtn(){
     } 
 }
 
+/*
+ * Highlight selected orders in the active drug order table.
+ */
 function highlight(){
     var pharmaPlan = $("#pharmaPlan").val();
     var pharmaGroup = $("#pharmaGroup").val();
@@ -103,6 +121,9 @@ function highlight(){
     }
 }
 
+/*
+ * Clear the highlights on the active drug order table.
+ */
 function clearHighlights(){
     
     jq(".groupRow").each(function(){
@@ -116,6 +137,9 @@ function clearHighlights(){
     });
 }
 
+/*
+ * Provide auto-complete options when Pharmacist starts typing the Patient's name.
+ */
 function autoCompletePatientName(patientNameList){
     var list = patientNameList.replace("[","").replace("]","").split(',');
     $("#patient_full_name").autocomplete({
@@ -127,6 +151,9 @@ function autoCompletePatientName(patientNameList){
     });
 }
 
+/*
+ * Display details of selected plan order.
+ */
 function selectedPlanOrder(planID){
     $("#planID").val(planID);
     $("#orderNumber").val("");
@@ -134,6 +161,9 @@ function selectedPlanOrder(planID){
     $("#groupOrdersForm").submit();
 }
 
+/*
+ * Display details of selected group order.
+ */
 function selectedGroupOrder(groupID){
     $("#groupID").val(groupID);
     $("#orderNumber").val("");
@@ -141,6 +171,9 @@ function selectedGroupOrder(groupID){
     $("#groupOrdersForm").submit();
 }
 
+/*
+ * Display details of selected single order.
+ */
 function selectedSingleOrder(orderID){
     $("#orderID").val(orderID);
     $("#orderNumber").val("");
@@ -148,6 +181,9 @@ function selectedSingleOrder(orderID){
     $("#groupOrdersForm").submit();
 }
 
+/*
+ * Show appropriate fields when one of the actions (Dispatch, On-Hold, Discard) is selected.
+ */
 function showPharmaConfirmationSection(action){
     jq("#statusLabel").show();
     document.getElementById("statusLabel").style.display = 'block';
@@ -170,6 +206,9 @@ function showPharmaConfirmationSection(action){
     }
 }
 
+/*
+ * Hide fields to enter details to dispatch / put on hold / discard a record.
+ */
 function showPharmaOrderViewSection(){
     
     $("#selectedAction").text("");    
@@ -183,11 +222,17 @@ function showPharmaOrderViewSection(){
     document.getElementById("pharmaGroupButtons").style.display = 'block';
 }
 
+/*
+ * Clear the Patient name search field.
+ */
 function clearPatientTableFilters(){
     $("#patient_full_name").val("");
     $("#searchByPatient").submit();
 }
 
+/*
+ * Hide fragment displaying the details of selected order. (Clear selection)
+ */
 function closePharmaGroupView(){
     jq("#pharmaGroupView").hide();
     $("#pharmaSingle").val();
@@ -196,6 +241,9 @@ function closePharmaGroupView(){
     clearHighlights();
 }
 
+/*
+ * CLose mail fragment.
+ */
 function closeMailWindow(){
     jq("#mailWindow").hide();
 }

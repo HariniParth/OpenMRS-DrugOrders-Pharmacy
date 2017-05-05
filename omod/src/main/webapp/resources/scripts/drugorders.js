@@ -17,6 +17,9 @@ $(document).ready( function() {
     $("#addOrderButton").prop("disabled", true);
     $("#planDefineButton").prop("disabled", true);
     
+    /*
+     * If a plan is defined (Administrator page), enable the form submission to create a plan.
+     */
     $('#definePlanName').autocomplete({
         select: function () { 
             $("#planDefineButton").prop("disabled", false); 
@@ -31,6 +34,9 @@ $(document).ready( function() {
         }
     });
     
+    /*
+     * If orders are selected to be discarded, show the select input widget to specify the reasons to discard.
+     */
     if($('#groupAction').val() === "DISCARD ORDER GROUP" || $('#groupAction').val() === "DISCARD MED PLAN" || $('#groupAction').val() === "DISCONTINUE ORDER"){
         $("#orderActionButton").prop("disabled", true);
         jq("#discontinueReasonSelect").show();
@@ -41,6 +47,10 @@ $(document).ready( function() {
         enableOrderDiscard();
     });
     
+    /*
+     * If the admin plan fields are modified, check the value of the remaining mandatory fields.
+     * Highlight the unspecified fields. Only when all details are specified, allow to create a medication plan.
+     */
     $("#adminPlan, #adminDrug, #adminRoute, #adminDose, #adminDoseUnits, #adminQuantity, #adminQuantityUnits, #adminDuration, #adminDurationUnits, #adminFrequency").change(function(){
         adminRecord();
         if($("#adminPlan").val() !== "" || $("#adminDrug").val() !== ""){
@@ -48,6 +58,10 @@ $(document).ready( function() {
         }
     });
     
+    /*
+     * If the create drug order fields are modified, check the value of the remaining mandatory fields.
+     * Highlight the unspecified fields. Only when all details are specified, allow to create a drug order.
+     */
     $("#drugNameEntered, #route, #dose, #doseUnits, #quantity, #quantityUnits, #duration, #durationUnits, #frequency, #diagnosis, #orderReason").change(function(){
         validate();
         if($("#drugNameEntered").val() !== ""){
@@ -55,6 +69,9 @@ $(document).ready( function() {
         }
     });
     
+    /*
+     * Enable confirm button to discard/renew an order set if one or more orders from the set is selected.
+     */
     $('.planDrugName .groupCheckBox').on('change', function() {
         var selected = false;
         $('.planDrugName .groupCheckBox').each(function() {
@@ -71,6 +88,9 @@ $(document).ready( function() {
     
     document.getElementsByClassName("unchecked").checked = false;
     
+    /*
+     * Highlight the fields to enter the reasons to order a drug unless they are filled.
+     */
     $('.planOrderReason, .reviseOrderReason').each(function(){
         this.style.borderColor = "orangered";
     });
@@ -93,6 +113,9 @@ $(document).ready( function() {
         }
     });
     
+    /*
+     * If draft order plans are present, disable navigating away from the page.
+     */
     $(document).mouseup(function (e){
         if(document.getElementById("draftPlanList")){
             if (!$("#draftPlanRow").is(e.target) && $("#draftPlanRow").has(e.target).length === 0 && !$("#createOrderWindow").is(e.target) && $("#createOrderWindow").has(e.target).length === 0 && !$("#showGroupOrderWindow").is(e.target) && $("#showGroupOrderWindow").has(e.target).length === 0 && e.target.nodeName !== "TD"){
@@ -122,6 +145,9 @@ $(document).ready( function() {
     });       
 });
 
+/*
+ * Highlight the selected order in the drug orders table.
+ */ 
 function highlight(){
     
     var selectedPlan = $("#discardPlan").text();
@@ -226,6 +252,9 @@ function highlight(){
     }    
 }
 
+/*
+ * Clear background colors in table records.
+ */
 function clearHighlights(){
     jq(".orderRow").each(function(){
         jq(this).children('td').slice(1, 4).css({'background-color':'','color':''});
@@ -247,6 +276,10 @@ function clearHighlights(){
     });
 }
 
+/*
+ * If the create drug order fields are modified, check the value of the remaining mandatory fields.
+ * Only when all details are specified, allow to create a drug order.
+ */
 function validate(){
     if($("#drugNameEntered").val() !== "" && $("#route").val() !== "" && $("#dose").val() !== "" && $("#doseUnits").val() !== "" && $("#quantity").val() !== "" && $("#quantityUnits").val() !== "" && $("#duration").val() !== "" && $("#durationUnits").val() !== "" && $("#frequency").val() !== "" && $("#diagnosis").val() !== ""){
         $("#addOrderButton").prop("disabled", false);
@@ -255,6 +288,10 @@ function validate(){
     }
 }
 
+/*
+ * If the admin plan fields are modified, check the value of the remaining mandatory fields.
+ * Highlight the unspecified fields. Only when all details are specified, allow to create a medication plan.
+ */
 function adminRecord(){
     if($("#adminPlan").val() !== "" && $("#adminDrug").val() !== "" && $("#adminRoute").val() !== "" && $("#adminDose").val() !== "" && $("#adminDoseUnits").val() !== "" && $("#adminQuantity").val() !== "" && $("#adminQuantityUnits").val() !== "" && $("#adminDuration").val() !== "" && $("#adminDurationUnits").val() !== "" && $("#adminFrequency").val() !== ""){
         $("#planSaveButton").prop("disabled", false);
@@ -263,6 +300,9 @@ function adminRecord(){
     }
 }
 
+/*
+ * Display the fragment to select a medication plan.
+ */
 function showMedicationPlanOrderWindow(){
     var dialogOpen = false;
     var objects = $('.dialog');
@@ -278,16 +318,25 @@ function showMedicationPlanOrderWindow(){
     }
 }
 
+/*
+ * Hide the fragment to select a medication plan.
+ */
 function hideMedicationPlanOrderWindow(){
     jq("#medPlanWindow").hide();
     jq("#activeOrderWindow").show();
 }
 
+/*
+ * Hide the fragment to order a medication plan.
+ */
 function hideMedicationPlansWindow(){
     jq("#activeOrderWindow").show();
     jq("#medPlanDetailsWindow").hide();
 }
 
+/*
+ * Display the fragment to create a individual drug order.
+ */
 function showSingleOrderDetailsWindow(orderType){
     var dialogOpen = false;
     var objects = $('.dialog');
@@ -305,6 +354,9 @@ function showSingleOrderDetailsWindow(orderType){
     }
 }
 
+/*
+ * Hide the fragment to create a individual drug order.
+ */
 function hideIndividualOrderDetailsWindow(){
     jq("#createOrderWindow").hide();
     jq("#activeOrderWindow").show();
@@ -337,6 +389,9 @@ function hideIndividualOrderDetailsWindow(){
     clearHighlights();
 }
 
+/*
+ * Highlight create drug order form fields if they are not filled.
+ */
 function checkFormFields(){
     if($("#orderReason").val() === "")
         document.getElementById("orderReason").style.borderColor = "orangered";
@@ -390,6 +445,9 @@ function checkFormFields(){
     
 }
 
+/*
+ * Highlight adminstrator definable med plan form fields if they are not filled.
+ */
 function checkAdminFields(){
     if($("#adminDrug").val() === "")
         document.getElementById("adminDrug").style.borderColor = "orangered";
@@ -442,6 +500,9 @@ function checkAdminFields(){
         document.getElementById("adminFrequency").style.borderColor = "";
 }
 
+/*
+ * Display a fragment that displays the details of the selected order.
+ */
 function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, orderReason, diagnosis, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus){
     var dialogOpen = false;
     var objects = $('.dialog');
@@ -484,12 +545,18 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
     }
 }
 
+/*
+ * Hide the fragment that displays the details of the selected order.
+ */
 function hideDrugOrderViewWindow(){
     jq("#activeOrderWindow").show();
     jq("#viewOrderWindow").hide();
     clearHighlights();
 }
 
+/*
+ * Display the fragment to create a individual drug order with all the field values populated.
+ */
 function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, diagnosis, orderReason, priority, patientInstrn, pharmacistInstrn, orderStatus, currentList, allergyList){
     var dialogOpen = false;
     var objects = $('.dialog');
@@ -536,39 +603,63 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
     }
 }
 
+/*
+ * Discontinue individual order.
+ */
 function discardSingleOrder(order){
     $("#selectedActiveOrder").val(order);
     $("#activeGroupForm").submit();
 }
 
+/*
+ * Discontinue individual order from a given plan.
+ */
 function discardSingleItem(order){
     $("#selectedActiveItem").val(order);
     $("#activePlanForm").submit();
 }
 
+/*
+ * Discontinue medication plan.
+ */
 function discardMedPlanOrder(plan){
     $("#selectedActivePlan").val(plan);
     $("#activePlanForm").submit();
 }
 
+/*
+ * Create Administrator define plan.
+ */
 function createStandardPlan(){
     $("#createPlanForm").submit();
 }
 
+/*
+ * Confirm discard selected Administrator define plan and associated plan items.
+ */
 function discardMedPlan(){
     $("#discardPlanForm").submit();
 }
 
+/*
+ * Renew non-active medication plans.
+ */
 function renewMedPlanWindow(plan){
     $("#selectedNonActivePlan").val(plan);
     $("#nonActivePlanForm").submit();
 }
 
+/*
+ * Activate medication plans on draft
+ */
 function saveMedPlanOrder(planId){
     $("#activatePlan").val(planId);
     $("#activePlanForm").submit();
 }
 
+/*
+ * Auto-complete plan name when typed and submit the selected plan.
+ */
 function autoCompletePlan(){
     $("#planName").autocomplete({
         select : function(event, ui){
@@ -578,6 +669,11 @@ function autoCompletePlan(){
     });
 }
 
+/*
+ * When a drug is entered/selected to be ordered,
+ * - Display a note if the drug exists in the active drug order list.
+ * - Display a note if the Patient is allergic to the drug.
+ */
 function autoCompleteDrug(currentOrders, allergies){
     $("#drugNameEntered").change(function(){
         
@@ -616,6 +712,10 @@ function autoCompleteDrug(currentOrders, allergies){
     });
 }
 
+/*
+ * When a drug order is renewed,
+ * - Display a note if the drug exists in the active drug order list.
+ */
 function checkExisting(drug, currentOrders){
     var currentOrderList = currentOrders.split(",");
     var orderExists = false;
@@ -633,6 +733,10 @@ function checkExisting(drug, currentOrders){
     }
 }
 
+/*
+ * When a drug order is renewed,
+ * - Display a note if the Patient is allergic to the drug.
+ */
 function checkAllergy(drug, allergies){
     var allergyList = allergies.split(",");
     var isAllergic = false;
@@ -652,6 +756,9 @@ function checkAllergy(drug, allergies){
     }
 }
 
+/*
+ * Display a fragment to define a medication plan.
+ */
 function displayPlanCreationWindow(){
     var dialogOpen = false;
     var objects = $('.dialog');
@@ -667,6 +774,9 @@ function displayPlanCreationWindow(){
     }
 }
 
+/*
+ * Hide the fragment to define a medication plan.
+ */
 function hideMedPlanDefineWindow(){
     jq("#definePlanWindow").hide();
     $("#definePlanName").val("");
@@ -675,6 +785,9 @@ function hideMedPlanDefineWindow(){
     $("#definePlanId").val("");
 }
 
+/*
+ * Display a fragment to add a drug to a medication plan.
+ */
 function addPlanItemWindow(planName){
     var dialogOpen = false;
     var objects = $('.dialog');
@@ -692,6 +805,9 @@ function addPlanItemWindow(planName){
     }
 }
 
+/*
+ * Hide the fragment to add a drug to a medication plan.
+ */
 function hideMedPlanCreateWindow(){
     jq("#createPlanWindow").hide();
     $("#planId").val("");
@@ -714,6 +830,9 @@ function hideMedPlanCreateWindow(){
     clearHighlights();
 }
 
+/*
+ * Display a fragment to add a drug to a medication plan with all the fields populated from the selected plan.
+ */
 function editPlanItemDetails(planId, planName, drugName, dose, doseUnits, route, quantity, quantityUnits, duration, durationUnits, frequency){
     var dialogOpen = false;
     var objects = $('.dialog');
@@ -741,11 +860,17 @@ function editPlanItemDetails(planId, planName, drugName, dose, doseUnits, route,
     }
 }
 
+/*
+ * Delete Administrator specified medication plan.
+ */
 function deleteMedPlan(planID){
     $("#selectedMedPlan").val(planID);
     $("#adminPageForm").submit();    
 }
 
+/*
+ * Rename Administrator specified medication plan.
+ */
 function renameMedPlan(id, planName, planDesc){
     var dialogOpen = false;
     var objects = $('.dialog');
@@ -764,11 +889,17 @@ function renameMedPlan(id, planName, planDesc){
     }
 }
 
+/*
+ * Delete Administrator specified medication plan item.
+ */
 function deleteMedPlanItem(planID){
     $("#selectedPlanItem").val(planID);
     $("#adminPageForm").submit();  
 }
 
+/*
+ * Hide Administrator specified medication plan discard window.
+ */
 function hideMedPlanDiscardWindow(){
     jq("#deletePlanWindow").hide();
     $("#selectedPlanItem").val("");
@@ -778,22 +909,26 @@ function hideMedPlanDiscardWindow(){
     clearHighlights();
 }
 
+// Show Group Order window used to discard/renew group of orders.
 function showRenewGroupOrderWindow(orderID){
     $("#selectedNonActiveGroup").val(orderID);
     $("#nonActiveGroupForm").submit();
 }
 
+// Show Group Order window used to discard/renew group of orders.
 function showDiscardGroupOrderWindow(orderID){
    $("#selectedActiveGroup").val(orderID);
    $("#activeGroupForm").submit();
 }
 
+// Hide Group Order window used to discard/renew group of orders.
 function hideGroupOrderWindow(){
     clearHighlights();
     jq("#activeOrderWindow").show();
     jq("#showGroupOrderWindow").hide();
 }
 
+// Show window with a form to add an order to an existing order group.
 function showAddOrderToGroupWindow(orderType,groupID){
     var dialogOpen = false;
     var objects = $('.dialog');
@@ -812,6 +947,7 @@ function showAddOrderToGroupWindow(orderType,groupID){
     }
 }
 
+// Prevent allowing an order to be discontinued unless a reason is specified.
 function discontinueReason(){
     if(document.getElementById("discontinueReasonCoded").value === "Other"){
         jq("#discontinueReasonText").show();
@@ -826,11 +962,13 @@ function discontinueReason(){
     }
 }
 
+// Remove selected order from the group.
 function removeFromGroup(OrderId){
     $("#removeFromGroup").val(OrderId);
     removeFromGroupDialog.show();
 }
 
+// Save draft medication plan orders.
 function saveDraftOrders(){
     $("#saveDraft").val("saveDraft");
     $("#saveDraftPlanForm").submit();
