@@ -19,7 +19,7 @@
             <div id="order_value">
                 <label id="order_details"></label>
             </div>
-        </div><br/>
+        </div><br/><br/><br/><br/><br/>
 
         <div class="fields" id="view_order_detail">
             <div id="order_label">

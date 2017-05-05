@@ -188,10 +188,6 @@ function clearPatientTableFilters(){
     $("#searchByPatient").submit();
 }
 
-function submitDispatch(){
-    $("#groupActionForm").submit();
-}
-
 function closePharmaGroupView(){
     jq("#pharmaGroupView").hide();
     $("#pharmaSingle").val();

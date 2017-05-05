@@ -195,8 +195,9 @@
                 
                 <% selectedPlan.each { discardPlans -> %>
                     <% discardPlans.value.each { discardPlan -> %>
-                        <h5 class="align-center"><strong id="discardPlan">${ discardPlan.key.getDisplayString() }</strong></h5><br/>
-
+                        <h4 class="align-center"><strong>Selected Order(s)</strong></h4><br/>
+                        <h5 class="align-center" id="discardPlan">${ discardPlan.key.getDisplayString() }</h5><br/>
+                        
                         <div class="fields" id="discardPlanBlock">
                             <% discardPlan.value.each { plan -> %>
                                 

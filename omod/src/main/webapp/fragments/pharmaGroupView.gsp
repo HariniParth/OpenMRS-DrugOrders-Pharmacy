@@ -133,7 +133,7 @@
             <label class="fields" id="statusLabel"><br/>Order Status: <span id="selectedAction"></span></label>
             
             <div class="fields" id="printLabel">
-                Click <a href="#" onclick="submitDispatch()">here</a> to Print Label<br/><br/>
+                Click <a href="#">here</a> to Print Label<br/><br/>
             </div>
             
             <span id="pharmaGroupButtons">
