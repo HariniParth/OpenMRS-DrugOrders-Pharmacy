@@ -46,6 +46,9 @@ public class MedicationPlansFragmentController {
 
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 HashMap<Integer,drugorders> extn = new HashMap<>();
+                /*
+                  Select active medication plan / regimen related drug orders.
+                */
                 List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(p_order.getPlanId());
 
                 for(planorders plan : plans){
@@ -80,6 +83,9 @@ public class MedicationPlansFragmentController {
                 HashMap<Integer,drugorders> extn = new HashMap<>();
                 List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(p_order.getPlanId());
 
+                /*
+                  Select draft medication plan / regimen related drug orders.
+                */
                 for(planorders plan : plans){
                     int id = plan.getOrderId();
                     if(Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus().equals("Draft-Plan")){

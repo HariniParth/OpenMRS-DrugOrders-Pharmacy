@@ -37,6 +37,10 @@ public class AdministrationFragmentController {
         HashMap<Integer,HashMap<Concept, List<standardplans>>> selectedPlan = new HashMap<>();
         HashMap<Concept, List<standardplans>> plansByName = new HashMap<>();
         
+        /*
+          Get the list of standard plan items for the selected standard plan.
+          Retrieve the items that are currently active.
+        */
         if(selectedMedPlan != null){
             List<standardplans> plans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(selectedMedPlan).getId());
             List<standardplans> activePlans = new ArrayList<>();
@@ -79,6 +83,9 @@ public class AdministrationFragmentController {
         return Context.getConceptService().getConceptsByClass(conceptClass);
     }
     
+    /*
+      Get drug name suggestions as the user types the first few characters of the drug name field
+    */
     public List<SimpleObject> getDrugNameSuggestions(@RequestParam(value = "query", required = false) String query,
                                                      @SpringBean("conceptService") ConceptService service,
                                                      UiUtils ui) {
@@ -97,6 +104,9 @@ public class AdministrationFragmentController {
         return SimpleObject.fromCollection(names, ui, properties);
     }
         
+    /*
+      Get plan name suggestions as the users types the first few characters of a plan.
+    */
     public List<SimpleObject> getPlanNameSuggestions(@RequestParam(value = "query", required = false) String query,
                                                      @SpringBean("conceptService") ConceptService service,
                                                      UiUtils ui) {

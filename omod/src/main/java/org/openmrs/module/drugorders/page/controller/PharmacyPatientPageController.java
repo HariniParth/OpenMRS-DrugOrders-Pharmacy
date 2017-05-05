@@ -57,6 +57,9 @@ public class PharmacyPatientPageController {
         
         if (StringUtils.isNotBlank(action)) {
             try {
+                /*
+                  If an action (Dispatch, On-Hold, Discard is selected and confirmed, take actions.
+                */
                 if ("Confirm".equals(action)) {
                     if(groupCheckBox.length > 0){
                         for(int i=0;i<groupCheckBox.length;i++){

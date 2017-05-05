@@ -63,6 +63,9 @@ public class AddDrugOrderSingleDetailsFragmentController {
         return Context.getConceptService().getConceptsByClass(conceptClass);
     }
     
+    /*
+      Get drug name suggestions as the user types the first few characters of the drug name field
+    */
     public List<SimpleObject> getDrugNameSuggestions(@RequestParam(value = "query", required = false) String query,
                                                      @SpringBean("conceptService") ConceptService service,
                                                      UiUtils ui) {
@@ -81,7 +84,9 @@ public class AddDrugOrderSingleDetailsFragmentController {
         return SimpleObject.fromCollection(names, ui, properties);
     }
     
-    
+    /*
+      Get disease name suggestions as the users types the first few characters of a disease.
+    */
     public List<SimpleObject> getDiseaseNameSuggestions(@RequestParam(value = "query", required = false) String query,
                                                         @SpringBean("conceptService") ConceptService service,
                                                         UiUtils ui) {

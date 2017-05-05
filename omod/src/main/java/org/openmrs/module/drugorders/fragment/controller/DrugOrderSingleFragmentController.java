@@ -32,12 +32,20 @@ public class DrugOrderSingleFragmentController {
                             @RequestParam(value = "singleCheckBox", required=false) long[] singleCheckBox,
                             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox){
         
+        /*
+          Remove the selected order from the existing group.
+        */
         if(!removeFromGroup.equals("")){
             drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(Integer.parseInt(removeFromGroup));
             drugorder.setOrderStatus("Active");
             drugorder.setGroupId(null);
         }
         
+        /*
+          Group the selected orders.
+          Set the group ID to 1 + the last group ID index.
+          Set order status to Active-Group.
+        */
         if ("GroupOrder".equals(action)) {
             if(singleCheckBox.length > 0 || groupCheckBox.length > 0){
                 int groupID = Context.getService(drugordersService.class).getLastGroupID() + 1;
@@ -65,6 +73,9 @@ public class DrugOrderSingleFragmentController {
                 InfoErrorMessageUtil.flashErrorMessage(session, "Check Orders To Be Grouped!");
         }
         
+        /*
+          Retrieve the list of active drug orders.
+        */
         List<drugorders> dorders = new ArrayList<>();
         HashMap<Integer,List<drugorders>> groupDorders = new HashMap<>();
         

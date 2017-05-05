@@ -52,6 +52,10 @@ public class AdministrationPageController {
         if (StringUtils.isNotBlank(action)) {
             try {
                 if (null != action) switch (action) {
+                    /*
+                      When a plan is defined, store the name of the plan and description.
+                      The name of the plan is stored as a concept.
+                    */
                     case "definePlan":
                         newplans newplan = new newplans();
                         
@@ -72,7 +76,10 @@ public class AdministrationPageController {
                         Context.getService(newplansService.class).saveMedicationPlan(newplan);
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
                         break;
-                        
+                    
+                    /*
+                      Add a drug with standard formulations and general consumption actions to the plan.
+                    */
                     case "extendPlan":
                         standardplans medPlans = new standardplans();
                         medPlans.setPlanId(Context.getService(newplansService.class).getMedicationPlan(ConceptName(adminPlan)).getId());
@@ -101,9 +108,14 @@ public class AdministrationPageController {
                             medPlans.setFrequency(orderFrequency);
                         }   
                         
+                        /*
+                          If plan item parameters are being edited, discard the old plan item.
+                        */
                         if(!(planId.equals(""))){
                             Context.getService(standardplansService.class).deleteMedicationPlan(Context.getService(standardplansService.class).getMedicationPlan(Integer.parseInt(planId)));
-                        }   Context.getService(standardplansService.class).saveMedicationPlan(medPlans);
+                        } else {
+                            Context.getService(standardplansService.class).saveMedicationPlan(medPlans);
+                        }
                         
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Updated!");
                         break;
@@ -114,6 +126,11 @@ public class AdministrationPageController {
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Renamed!");
                         break;
                         
+                    /*
+                      Set the status of the medication plan as non-active.
+                      Discontinue all the plan items that are a part of the selected plan.
+                      Note: Verify the plans to be discarded based on the check-boxes checked.
+                    */
                     case "discardPlan":
                         if(groupCheckBox.length > 0){
                             for(int i=0;i<groupCheckBox.length;i++){
@@ -161,6 +178,10 @@ public class AdministrationPageController {
         else
             model.addAttribute("recordedMedPlan", null);
         
+        /*
+          Get the list of all defined and currently active medication plans.
+          Get the list of all plan items (drugs) defined in the medication plan.
+        */
         HashMap<Concept,List<standardplans>> allMedicationPlans = new HashMap<>();
         
         List<newplans> newPlans = Context.getService(newplansService.class).getAllMedicationPlans();

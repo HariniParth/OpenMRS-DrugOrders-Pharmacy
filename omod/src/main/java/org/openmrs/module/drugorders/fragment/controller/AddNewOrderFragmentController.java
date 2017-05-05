@@ -45,6 +45,10 @@ public class AddNewOrderFragmentController {
 
         model.addAttribute("planName", planName.trim());
         
+        /*
+          Get the list of standard medications plans for the disease name typed.
+          Only plans that are currently active must be retrieved.
+        */
         List<standardplans> medplans = new ArrayList<>();
         if(Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName)) != null && Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName)).getPlanStatus().equals("Active")){
             newplans newPlan = Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName));
@@ -55,7 +59,10 @@ public class AddNewOrderFragmentController {
                     medplans.add(standardplan);
         }
         model.addAttribute("medplans", medplans);
-                
+        
+        /*
+          Get the list of drugs that the Patient is allergic to.
+        */        
         int number_of_allergic_drugs = patientService.getAllergies(patient).size();
         if(number_of_allergic_drugs >=1){
             ArrayList<String> allergen = new ArrayList<>();
@@ -69,6 +76,9 @@ public class AddNewOrderFragmentController {
         
     }
     
+    /*
+      Get plan name suggestions as the user starts typing the first few characters.
+    */
     public List<SimpleObject> getPlanNameSuggestions(@RequestParam(value = "query", required = false) String query,
                                                      @SpringBean("conceptService") ConceptService service,
                                                      UiUtils ui) {

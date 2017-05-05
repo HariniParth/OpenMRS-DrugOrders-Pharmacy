@@ -41,10 +41,16 @@ public class EditDrugOrderFragmentController {
         
         model.addAttribute("associatedDiagnosis", associatedDiagnosis);
         
+        /*
+          Fetch list of concepts that identify the reason to discontinue orders.
+        */
         ConceptClass reasonConcept = Context.getConceptService().getConceptClassByName("Discontinue Order Reasons");
         List<Concept> discontinueReasons = Context.getConceptService().getConceptsByClass(reasonConcept);
         model.addAttribute("discontinueReasons", discontinueReasons);
                
+        /*
+          Discontinue orders in the selected active group.
+        */
         if(StringUtils.isNotBlank(selectedActiveGroup)){
             try {
                 int group = Integer.parseInt(selectedActiveGroup);
@@ -61,6 +67,9 @@ public class EditDrugOrderFragmentController {
             }
         }
         
+        /*
+          Renew orders from the selected non-active group.
+        */
         if(StringUtils.isNotBlank(selectedNonActiveGroup)){
             try {
                 int group = Integer.parseInt(selectedNonActiveGroup);
@@ -76,7 +85,10 @@ public class EditDrugOrderFragmentController {
                 System.out.println(e.toString());
             }
         }
-                        
+                
+        /*
+          Discontinue orders in the selected active plan.
+        */
         if(selectedActivePlan != null){
             try {
                 int group = selectedActivePlan;
@@ -95,6 +107,9 @@ public class EditDrugOrderFragmentController {
             }
         }
                         
+        /*
+          Renew orders from the selected non-active plan.
+        */
         if(StringUtils.isNotBlank(selectedNonActivePlan)){
             try {
                 int group = Integer.parseInt(selectedNonActivePlan);
@@ -114,6 +129,9 @@ public class EditDrugOrderFragmentController {
             }
         }
                 
+        /*
+          Discontinue selected order
+        */
         if(StringUtils.isNotBlank(selectedActiveOrder) || selectedActiveItem != null){
             try {
                 int id = 0;

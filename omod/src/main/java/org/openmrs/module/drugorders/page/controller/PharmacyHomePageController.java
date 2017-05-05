@@ -32,6 +32,9 @@ public class PharmacyHomePageController {
         
         String searchPatient = patient_full_name.trim();
         
+        /*
+          Find the Patient record corresponding to the name of the Patient typed.
+        */
         if(!searchPatient.equals("")){
             for(Patient patient : allPatients){
                 if((patient.getGivenName()+" "+patient.getFamilyName()).equals(searchPatient)){
@@ -42,6 +45,9 @@ public class PharmacyHomePageController {
             model.addAttribute("patient", "");
         }
         
+        /*
+          Remove the hold on the list of selected drug orders.
+        */
         List<Integer> listOfOrders = new ArrayList<>();
         
         if(homeCheckbox.length > 0){
@@ -76,6 +82,9 @@ public class PharmacyHomePageController {
             } 
         }                     
         
+        /*
+          Fetch the list of orders for all patients that are put on hold or requested to be discontinued.
+        */
         List<drugorders> ordersOnHold = Context.getService(drugordersService.class).getOrdersOnHold();
         List<drugorders> ordersForDiscard = Context.getService(drugordersService.class).getOrdersForDiscard();
         

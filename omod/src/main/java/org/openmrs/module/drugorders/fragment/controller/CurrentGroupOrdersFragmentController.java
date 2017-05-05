@@ -28,6 +28,10 @@ public class CurrentGroupOrdersFragmentController {
     public void controller(PageModel model, @RequestParam("patientId") Patient patient){
         
         List<drugorders> allOrders = new ArrayList<>();
+        /*
+          Get the list of all active drug orders placed for the Patient.
+          Individual, Group, Plan orders.
+        */
         allOrders.addAll(Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active"));
         allOrders.addAll(Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan"));
         allOrders.addAll(Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Group"));

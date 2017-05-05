@@ -51,6 +51,9 @@ public class MailToOrdererFragmentController {
         String orderDetails = "";
         SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-yyyy");
         
+        /*
+          Fetch selected order details.
+        */
         for(int i=0;i<groupCheckBox.length;i++){            
             int orderID = Integer.parseInt(Long.toString(groupCheckBox[i]));
             orderList = orderList.concat(Long.toString(groupCheckBox[i])+" ");
@@ -81,6 +84,9 @@ public class MailToOrdererFragmentController {
         final String username = "";
         final String password = "";
 
+        /*
+          Use Google's SMTP service to send emails.
+        */
         Properties props = new Properties();
         props.put("mail.smtp.auth", "");
         props.put("mail.smtp.starttls.enable", "");

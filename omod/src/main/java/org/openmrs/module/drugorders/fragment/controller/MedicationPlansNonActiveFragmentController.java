@@ -32,6 +32,9 @@ public class MedicationPlansNonActiveFragmentController {
         //Data structure to store the 'drugorders' object properties for all the non-active orders for the given disease
         HashMap<Integer, HashMap<Concept, HashMap<Integer, drugorders>>> NonActivePlanExtn = new HashMap<>();
         
+        /*
+          Retrieve the list of non-active medication plan orders.
+        */
         List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active-Plan");
         
         for(drugorders order : orders){

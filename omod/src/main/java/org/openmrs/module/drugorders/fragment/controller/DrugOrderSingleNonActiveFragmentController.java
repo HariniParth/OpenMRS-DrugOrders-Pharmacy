@@ -30,7 +30,10 @@ public class DrugOrderSingleNonActiveFragmentController {
         HashMap<Integer,List<drugorders>> groupDorders = new HashMap<>();
         
         List<OrderAndDrugOrder> drugOrders = DrugOrderList.getDrugOrdersByPatient(patient);
-                
+        
+        /*
+          Get the list of non-active drug orders placed for the Patient.
+        */
         for(OrderAndDrugOrder drugOrder : drugOrders){
             drugorders dorder = drugOrder.getdrugorders();
             switch (dorder.getOrderStatus()) {

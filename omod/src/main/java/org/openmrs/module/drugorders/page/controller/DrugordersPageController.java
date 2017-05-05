@@ -79,8 +79,12 @@ public class DrugordersPageController {
         drugName = drugName.trim();
         diagnosis = diagnosis.trim();
         
+        /*
+          Get the list of drugs the Patient is allergic to
+        */
         Allergies allergies = patientService.getAllergies(patient);
         ArrayList<String> allergicDrugList = new ArrayList<>();
+        
         if(allergies.size() > 0){
             for(Allergy allergy : allergies){
                 allergicDrugList.add(allergy.getAllergen().toString());
@@ -95,6 +99,10 @@ public class DrugordersPageController {
         if (StringUtils.isNotBlank(action)) {
             try {
                 if ("CREATE DRUG ORDER".equals(action)) {
+                    /*
+                      Check if an order for the selected drug does not already exist.
+                      Ensure that all the required parameters are specified and then create an order.
+                    */
                     if(!currentOrders.contains(drugName)){
                         if (!(drugName.equals("")) && !(route.equals("")) && !(dose.equals("")) && !(doseUnits.equals("")) && !(quantity.equals("")) && !(quantityUnits.equals("")) && !(frequency.equals("")) && (duration != null) && !(durationUnits.equals(""))) {
                         
@@ -115,6 +123,10 @@ public class DrugordersPageController {
                     }                  
                 }
                 
+                /*
+                  If a medication plan is selected, create an order for all the drugs for which the corresponding checkbox is checked.
+                  If drugs being ordered are known to be allergic, save the reason for ordering the drugs.
+                */
                 if ("selectMedPlan".equals(action)) {
                     
                     List<String> allergicPlanOrderReason = new ArrayList<>();
@@ -131,6 +143,9 @@ public class DrugordersPageController {
                             planOrderList.add(Long.toString(groupCheckBox[i]));  
                         } 
                         
+                        /*
+                          Fetch the standard plans for the selected plan (disease).
+                        */
                         List<standardplans> standardPlans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(ConceptName(selectedPlan)).getId());
                         for(standardplans standardPlan : standardPlans){
                             
@@ -145,6 +160,9 @@ public class DrugordersPageController {
                                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setPriority(ConceptName("High"));
                                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setStartDate(Calendar.getInstance().getTime());
                                 
+                                /*
+                                  If the drug is known to be allergic, save the reason for ordering the drug.
+                                */
                                 if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
                                     if(allergicDrugList.contains(standardPlan.getDrugId().getDisplayString())){
                                         Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setIsAllergicOrderReasons(allergicPlanOrderReason.get(0));
@@ -158,6 +176,9 @@ public class DrugordersPageController {
                     }
                 }
                 
+                /*
+                  Discontinue selected order. Save the reason for discontinuing the order and set status to Non-Active.
+                */
                 if ("DISCONTINUE ORDER".equals(action)){
                     if(groupCheckBox.length > 0){
                         int id = Integer.parseInt(Long.toString(groupCheckBox[0]));
@@ -176,6 +197,10 @@ public class DrugordersPageController {
                     }
                 }
                 
+                /*
+                  Discontinue all the orders in the selected order group. 
+                  Save the reason for discontinuing the orders and set status to Non-Active.
+                */
                 if ("DISCARD ORDER GROUP".equals(action)) {
                     int ordersInGrp = Context.getService(drugordersService.class).getDrugOrdersByGroupID(groupOrderID).size();
                     
@@ -199,6 +224,10 @@ public class DrugordersPageController {
                     }
                 }
                 
+                /*
+                  Renew selected orders from the set of orders in the group.
+                  If the drug is identified to be allergic, save the reason for ordering the drug and create an order.
+                */
                 if ("RENEW ORDER GROUP".equals(action)) {
                     if(groupCheckBox.length > 0){
                         int groupID = Context.getService(drugordersService.class).getLastGroupID() + 1;
@@ -235,6 +264,10 @@ public class DrugordersPageController {
                     }
                 }
                 
+                /*
+                  Discontinue all the orders in the selected medication plan.
+                  Save the reason for discontinuing the orders and set status to Non-Active.
+                */
                 if ("DISCARD MED PLAN".equals(action)){
                     int ordersInPlan = Context.getService(planordersService.class).getDrugOrdersByPlanID(groupOrderID).size();
                     
@@ -258,6 +291,10 @@ public class DrugordersPageController {
                     }
                 }
                 
+                /*
+                  Renew selected orders from the set of orders in the plan.
+                  If the drug is identified to be allergic, save the reason for ordering the drug and create an order.
+                */
                 if ("RENEW MED PLAN".equals(action)){
                     if(groupCheckBox.length > 0){
                         int planID = Context.getService(planordersService.class).getLastPlanID() + 1;
@@ -292,6 +329,9 @@ public class DrugordersPageController {
                     }                        
                 }
                 
+                /*
+                  Edit the drug order. This will void the previous order and create a new drug order.
+                */
                 if ("EDIT DRUG ORDER".equals(action)) {
                     
                     drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
@@ -327,6 +367,9 @@ public class DrugordersPageController {
                     InfoErrorMessageUtil.flashInfoMessage(session, "Order Changes Saved!");
                 }
 
+                /*
+                  Renew an individual drug order with the selected standard order composition.
+                */
                 if ("RENEW DRUG ORDER".equals(action)) {
                     
                     drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
@@ -345,6 +388,9 @@ public class DrugordersPageController {
                     }                    
                 }   
                 
+                /*
+                  Save the draft of orders created for medication plan drugs.
+                */
                 if ("saveDraft".equals(action)){
                     List<drugorders> draftOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Plan");
                     for(drugorders draftOrder : draftOrders)
@@ -359,6 +405,10 @@ public class DrugordersPageController {
         model.addAttribute("currentOrders", currentOrders);
     }
 
+    /*
+      This function will save the standard parameters associated with the Order and Drug Order class.
+      It will save the order's basic parameters in the drug_orders table and create an Drug Order record.
+    */
     private int createNewDrugOrder(DrugOrder order, Patient patient, String drugNameConfirmed, String route,
             String dose, String doseUnits, String quantity, String quantityUnits,
             String frequency, Integer duration, String durationUnits) {
@@ -371,6 +421,7 @@ public class DrugordersPageController {
             Concept drugConcept =  activator.saveConcept(drugNameConfirmed, Context.getConceptService().getConceptClassByName("Drug"));
             order.setConcept(drugConcept);
             
+            // Save the drug concept
             Drug drug = new Drug();
             drug.setName(drugNameConfirmed);
             drug.setConcept(drugConcept);
@@ -419,6 +470,10 @@ public class DrugordersPageController {
         return orderID; 
     }
     
+    /*
+      This function will save the additional parameters associated with the drug orders.
+      It saves data in the drug_order_extn table.
+    */
     private void createDrugOrderExtension(drugorders drugorder, int drugOrderID, int patientID, String drugName, Date startDate, String orderReason, String diagnosis, String priority, String status, int refill, int interval, String patientInstrn, String pharmacistInstrn){
         drugorder = new drugorders();
         drugorder.setOrderId(drugOrderID);
@@ -450,6 +505,9 @@ public class DrugordersPageController {
         Context.getService(drugordersService.class).saveDrugOrder(drugorder);
     }
     
+    /*
+      This function will record an order placed for a drug that is a part of a medication plan / regimen.
+    */
     private void createPlanOrder(int drugOrderID, int planID, int patientID, String diseaseName){
         
         planorders diseaseDrugOrder = new planorders();
@@ -461,10 +519,15 @@ public class DrugordersPageController {
         
     }
     
+    // Get Concept ID by name
     private Concept ConceptName(String conceptString){
         return Context.getConceptService().getConceptByName(conceptString);
     }
     
+    /*
+      Set the reason for discontinuing the drug.
+      Save the coded concept or the non-coded concept, whatever is provided.
+    */
     private void setDiscontinueReason(drugorders drugorder, String coded, String nonCoded){
         if(!(coded.equalsIgnoreCase(""))){
             drugorder.setDiscontinueReason(ConceptName(coded.trim()));
@@ -493,6 +556,9 @@ public class DrugordersPageController {
         return cal.getTime();
     }
 
+    /*
+      Retrieve current active drug orders for the Patient.
+    */
     private List<String> getCurrentDrugOrders(Patient patient){
         
         List<String> drugOrders = new ArrayList<>();

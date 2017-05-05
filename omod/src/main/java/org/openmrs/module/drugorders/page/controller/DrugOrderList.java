@@ -25,6 +25,9 @@ public class DrugOrderList {
         
     }
     
+    /*
+      Get references to all drug_order_extn records that are Drug Orders.
+    */
     public static List<OrderAndDrugOrder> getDrugOrdersByPatient(Patient p) {
         ArrayList<OrderAndDrugOrder> drugOrders = new ArrayList<>();
         List<Order> orders = Context.getOrderService().getAllOrdersByPatient(p);
@@ -40,6 +43,9 @@ public class DrugOrderList {
         return drugOrders;
     }
     
+    /*
+      Get references to all drug_orders records that are Drug Orders.
+    */
     public static HashMap<Integer,DrugOrder> getDrugOrderMainDataByPatient(Patient p){
         HashMap<Integer,DrugOrder> drugOrdersMain = new HashMap<>();
         List<Order> orders = Context.getOrderService().getAllOrdersByPatient(p);
