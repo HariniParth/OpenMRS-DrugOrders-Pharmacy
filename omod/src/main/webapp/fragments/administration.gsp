@@ -19,7 +19,7 @@
             
             <div id="view_order_detail">
                 <label><strong>Enter Description</strong></label>
-                <input type="textarea" maxlength="100" id="definePlanDesc" name="definePlanDesc"/>
+                <input type="textarea" maxlength="255" id="definePlanDesc" name="definePlanDesc"/>
             </div><br/>
             
             <input type="hidden" name="action" id="defineAction" />
@@ -261,7 +261,7 @@
                 
                 <div class="fields">
                     <p><strong>Enter Reason To Discard</strong></p>
-                    <input id="discardReason" type="text" name="discardReason" />
+                    <input type="textarea" maxlength="255" id="discardReason" name="discardReason" />
                 </div><br/>
 
                 <button class="confirm right" id="btn-place" type="button" onclick="discardMedPlan()">${ ui.message("Confirm") }</button>

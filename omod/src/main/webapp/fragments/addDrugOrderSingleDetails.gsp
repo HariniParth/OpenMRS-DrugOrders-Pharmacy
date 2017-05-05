@@ -43,7 +43,7 @@
             <div class="fields" id="view_order_detail">
                 <label>Note: The patient is allergic to this drug.</label>
                 <label>Enter the reasons for ordering this drug:</label>
-                <input type="textarea" maxlength="100" id="orderReason" name="orderReason"/>
+                <input type="textarea" maxlength="255" id="orderReason" name="orderReason"/>
             </div><br/>
         </div>
 
@@ -217,7 +217,7 @@
                 <label>Patient</label>
             </div>
             <div id="order_value">
-                <input type="textarea" maxlength="100" id="patientInstrn" name="patientInstrn"/>
+                <input type="textarea" maxlength="255" id="patientInstrn" name="patientInstrn"/>
             </div>
         </div>
 
@@ -228,7 +228,7 @@
                 <label>Pharmacist</label>
             </div>
             <div id="order_value">
-                <input type="textarea" maxlength="100" id="pharmacistInstrn" name="pharmacistInstrn"/>
+                <input type="textarea" maxlength="255" id="pharmacistInstrn" name="pharmacistInstrn"/>
             </div>
         </div>
 

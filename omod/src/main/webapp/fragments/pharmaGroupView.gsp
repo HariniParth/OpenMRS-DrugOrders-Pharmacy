@@ -118,7 +118,7 @@
                             
                             <div class="fields" id="view_order_detail">
                                 <div id="order_label"><label>Note<span id="asterisk">*</span></label></div>
-                                <div id="order_value"><input type="text" class="commentForPatient" value=" " name="commentForPatient"></div>
+                                <div id="order_value"><input type="text" maxlength="255" class="commentForPatient" value=" " name="commentForPatient" ></div>
                             </div>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
             <label class="fields" id="statusLabel"><br/>Order Status: <span id="selectedAction"></span></label>
             
             <div class="fields" id="printLabel">
-                Click <a href="#">here</a> to Print Label<br/><br/>
+                Click <a>here</a> to Print Label<br/><br/>
             </div>
             
             <span id="pharmaGroupButtons">
@@ -159,7 +159,7 @@
                     <label>Comments</label>
                 </div>
                 <div class="fields">
-                    <input type="textarea" maxlength="100" id="groupComments" name="groupComments" placeholder="Enter Comments for the Orderer"/><br/>
+                    <input type="textarea" maxlength="255" id="groupComments" name="groupComments" placeholder="Enter Comments for the Orderer"/><br/>
                     <div id="btn-place">
                         <input class="confirm right" id="confirmBtn2" type="submit" name="action" value="Confirm" />
                         <input class="cancel" value="Back" type="button" onclick="showPharmaOrderViewSection()" />

@@ -9,13 +9,31 @@
         for a list of supported elements and attributes
     -->
     
-    <changeSet id="harini_table_1" author="harini">
+    <changeSet id="drug_order_table_1" author="drug_order">
         <sql>
             drop table if exists drug_orders_extn;
         </sql>
     </changeSet>
+    
+    <changeSet id="drug_order_table_2" author="drug_order">
+        <sql>
+            drop table if exists plan_orders;
+        </sql>
+    </changeSet>
+    
+    <changeSet id="drug_order_table_3" author="drug_order">
+        <sql>
+            drop table if exists standard_plans;
+        </sql>
+    </changeSet>
+    
+    <changeSet id="drug_order_table_4" author="drug_order">
+        <sql>
+            drop table if exists new_plans;
+        </sql>
+    </changeSet>
 
-    <changeSet id="harini_table_2" author="harini">
+    <changeSet id="drug_order_table_5" author="drug_order">
         <preConditions onFail="WARN" onError="WARN">
             <not>
                 <tableExists tableName="drug_orders_extn" />
@@ -52,13 +70,7 @@
         </createTable>
     </changeSet>
     
-    <changeSet id="harini_table_3" author="harini">
-        <sql>
-            drop table if exists new_plans;
-        </sql>
-    </changeSet>
-    
-    <changeSet id="harini_table_4" author="harini">
+    <changeSet id="drug_order_table_6" author="drug_order">
         <preConditions onFail="WARN" onError="WARN">
             <not>
                 <tableExists tableName="new_plans" />
@@ -71,17 +83,11 @@
             <column name="plan_name" type="int"></column>
             <column name="plan_desc" type="varchar(255)"></column>
             <column name="plan_status" type="varchar(50)"></column>
-            <column name="discard_reason" type="varchar(50)"></column>
+            <column name="discard_reason" type="varchar(255)"></column>
         </createTable>
     </changeSet>
     
-    <changeSet id="harini_table_5" author="harini">
-        <sql>
-            drop table if exists standard_plans;
-        </sql>
-    </changeSet>
-    
-    <changeSet id="harini_table_6" author="harini">
+    <changeSet id="drug_order_table_7" author="drug_order">
         <preConditions onFail="WARN" onError="WARN">
             <not>
                 <tableExists tableName="standard_plans" />
@@ -104,17 +110,11 @@
             <column name="route" type="int"></column>
             <column name="frequency" type="int"></column>
             <column name="plan_status" type="varchar(50)"></column>
-            <column name="discard_reason" type="varchar(50)"></column>
+            <column name="discard_reason" type="varchar(255)"></column>
         </createTable>
     </changeSet>
     
-    <changeSet id="harini_table_7" author="harini">
-        <sql>
-            drop table if exists plan_orders;
-        </sql>
-    </changeSet>
-    
-    <changeSet id="harini_table_8" author="harini">
+    <changeSet id="drug_order_table_8" author="drug_order">
         <preConditions onFail="WARN" onError="WARN">
             <not>
                 <tableExists tableName="plan_orders" />
@@ -130,7 +130,6 @@
             </column>
             <column name="disease_id" type="int"></column>
             <column name="patient_id" type="int"></column>
-            
         </createTable>
     </changeSet>
     

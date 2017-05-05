@@ -305,7 +305,7 @@ form select, .form select {
     color: orange;
 }
 
-.groupHome.forDiscard > div > div:not(.l21), .groupHome.forDiscard > div > div > *, .singleHome.forDiscard > td:not(:first-child):not(:nth-child(2)), .singleRow.forDiscard td:not(:first-child):not(:last-child), .groupElement.forDiscard *{
+.groupHome.forDiscard > div > div:not(.l21) > *, .singleHome.forDiscard > td:not(:first-child):not(:nth-child(2)), .singleRow.forDiscard td:not(:first-child):not(:last-child), .groupElement.forDiscard *{
     color: orangered;
     text-decoration: line-through;
 }
@@ -342,4 +342,8 @@ form select, .form select {
 
 .wordBreak{
     word-break: break-all;
+}
+
+#printLabel > a:hover{
+    cursor: pointer;
 }

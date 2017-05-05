@@ -137,12 +137,13 @@ $(document).ready( function() {
         actions: {
             cancel: function() {
             	removeFromGroupDialog.close();
+                clearHighlights();
             },
             confirm: function() {
             	$("#removeFromGroupForm").submit();
             }
         }
-    });       
+    });
 });
 
 /*
