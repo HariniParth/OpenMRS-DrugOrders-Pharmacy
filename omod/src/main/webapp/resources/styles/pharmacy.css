@@ -93,7 +93,7 @@ and open the template in the editor.
     color: #363463;
 }
 
-.patientRow:hover, .orderRow:hover, .groupRow:hover td:not(:first-child) .groupElement, .singleRow:hover td:not(:first-child){
+.patientRow:hover, .orderRow:hover, .groupRow:hover td:not(:first-child) .groupElement, .singleRow:hover td:not(:first-child):not(:last-child){
     background: #75b2f0;
     color: white;
     cursor: pointer;

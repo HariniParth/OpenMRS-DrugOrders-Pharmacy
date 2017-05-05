@@ -37,17 +37,20 @@ public class MailToOrdererFragmentController {
                             @RequestParam(value = "groupComments", required = false) String groupComments,
                             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
                             @RequestParam(value = "ordererName", required = false) String ordererName,
-                            @RequestParam(value = "orderNumber", required = false) String orderNumber) throws ParseException{
+                            @RequestParam(value = "orderNumber", required = false) String orderNumber,
+                            @RequestParam(value = "orderName", required = false) String orderName) throws ParseException{
        
         model.addAttribute("groupAction", groupAction);
         model.addAttribute("ordererName", ordererName);
         model.addAttribute("orderNumber", orderNumber);
+        model.addAttribute("orderName", orderName);
         model.addAttribute("patientID", patient.getPatientId());
         model.addAttribute("patientName", patient.getGivenName()+" "+patient.getFamilyName());
         
         String sender = "";
         String recipient = "";        
-        String orderList = "";        
+        String orderList = "";    
+        String drugNames = "";
         String orderDetails = "";
         SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-yyyy");
         
@@ -60,6 +63,7 @@ public class MailToOrdererFragmentController {
             
             Order order = Context.getOrderService().getOrder(orderID);
             drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
+            drugNames = drugNames.concat(drugorder.getDrugName().getDisplayString().toUpperCase()+";");
             orderDetails = orderDetails.concat("Order ID: "+Integer.toString(drugorder.getOrderId())+"\nDrug: "+drugorder.getDrugName().getDisplayString()+"\nStart Date: "+formatter.parse(drugorder.getStartDate().toString())+"\n\n");
             if(recipient.equals(""))
                 recipient = order.getOrderer().getName();
@@ -72,6 +76,7 @@ public class MailToOrdererFragmentController {
         model.addAttribute("sender", sender);
         model.addAttribute("recipient", recipient);
         model.addAttribute("orderList", orderList);
+        model.addAttribute("drugNames", drugNames);
         model.addAttribute("orderDetails", orderDetails);
         model.addAttribute("groupComments", groupComments);
     }

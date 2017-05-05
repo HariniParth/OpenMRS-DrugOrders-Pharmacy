@@ -42,7 +42,8 @@ function showRemoveOrderHoldWindow(){
 /*
  * Display the fragment showing Orderer's contact info
  */
-function showOrdererContact(ordererName, orderID){
+function showOrdererContact(ordererName, orderID, orderName){
+    $("#orderName").val(orderName);
     $("#orderNumber").val(orderID);
     $("#ordererName").val(ordererName);
     $("#ordererEmail").text(ordererName);
@@ -95,6 +96,9 @@ function highlight(){
     
     var currentSelected;
     
+    /*
+     * Highlight selected group or plan orders
+     */
     if(pharmaPlan !== "" || pharmaGroup !== ""){
         if(pharmaGroup !== "")
             currentSelected = pharmaGroup;
@@ -109,6 +113,9 @@ function highlight(){
         });
     }       
      
+    /*
+     * Highlight selected individual order
+     */
     else if(pharmaSingle !== ""){
         currentSelected = pharmaSingle;
         
@@ -119,6 +126,32 @@ function highlight(){
             }
         });
     }
+    
+    /*
+     * Highlight orders referred to by the mail fragment
+     */
+    if(document.getElementById("drugNames")){
+        var drugNames = $("#drugNames").val().split(";");
+        if(drugNames !== ""){
+            $.each(drugNames, function(index, value){
+                var $rows2 = $('#currentGroupOrdersTable tbody .groupRow').filter(function () {
+                    var $rows3 = $(this).find('td').eq(1).find('.groupElement').each(function(){
+                        var drug = $.trim($(this).find('.d1').find('.e1').find('.g1').find('.c1').find('.wordBreak').text());
+                        if(drug === value){
+                            $(this).parent().parent().children('td').slice(1, 2).css({"background": "#75b2f0","color": "white"});
+                        }
+                    });
+                });
+
+                var $rows1 = $('#currentGroupOrdersTable tbody .singleRow').filter(function () {
+                    var drug = $.trim($(this).find('td').eq(1).find('.wordBreak').text());
+                    if(drug === value){
+                        $(this).children('td').slice(1, 6).css({"background": "#75b2f0","color": "white"});
+                    }
+                });
+            });
+        }  
+    }       
 }
 
 /*
@@ -246,4 +279,5 @@ function closePharmaGroupView(){
  */
 function closeMailWindow(){
     jq("#mailWindow").hide();
+    clearHighlights();
 }

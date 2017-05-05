@@ -10,6 +10,7 @@
                 <h3 id="dialog-heading">${ ui.message("Mail To Orderer") }</h3>
             </div>
 
+            <input type="hidden" id="drugNames" value="${ drugNames }" />
             <table border="0">
                 <tr>
                     <td>From:</td>
@@ -42,6 +43,7 @@
                 <h3 id="dialog-heading">${ ui.message("Mail To Orderer") }</h3>
             </div>
 
+            <input type="hidden" id="drugNames" value="${ orderName };" />
             <table border="0">
                 <tr>
                     <td>From:</td>

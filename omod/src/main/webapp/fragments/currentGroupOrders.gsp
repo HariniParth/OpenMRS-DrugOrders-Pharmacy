@@ -9,6 +9,7 @@
     <input type="hidden" id="planID" name="planID" />
     <input type="hidden" id="orderID" name="orderID" />
     <input type="hidden" id="groupID" name="groupID" />
+    <input type="hidden" name="orderName" id="orderName" />
     <input type="hidden" name="orderNumber" id="orderNumber" />
     <input type="hidden" name="ordererName" id="ordererName" />
     
@@ -60,7 +61,7 @@
                                 
                                 <div class="ordererID">
                                     <div class="g5"></div>
-                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }')"><span class="wordBreak">${ OrdererName.get(order.orderId) }</span></div>
+                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }','${ order.drugName.getDisplayString().toUpperCase() }')"><span class="wordBreak">${ OrdererName.get(order.orderId) }</span></div>
                                 </div>
                             
                             <% } %>
@@ -106,7 +107,7 @@
                                 
                                 <div class="ordererID">
                                     <div class="g5"></div>
-                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }')"><span class="wordBreak">${ OrdererName.get(order.orderId) }</span></div>
+                                    <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }','${ order.drugName.getDisplayString().toUpperCase() }')"><span class="wordBreak">${ OrdererName.get(order.orderId) }</span></div>
                                 </div><br/><br/>
                             
                             <% } %>
@@ -133,7 +134,7 @@
                         <% } %>
                         <td onclick="selectedSingleOrder('${ patientSingleOrder.orderId }')" title="${ ui.message(patientSingleOrder.commentForOrderer) }">${ last_dispatch_date }</td>
                         
-                        <td class="g6" onclick="showOrdererContact('${ OrdererName.get(patientSingleOrder.orderId) }','${ patientSingleOrder.orderId }')"><span class="wordBreak">${ OrdererName.get(patientSingleOrder.orderId) }</span></td>
+                        <td class="g6" onclick="showOrdererContact('${ OrdererName.get(patientSingleOrder.orderId) }','${ patientSingleOrder.orderId }','${ patientSingleOrder.drugName.getDisplayString().toUpperCase() }')"><span class="wordBreak">${ OrdererName.get(patientSingleOrder.orderId) }</span></td>
                     </tr> 
                 <% } %>
 
