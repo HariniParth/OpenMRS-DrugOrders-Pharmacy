@@ -4,6 +4,12 @@
     def last_dispatch_date = "";
 %>
 
+<!--
+    Table listing the active drug orders placed for a Patient.
+    This includes the active individual, group and med plan orders.
+    The columns display the drug name, start date, number of refills, last dispatch date and Orderer name.
+-->
+
 <form method="post" id="groupOrdersForm">
     
     <input type="hidden" id="planID" name="planID" />

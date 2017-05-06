@@ -3,6 +3,13 @@
     def default_prio = "";
 %>
 
+<!--
+    Table displaying the list of non-active medication plan related drug orders.
+    Columns display the order ID and drug name
+    Each record can be clicked to view the order details.
+    Icons are provided to renew the orders.
+-->
+
 <div id="nonActivePlansTableWrapper">
     <form method="post" name="nonActivePlanForm" id="nonActivePlanForm">
         <input type="hidden" id="selectedNonActivePlan" name="selectedNonActivePlan" />

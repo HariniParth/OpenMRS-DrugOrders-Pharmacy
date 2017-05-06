@@ -3,6 +3,14 @@
     ui.includeJavascript("drugorders", "dataTables.js")
 %>
 
+<!--
+    Table displaying the list of active individual and group drug orders.
+    Columns display the order ID, drug name and start date.
+    Each record can be clicked to view the order details.
+    Icons are provided to edit and discard the orders.
+    Orders can be grouped or ungrouped.
+-->
+
 <div id="activeOrdersTableWrapper">
     <form method="post" name="activeGroupForm" id="activeGroupForm">
         <input type="hidden" id="selectedActiveGroup" name="selectedActiveGroup" />

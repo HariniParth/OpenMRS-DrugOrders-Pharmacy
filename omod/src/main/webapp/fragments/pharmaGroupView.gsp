@@ -6,6 +6,12 @@
     def last_dispatch_date = "";
 %>
 
+<!--
+    Pharmacy fragment displaying the details of the selected individual, group or plan drug orders.
+    The fragment provides buttons (options) to Dispatch orders, put orders On-Hold and Discard orders.
+    The fragment displays fields to enter comments based on the selected action.
+-->
+
 <% if(!planID.equals("") || !groupID.equals("") || !orderID.equals("")) { %>
     <div id="pharmaGroupView" class="dialog">
 
@@ -110,6 +116,10 @@
                             </div>
                         </div>
                         
+                        <!--
+                            Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
+                        -->
+                                    
                         <div class="dispatchFields">
                             <div class="fields" id="view_order_detail">
                                 <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
@@ -154,6 +164,10 @@
                 </div>
             </div>
                     
+            <!--
+                Display fields to enter comments for the Orderer when orders are selected to be put on hold or discarded.
+            -->
+            
             <span id="pharmaGroupActionButtons">
                 <div class="fields">
                     <label>Comments</label>

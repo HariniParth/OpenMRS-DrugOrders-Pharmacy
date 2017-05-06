@@ -2,6 +2,10 @@
     ui.includeCss("drugorders", "drugorders.css")
 %>
 
+<!--
+    Form to enter and select (based on auto-complete options) a medication plan.
+-->
+
 <div id="medPlanWindow" class="dialog">
     <div class="dialog-header">
         <h3 id="dialog-heading">${ ui.message("SELECT MEDICATION PLAN") }</h3>
@@ -41,8 +45,14 @@
     });
 </script>
         
-
+<!--
+    Form displaying the details of the selected medication plan.
+    This form provides check-boxes corresponding to each drug in the plan, allowing Physician to select drugs to be ordered.
+    The form notifies the Physician if the Patient is allergic to the drug or if there is an active order for the drug.
+-->
+    
 <% if(medplans.size() > 0) { %>
+
     <div id="medPlanDetailsWindow" class="dialog">
         <form method="post">    
             
@@ -56,6 +66,9 @@
             <div id="medPlansBlock" class="fields">
                 <% medplans.each { medplan -> %>
                     <div class="planDrugName">
+                        <!--
+                            Disable options to select a medication plan drug if an active order for that drug exists.
+                        -->
                         <% if(currentOrders.contains(medplan.drugId.getDisplayString())) { %>
                             <input type="checkbox" class="unchecked" disabled="disabled" />
                         <% } else { %>
@@ -70,12 +83,21 @@
                     <div class="drugDetails">
                         ${ medplan.dose } ${ medplan.doseUnits.getDisplayString() }, ${ medplan.quantity } ${ medplan.quantityUnits.getDisplayString() } <br/>
                                 
+                        <!--
+                            Display a note if an active order for the selected drug exists.
+                        -->
+                        
                         <% if(currentOrders.contains(medplan.drugId.getDisplayString())) { %>
                             <div id="view_order_detail">
                                 <label>Note: Drug is currently prescribed to this patient.</label>
                                 <label>Cannot place multiple orders for the same drug.</label>
                             </div>
                         <% } %>
+                        
+                        <!--
+                            Display a note if Patient is allergic to the drug.
+                            Display a field to enter the reason to order the allergic drug.
+                        -->
                         
                         <% if(allergicDrugs.contains(medplan.drugId.getDisplayString())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>

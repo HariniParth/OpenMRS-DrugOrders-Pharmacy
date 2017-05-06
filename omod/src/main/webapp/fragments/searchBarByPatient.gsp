@@ -2,6 +2,10 @@
     ui.includeCss("drugorders", "pharmacy.css")
 %>
 
+<!--
+    Fragment displaying a field to enter the name and search for a Patient.
+-->
+
 <div id="patient-search-bar">
     <form method="post" id="searchByPatient">
         <p class="fields"><strong>FIND PATIENT</strong>

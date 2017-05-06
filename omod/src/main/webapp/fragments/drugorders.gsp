@@ -1,3 +1,7 @@
+<!--
+    Fragment displaying the list of active drug orders on the Patient dashboard.
+-->
+
 <div class="info-section">
     <div class="info-header">
         <i class="icon-medicine"></i>

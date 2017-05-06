@@ -3,7 +3,12 @@
     ui.includeJavascript("drugorders", "pharmacy.js")
 %>
 
+<!--
+    Mail fragment with fields displaying the Sender name, Receiver name, order ID in subject line and comments.
+-->
+
 <% if(groupAction == "On Hold" || groupAction == "Discard") { %>
+
     <div id="mailWindow" class="dialog">
         <form method="post" id="mailOrdererForm">
             <div class="dialog-header">
@@ -37,6 +42,7 @@
         </form>
     </div>
 <% } else if(ordererName != "") { %>
+
     <div id="mailWindow" class="dialog">
         <form method="post" id="mailOrdererForm">
             <div class="dialog-header">

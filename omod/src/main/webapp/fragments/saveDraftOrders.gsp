@@ -3,6 +3,10 @@
     ui.includeJavascript("drugorders", "drugorders.js")
 %>
 
+<!--
+    Fragment to confirm saving of med plan orders in draft status.
+-->
+
 <div id="saveDraftPlan" class="dialog">
     <form method="post" id="saveDraftPlanForm">
         <div class="dialog-header">

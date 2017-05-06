@@ -1,6 +1,11 @@
 <%
     ui.includeCss("drugorders", "drugorders.css")
 %>
+<!--
+    Fragment displaying a form to create an individual drug order.
+    This form provides fields to enter all the drug order specifications including drug formulations and consumption instructions.
+    The form notifies the Physician if the Patient is allergic to the drug or if there is an active order for the drug.
+-->
 
 <div id="createOrderWindow" class="dialog">
     
@@ -32,6 +37,10 @@
 
         <br/><br/><br/>
         
+        <!--
+            Display a note if an active order for the selected drug exists.
+        -->
+                
         <div id="orderExistsField">
             <div class="fields" id="view_order_detail">
                 <label>Note: Patient is currently prescribed this drug.</label>
@@ -39,6 +48,11 @@
             </div><br/>
         </div>
         
+        <!--
+            Display a note if Patient is allergic to the drug.
+            Display a field to enter the reason to order the allergic drug.
+        -->
+                
         <div id="allergicDrugOrderReasonField">
             <div class="fields" id="view_order_detail">
                 <label>Note: The patient is allergic to this drug.</label>

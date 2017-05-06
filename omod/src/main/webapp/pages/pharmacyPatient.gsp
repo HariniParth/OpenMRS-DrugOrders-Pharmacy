@@ -19,6 +19,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 <div class="info-body">
     
+    <!--
+        Display the list of drugs the Patient is allergic to.
+    -->
+
     <div id="allergyList">
         <strong>Drug Allergies:</strong>
         <% if (allergies.allergyStatus != "See list") { %>

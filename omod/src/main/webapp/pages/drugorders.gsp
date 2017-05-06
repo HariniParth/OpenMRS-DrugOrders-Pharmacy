@@ -21,6 +21,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 <div class="info-body">
     
+    <!--
+        Display the list of drugs the Patient is allergic to.
+    -->
+
     <div id="allergyList">
         <strong>Drug Allergies:</strong>
         <% if (allergicDrugs == "null") { %>
@@ -36,6 +40,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
         
     <div id="orderList">
  
+        <!--
+            Included ifragments that display the active and non-active drug orders.
+        -->
+        
         <div id="activeOrderWindow">
             
             <div id="pageLabel"> 

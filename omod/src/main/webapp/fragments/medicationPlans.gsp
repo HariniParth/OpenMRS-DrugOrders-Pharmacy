@@ -4,6 +4,13 @@
     def default_prio = "";
 %>
 
+<!--
+    Table displaying the list of active medication plan related drug orders.
+    Columns display the order ID, drug name and start date.
+    Each record can be clicked to view the order details.
+    Icons are provided to edit and discard the orders.
+-->
+
 <div id="activePlansTableWrapper">
     <form method="post" name="activePlanForm" id="activePlanForm">
         <input type="hidden" id="selectedActivePlan" name="selectedActivePlan" />

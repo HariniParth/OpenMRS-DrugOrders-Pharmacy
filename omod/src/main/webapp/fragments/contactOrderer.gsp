@@ -3,6 +3,10 @@
     ui.includeJavascript("drugorders", "pharmacy.js")
 %>
 
+<!--
+    Fragment displaying Orderer Email and Phone Number
+-->
+
 <div id="contactOrderer" class="dialog">
     <div class="dialog-header">
         <h3 id="dialog-heading">${ ui.message("Contact Orderer") }</h3>

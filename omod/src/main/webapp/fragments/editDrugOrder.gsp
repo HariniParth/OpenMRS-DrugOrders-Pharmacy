@@ -4,6 +4,11 @@
     def allergic_order = "";
 %>
 
+<!--
+    Fragment displaying the details of the selected drug order.
+    This includes drug formulations, start date, refill, priority and instructions.
+-->
+
 <div id="viewOrderWindow" class="dialog">
 
     <div class="dialog-header">
@@ -131,7 +136,13 @@
     <button class="cancel right" id="btn-place" onclick="hideDrugOrderViewWindow()">${ ui.message("Close") }</button>
 </div>
     
-
+<!--
+    Form that displays the details of the orders selected to be discontinued or renewed.
+    This includes individual, group and plan orders that are selected to be discontinued or renewed.
+    The form provides check-boxes corresponding to each drug to select it to be discontinued or renewed.
+    The Physician then enters reasons for discarding the order.
+-->
+    
 <% if(groupMain.size() > 0) { %>
 
     <div id="showGroupOrderWindow" class="dialog">
@@ -145,6 +156,10 @@
             <div class="fields" id="groupOrderBlock">
                 <% groupMain.each { order -> %>
                     <div class="groupDrugName" id="view_order_detail">
+                        <!--
+                            Disable options to renew a drug order if an active order for that drug exists.
+                        -->
+                
                         <% if((groupOrderAction == "RENEW MED PLAN" || groupOrderAction == "RENEW ORDER GROUP") && currentOrders.contains(groupExtn.get(order.key).drugName.getDisplayString())) { %>
                             <input type="checkbox" class="unchecked" disabled="disabled" />
                         <% } else { %>
@@ -159,6 +174,10 @@
                     <div class="drugDetails">
                         ${ order.value.dose } ${ order.value.doseUnits.getDisplayString() }, ${ order.value.quantity } ${ order.value.quantityUnits.getDisplayString() } <br/>
                         
+                        <!--
+                            Display a note if an active order for that drug exists.
+                        -->
+                        
                         <% if((groupOrderAction == "RENEW MED PLAN" || groupOrderAction == "RENEW ORDER GROUP") && currentOrders.contains(groupExtn.get(order.key).drugName.getDisplayString())) { %>
                             <div id="view_order_detail">
                                 <label>Note: Drug is currently prescribed to this patient.</label>
@@ -166,6 +185,11 @@
                             </div>
                         <% } %>
                             
+                        <!--
+                            Display a note if Patient is allergic to the drug.
+                            Display a field to enter the reason to order the allergic drug.
+                        -->
+                        
                         <% if((groupOrderAction == "RENEW MED PLAN" || groupOrderAction == "RENEW ORDER GROUP") && allergicDrugs.contains(groupExtn.get(order.key).drugName.getDisplayString())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>
                             Enter reasons to order this drug <br/>

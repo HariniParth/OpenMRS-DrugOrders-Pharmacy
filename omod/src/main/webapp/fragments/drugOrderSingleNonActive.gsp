@@ -3,6 +3,13 @@
     ui.includeJavascript("drugorders", "dataTables.js")
 %>
 
+<!--
+    Table displaying the list of non-active individual and group drug orders.
+    Columns display the order ID and drug name
+    Each record can be clicked to view the order details.
+    Icons are provided to renew the orders.
+-->
+
 <div id="nonActiveOrdersTableWrapper">
     <form method="post" name="nonActiveGroupForm" id="nonActiveGroupForm">
         <input type="hidden" id="selectedNonActiveGroup" name="selectedNonActiveGroup" />

@@ -3,6 +3,10 @@
     ui.includeJavascript("drugorders", "drugorders.js")
 %>
 
+<!--
+    Form to define a medication plan by entering the plan name and description.
+-->
+
 <div id="definePlanWindow" class="dialog">
     <div class="dialog-header">
         <span id="dialog-heading"><h3>DEFINE MEDICATION PLAN</h3></span>
@@ -29,7 +33,12 @@
     </div>
 </div>
 
-
+<!--
+    Form to add drugs to a medication plan.
+    For each drug, the standard (general) composition and consumption instructions are specified.
+    This includes drug name, dose, quantity, duration and frequency.
+-->
+            
 <div id="createPlanWindow" class="dialog">
     <div class="dialog-header">
         <span id="dialog-heading"><h3 id="adminActionType"></h3></span>
@@ -177,8 +186,14 @@
     </div>
 </div>
 
+<!--
+    Form to discard one, some or all orders defined in a standard medication plan.
+    User can check/uncheck the check-box corresponding to each drug to select it to be discarded.
+    A reason is provided for discarding the plan.
+-->
 
 <% if(selectedPlan.size() > 0) { %>
+
     <div id="deletePlanWindow" class="dialog">
         <div class="dialog-header">
             <h3 id="dialog-heading">

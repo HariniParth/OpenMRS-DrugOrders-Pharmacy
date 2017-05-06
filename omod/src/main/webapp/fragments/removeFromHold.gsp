@@ -3,6 +3,10 @@
     ui.includeJavascript("drugorders", "pharmacy.js")
 %>
 
+<!--
+    Fragment to allow removing hold on selected drug orders (displayed in pharmacy homepage).
+-->
+
 <div id="removeHold" class="dialog">
     <div class="dialog-header">
         <h3 id="dialog-heading">${ ui.message("Remove Order Hold") }</h3>

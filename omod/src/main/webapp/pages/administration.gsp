@@ -27,6 +27,11 @@
         </h3>
         <div id="line-break"></div><br/><br/>
         
+        <!--
+            Table displaying the list of active defined medication plans.
+            Each row displays the name of a plan and the list of active drugs prescribed in the plan.
+        -->
+            
         <form method="post" id="adminPageForm">
             <input type="hidden" id="recordedMedPlan" value="${ recordedMedPlan }"/>
             <input type="hidden" id="selectedMedPlan" name="selectedMedPlan" />
@@ -114,6 +119,9 @@
                                                                 </div>
                                                             </div>
 
+                                                            <!--
+                                                                Icons to edit and discard each plan item is provided.
+                                                            -->
                                                             <div id="button" class="pull-right">
                                                                 <i class="icon-trash delete-action" title="${ ui.message("Discard") }" onclick="deleteMedPlanItem('${ med.id }')"></i>
                                                                 <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="editPlanItemDetails('${ med.id }','${ newPlan.planName.getDisplayString() }','${ med.drugId.getDisplayString() }','${ med.dose }','${ med.doseUnits.getDisplayString() }','${ med.route.getDisplayString() }','${ med.quantity }','${ med.quantityUnits.getDisplayString() }','${ med.duration }','${ med.durationUnits.getDisplayString() }','${ med.frequency }')"></i>
@@ -123,6 +131,11 @@
                                                 <% } %>
                                             </div>
                                         </td>
+                                        
+                                        <!--
+                                            Icons to update, rename and discard each plan is provided.
+                                        -->
+                                                
                                         <td class="planButtons">
                                             <span>
                                                 <i class="icon-trash delete-action" title="${ ui.message("Discard Plan") }" onclick="deleteMedPlan('${ newPlan.id }')"></i>

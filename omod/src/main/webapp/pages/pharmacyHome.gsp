@@ -14,6 +14,11 @@
 
 ${ ui.includeFragment("drugorders", "searchBarByPatient") } <br/>
 
+<!--
+    Display a text field to search for a Patient by name.
+    On selecting a Patient, the page reloads to display the Patient's personal details.
+-->
+
 <div id="patientTableWrapper">
     <table id="patientTable">
         <thead>
@@ -41,6 +46,11 @@ ${ ui.includeFragment("drugorders", "searchBarByPatient") } <br/>
 </div>
 
 ${ ui.includeFragment("drugorders", "removeFromHold") } <br/><br/>
+
+<!--
+    Table displaying the list of all drug orders for all Patients that have been put on hold.
+    Table displays the Patient name, drug name, start date, order status and Orderer name.
+-->
 
 <p><strong>ORDERS Hold/Discard</strong></p><br/>
 
