@@ -45,11 +45,11 @@ public class AddNewOrderFragmentController {
 
         model.addAttribute("planName", planName.trim());
         
-        /*
-          Get the list of standard medications plans for the disease name typed.
-          Only plans that are currently active must be retrieved.
-        */
         List<standardplans> medplans = new ArrayList<>();
+        /*
+          If there exists standard medications plans for the disease name typed, retrieve the list of the plans.
+          Only plans that are currently active are retrieved.
+        */
         if(Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName)) != null && Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName)).getPlanStatus().equals("Active")){
             newplans newPlan = Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName));
             List<standardplans> standardplans = Context.getService(standardplansService.class).getMedicationPlans(newPlan.getId());
@@ -91,6 +91,9 @@ public class AddNewOrderFragmentController {
         
         List<Concept> names = new ArrayList<>();
         for (ConceptSearchResult con : results) {
+            /*
+              Based on the characters typed, check if a plan exists and is currently active.
+            */
             newplans plan = Context.getService(newplansService.class).getMedicationPlan(con.getConcept());
             if(plan != null && plan.getPlanStatus().equals("Active")){
                 if(Context.getService(standardplansService.class).getMedicationPlans(plan.getId()).size() > 0)

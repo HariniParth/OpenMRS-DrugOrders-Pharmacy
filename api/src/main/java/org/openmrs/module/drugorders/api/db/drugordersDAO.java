@@ -21,13 +21,21 @@ import org.openmrs.module.drugorders.api.drugordersService;
 public interface drugordersDAO {
 	
     public int getLastGroupID();
+    
     public List<drugorders> getOrdersOnHold();
+    
     public List<drugorders> getOrdersForDiscard();
+    
     public drugorders saveDrugOrder(drugorders drugOrder);
+    
     public drugorders getDrugOrderByOrderID(Integer orderId);    
+    
     public List<drugorders> getDrugOrdersByGroupID(Integer groupId);
+    
     public List<drugorders> getDrugOrdersByPatient(Patient patient);
+    
     public drugorders getDrugOrderByDrugAndPatient(Concept drug, Patient patient);
+    
     public List<drugorders> getDrugOrdersByPatientAndStatus(Patient patient, String status);
     
 }

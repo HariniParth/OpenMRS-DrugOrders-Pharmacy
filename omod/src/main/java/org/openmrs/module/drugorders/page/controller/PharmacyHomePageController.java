@@ -54,6 +54,10 @@ public class PharmacyHomePageController {
             for (String box : homeCheckbox) {
                 String[] selected = box.split(" ");
                 
+                /*
+                  If one or more check-boxes corresponding to a single, group or medication plan order(s) are checked,
+                  retrieve the list of drug orders selected.                  
+                */
                 switch (selected[0]) {
                     case "PLAN":
                         List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(Integer.parseInt(selected[1]));
@@ -75,6 +79,7 @@ public class PharmacyHomePageController {
                 }
             }
             
+            // Remove the hold (if applied) on the list of drug orders selected.
             for (int orderID : listOfOrders) {
                 drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
                 if(drugorder.getOnHold() == 1)
@@ -88,16 +93,22 @@ public class PharmacyHomePageController {
         List<drugorders> ordersOnHold = Context.getService(drugordersService.class).getOrdersOnHold();
         List<drugorders> ordersForDiscard = Context.getService(drugordersService.class).getOrdersForDiscard();
         
+        // Data structures to store the single, group and plan orders. <OrderID, Order>
         List<drugorders> singleOrders = new ArrayList<>();
         HashMap<Integer, List<drugorders>> groupOrders = new HashMap<>();
         HashMap<Integer, List<drugorders>> planOrders = new HashMap<>();
         
+        // Data structures to store the Orderer's and Patient's name.
         HashMap<Integer,String> ordererName = new HashMap<>();
         HashMap<Integer,String> patientName = new HashMap<>();
         
         for(drugorders order: Iterables.concat(ordersOnHold, ordersForDiscard)){
             Person physician = Context.getPersonService().getPerson(Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getProviderId());
-                        
+                      
+            /*
+              Here, we consolidate the drug orders into three groups - Single, Group and Plan depending on its status, 
+              so that each single order or group/plan order set can be represented in a separate row.
+            */
             switch (order.getOrderStatus()) {
                 case "Active":
                     singleOrders.add(order);

@@ -65,6 +65,9 @@ public class drugordersActivator implements ModuleActivator {
     public void started() {
         log.info("drugorders Module started");
         AdministrationService administrationService = Context.getAdministrationService();
+        /*
+          Set Global properties for Dispensing units, Dosing units, Route and Duration units.
+        */
         setGlobalProperties(administrationService, "order.drugDispensingUnitsConceptUuid", "162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         setGlobalProperties(administrationService, "order.drugDosingUnitsConceptUuid", "162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         setGlobalProperties(administrationService, "order.drugRoutesConceptUuid", "162394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
@@ -72,6 +75,10 @@ public class drugordersActivator implements ModuleActivator {
 
         ConceptService cs = Context.getConceptService();
 
+        /*
+          Create a concept class for 'Discontinue Order Reasons' if it does not exist.
+          Create a concept ID for a set of options and add these concepts to the concept class created.
+        */
         if (cs.getConceptClassByName("Discontinue Order Reasons") == null) {
 
             ConceptClass conceptClass = saveConceptClass("Discontinue Order Reasons");
@@ -88,6 +95,10 @@ public class drugordersActivator implements ModuleActivator {
             setConcept.addSetMember(otherConcept);
         }
 
+        /*
+          Create a concept class for 'Order Priority' if it does not exist.
+          Create a concept ID for a set of options and add these concepts to the concept class created.
+        */
         if (cs.getConceptClassByName("Order Priority") == null) {
 
             ConceptClass conceptClass = saveConceptClass("Order Priority");
@@ -100,6 +111,10 @@ public class drugordersActivator implements ModuleActivator {
             }
         }
 
+        /*
+          Create a concept class for 'Units of Duration' if it does not exist.
+          Create a concept ID for a set of options and add these concepts to the concept class created.
+        */
         if (cs.getConceptClassByName("Units of Duration") == null) {
 
             ConceptClass conceptClass = saveConceptClass("Units of Duration");
@@ -120,6 +135,10 @@ public class drugordersActivator implements ModuleActivator {
             }
         }
 
+        /*
+          Create a concept class for 'Routes of drug administration' if it does not exist.
+          Add concepts belonging to the concept sets of Routes of administration and add them to the created class.
+        */
         if (cs.getConceptClassByName("Routes of drug administration") == null) {
 
             ConceptClass conceptClass = saveConceptClass("Routes of drug administration");
@@ -140,6 +159,10 @@ public class drugordersActivator implements ModuleActivator {
             }
         }
 
+        /*
+          Create a concept class for 'Units of Dose' if it does not exist.
+          Create a concept ID for a set of options and add these concepts to the concept class created.
+        */
         if (cs.getConceptClassByName("Units of Dose") == null) {
 
             ConceptClass conceptClass = saveConceptClass("Units of Dose");
@@ -158,6 +181,10 @@ public class drugordersActivator implements ModuleActivator {
             }
         }
 
+        /*
+          Create a concept class for 'Units of Quantity' if it does not exist.
+          Create a concept ID for a set of options and add these concepts to the concept class created.
+        */
         if (cs.getConceptClassByName("Units of Quantity") == null) {
 
             ConceptClass conceptClass = saveConceptClass("Units of Quantity");
@@ -176,6 +203,9 @@ public class drugordersActivator implements ModuleActivator {
             }
         }
         
+        /*
+          Add frequency options to the class OrderFrequency.
+        */
         if(Context.getOrderService().getOrderFrequencies(true) != null){
             
             String frequencyConcepts[] = {"Once daily","Twice daily","Thrice daily","Four times daily","Weekly","Monthly"};

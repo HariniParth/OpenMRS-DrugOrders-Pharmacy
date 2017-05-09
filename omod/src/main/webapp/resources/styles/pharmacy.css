@@ -117,7 +117,7 @@ and open the template in the editor.
     display: none;
 }
 
-#currentGroupOrdersTable, #drugName{
+#currentGroupOrdersTable, #nameField{
     font-size: 13px;
 }
 

@@ -23,26 +23,17 @@ public class DrugordersFragmentController {
     public void controller(FragmentModel model, @FragmentParam("patientId") Patient patient){
         
         List<drugorders> drugOrders = new ArrayList<>();
-        List<drugorders> orders;
         
-        orders = getActiveOrders(patient, "Active");
-        for(drugorders order : orders) {
-            drugOrders.add(order);
-        }
-        
-        orders = getActiveOrders(patient, "Active-Plan");
-        for(drugorders order : orders) {
-            drugOrders.add(order);
-        }
-        
-        orders = getActiveOrders(patient, "Active-Group");
-        for(drugorders order : orders) {
-            drugOrders.add(order);
-        }
+        drugOrders.addAll(getActiveOrders(patient, "Active"));
+        drugOrders.addAll(getActiveOrders(patient, "Active-Plan"));
+        drugOrders.addAll(getActiveOrders(patient, "Active-Group"));
         
         model.addAttribute("drugorders", drugOrders);
     }
     
+    /*
+      Get the list of drug orders for this Patient and in this status
+    */
     private List<drugorders> getActiveOrders(Patient patient, String status){
         return Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, status);
     }

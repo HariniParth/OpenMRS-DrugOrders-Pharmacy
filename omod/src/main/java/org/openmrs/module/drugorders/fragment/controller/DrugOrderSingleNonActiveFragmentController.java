@@ -32,7 +32,7 @@ public class DrugOrderSingleNonActiveFragmentController {
         List<OrderAndDrugOrder> drugOrders = DrugOrderList.getDrugOrdersByPatient(patient);
         
         /*
-          Get the list of non-active drug orders placed for the Patient.
+          Get the list of non-active individual and group drug orders placed for the Patient.
         */
         for(OrderAndDrugOrder drugOrder : drugOrders){
             drugorders dorder = drugOrder.getdrugorders();

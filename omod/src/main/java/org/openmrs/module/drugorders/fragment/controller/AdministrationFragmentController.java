@@ -38,8 +38,7 @@ public class AdministrationFragmentController {
         HashMap<Concept, List<standardplans>> plansByName = new HashMap<>();
         
         /*
-          Get the list of standard plan items for the selected standard plan.
-          Retrieve the items that are currently active.
+          Get the list of standard plan items for the selected standard plan that are currently active.
         */
         if(selectedMedPlan != null){
             List<standardplans> plans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(selectedMedPlan).getId());
@@ -52,6 +51,7 @@ public class AdministrationFragmentController {
             selectedPlan.put(selectedMedPlan, plansByName);
         }
         
+        // Get the selected standard plan item.
         else if(selectedPlanItem != null){
             List<standardplans> plans = new ArrayList<>();
             standardplans plan = Context.getService(standardplansService.class).getMedicationPlan(selectedPlanItem);
@@ -78,6 +78,9 @@ public class AdministrationFragmentController {
         model.addAttribute("frequencies", frequencies);
     }
     
+    /*
+      Get the list of concepts belonging to the given concept class
+    */
     public List<Concept> getConcepts(String ConceptClassName){
         ConceptClass conceptClass = Context.getConceptService().getConceptClassByName(ConceptClassName);
         return Context.getConceptService().getConceptsByClass(conceptClass);

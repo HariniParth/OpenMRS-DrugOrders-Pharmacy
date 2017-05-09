@@ -26,7 +26,7 @@ public class MedicationPlansFragmentController {
     public void controller(PageModel model, @RequestParam("patientId") Patient patient,
                             @RequestParam(value = "activatePlan", required = false) Integer activatePlan){
         
-        //Activate saved draft med plans
+        //Activate saved draft med plan drug orders
         if(activatePlan != null){
             List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(activatePlan);
             for(planorders order : planOrders)
@@ -41,7 +41,8 @@ public class MedicationPlansFragmentController {
         List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan");
         for(drugorders order : orders){
             planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
-
+            
+            // If the selected plan related orders are not already retrieved, retrieve the orders
             if(!ActivePlanMain.containsKey(p_order.getPlanId())){
 
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
@@ -77,6 +78,7 @@ public class MedicationPlansFragmentController {
         for(drugorders order : orders){
             planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
 
+            // If the selected plan related orders are not already retrieved, retrieve the orders
             if(!DraftPlanMain.containsKey(p_order.getPlanId())){
 
                 HashMap<Integer,DrugOrder> main = new HashMap<>();

@@ -21,6 +21,7 @@ public class SearchBarByPatientFragmentController {
         
         List<String> allPatientNames = new ArrayList<>();
         
+        // Retrieve the list of all Patient's names
         List<Patient> allPatients = Context.getPatientService().getAllPatients();
         for(Patient patient : allPatients){
             allPatientNames.add(Context.getPersonService().getPerson(patient.getPatientId()).getGivenName()+" "+Context.getPersonService().getPerson(patient.getPatientId()).getFamilyName());

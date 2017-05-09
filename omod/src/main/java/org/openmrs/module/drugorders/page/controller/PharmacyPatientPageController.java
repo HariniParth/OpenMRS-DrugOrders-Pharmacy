@@ -61,13 +61,19 @@ public class PharmacyPatientPageController {
                   If an action (Dispatch, On-Hold, Discard is selected and confirmed, take actions.
                 */
                 if ("Confirm".equals(action)) {
+                    /*
+                      If one or more check-boxes corresponding to a drug or a drug order is checked, retrieve the order ID.
+                    */
                     if(groupCheckBox.length > 0){
                         for(int i=0;i<groupCheckBox.length;i++){
                             
                             int orderID = Integer.parseInt(Long.toString(groupCheckBox[i]));
                             drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
                             
-                            //Change Order Status when Pharmacist performs a new action on the Order
+                            /*
+                              If the order is selected to be put on hold or requested to be discarded,
+                               apply the appropriate status on the order and save the comments.
+                            */
                             switch (groupAction) {
                                 case "Discard":
                                     drugorder.setForDiscard(1);
@@ -84,11 +90,14 @@ public class PharmacyPatientPageController {
                                         drugorder.setCommentForOrderer(groupComments);
                                     break;
                                 case "Dispatch":
-                                    //Change Order Status when Pharmacist performs a new action on the Order
                                     if(drugorder.getForDiscard() == 1)
                                         drugorder.setForDiscard(0);
                                     else if(drugorder.getOnHold() == 1)
                                         drugorder.setOnHold(0);
+                                    /*
+                                      If the order is selected to be dispatched, set the last dispatch date and decrement the allowed number of refills.
+                                      Update the order status, save the drug expiry date and comments entered for the Patient.
+                                    */
                                     if (drugorder.getRefill() > 0) {
                                         drugorder.setLastDispatchDate(Calendar.getInstance().getTime());
                                         drugorder.setRefill(drugorder.getRefill() - 1);
@@ -126,6 +135,9 @@ public class PharmacyPatientPageController {
         model.addAttribute("group_order_status", groupAction);
     }
     
+    /*
+      This function will send a command to the printer to print out the details of the drug order that is relavant to the Patient.
+    */
     void printOrder(int orderID){
         
         try {

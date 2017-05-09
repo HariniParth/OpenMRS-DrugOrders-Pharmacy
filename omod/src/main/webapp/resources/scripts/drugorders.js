@@ -62,9 +62,9 @@ $(document).ready( function() {
      * If the create drug order fields are modified, check the value of the remaining mandatory fields.
      * Highlight the unspecified fields. Only when all details are specified, allow to create a drug order.
      */
-    $("#drugNameEntered, #route, #dose, #doseUnits, #quantity, #quantityUnits, #duration, #durationUnits, #frequency, #diagnosis, #orderReason").change(function(){
+    $("#drugName, #route, #dose, #doseUnits, #quantity, #quantityUnits, #duration, #durationUnits, #frequency, #diagnosis, #orderReason").change(function(){
         validate();
-        if($("#drugNameEntered").val() !== ""){
+        if($("#drugName").val() !== ""){
             checkFormFields();
         }
     });
@@ -282,7 +282,7 @@ function clearHighlights(){
  * Only when all details are specified, allow to create a drug order.
  */
 function validate(){
-    if($("#drugNameEntered").val() !== "" && $("#route").val() !== "" && $("#dose").val() !== "" && $("#doseUnits").val() !== "" && $("#quantity").val() !== "" && $("#quantityUnits").val() !== "" && $("#duration").val() !== "" && $("#durationUnits").val() !== "" && $("#frequency").val() !== "" && $("#diagnosis").val() !== ""){
+    if($("#drugName").val() !== "" && $("#route").val() !== "" && $("#dose").val() !== "" && $("#doseUnits").val() !== "" && $("#quantity").val() !== "" && $("#quantityUnits").val() !== "" && $("#duration").val() !== "" && $("#durationUnits").val() !== "" && $("#frequency").val() !== "" && $("#diagnosis").val() !== ""){
         $("#addOrderButton").prop("disabled", false);
     } else {
         $("#addOrderButton").prop("disabled", true);
@@ -363,10 +363,10 @@ function hideIndividualOrderDetailsWindow(){
     jq("#activeOrderWindow").show();
     jq("#orderExistsField").hide();
     jq("#allergicDrugOrderReasonField").hide();
-    $("#order_id").val("");
+    $("#orderId").val("");
     $("#orderType").text("");
     $("#orderAction").val("");
-    $("#drugNameEntered").val("");
+    $("#drugName").val("");
     $("#orderReason").val("");
     $("#route").val("");
     $("#dose").val("");
@@ -577,8 +577,8 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         
         $("#orderType").text(orderType);
         $("#orderAction").val(orderType);
-        $("#order_id").val(orderId);
-        $("#drugNameEntered").val(name);
+        $("#orderId").val(orderId);
+        $("#drugName").val(name);
         $("#route").val(route);
         $("#dose").val(dose);
         $("#doseUnits").val(doseUnits);
@@ -676,13 +676,13 @@ function autoCompletePlan(){
  * - Display a note if the Patient is allergic to the drug.
  */
 function autoCompleteDrug(currentOrders, allergies){
-    $("#drugNameEntered").change(function(){
+    $("#drugName").change(function(){
         
         var currentOrderList = currentOrders.split(",");
         var orderExists = false;
         $.each(currentOrderList, function(index, value){
             var order = value.replace("[","").replace("]","").trim();
-            var selectedDrug = $("#drugNameEntered").val().trim();
+            var selectedDrug = $("#drugName").val().trim();
             if(selectedDrug === order){
                 orderExists = true;
             }
@@ -698,7 +698,7 @@ function autoCompleteDrug(currentOrders, allergies){
         var isAllergic = false;
         $.each(allergyList,function(index,value){
             var drugname = value.replace("[","").replace("]","").trim();
-            var selectedDrug = $("#drugNameEntered").val().trim();
+            var selectedDrug = $("#drugName").val().trim();
             if(selectedDrug === drugname){
                 isAllergic = true;
             } 
@@ -939,7 +939,7 @@ function showAddOrderToGroupWindow(orderType,groupID){
         }
     });
     if(!dialogOpen){
-        $("#order_id").val(groupID);
+        $("#orderId").val(groupID);
         $("#orderType").text(orderType);
         $("#orderAction").val(orderType);
         jq("#confirmOrderWindow").hide();

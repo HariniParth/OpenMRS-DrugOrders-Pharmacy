@@ -40,6 +40,7 @@ public class MedicationPlansNonActiveFragmentController {
         for(drugorders order : orders){
             planorders nonActiveMedPlan = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
             
+            // If the selected plan related orders are not already retrieved, retrieve the orders
             if(!NonActivePlanMain.containsKey(nonActiveMedPlan.getPlanId())){
                 List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(nonActiveMedPlan.getPlanId());
                 

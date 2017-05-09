@@ -42,14 +42,14 @@ public class DrugOrderSingleFragmentController {
         }
         
         /*
-          Group the selected orders.
-          Set the group ID to 1 + the last group ID index.
+          Group the selected orders. Set the group ID to 1 + the last group ID index.
           Set order status to Active-Group.
         */
         if ("GroupOrder".equals(action)) {
             if(singleCheckBox.length > 0 || groupCheckBox.length > 0){
                 int groupID = Context.getService(drugordersService.class).getLastGroupID() + 1;
                 
+                // Check if one or more individual orders are selected to be grouped
                 if(singleCheckBox.length > 0){
                     for(int i=0;i<singleCheckBox.length;i++){
                         int orderID = Integer.parseInt(Long.toString(singleCheckBox[i]));
@@ -59,6 +59,7 @@ public class DrugOrderSingleFragmentController {
                     }
                 }
                 
+                // Check if one or more group orders are selected to be grouped
                 if(groupCheckBox.length > 0){
                     for(int i=0;i<groupCheckBox.length;i++){
                         int orderID = Integer.parseInt(Long.toString(groupCheckBox[i]));
@@ -74,7 +75,7 @@ public class DrugOrderSingleFragmentController {
         }
         
         /*
-          Retrieve the list of active drug orders.
+          Retrieve the list of active individual and group drug orders.
         */
         List<drugorders> dorders = new ArrayList<>();
         HashMap<Integer,List<drugorders>> groupDorders = new HashMap<>();

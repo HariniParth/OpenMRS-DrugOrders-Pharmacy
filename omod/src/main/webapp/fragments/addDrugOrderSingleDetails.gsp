@@ -20,7 +20,7 @@
                 <label>Drug name <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="drugNameEntered" oninput="autoCompleteDrug('${ currentOrders }','${ allergicDrugs }')" name="drugNameEntered" />
+                <input type="text" id="drugName" oninput="autoCompleteDrug('${ currentOrders }','${ allergicDrugs }')" name="drugName" />
             </div>
         </div>
         
@@ -31,7 +31,7 @@
                 <label>Start Date <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                ${ ui.includeFragment("uicommons", "field/datetimepicker", [ id: 'startDateEntered', label: '', formFieldName: 'startDateEntered', useTime: '', defaultDate: startDate ]) }
+                ${ ui.includeFragment("uicommons", "field/datetimepicker", [ id: 'startDate', label: '', formFieldName: 'startDate', useTime: '', defaultDate: startDate ]) }
             </div>
         </div>
 
@@ -249,7 +249,7 @@
         <br/><br/><br/>
         
         <input type="hidden" id="orderAction" name="action" />
-        <input type="hidden" id="order_id" name="order_id" />
+        <input type="hidden" id="orderId" name="orderId" />
         
         <div class="fields" id="view_order_detail">
             <div id="addOrderButtonWrapper"><div id="overlay" onclick="checkFormFields()"></div><button class="confirm right" id="addOrderButton" type="submit">${ ui.message("Save") }</button></div>
@@ -262,7 +262,7 @@
 
 <script type="text/javascript">    
     jq( function() {
-        jq( "#drugNameEntered" ).autocomplete({
+        jq( "#drugName" ).autocomplete({
             source: function( request, response ) {
                 var results = [];
                 jq.getJSON('${ ui.actionLink("getDrugNameSuggestions") }',

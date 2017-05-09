@@ -58,6 +58,9 @@ public class AddDrugOrderSingleDetailsFragmentController {
         model.addAttribute("frequencies", frequencies);
     }
     
+    /*
+      Get the list of concepts belonging to a particular concept class
+    */
     private List<Concept> ConceptList(String conceptString){
         ConceptClass conceptClass = Context.getConceptService().getConceptClassByName(conceptString);
         return Context.getConceptService().getConceptsByClass(conceptClass);

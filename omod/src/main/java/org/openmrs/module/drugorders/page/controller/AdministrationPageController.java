@@ -58,7 +58,9 @@ public class AdministrationPageController {
                     */
                     case "definePlan":
                         newplans newplan = new newplans();
-                        
+                        /*
+                          If the plan name does not exist in the concept dictionary, create a new concept.
+                        */
                         if(Context.getService(newplansService.class).getMedicationPlan(ConceptName(definePlanName.trim())) == null){
                             if(ConceptName(definePlanName.trim()) == null){
                                 drugordersActivator activator = new drugordersActivator();
@@ -79,11 +81,15 @@ public class AdministrationPageController {
                     
                     /*
                       Add a drug with standard formulations and general consumption actions to the plan.
+                      Save these formulations in the standardplans table and group the plans with the plan ID (Identifying the disease).
                     */
                     case "extendPlan":
                         standardplans medPlans = new standardplans();
                         medPlans.setPlanId(Context.getService(newplansService.class).getMedicationPlan(ConceptName(adminPlan)).getId());
                         
+                        /*
+                          If the drug name does not exist in the concept dictionary, create a new concept.
+                        */
                         if(ConceptName(adminDrug.trim()) == null){
                             drugordersActivator activator = new drugordersActivator();
                             Concept drugConcept =  activator.saveConcept(adminDrug.trim(), Context.getConceptService().getConceptClassByName("Drug"));
@@ -101,6 +107,10 @@ public class AdministrationPageController {
                         medPlans.setQuantity(Double.valueOf(adminQuantity));
                         medPlans.setQuantityUnits(ConceptName(adminQuantityUnits));
                         
+                        /*
+                          Set the OrderFrequency type. 
+                          If it does not existc create a new OrderFrequency record for the selected frequency value.
+                        */
                         OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequencyByConcept(ConceptName(adminFrequency));
                         if (orderFrequency == null) {
                             medPlans.setFrequency(setOrderFrequency(adminFrequency));
@@ -120,16 +130,28 @@ public class AdministrationPageController {
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Updated!");
                         break;
                         
+                    /*
+                      Rename the plan by replacing the concept ID of the existing name with the concept ID of the new name.
+                    */
                     case "renamePlan":
                         newplans oldPlan = Context.getService(newplansService.class).getMedicationPlan(Integer.parseInt(definePlanId));
-                        oldPlan.setPlanName(ConceptName(definePlanName.trim()));
+                        /*
+                          If the plan name does not exist in the concept dictionary, create a new concept.
+                        */
+                        if(ConceptName(definePlanName.trim()) == null){
+                            drugordersActivator activator = new drugordersActivator();
+                            Concept planConcept =  activator.saveConcept(definePlanName.trim(), Context.getConceptService().getConceptClassByName("Diagnosis"));
+                            oldPlan.setPlanName(planConcept);
+                        } 
+                        else
+                            oldPlan.setPlanName(ConceptName(definePlanName.trim()));
+                        
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Renamed!");
                         break;
                         
                     /*
                       Set the status of the medication plan as non-active.
-                      Discontinue all the plan items that are a part of the selected plan.
-                      Note: Verify the plans to be discarded based on the check-boxes checked.
+                      If one or more check-boxes corresponding to drugs that are a part of the plan are checked, set the status of that plan item to 'Non-Active'.
                     */
                     case "discardPlan":
                         if(groupCheckBox.length > 0){
@@ -141,6 +163,9 @@ public class AdministrationPageController {
                             }
                         }
                         
+                        /*
+                          Before discarding a medication plan, ensure that all the plan items (standard drug orders) associated with that plan are discarded.
+                        */
                         boolean allDrugsDiscarded = true;
                         List<standardplans> allPlans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(planToDiscard).getId());
                         for(standardplans plan : allPlans)
@@ -153,7 +178,10 @@ public class AdministrationPageController {
                             InfoErrorMessageUtil.flashInfoMessage(session, "Plan Discarded!");
                         }                        
                         break;
-                        
+                    
+                    /*
+                      If a check-box corresponding to a drug is checked, it is set to be discontinued.
+                    */
                     case "discardDrug":
                         if(groupCheckBox.length > 0){
                             int id = Integer.parseInt(Long.toString(groupCheckBox[0]));
