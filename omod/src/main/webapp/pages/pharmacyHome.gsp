@@ -12,7 +12,7 @@
     ];
 </script>
 
-${ ui.includeFragment("drugorders", "searchBarByPatient") } <br/>
+${ ui.includeFragment("drugorders", "searchBarForPatient") } <br/>
 
 <!--
     Display a text field to search for a Patient by name.
@@ -45,7 +45,7 @@ ${ ui.includeFragment("drugorders", "searchBarByPatient") } <br/>
     </table>
 </div>
 
-${ ui.includeFragment("drugorders", "removeFromHold") } <br/><br/>
+${ ui.includeFragment("drugorders", "removeOrderHold") } <br/><br/>
 
 <!--
     Table displaying the list of all drug orders for all Patients that have been put on hold.

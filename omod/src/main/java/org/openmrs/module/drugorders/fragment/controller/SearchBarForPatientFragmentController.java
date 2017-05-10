@@ -15,7 +15,7 @@ import org.openmrs.ui.framework.page.PageModel;
  *
  * @author harini-geek
  */
-public class SearchBarByPatientFragmentController {
+public class SearchBarForPatientFragmentController {
     
     public void controller(PageModel model) {
         

@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author harini-geek
  */
 
-public class AddNewOrderFragmentController {
+public class CreateMedPlanDrugOrderFragmentController {
     
     /**
      *

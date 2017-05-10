@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author harini-geek
  */
-public class PharmaGroupViewFragmentController {
+public class SelectedOrdersViewFragmentController {
     
     public void controller(PageModel model, @RequestParam("patientId") Patient patient,
                             @RequestParam(value = "planID", required = false) String planID,

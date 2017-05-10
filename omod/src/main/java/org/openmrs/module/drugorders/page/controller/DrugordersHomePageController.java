@@ -43,7 +43,7 @@ import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
 import org.springframework.web.bind.annotation.RequestParam;
 
-public class DrugordersPageController {
+public class DrugordersHomePageController {
     
     /*
       Using the @RequestParam annotation, we access the values entered in the 'Create Drug Order', 'Select Med Plans', 'Discontinue/Renew Drug Order' forms.

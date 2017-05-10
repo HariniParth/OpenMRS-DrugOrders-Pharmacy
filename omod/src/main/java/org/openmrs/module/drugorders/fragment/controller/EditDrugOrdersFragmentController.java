@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author harini-geek
  */
-public class EditDrugOrderFragmentController {
+public class EditDrugOrdersFragmentController {
         
     public void controller(PageModel model,@RequestParam("patientId") Patient patient,
                             @RequestParam(value = "selectedActivePlan", required = false) Integer selectedActivePlan,

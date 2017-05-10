@@ -23,11 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author harini-geek
  */
-public class CurrentGroupOrdersFragmentController {
+public class CurrentDrugOrdersFragmentController {
     
     public void controller(PageModel model, @RequestParam("patientId") Patient patient){
         
-        List<drugorders> allOrders = new ArrayList<>();
         HashMap<Integer, Concept> planName = new HashMap<>();
         HashMap<Integer, String> OrdererName = new HashMap<>();
         

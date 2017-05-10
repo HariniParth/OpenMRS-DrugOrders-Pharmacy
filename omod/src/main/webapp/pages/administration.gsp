@@ -155,7 +155,7 @@
     </div>
 
     <div id="planExecute"> 
-        ${ ui.includeFragment("drugorders", "administration") }
+        ${ ui.includeFragment("drugorders", "administrationActions") }
     </div>
     
 </div>

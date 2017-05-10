@@ -45,13 +45,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
     </div> <br/>
 
     <div id="currentDrugOrdersWindow">
-        ${ ui.includeFragment("drugorders", "contactOrderer") }
+        ${ ui.includeFragment("drugorders", "ordererContact") }
         
-        ${ ui.includeFragment("drugorders", "currentGroupOrders") } <br/>
+        ${ ui.includeFragment("drugorders", "currentDrugOrders") } <br/>
     </div>
     
     <div id="pharmaGroupViewWindow">        
-        ${ ui.includeFragment("drugorders", "pharmaGroupView") }
+        ${ ui.includeFragment("drugorders", "selectedOrdersView") }
         
         ${ ui.includeFragment("drugorders", "mailToOrderer") }
     </div>

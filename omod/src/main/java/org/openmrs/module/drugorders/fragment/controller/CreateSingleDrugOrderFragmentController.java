@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author harini-geek
  */
-public class AddDrugOrderSingleDetailsFragmentController {
+public class CreateSingleDrugOrderFragmentController {
     
     /**
      *
@@ -39,6 +39,9 @@ public class AddDrugOrderSingleDetailsFragmentController {
         Date startDate = Calendar.getInstance().getTime();
         model.addAttribute("startDate", startDate);
                 
+        /*
+          Get the list of concepts belonging to a particular concept class
+        */
         List<Concept> doses = ConceptList("Units of Dose");
         model.addAttribute("doses", doses);        
         

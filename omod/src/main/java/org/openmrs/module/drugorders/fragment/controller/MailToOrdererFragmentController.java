@@ -55,7 +55,8 @@ public class MailToOrdererFragmentController {
         SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-yyyy");
         
         /*
-          Fetch selected order details.
+          If the check-boxes corresponding to one or more orders are checked to be recorded,
+          fetch the details of the selected orders to be updated in the mail fragment.
         */
         for(int i=0;i<groupCheckBox.length;i++){            
             int orderID = Integer.parseInt(Long.toString(groupCheckBox[i]));
@@ -69,6 +70,7 @@ public class MailToOrdererFragmentController {
                 recipient = order.getOrderer().getName();
         }
         
+        // Sender of the email is the given user (Pharmacist)
         userContext = Context.getUserContext();
         if(sender.equals(""))
             sender = userContext.getAuthenticatedUser().getGivenName() + " " + userContext.getAuthenticatedUser().getFamilyName();

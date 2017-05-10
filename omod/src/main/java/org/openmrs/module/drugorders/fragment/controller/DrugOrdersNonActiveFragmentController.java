@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author harini-geek
  */
-public class DrugOrderSingleNonActiveFragmentController {
+public class DrugOrdersNonActiveFragmentController {
     
     public void controller(PageModel model, @RequestParam("patientId") Patient patient){
         

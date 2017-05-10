@@ -56,18 +56,18 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                 <div id="line-break"></div>
             </div><br/>
         
-            ${ ui.includeFragment("drugorders", "drugOrderSingle") } <br/><br/>
+            ${ ui.includeFragment("drugorders", "drugOrdersActive") } <br/><br/>
             
             <i class="icon-plus-sign edit-action" title="${ ui.message("Show") }"> Discontinued/Canceled/Fulfilled Orders</i>
             <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"> Discontinued/Canceled/Fulfilled Orders</i> <br/><br/>
         
             <div class="nonActiveOrderWindow">
-                ${ ui.includeFragment("drugorders", "drugOrderSingleNonActive") } <br/>
+                ${ ui.includeFragment("drugorders", "drugOrdersNonActive") } <br/>
             </div><br/>
         
         </div>
         
-        ${ ui.includeFragment("drugorders", "saveDraftOrders") }
+        ${ ui.includeFragment("drugorders", "saveDraftPlanOrders") }
         
         <div id="activePlanWindow">
             
@@ -81,13 +81,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                 <div id="line-break"></div>
             </div><br/>
             
-            ${ ui.includeFragment("drugorders", "medicationPlans") } <br/><br/>
+            ${ ui.includeFragment("drugorders", "planOrdersActive") } <br/><br/>
             
             <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"> Discontinued/Canceled/Fulfilled Orders</i>
             <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"> Discontinued/Canceled/Fulfilled Orders</i> <br/><br/>
         
             <div class="nonActiveOrderWindow">
-                ${ ui.includeFragment("drugorders", "medicationPlansNonActive") }
+                ${ ui.includeFragment("drugorders", "planOrdersNonActive") }
             </div>
         
         </div>  
@@ -97,15 +97,15 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
     <div id="orderExecute">
         
         <div id="medPlan">
-            ${ ui.includeFragment("drugorders", "addNewOrder") }
+            ${ ui.includeFragment("drugorders", "createMedPlanDrugOrder") }
         </div>
         
         <div id="createOrder">
-            ${ ui.includeFragment("drugorders", "addDrugOrderSingleDetails") }  
+            ${ ui.includeFragment("drugorders", "createSingleDrugOrder") }  
         </div>
         
         <div id="editOrder">
-            ${ ui.includeFragment("drugorders", "editDrugOrder") }
+            ${ ui.includeFragment("drugorders", "editDrugOrders") }
         </div>
                
     </div>
