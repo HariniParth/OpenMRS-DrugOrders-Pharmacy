@@ -91,15 +91,15 @@ public class EditDrugOrdersFragmentController {
         */
         if(selectedActivePlan != null){
             try {
-                int group = selectedActivePlan;
-                List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(group);
+                int ID = selectedActivePlan;
+                List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(ID);
                 
                 for(planorders planOrder: planOrders){
                     groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
                     groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
                 }
                 model.addAttribute("plan", planOrders.get(0).getDiseaseId().getDisplayString().toUpperCase());
-                model.addAttribute("group", group);
+                model.addAttribute("group", ID);
                 model.addAttribute("groupOrderAction", "DISCARD MED PLAN");
                 
             } catch(NumberFormatException | APIException e){
@@ -112,8 +112,8 @@ public class EditDrugOrdersFragmentController {
         */
         if(StringUtils.isNotBlank(selectedNonActivePlan)){
             try {
-                int group = Integer.parseInt(selectedNonActivePlan);
-                List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(group);
+                int ID = Integer.parseInt(selectedNonActivePlan);
+                List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(ID);
                 Concept planConcept = planOrders.get(0).getDiseaseId();
                 
                 for(planorders planOrder : planOrders){
@@ -121,7 +121,7 @@ public class EditDrugOrdersFragmentController {
                     groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
                 }
                 model.addAttribute("plan", planConcept.getDisplayString().toUpperCase());
-                model.addAttribute("group", group);
+                model.addAttribute("group", ID);
                 model.addAttribute("groupOrderAction", "RENEW MED PLAN");
                 
             } catch(NumberFormatException | APIException e){

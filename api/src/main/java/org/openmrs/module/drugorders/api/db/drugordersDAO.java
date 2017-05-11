@@ -20,10 +20,13 @@ import org.openmrs.module.drugorders.api.drugordersService;
  */
 public interface drugordersDAO {
 	
+    // Get last assigned Group ID
     public int getLastGroupID();
     
+    // Get orders placed on hold
     public List<drugorders> getOrdersOnHold();
     
+    // Get orders requested to be discarded
     public List<drugorders> getOrdersForDiscard();
     
     public drugorders saveDrugOrder(drugorders drugOrder);

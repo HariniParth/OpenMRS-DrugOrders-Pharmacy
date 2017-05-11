@@ -37,14 +37,16 @@ public class HibernateplanordersDAO implements planordersDAO {
 	    this.sessionFactory = sessionFactory;
     }
         
+    // Save plan order record
     @Override
-    public planorders saveDrugOrder(planorders order){
+    public planorders savePlanOrder(planorders order){
         sessionFactory.getCurrentSession().saveOrUpdate(order);
         return order;
     };
     
+    // Get the planorders record using the drug order ID
     @Override
-    public planorders getDrugOrderByOrderID(Integer orderId){
+    public planorders getPlanOrderByOrderID(Integer orderId){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(
                 planorders.class);
         crit.add(Restrictions.eq("orderId", orderId));
@@ -55,10 +57,11 @@ public class HibernateplanordersDAO implements planordersDAO {
      *
      * @param planId
      * @return
+     * Get the list of planorders records having the same plan ID
      */
     @Transactional(readOnly = true)
     @Override
-    public List<planorders> getDrugOrdersByPlanID(Integer planId){
+    public List<planorders> getPlanOrdersByPlanID(Integer planId){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(
                 planorders.class);
         crit.add(Restrictions.eq("planId", planId));
@@ -70,16 +73,18 @@ public class HibernateplanordersDAO implements planordersDAO {
      * @param concept
      * @param patient
      * @return
+     * Get the list of planorders records by plan name and Patient
      */
     @Transactional(readOnly = true)
     @Override
-    public List<planorders> getDrugOrdersByPlanAndPatient(Concept concept,Patient patient){
+    public List<planorders> getPlanOrdersByPlanAndPatient(Concept concept, Patient patient){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(
                 planorders.class);
         crit.add(Restrictions.eq("diseaseId", concept)).add(Restrictions.eq("patientId", patient.getPatientId()));
         return crit.list();
     };
     
+    // Get last assigned Plan ID
     @Override
     public int getLastPlanID(){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(

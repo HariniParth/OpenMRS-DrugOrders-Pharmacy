@@ -16,14 +16,19 @@ import org.openmrs.module.drugorders.planorders;
  */
 public interface planordersDAO {
     
+    // Get last assigned Plan ID
     public int getLastPlanID();
     
-    public planorders saveDrugOrder(planorders order);
+    // Save plan order record
+    public planorders savePlanOrder(planorders order);
     
-    public planorders getDrugOrderByOrderID(Integer orderId);    
+    // Get the planorders record using the drug order ID
+    public planorders getPlanOrderByOrderID(Integer orderId);
+        
+    // Get the list of planorders records having the same plan ID
+    public List<planorders> getPlanOrdersByPlanID(Integer planId);
     
-    public List<planorders> getDrugOrdersByPlanID(Integer planId);
-    
-    public List<planorders> getDrugOrdersByPlanAndPatient(Concept concept,Patient patient);
-    
+    // Get the list of planorders records by plan name and Patient
+    public List<planorders> getPlanOrdersByPlanAndPatient(Concept concept, Patient patient);
+      
 }

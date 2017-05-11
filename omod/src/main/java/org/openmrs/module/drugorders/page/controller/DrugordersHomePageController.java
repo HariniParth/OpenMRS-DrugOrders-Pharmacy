@@ -154,7 +154,7 @@ public class DrugordersHomePageController {
                           Fetch the standard plans (list of generic drug orders) for the selected plan (disease).
                           Create a drug order for each drug that is checked to be ordered.
                         */
-                        List<standardplans> standardPlans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(ConceptName(selectedPlan)).getId());
+                        List<standardplans> standardPlans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(selectedPlan)).getId());
                         for(standardplans standardPlan : standardPlans){
                             
                             if(planOrderList.contains(standardPlan.getDrugId().toString())){
@@ -199,8 +199,8 @@ public class DrugordersHomePageController {
                           Remove this order from a group or plan if it is a part of a group or a plan.
                         */
                         order.setGroupId(null);
-                        if(Context.getService(planordersService.class).getDrugOrderByOrderID(id) != null)
-                            Context.getService(planordersService.class).getDrugOrderByOrderID(id).setPlanId(null);
+                        if(Context.getService(planordersService.class).getPlanOrderByOrderID(id) != null)
+                            Context.getService(planordersService.class).getPlanOrderByOrderID(id).setPlanId(null);
                         
                         setDiscontinueReason(order, codedDiscardReason, nonCodedDiscardReason);
                         Context.getOrderService().voidOrder(Context.getOrderService().getOrder(id), "Discontinued");
@@ -284,7 +284,7 @@ public class DrugordersHomePageController {
                   Save the reason for discontinuing the orders and set status to Non-Active.
                 */
                 if ("DISCARD MED PLAN".equals(action)){
-                    int ordersInPlan = Context.getService(planordersService.class).getDrugOrdersByPlanID(groupOrderID).size();
+                    int ordersInPlan = Context.getService(planordersService.class).getPlanOrdersByPlanID(groupOrderID).size();
                     
                     if(groupCheckBox.length > 0){
                         for(int i=0;i<groupCheckBox.length;i++){
@@ -295,7 +295,7 @@ public class DrugordersHomePageController {
                                 order.setOrderStatus("Non-Active-Plan");
                             else {
                                 order.setOrderStatus("Non-Active");
-                                Context.getService(planordersService.class).getDrugOrderByOrderID(id).setPlanId(null);
+                                Context.getService(planordersService.class).getPlanOrderByOrderID(id).setPlanId(null);
                             }                                
                             
                             currentOrders.remove(order.getDrugName().getDisplayString());
@@ -372,11 +372,11 @@ public class DrugordersHomePageController {
                             break;
                         case "Active-Plan":
                             Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Plan");
-                            Context.getService(planordersService.class).getDrugOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
+                            Context.getService(planordersService.class).getPlanOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
                             break;
                         case "Draft-Plan":
                             Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Draft-Plan");
-                            Context.getService(planordersService.class).getDrugOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
+                            Context.getService(planordersService.class).getPlanOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
                             break;
                         case "Active-Group":
                             Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
@@ -536,7 +536,7 @@ public class DrugordersHomePageController {
         diseaseDrugOrder.setOrderId(drugOrderID);
         diseaseDrugOrder.setPatientId(patientID);
         diseaseDrugOrder.setDiseaseId(ConceptName(diseaseName));
-        Context.getService(planordersService.class).saveDrugOrder(diseaseDrugOrder);
+        Context.getService(planordersService.class).savePlanOrder(diseaseDrugOrder);
         
     }
     

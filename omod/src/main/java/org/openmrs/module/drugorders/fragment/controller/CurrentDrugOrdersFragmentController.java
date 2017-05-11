@@ -46,11 +46,11 @@ public class CurrentDrugOrdersFragmentController {
         List<drugorders> drugorders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan");
         
         for(drugorders drugorder : drugorders){
-            planorders planOrder = Context.getService(planordersService.class).getDrugOrderByOrderID(drugorder.getOrderId());
+            planorders planOrder = Context.getService(planordersService.class).getPlanOrderByOrderID(drugorder.getOrderId());
             
             // If the orders belonging to this standard plan are not retrieved yet, then retrieve the orders
             if(!patientPlanOrders.containsKey(planOrder.getPlanId())){
-                List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(planOrder.getPlanId());
+                List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planOrder.getPlanId());
                 List<drugorders> activePlanOrders = new ArrayList<>();
                 
                 for(planorders plan : planOrders){

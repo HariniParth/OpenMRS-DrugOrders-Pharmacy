@@ -29,10 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface drugordersService extends OpenmrsService {
 
+    // Get last assigned Group ID
     public int getLastGroupID();
     
+    // Get orders placed on hold
     public List<drugorders> getOrdersOnHold();
     
+    // Get orders requested to be discarded
     public List<drugorders> getOrdersForDiscard();
     
     public drugorders saveDrugOrder(drugorders drugOrder);

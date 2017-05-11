@@ -33,37 +33,42 @@ public class HibernatenewplansDAO implements newplansDAO {
 	    this.sessionFactory = sessionFactory;
     }
     
+    // Get a medication plan by its ID
     @Transactional(readOnly = true)
     @Override
-    public newplans getMedicationPlan(Integer id){
+    public newplans getMedPlanByPlanID(Integer id){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(newplans.class);
         crit.add(Restrictions.eq("id", id));
         return (newplans) crit.uniqueResult();
     }
     
+    // Get the list of active medication plans
     @Transactional(readOnly = true)
     @Override
-    public List<newplans> getAllMedicationPlans(){
+    public List<newplans> getAllMedPlans(){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(newplans.class);
         return crit.list();
     }
     
+    // Discard a medication plan
     @Transactional
     @Override
-    public void deleteMedicationPlan(newplans plan){
+    public void discardMedPlan(newplans plan){
         sessionFactory.getCurrentSession().delete(plan);
     };
     
+    // Get a medication plan by its name
     @Transactional(readOnly = true)
     @Override
-    public newplans getMedicationPlan(Concept planName){
+    public newplans getMedPlanByPlanName(Concept planName){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(newplans.class);
         crit.add(Restrictions.eq("planName", planName)).add(Restrictions.eq("planStatus", "Active"));
         return (newplans) crit.uniqueResult();
     };
     
+    // Save a new medication plan
     @Override
-    public newplans saveMedicationPlan(newplans plan){
+    public newplans saveMedPlan(newplans plan){
         sessionFactory.getCurrentSession().saveOrUpdate(plan);
         return plan;
     };

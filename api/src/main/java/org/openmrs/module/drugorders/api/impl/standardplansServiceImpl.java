@@ -40,27 +40,31 @@ public class standardplansServiceImpl extends BaseOpenmrsService implements stan
      * @param plan
      */
     
+    // Discard standard medication plan
     @Override
-    public void deleteMedicationPlan(standardplans plan){
-        dao.deleteMedicationPlan(plan);
+    public void discardMedPlan(standardplans plan){
+        dao.discardMedPlan(plan);
     }
     
+    // Get standard medication plan by ID
     @Transactional(readOnly = true)
     @Override
-    public standardplans getMedicationPlan(Integer planId){
-        return dao.getMedicationPlan(planId);
+    public standardplans getMedPlanByID(Integer planId){
+        return dao.getMedPlanByID(planId);
     }
     
+    // Save standard medication plan
     @Transactional
     @Override
-    public standardplans saveMedicationPlan(standardplans plan) {
-        return dao.saveMedicationPlan(plan);
+    public standardplans saveMedPlan(standardplans plan) {
+        return dao.saveMedPlan(plan);
     }
     
+    // Get standard medication plans by plan ID
     @Transactional(readOnly = true)
     @Override
-    public List<standardplans> getMedicationPlans(Integer planId){
-        return dao.getMedicationPlans(planId);
+    public List<standardplans> getMedPlansByPlanID(Integer planId){
+        return dao.getMedPlansByPlanID(planId);
     }
     
 }

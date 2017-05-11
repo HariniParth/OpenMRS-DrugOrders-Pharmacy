@@ -40,33 +40,38 @@ public class newplansServiceImpl extends BaseOpenmrsService implements newplansS
 	    this.dao = dao;
     }
     
+    // Get a medication plan by its ID
     @Transactional(readOnly = true)
     @Override
-    public newplans getMedicationPlan(Integer id){
-        return dao.getMedicationPlan(id);
+    public newplans getMedPlanByPlanID(Integer id){
+        return dao.getMedPlanByPlanID(id);
     }
     
+    // Get the list of active medication plans
     @Transactional(readOnly = true)
     @Override
-    public List<newplans> getAllMedicationPlans(){
-        return dao.getAllMedicationPlans();
+    public List<newplans> getAllMedPlans(){
+        return dao.getAllMedPlans();
     }
     
+    // Discard a medication plan
     @Override
-    public void deleteMedicationPlan(newplans plan){
-        dao.deleteMedicationPlan(plan);
+    public void discardMedPlan(newplans plan){
+        dao.discardMedPlan(plan);
     }
     
+    // Save a new medication plan
     @Transactional
     @Override
-    public newplans saveMedicationPlan(newplans plan){
-        return dao.saveMedicationPlan(plan);
+    public newplans saveMedPlan(newplans plan){
+        return dao.saveMedPlan(plan);
     }
     
+    // Get a medication plan by its name
     @Transactional(readOnly = true)
     @Override
-    public newplans getMedicationPlan(Concept planName){
-        return dao.getMedicationPlan(planName);
+    public newplans getMedPlanByPlanName(Concept planName){
+        return dao.getMedPlanByPlanName(planName);
     }
     
 }

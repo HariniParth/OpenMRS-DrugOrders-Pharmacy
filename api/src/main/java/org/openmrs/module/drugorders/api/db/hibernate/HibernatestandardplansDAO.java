@@ -32,29 +32,33 @@ public class HibernatestandardplansDAO implements standardplansDAO {
 	    this.sessionFactory = sessionFactory;
     }
     
+    // Discard standard medication plan
     @Transactional
     @Override
-    public void deleteMedicationPlan(standardplans plan){
+    public void discardMedPlan(standardplans plan){
         sessionFactory.getCurrentSession().delete(plan);
     };
     
+    // Save standard medication plan
     @Override
-    public standardplans saveMedicationPlan(standardplans plan) {
+    public standardplans saveMedPlan(standardplans plan) {
         sessionFactory.getCurrentSession().saveOrUpdate(plan);
         return plan;
     };
         
+    // Get standard medication plans by plan ID
     @Transactional(readOnly = true)
     @Override
-    public List<standardplans> getMedicationPlans(Integer planId){
+    public List<standardplans> getMedPlansByPlanID(Integer planId){
         
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(standardplans.class);
         crit.add(Restrictions.eq("planId", planId));
         return crit.list();
     };
     
+    // Get standard medication plan by ID
     @Override
-    public standardplans getMedicationPlan(Integer id){
+    public standardplans getMedPlanByID(Integer id){
         return (standardplans) sessionFactory.getCurrentSession().get(standardplans.class, id);
     };
 }

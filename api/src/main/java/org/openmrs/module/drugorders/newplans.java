@@ -16,9 +16,13 @@ import org.openmrs.Concept;
 public class newplans extends BaseOpenmrsObject implements Serializable{
     
     private Integer id;
+    // Description of the medication plan
     private String planDesc;
-    private Concept planName;    
+    // Name of the medication plan
+    private Concept planName;   
+    // Status of the medication plan
     private String planStatus;
+    // Reason why this plan was discarded (if discarded)
     private String discardReason;
     
     public newplans(){

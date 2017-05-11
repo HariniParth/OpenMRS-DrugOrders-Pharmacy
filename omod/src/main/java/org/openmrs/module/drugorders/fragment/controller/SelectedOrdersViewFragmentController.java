@@ -44,7 +44,7 @@ public class SelectedOrdersViewFragmentController {
         if(!planID.equals("")){
             
             //Get the list of Med Plan Orders ordered for this Patient to treat this Disease
-            List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(Integer.parseInt(planID));
+            List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(Integer.parseInt(planID));
             sb.append(plans.get(0).getDiseaseId().getDisplayString());
             
             for(planorders plan : plans){

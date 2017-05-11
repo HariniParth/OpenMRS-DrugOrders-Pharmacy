@@ -9,30 +9,45 @@
         for a list of supported elements and attributes
     -->
     
+    <!--
+        (First time only) If drug_orders_extn table does exists, drop it
+    -->
     <changeSet id="drug_order_table_1" author="drug_order">
         <sql>
             drop table if exists drug_orders_extn;
         </sql>
     </changeSet>
     
+    <!--
+        (First time only) If plan_orders table does exists, drop it
+    -->
     <changeSet id="drug_order_table_2" author="drug_order">
         <sql>
             drop table if exists plan_orders;
         </sql>
     </changeSet>
     
+    <!--
+        (First time only) If standard_plans table does exists, drop it
+    -->
     <changeSet id="drug_order_table_3" author="drug_order">
         <sql>
             drop table if exists standard_plans;
         </sql>
     </changeSet>
     
+    <!--
+        (First time only) If new_plans table does exists, drop it
+    -->
     <changeSet id="drug_order_table_4" author="drug_order">
         <sql>
             drop table if exists new_plans;
         </sql>
     </changeSet>
 
+    <!--
+        (First time only) create drug_orders_extn table with given set of columns
+    -->
     <changeSet id="drug_order_table_5" author="drug_order">
         <preConditions onFail="WARN" onError="WARN">
             <not>
@@ -70,6 +85,9 @@
         </createTable>
     </changeSet>
     
+    <!--
+        (First time only) create new_plans table with given set of columns
+    -->
     <changeSet id="drug_order_table_6" author="drug_order">
         <preConditions onFail="WARN" onError="WARN">
             <not>
@@ -87,6 +105,9 @@
         </createTable>
     </changeSet>
     
+    <!--
+        (First time only) create standard_plans table with given set of columns
+    -->
     <changeSet id="drug_order_table_7" author="drug_order">
         <preConditions onFail="WARN" onError="WARN">
             <not>
@@ -114,6 +135,9 @@
         </createTable>
     </changeSet>
     
+    <!--
+        (First time only) create plan_orders table with given set of columns
+    -->
     <changeSet id="drug_order_table_8" author="drug_order">
         <preConditions onFail="WARN" onError="WARN">
             <not>

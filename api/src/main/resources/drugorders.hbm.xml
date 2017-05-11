@@ -5,6 +5,9 @@
 
 <hibernate-mapping package="org.openmrs.module.drugorders">
 
+    <!--
+        Map columns of drug_orders_extn table with drugorders class properties
+    -->
     <class name="drugorders" table="drug_orders_extn">
         <id name="id" type="int" column="id" unsaved-value="0">
             <generator class="native" />
@@ -35,6 +38,9 @@
 
     </class>
 
+    <!--
+        Map columns of new_plans table with newplans class properties
+    -->
     <class name="newplans" table="new_plans">
 
         <id name="id" type="int" column="id" unsaved-value="0">
@@ -48,6 +54,9 @@
         
     </class>
     
+    <!--
+        Map columns of standard_plans table with standardplans class properties
+    -->
     <class name="standardplans" table="standard_plans">
 
         <id name="id" type="int" column="id" unsaved-value="0">
@@ -69,6 +78,9 @@
         
     </class>
     
+    <!--
+        Map columns of plan_orders table with planorders class properties
+    -->
     <class name="planorders" table="plan_orders">
 
         <id name="id" type="int" column="id" unsaved-value="0">

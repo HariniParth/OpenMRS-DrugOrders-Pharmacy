@@ -50,9 +50,9 @@ public class CreateMedPlanDrugOrderFragmentController {
           If there exists standard medications plans for the disease name typed, retrieve the list of the plans.
           Only plans that are currently active are retrieved.
         */
-        if(Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName)) != null && Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName)).getPlanStatus().equals("Active")){
-            newplans newPlan = Context.getService(newplansService.class).getMedicationPlan(Context.getConceptService().getConceptByName(planName));
-            List<standardplans> standardplans = Context.getService(standardplansService.class).getMedicationPlans(newPlan.getId());
+        if(Context.getService(newplansService.class).getMedPlanByPlanName(Context.getConceptService().getConceptByName(planName)) != null && Context.getService(newplansService.class).getMedPlanByPlanName(Context.getConceptService().getConceptByName(planName)).getPlanStatus().equals("Active")){
+            newplans newPlan = Context.getService(newplansService.class).getMedPlanByPlanName(Context.getConceptService().getConceptByName(planName));
+            List<standardplans> standardplans = Context.getService(standardplansService.class).getMedPlansByPlanID(newPlan.getId());
             
             for(standardplans standardplan : standardplans)
                 if(standardplan.getPlanStatus().equals("Active"))
@@ -94,9 +94,9 @@ public class CreateMedPlanDrugOrderFragmentController {
             /*
               Based on the characters typed, check if a plan exists and is currently active.
             */
-            newplans plan = Context.getService(newplansService.class).getMedicationPlan(con.getConcept());
+            newplans plan = Context.getService(newplansService.class).getMedPlanByPlanName(con.getConcept());
             if(plan != null && plan.getPlanStatus().equals("Active")){
-                if(Context.getService(standardplansService.class).getMedicationPlans(plan.getId()).size() > 0)
+                if(Context.getService(standardplansService.class).getMedPlansByPlanID(plan.getId()).size() > 0)
                     names.add(con.getConcept());
             }
         }

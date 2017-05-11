@@ -61,7 +61,7 @@ public class AdministrationPageController {
                         /*
                           If the plan name does not exist in the concept dictionary, create a new concept.
                         */
-                        if(Context.getService(newplansService.class).getMedicationPlan(ConceptName(definePlanName.trim())) == null){
+                        if(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(definePlanName.trim())) == null){
                             if(ConceptName(definePlanName.trim()) == null){
                                 drugordersActivator activator = new drugordersActivator();
                                 Concept planConcept =  activator.saveConcept(definePlanName.trim(), Context.getConceptService().getConceptClassByName("Diagnosis"));
@@ -70,12 +70,12 @@ public class AdministrationPageController {
                             else
                                 newplan.setPlanName(ConceptName(definePlanName.trim()));
                         } else
-                            newplan.setPlanName(Context.getService(newplansService.class).getMedicationPlan(ConceptName(definePlanName.trim())).getPlanName());
+                            newplan.setPlanName(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(definePlanName.trim())).getPlanName());
                         
                         
                         newplan.setPlanDesc(definePlanDesc);
                         newplan.setPlanStatus("Active");
-                        Context.getService(newplansService.class).saveMedicationPlan(newplan);
+                        Context.getService(newplansService.class).saveMedPlan(newplan);
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
                         break;
                     
@@ -85,7 +85,7 @@ public class AdministrationPageController {
                     */
                     case "extendPlan":
                         standardplans medPlans = new standardplans();
-                        medPlans.setPlanId(Context.getService(newplansService.class).getMedicationPlan(ConceptName(adminPlan)).getId());
+                        medPlans.setPlanId(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
                         
                         /*
                           If the drug name does not exist in the concept dictionary, create a new concept.
@@ -122,9 +122,9 @@ public class AdministrationPageController {
                           If plan item parameters are being edited, discard the old plan item.
                         */
                         if(!(planId.equals(""))){
-                            Context.getService(standardplansService.class).deleteMedicationPlan(Context.getService(standardplansService.class).getMedicationPlan(Integer.parseInt(planId)));
+                            Context.getService(standardplansService.class).discardMedPlan(Context.getService(standardplansService.class).getMedPlanByID(Integer.parseInt(planId)));
                         } else {
-                            Context.getService(standardplansService.class).saveMedicationPlan(medPlans);
+                            Context.getService(standardplansService.class).saveMedPlan(medPlans);
                         }
                         
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Updated!");
@@ -134,7 +134,7 @@ public class AdministrationPageController {
                       Rename the plan by replacing the concept ID of the existing name with the concept ID of the new name.
                     */
                     case "renamePlan":
-                        newplans oldPlan = Context.getService(newplansService.class).getMedicationPlan(Integer.parseInt(definePlanId));
+                        newplans oldPlan = Context.getService(newplansService.class).getMedPlanByPlanID(Integer.parseInt(definePlanId));
                         /*
                           If the plan name does not exist in the concept dictionary, create a new concept.
                         */
@@ -157,7 +157,7 @@ public class AdministrationPageController {
                         if(groupCheckBox.length > 0){
                             for(int i=0;i<groupCheckBox.length;i++){
                                 int id = Integer.parseInt(Long.toString(groupCheckBox[i]));
-                                standardplans medPlan = Context.getService(standardplansService.class).getMedicationPlan(id);
+                                standardplans medPlan = Context.getService(standardplansService.class).getMedPlanByID(id);
                                 medPlan.setPlanStatus("Non-Active");
                                 medPlan.setDiscardReason(discardReason);
                             }
@@ -167,14 +167,14 @@ public class AdministrationPageController {
                           Before discarding a medication plan, ensure that all the plan items (standard drug orders) associated with that plan are discarded.
                         */
                         boolean allDrugsDiscarded = true;
-                        List<standardplans> allPlans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(planToDiscard).getId());
+                        List<standardplans> allPlans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).getId());
                         for(standardplans plan : allPlans)
                             if(plan.getPlanStatus().equals("Active"))
                                 allDrugsDiscarded = false;
                         
                         if(allDrugsDiscarded){
-                            Context.getService(newplansService.class).getMedicationPlan(planToDiscard).setPlanStatus("Non-Active");
-                            Context.getService(newplansService.class).getMedicationPlan(planToDiscard).setDiscardReason(discardReason);
+                            Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).setPlanStatus("Non-Active");
+                            Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).setDiscardReason(discardReason);
                             InfoErrorMessageUtil.flashInfoMessage(session, "Plan Discarded!");
                         }                        
                         break;
@@ -185,7 +185,7 @@ public class AdministrationPageController {
                     case "discardDrug":
                         if(groupCheckBox.length > 0){
                             int id = Integer.parseInt(Long.toString(groupCheckBox[0]));
-                            standardplans medPlan = Context.getService(standardplansService.class).getMedicationPlan(id);
+                            standardplans medPlan = Context.getService(standardplansService.class).getMedPlanByID(id);
                             medPlan.setPlanStatus("Non-Active");
                             medPlan.setDiscardReason(discardReason);
                             InfoErrorMessageUtil.flashInfoMessage(session, "Drug removed from Plan!");
@@ -199,7 +199,7 @@ public class AdministrationPageController {
         }
         
         if(planToDiscard != null)
-            model.addAttribute("recordedMedPlan", Context.getService(newplansService.class).getMedicationPlan(planToDiscard).getPlanName().getDisplayString());
+            model.addAttribute("recordedMedPlan", Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).getPlanName().getDisplayString());
         else 
             if(!adminPlan.isEmpty())
                 model.addAttribute("recordedMedPlan", adminPlan);
@@ -212,7 +212,7 @@ public class AdministrationPageController {
         */
         HashMap<Concept,List<standardplans>> allMedicationPlans = new HashMap<>();
         
-        List<newplans> newPlans = Context.getService(newplansService.class).getAllMedicationPlans();
+        List<newplans> newPlans = Context.getService(newplansService.class).getAllMedPlans();
         List<newplans> activePlans = new ArrayList<>();
         for(newplans newPlan : newPlans){
             if(newPlan.getPlanStatus().equals("Active"))
@@ -222,7 +222,7 @@ public class AdministrationPageController {
         model.addAttribute("newPlans", activePlans);
         
         for(newplans newPlan : newPlans){
-            List<standardplans> medicationPlans = Context.getService(standardplansService.class).getMedicationPlans(newPlan.getId());
+            List<standardplans> medicationPlans = Context.getService(standardplansService.class).getMedPlansByPlanID(newPlan.getId());
             List<standardplans> activeItems = new ArrayList<>();
             for(standardplans medPlan : medicationPlans){
                 if(medPlan.getPlanStatus().equals("Active"))

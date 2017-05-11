@@ -18,17 +18,29 @@ import org.openmrs.BaseOpenmrsObject;
 public class standardplans extends BaseOpenmrsObject implements Serializable{
     
     private Integer id;
+    // Standard formulation - Dose
     private Double dose;
+    // Standard formulation - Route
     private Concept route;
+    // Standard formulation - Drug Concept
     private Concept drugId;
+    // Standard formulation - Plan ID
     private Integer planId;
+    // Standard formulation - Quantity
     private Double quantity;
+    // Standard formulation - Duration
     private Integer duration;    
+    // Standard formulation - Dose units
     private Concept doseUnits;
+    // Standard formulation - Status of the plan
     private String planStatus;
+    // Reason for discarding this medication plan
     private String discardReason;
+    // Standard formulation - Duration units
     private Concept durationUnits;
+    // Standard formulation - Quantity units
     private Concept quantityUnits;
+    // Standard formulation - Frequency
     private OrderFrequency frequency;
     
     public standardplans(){

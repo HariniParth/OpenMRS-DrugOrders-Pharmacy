@@ -15,12 +15,16 @@ import org.openmrs.module.drugorders.standardplans;
  */
 public interface standardplansService extends OpenmrsService{
         
-    public standardplans getMedicationPlan(Integer id);
+    // Get standard medication plan by ID
+    public standardplans getMedPlanByID(Integer id);
     
-    public void deleteMedicationPlan(standardplans plan);
+    // Discard standard medication plan
+    public void discardMedPlan(standardplans plan);
         
-    public standardplans saveMedicationPlan(standardplans plan);
+    // Save standard medication plan
+    public standardplans saveMedPlan(standardplans plan);
     
-    public List<standardplans> getMedicationPlans(Integer planId);
+    // Get standard medication plans by plan ID
+    public List<standardplans> getMedPlansByPlanID(Integer planId);
         
 }

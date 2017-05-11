@@ -222,6 +222,9 @@ public class drugordersActivator implements ModuleActivator {
         }
     }
 
+    /*
+      Create and save a Concept Class
+    */
     public ConceptClass saveConceptClass(String conceptName) {
 
         ConceptClass conceptClass = new ConceptClass();
@@ -231,6 +234,9 @@ public class drugordersActivator implements ModuleActivator {
         return conceptClass;
     }
 
+    /*
+      Create and save a Concept
+    */
     public Concept saveConcept(String newConcept, ConceptClass conceptClass) {
 
         Concept concept = new Concept();

@@ -15,14 +15,19 @@ import org.openmrs.module.drugorders.newplans;
  */
 public interface newplansDAO {
     
-    public List<newplans> getAllMedicationPlans();
+    // Get the list of active medication plans
+    public List<newplans> getAllMedPlans();
     
-    public newplans getMedicationPlan(Integer id);
+    // Get a medication plan by its ID
+    public newplans getMedPlanByPlanID(Integer id);
     
-    public void deleteMedicationPlan(newplans plan);
+    // Discard a medication plan
+    public void discardMedPlan(newplans plan);
+        
+    // Save a new medication plan
+    public newplans saveMedPlan(newplans plan);
     
-    public newplans saveMedicationPlan(newplans plan);
-    
-    public newplans getMedicationPlan(Concept planName);
+    // Get a medication plan by its name
+    public newplans getMedPlanByPlanName(Concept planName);
     
 }

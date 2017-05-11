@@ -38,11 +38,11 @@ public class PlanOrdersNonActiveFragmentController {
         List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active-Plan");
         
         for(drugorders order : orders){
-            planorders nonActiveMedPlan = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
+            planorders nonActiveMedPlan = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
             
             // If the selected plan related orders are not already retrieved, retrieve the orders
             if(!NonActivePlanMain.containsKey(nonActiveMedPlan.getPlanId())){
-                List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(nonActiveMedPlan.getPlanId());
+                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(nonActiveMedPlan.getPlanId());
                 
                 HashMap<Concept, HashMap<Integer, DrugOrder>> p_main = new HashMap<>();
                 HashMap<Concept, HashMap<Integer, drugorders>> p_extn = new HashMap<>();

@@ -23,30 +23,49 @@ public class drugorders extends BaseOpenmrsObject implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+        // Date from which the medication is started
         private Date startDate;
+        // Order ID representing the record in orders and drug_order table
         private Integer orderId;
+        // Number representing the group of orders to which this order belongs to
         private Integer groupId;
+        // Concept ID representing the drug
         private Concept drugName;
+        // ID of the Patient for whom the order is made
         private Integer patientId;
-        
+        // If the Patient is allergic to the drug ordered
         private Integer isAllergic;
+        // Disease to treat
         private Concept associatedDiagnosis;
+        // Reason for ordering the drug inspite of the Patient being allergic to it
         private String isAllergicOrderReasons;
+        // Instructions provided by the Physician for the Patient
         private String patientInstructions;
+        // Instructions provided by the Physician for the Pharmacist
         private String pharmacistInstructions;
-                
+        // Indicates if the order is placed on hold
         private Integer onHold;
+        // The number of allowed refills at the pharmacy
         private Integer refill;
+        // Priority assigned to the drug order
         private Concept priority;
+        // Indicates if the order has been requested to be discarded
         private Integer forDiscard;
+        // Status of the order - Active/Non-Active
         private String orderStatus;
+        // Number of days between dispatch of refills
         private Integer refillInterval;
+        // Predefined reason to discontinue the drug order
         private Concept discontinueReason;
+        // Free-Text reason to discontinue the drug order
         private String discontinuationReasons;
-        
+        // Date on which the drug expires
         private Date drugExpiryDate;
+        // Date on which the drug was last dispatched
         private Date lastDispatchDate;
+        // Comments from the Pharmacist for the Orderer
         private String commentForOrderer;
+        // Comments from the Pharmacist for the Patient
         private String commentForPatient;
              
 	

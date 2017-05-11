@@ -41,22 +41,22 @@ public class AdministrationActionsFragmentController {
           Get the list of standard plan items for the selected standard plan that are currently active.
         */
         if(selectedMedPlan != null){
-            List<standardplans> plans = Context.getService(standardplansService.class).getMedicationPlans(Context.getService(newplansService.class).getMedicationPlan(selectedMedPlan).getId());
+            List<standardplans> plans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanID(selectedMedPlan).getId());
             List<standardplans> activePlans = new ArrayList<>();
             for(standardplans plan : plans)
                 if(plan.getPlanStatus().equals("Active"))
                     activePlans.add(plan);
             
-            plansByName.put(Context.getService(newplansService.class).getMedicationPlan(selectedMedPlan).getPlanName(), activePlans);
+            plansByName.put(Context.getService(newplansService.class).getMedPlanByPlanID(selectedMedPlan).getPlanName(), activePlans);
             selectedPlan.put(selectedMedPlan, plansByName);
         }
         
         // Get the selected standard plan item.
         else if(selectedPlanItem != null){
             List<standardplans> plans = new ArrayList<>();
-            standardplans plan = Context.getService(standardplansService.class).getMedicationPlan(selectedPlanItem);
+            standardplans plan = Context.getService(standardplansService.class).getMedPlanByID(selectedPlanItem);
             plans.add(plan);
-            plansByName.put(Context.getService(newplansService.class).getMedicationPlan(plan.getPlanId()).getPlanName(), plans);
+            plansByName.put(Context.getService(newplansService.class).getMedPlanByPlanID(plan.getPlanId()).getPlanName(), plans);
             selectedPlan.put(plan.getPlanId(), plansByName);
         }
             

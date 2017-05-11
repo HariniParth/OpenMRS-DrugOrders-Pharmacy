@@ -37,34 +37,39 @@ public class planordersServiceImpl extends BaseOpenmrsService implements planord
 	    this.dao = dao;
     }
     
+    // Get last assigned Plan ID
     @Transactional(readOnly = true)
     @Override
     public int getLastPlanID(){
         return dao.getLastPlanID();
     }
     
+    // Save plan order record
     @Transactional
     @Override
-    public planorders saveDrugOrder(planorders order){
-        return dao.saveDrugOrder(order);
+    public planorders savePlanOrder(planorders order){
+        return dao.savePlanOrder(order);
     }
     
+    // Get the planorders record using the drug order ID
     @Transactional(readOnly = true)
     @Override
-    public planorders getDrugOrderByOrderID(Integer id){
-        return dao.getDrugOrderByOrderID(id);
+    public planorders getPlanOrderByOrderID(Integer id){
+        return dao.getPlanOrderByOrderID(id);
     }
     
+    // Get the list of planorders records having the same plan ID
     @Transactional(readOnly = true)
     @Override
-    public List<planorders> getDrugOrdersByPlanID(Integer planId){
-        return dao.getDrugOrdersByPlanID(planId);
+    public List<planorders> getPlanOrdersByPlanID(Integer planId){
+        return dao.getPlanOrdersByPlanID(planId);
     }
     
+    // Get the list of planorders records by plan name and Patient
     @Transactional(readOnly = true)
     @Override
-    public List<planorders> getDrugOrdersByPlanAndPatient(Concept concept,Patient patient){
-        return dao.getDrugOrdersByPlanAndPatient(concept, patient);
+    public List<planorders> getPlanOrdersByPlanAndPatient(Concept concept, Patient patient){
+        return dao.getPlanOrdersByPlanAndPatient(concept, patient);
     }
     
 }

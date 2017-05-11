@@ -60,7 +60,7 @@ public class PharmacyHomePageController {
                 */
                 switch (selected[0]) {
                     case "PLAN":
-                        List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(Integer.parseInt(selected[1]));
+                        List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(Integer.parseInt(selected[1]));
                         for(planorders planOrder : planOrders){
                             listOfOrders.add(planOrder.getOrderId());
                         }   
@@ -132,10 +132,10 @@ public class PharmacyHomePageController {
                     }   break;
                     
                 case "Active-Plan":
-                    planorders planorders = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
+                    planorders planorders = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
                     if(!planOrders.containsKey(planorders.getPlanId())){
                         
-                        List<planorders> allPlanOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(planorders.getPlanId());
+                        List<planorders> allPlanOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planorders.getPlanId());
                         
                         List<drugorders> activePlanOrders = new ArrayList<>();
                         

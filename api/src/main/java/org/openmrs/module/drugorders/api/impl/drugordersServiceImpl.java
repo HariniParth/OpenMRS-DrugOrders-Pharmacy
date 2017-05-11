@@ -44,18 +44,21 @@ public class drugordersServiceImpl extends BaseOpenmrsService implements drugord
 	    this.dao = dao;
     }
     
+    // Get last assigned Group ID
     @Transactional(readOnly = true)
     @Override
     public int getLastGroupID(){
         return dao.getLastGroupID();
     }
 
+    // Get orders placed on hold
     @Transactional(readOnly = true)
     @Override
     public List<drugorders> getOrdersOnHold(){
         return dao.getOrdersOnHold();
     }
     
+    // Get orders requested to be discarded
     @Transactional(readOnly = true)
     @Override
     public List<drugorders> getOrdersForDiscard(){

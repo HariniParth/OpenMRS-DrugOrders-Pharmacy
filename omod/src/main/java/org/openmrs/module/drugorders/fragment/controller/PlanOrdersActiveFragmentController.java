@@ -28,7 +28,7 @@ public class PlanOrdersActiveFragmentController {
         
         //Activate saved draft med plan drug orders
         if(activatePlan != null){
-            List<planorders> planOrders = Context.getService(planordersService.class).getDrugOrdersByPlanID(activatePlan);
+            List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(activatePlan);
             for(planorders order : planOrders)
                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).setOrderStatus("Active-Plan");
         }
@@ -40,7 +40,7 @@ public class PlanOrdersActiveFragmentController {
         
         List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan");
         for(drugorders order : orders){
-            planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
+            planorders p_order = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
             
             // If the selected plan related orders are not already retrieved, retrieve the orders
             if(!ActivePlanMain.containsKey(p_order.getPlanId())){
@@ -50,7 +50,7 @@ public class PlanOrdersActiveFragmentController {
                 /*
                   Select active medication plan / regimen related drug orders.
                 */
-                List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(p_order.getPlanId());
+                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getPlanId());
 
                 for(planorders plan : plans){
                     int id = plan.getOrderId();
@@ -76,14 +76,14 @@ public class PlanOrdersActiveFragmentController {
         
         orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Plan");
         for(drugorders order : orders){
-            planorders p_order = Context.getService(planordersService.class).getDrugOrderByOrderID(order.getOrderId());
+            planorders p_order = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
 
             // If the selected plan related orders are not already retrieved, retrieve the orders
             if(!DraftPlanMain.containsKey(p_order.getPlanId())){
 
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 HashMap<Integer,drugorders> extn = new HashMap<>();
-                List<planorders> plans = Context.getService(planordersService.class).getDrugOrdersByPlanID(p_order.getPlanId());
+                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getPlanId());
 
                 /*
                   Select draft medication plan / regimen related drug orders.

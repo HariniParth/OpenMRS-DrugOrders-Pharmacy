@@ -16,9 +16,13 @@ import org.openmrs.BaseOpenmrsObject;
 public class planorders extends BaseOpenmrsObject implements Serializable{
     
     private Integer id;
+    // Plan ID number
     private Integer planId;
+    // Drug order ID number
     private Integer orderId;
+    // Patient for whom the plan is ordered
     private Integer patientId;
+    // Disease to treat which the plan is ordered
     private Concept diseaseId;    
     
     public planorders(){

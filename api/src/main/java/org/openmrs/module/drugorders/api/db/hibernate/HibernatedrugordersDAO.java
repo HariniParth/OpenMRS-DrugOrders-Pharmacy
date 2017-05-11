@@ -40,6 +40,7 @@ public class HibernatedrugordersDAO implements drugordersDAO {
         this.sessionFactory = sessionFactory;
     }
    
+    // Get orders placed on hold
     @Override
     public List<drugorders> getOrdersOnHold(){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(
@@ -48,6 +49,7 @@ public class HibernatedrugordersDAO implements drugordersDAO {
         return crit.list();
     };
     
+    // Get orders requested to be discarded
     @Override
     public List<drugorders> getOrdersForDiscard(){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(
@@ -86,6 +88,7 @@ public class HibernatedrugordersDAO implements drugordersDAO {
         return crit.list();
     };
     
+    // Get last assigned Group ID
     @Override
     public int getLastGroupID(){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(
