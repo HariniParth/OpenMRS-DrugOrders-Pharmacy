@@ -193,7 +193,7 @@ function highlight(){
         
         if(selectedAction === "DISCONTINUE ORDER"){
             
-            if($("#discardType").val() === "Active-Plan" || $("#discardType").val() === "Draft-Plan"){
+            if($("#orderStatus").val() === "Active-Plan" || $("#orderStatus").val() === "Draft-Plan"){
                 jq("#activeOrderWindow").hide();
             }
             

@@ -33,7 +33,9 @@ public class DrugOrdersActiveFragmentController {
                             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox){
         
         /*
-          Remove the selected order from the existing group.
+          If an order is selected to be removed from an order group:
+          - Set the order status to 'Active' (from 'Active-Group').
+          - Set the groupId value of the drug order to null.
         */
         if(!removeFromGroup.equals("")){
             drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(Integer.parseInt(removeFromGroup));
@@ -42,19 +44,24 @@ public class DrugOrdersActiveFragmentController {
         }
         
         /*
-          Group the selected orders. Set the group ID to 1 + the last group ID index.
-          Set order status to Active-Group.
+          Group the selected orders. 
         */
         if ("GroupOrder".equals(action)) {
+            // If one or more orders are selected to be 'grouped':
             if(singleCheckBox.length > 0 || groupCheckBox.length > 0){
+                // Set the group ID to 1 + the last group ID index.
                 int groupID = Context.getService(drugordersService.class).getLastGroupID() + 1;
                 
                 // Check if one or more individual orders are selected to be grouped
                 if(singleCheckBox.length > 0){
                     for(int i=0;i<singleCheckBox.length;i++){
-                        int orderID = Integer.parseInt(Long.toString(singleCheckBox[i]));
-                        drugorders orders = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
+                        // Retrieve the order ID from  value stored in the checkbox.
+                        int id = Integer.parseInt(Long.toString(singleCheckBox[i]));
+                        // Fetch the drug order record.
+                        drugorders orders = Context.getService(drugordersService.class).getDrugOrderByOrderID(id);
+                        // Set the group ID.
                         orders.setGroupId(groupID);
+                        // Set the status to "Active-Group".
                         orders.setOrderStatus("Active-Group");
                     }
                 }
@@ -62,8 +69,11 @@ public class DrugOrdersActiveFragmentController {
                 // Check if one or more group orders are selected to be grouped
                 if(groupCheckBox.length > 0){
                     for(int i=0;i<groupCheckBox.length;i++){
-                        int orderID = Integer.parseInt(Long.toString(groupCheckBox[i]));
-                        List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(orderID);
+                        // Retrieve the group ID from  value stored in the checkbox.
+                        int id = Integer.parseInt(Long.toString(groupCheckBox[i]));
+                        // Fetch the drug order records.
+                        List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(id);
+                        // Set the updated group ID for each of these orders.
                         for(drugorders order : orders)
                             order.setGroupId(groupID);
                     }
@@ -74,16 +84,16 @@ public class DrugOrdersActiveFragmentController {
                 InfoErrorMessageUtil.flashErrorMessage(session, "Check Orders To Be Grouped!");
         }
         
-        /*
-          Retrieve the list of active individual and group drug orders.
-        */
+        // Data structure to store the individual drug orders
         List<drugorders> dorders = new ArrayList<>();
+        // Data structure to store the group drug orders
         HashMap<Integer,List<drugorders>> groupDorders = new HashMap<>();
-        
+        // Retrieve the drug orders created for the Patient
         List<OrderAndDrugOrder> drugOrders = DrugOrderList.getDrugOrdersByPatient(patient);
                 
         for(OrderAndDrugOrder drugOrder : drugOrders){
             drugorders dorder = drugOrder.getdrugorders();
+            // Check if a drug order is an individual order or a part of a group and then store it appropriately
             switch (dorder.getOrderStatus()) {
                 case "Active":
                     dorders.add(dorder);

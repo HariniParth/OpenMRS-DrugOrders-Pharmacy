@@ -261,7 +261,7 @@
             <input type="hidden" id="groupAction" name="action" value="${ groupOrderAction }" />
             
             <% if(groupOrderAction == "DISCONTINUE ORDER") { %>
-                <input type="hidden" id="discardType" name="discardType" value="${ discardType }" />
+                <input type="hidden" id="orderStatus" name="orderStatus" value="${ orderStatus }" />
             <% } %>
             
             <div id="view_order_detail" class="fields">

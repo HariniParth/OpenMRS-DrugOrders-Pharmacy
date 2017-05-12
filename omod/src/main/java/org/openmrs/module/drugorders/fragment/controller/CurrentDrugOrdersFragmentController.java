@@ -27,7 +27,9 @@ public class CurrentDrugOrdersFragmentController {
     
     public void controller(PageModel model, @RequestParam("patientId") Patient patient){
         
+        // Storing HashMap<Plan-ID, Plan-Name>
         HashMap<Integer, Concept> planName = new HashMap<>();
+        // Storing HashMap<Order-ID, Orderer-Name>
         HashMap<Integer, String> OrdererName = new HashMap<>();
         
         /*
@@ -48,11 +50,13 @@ public class CurrentDrugOrdersFragmentController {
         for(drugorders drugorder : drugorders){
             planorders planOrder = Context.getService(planordersService.class).getPlanOrderByOrderID(drugorder.getOrderId());
             
-            // If the orders belonging to this standard plan are not retrieved yet, then retrieve the orders
+            // If the drug orders associated with this standard plan are not retrieved yet, then retrieve the orders.
             if(!patientPlanOrders.containsKey(planOrder.getPlanId())){
+                // Retrieve the set of drug orders that are associated with the given planorders ID.
                 List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planOrder.getPlanId());
                 List<drugorders> activePlanOrders = new ArrayList<>();
                 
+                // From the set of retrieved drug orders, select the orders that are currently active.
                 for(planorders plan : planOrders){
                     if(Context.getService(drugordersService.class).getDrugOrderByOrderID(plan.getOrderId()).getOrderStatus().equals("Active-Plan")){
                         activePlanOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(plan.getOrderId()));
@@ -62,23 +66,26 @@ public class CurrentDrugOrdersFragmentController {
                         OrdererName.put(drugorder.getOrderId(), person.getGivenName()+" "+person.getFamilyName());
                     }
                 }
+                // Store the data about the set of drug orders made for a medication plan by the plan ID
                 patientPlanOrders.put(planOrder.getPlanId(), activePlanOrders);
+                // Store the name of the disease associated with the plan order ID
                 planName.put(planOrder.getPlanId(), planOrder.getDiseaseId());
             }
         }
         
         /*
-          Get the list of all active group drug orders placed for the Patient.
+          Get the list of all active 'grouped' drug orders placed for the Patient.
         */
         HashMap<Integer, List<drugorders>> patientGroupOrders = new HashMap<>();
         List<drugorders> groupOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Group");
         
         for(drugorders groupOrder : groupOrders){
-            // If the orders belonging to this order's group are not retrieved yet, then retrieve the orders
+            // If the orders belonging to this order's group are not retrieved yet, then retrieve the orders.
             if(!patientGroupOrders.containsKey(groupOrder.getGroupId())){
                 List<drugorders> allGroupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(groupOrder.getGroupId());
                 List<drugorders> activeGroupOrders = new ArrayList<>();
 
+                // From the list of orders retrieved, select the orders that are currently active.
                 for(drugorders drugorder : allGroupOrders){
                     if(drugorder.getOrderStatus().equals("Active-Group")){
                         activeGroupOrders.add(drugorder);
@@ -88,6 +95,7 @@ public class CurrentDrugOrdersFragmentController {
                         OrdererName.put(groupOrder.getOrderId(), person.getGivenName()+" "+person.getFamilyName());
                     }
                 }
+                // Store the list of 'grouped' drug orders by the group ID.
                 patientGroupOrders.put(groupOrder.getGroupId(), activeGroupOrders);
             }            
         }

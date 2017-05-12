@@ -46,12 +46,11 @@ public class CreateMedPlanDrugOrderFragmentController {
         model.addAttribute("planName", planName.trim());
         
         List<standardplans> medplans = new ArrayList<>();
-        /*
-          If there exists standard medications plans for the disease name typed, retrieve the list of the plans.
-          Only plans that are currently active are retrieved.
-        */
+        
+        // Check if there exists standard medications plans for the disease selected.
         if(Context.getService(newplansService.class).getMedPlanByPlanName(Context.getConceptService().getConceptByName(planName)) != null && Context.getService(newplansService.class).getMedPlanByPlanName(Context.getConceptService().getConceptByName(planName)).getPlanStatus().equals("Active")){
             newplans newPlan = Context.getService(newplansService.class).getMedPlanByPlanName(Context.getConceptService().getConceptByName(planName));
+            // Retrieve the list of the plans that are currently active.
             List<standardplans> standardplans = Context.getService(standardplansService.class).getMedPlansByPlanID(newPlan.getId());
             
             for(standardplans standardplan : standardplans)
@@ -62,6 +61,7 @@ public class CreateMedPlanDrugOrderFragmentController {
         
         /*
           Get the list of drugs that the Patient is allergic to.
+          If no drug is recorded as allergic, store the 'null' value.
         */        
         int number_of_allergic_drugs = patientService.getAllergies(patient).size();
         if(number_of_allergic_drugs >=1){
@@ -83,23 +83,25 @@ public class CreateMedPlanDrugOrderFragmentController {
                                                      @SpringBean("conceptService") ConceptService service,
                                                      UiUtils ui) {
         
-        ConceptClass planConcept = Context.getConceptService().getConceptClassByName("Diagnosis");
+        // Select the Concept Class by name "Diagnosis".
+        ConceptClass conceptClass = Context.getConceptService().getConceptClassByName("Diagnosis");
         List<ConceptClass> requireClasses = new ArrayList<>();
-        requireClasses.add(planConcept);
+        requireClasses.add(conceptClass);
         
+        // Narrow down the list of concepts belonging to the class conceptClass based on the text typed by the user 'query'.
         List<ConceptSearchResult> results = Context.getConceptService().getConcepts(query, null, false, requireClasses, null, null, null, null, 0, 100);
         
         List<Concept> names = new ArrayList<>();
         for (ConceptSearchResult con : results) {
-            /*
-              Based on the characters typed, check if a plan exists and is currently active.
-            */
+            
+            //Based on the characters typed, check if a plan exists and is currently active.
             newplans plan = Context.getService(newplansService.class).getMedPlanByPlanName(con.getConcept());
             if(plan != null && plan.getPlanStatus().equals("Active")){
                 if(Context.getService(standardplansService.class).getMedPlansByPlanID(plan.getId()).size() > 0)
                     names.add(con.getConcept());
             }
         }
+        // Get the name property of the concepts.
         String[] properties = new String[] { "name"};
         return SimpleObject.fromCollection(names, ui, properties);
     }

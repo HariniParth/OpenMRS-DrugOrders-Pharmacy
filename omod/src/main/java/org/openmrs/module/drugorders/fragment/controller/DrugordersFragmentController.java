@@ -24,16 +24,16 @@ public class DrugordersFragmentController {
         
         List<drugorders> drugOrders = new ArrayList<>();
         
+        // Retrieve the list of active individual drug orders.
         drugOrders.addAll(getActiveOrders(patient, "Active"));
+        // Retrieve the list of active group drug orders.
         drugOrders.addAll(getActiveOrders(patient, "Active-Plan"));
+        // Retrieve the list of active med plan drug orders.
         drugOrders.addAll(getActiveOrders(patient, "Active-Group"));
         
         model.addAttribute("drugorders", drugOrders);
     }
     
-    /*
-      Get the list of drug orders for this Patient and in this status
-    */
     private List<drugorders> getActiveOrders(Patient patient, String status){
         return Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, status);
     }

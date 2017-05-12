@@ -26,28 +26,42 @@ public class PlanOrdersNonActiveFragmentController {
     
     public void controller(PageModel model, @RequestParam("patientId") Patient patient){
 
-        //Data structure to store the 'Drug Order' object properties for all the non-active orders for the given disease
+        /* 
+          =============================================================================================
+          To Display the list of medication plan related drug orders, with the status "Non-Active-Plan"
+          =============================================================================================
+        */
+        
+        /* 
+          Data structure to store the 'Drug Order' object properties for all the non-active orders for the given disease
+          Storing HashMap<Plan-ID, HashMap<Plan-Name, HashMap<Order-ID, DrugOrder>>>
+        */
         HashMap<Integer, HashMap<Concept, HashMap<Integer, DrugOrder>>> NonActivePlanMain = new HashMap<>();
-
-        //Data structure to store the 'drugorders' object properties for all the non-active orders for the given disease
+        /* 
+          Data structure to store the 'drugorders' object properties for all the non-active orders for the given disease
+          Storing HashMap<Plan-ID, HashMap<Plan-Name, HashMap<Order-ID, drugorders>>>
+        */
         HashMap<Integer, HashMap<Concept, HashMap<Integer, drugorders>>> NonActivePlanExtn = new HashMap<>();
         
-        /*
-          Retrieve the list of non-active medication plan orders.
-        */
+        // Retrieve the list of medication plan related drug orders, having the status "Non-Active-Plan"
         List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active-Plan");
         
         for(drugorders order : orders){
+            // Retrieve the corresponding planorders record.
             planorders nonActiveMedPlan = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
             
             // If the selected plan related orders are not already retrieved, retrieve the orders
             if(!NonActivePlanMain.containsKey(nonActiveMedPlan.getPlanId())){
                 List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(nonActiveMedPlan.getPlanId());
                 
+                // Storing HashMap<Plan-Name, HashMap<Order-ID, DrugOrder>>
                 HashMap<Concept, HashMap<Integer, DrugOrder>> p_main = new HashMap<>();
+                // Storing HashMap<Plan-Name, HashMap<Order-ID, drugorders>>
                 HashMap<Concept, HashMap<Integer, drugorders>> p_extn = new HashMap<>();
                 
+                // Storing HashMap<Order-ID, DrugOrder>
                 HashMap<Integer,DrugOrder> o_main = new HashMap<>();
+                // Storing HashMap<Order-ID, drugorders>
                 HashMap<Integer,drugorders> o_extn = new HashMap<>();
                 
                 for(planorders plan : plans){

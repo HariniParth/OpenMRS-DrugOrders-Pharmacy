@@ -34,24 +34,27 @@ public class AdministrationActionsFragmentController {
 
         model.addAttribute("selectedMedPlan", selectedMedPlan);
         
+        // Storing HashMap< Plan-ID, HashMap< Plan-Name, List-of-drugs>>
         HashMap<Integer,HashMap<Concept, List<standardplans>>> selectedPlan = new HashMap<>();
+        // Storing HashMap< Plan-Name, List-of-drugs>>
         HashMap<Concept, List<standardplans>> plansByName = new HashMap<>();
         
-        /*
-          Get the list of standard plan items for the selected standard plan that are currently active.
-        */
+        // If a medication plan is selected, retrieve the list of standard plan items (drugs) for the selected standard plan.
         if(selectedMedPlan != null){
             List<standardplans> plans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanID(selectedMedPlan).getId());
             List<standardplans> activePlans = new ArrayList<>();
+            
+            // From this list of standard plan items, retrieve the records that are currently active.
             for(standardplans plan : plans)
                 if(plan.getPlanStatus().equals("Active"))
                     activePlans.add(plan);
             
+            // Store the list of active standard plan items for the selected medication plan.
             plansByName.put(Context.getService(newplansService.class).getMedPlanByPlanID(selectedMedPlan).getPlanName(), activePlans);
             selectedPlan.put(selectedMedPlan, plansByName);
         }
         
-        // Get the selected standard plan item.
+        // If a standard plan item is selected, retrieve the details.
         else if(selectedPlanItem != null){
             List<standardplans> plans = new ArrayList<>();
             standardplans plan = Context.getService(standardplansService.class).getMedPlanByID(selectedPlanItem);
@@ -62,18 +65,23 @@ public class AdministrationActionsFragmentController {
             
         model.addAttribute("selectedPlan", selectedPlan);
                
+        // Retrieve the list of concepts belonging to the concept class "Units of Duration".
         List<Concept> durations = getConcepts("Units of Duration");
         model.addAttribute("durations", durations);
         
+        // Retrieve the list of concepts belonging to the concept class "Routes of drug administration".
         List<Concept> routes = getConcepts("Routes of drug administration");
         model.addAttribute("routes", routes);
         
+        // Retrieve the list of concepts belonging to the concept class "Units of Dose".
         List<Concept> doses = getConcepts("Units of Dose");
         model.addAttribute("doses", doses);
         
+        // Retrieve the list of concepts belonging to the concept class "Units of Quantity".
         List<Concept> quantities = getConcepts("Units of Quantity");
         model.addAttribute("quantities", quantities);
  
+        // Retrieve the list of OrderFrequency class values.
         List<OrderFrequency> frequencies = Context.getOrderService().getOrderFrequencies(true);
         model.addAttribute("frequencies", frequencies);
     }
@@ -93,17 +101,20 @@ public class AdministrationActionsFragmentController {
                                                      @SpringBean("conceptService") ConceptService service,
                                                      UiUtils ui) {
         
-        ConceptClass drugConcept = Context.getConceptService().getConceptClassByName("Drug");
+        // Select the Concept Class by name "Drug".
+        ConceptClass conceptClass = Context.getConceptService().getConceptClassByName("Drug");
         List<ConceptClass> requireClasses = new ArrayList<>();
-        requireClasses.add(drugConcept);
+        requireClasses.add(conceptClass);
         
+        // Narrow down the list of concepts belonging to the class conceptClass based on the text typed by the user 'query'.
         List<ConceptSearchResult> results = Context.getConceptService().getConcepts(query, null, false, requireClasses, null, null, null, null, 0, 100);
         
         List<Concept> names = new ArrayList<>();
         for (ConceptSearchResult con : results) {
             names.add(con.getConcept());
         }
-        String[] properties = new String[] { "name"};
+        // Get the name property of the concepts.
+        String[] properties = new String[] { "name" };
         return SimpleObject.fromCollection(names, ui, properties);
     }
         
@@ -114,16 +125,19 @@ public class AdministrationActionsFragmentController {
                                                      @SpringBean("conceptService") ConceptService service,
                                                      UiUtils ui) {
         
-        ConceptClass diseaseConcept = Context.getConceptService().getConceptClassByName("Diagnosis");
+        // Select the Concept Class by name "Diagnosis".
+        ConceptClass conceptClass = Context.getConceptService().getConceptClassByName("Diagnosis");
         List<ConceptClass> requireClasses = new ArrayList<>();
-        requireClasses.add(diseaseConcept);
+        requireClasses.add(conceptClass);
         
+        // Narrow down the list of concepts belonging to the class conceptClass based on the text typed by the user 'query'.
         List<ConceptSearchResult> results = Context.getConceptService().getConcepts(query, null, false, requireClasses, null, null, null, null, 0, 100);
         
         List<Concept> names = new ArrayList<>();
         for (ConceptSearchResult con : results) {
             names.add(con.getConcept());
         }
+        // Get the name property of the concepts.
         String[] properties = new String[] { "name"};
         return SimpleObject.fromCollection(names, ui, properties);
     }

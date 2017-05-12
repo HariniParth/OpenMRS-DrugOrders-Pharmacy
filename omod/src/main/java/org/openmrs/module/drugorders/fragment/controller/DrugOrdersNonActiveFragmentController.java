@@ -26,9 +26,11 @@ public class DrugOrdersNonActiveFragmentController {
     
     public void controller(PageModel model, @RequestParam("patientId") Patient patient){
         
+        // Data structure to store the individual drug orders
         List<drugorders> dorders = new ArrayList<>();
+        // Data structure to store the group drug orders
         HashMap<Integer,List<drugorders>> groupDorders = new HashMap<>();
-        
+        // Retrieve the drug orders created for the Patient
         List<OrderAndDrugOrder> drugOrders = DrugOrderList.getDrugOrdersByPatient(patient);
         
         /*
@@ -36,6 +38,7 @@ public class DrugOrdersNonActiveFragmentController {
         */
         for(OrderAndDrugOrder drugOrder : drugOrders){
             drugorders dorder = drugOrder.getdrugorders();
+            // Check if a drug order is an individual order or a part of a group and then store it appropriately
             switch (dorder.getOrderStatus()) {
                 case "Non-Active":
                     dorders.add(dorder);

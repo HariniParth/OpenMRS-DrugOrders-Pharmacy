@@ -36,7 +36,9 @@ public class EditDrugOrdersFragmentController {
                             @RequestParam(value = "selectedActiveOrder", required = false) String selectedActiveOrder,
                             @RequestParam(value = "associatedDiagnosis", required = false) String associatedDiagnosis){
 
+        // Data structure to store data from the drug_orders table
         HashMap<Integer,DrugOrder> groupMain = new HashMap<>();
+        // Data structure to store data from the drug_order_extn table
         HashMap<Integer,drugorders> groupExtn = new HashMap<>();
         
         model.addAttribute("associatedDiagnosis", associatedDiagnosis);
@@ -53,7 +55,9 @@ public class EditDrugOrdersFragmentController {
         */
         if(StringUtils.isNotBlank(selectedActiveGroup)){
             try {
+                // Retrieve the group ID of the group to be discontinued.
                 int group = Integer.parseInt(selectedActiveGroup);
+                // Retrieve the list of all drug orders in the selected group.
                 List<drugorders> groupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(group);
                 for(drugorders groupOrder: groupOrders){
                     groupMain.put(groupOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(groupOrder.getOrderId()));
@@ -72,7 +76,9 @@ public class EditDrugOrdersFragmentController {
         */
         if(StringUtils.isNotBlank(selectedNonActiveGroup)){
             try {
+                // Retrieve the group ID of the group to be renewed.
                 int group = Integer.parseInt(selectedNonActiveGroup);
+                // Retrieve the list of all drug orders in the selected group.
                 List<drugorders> groupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(group);
                 for(drugorders groupOrder: groupOrders){
                     groupMain.put(groupOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(groupOrder.getOrderId()));
@@ -91,14 +97,18 @@ public class EditDrugOrdersFragmentController {
         */
         if(selectedActivePlan != null){
             try {
+                // Retrieve the plan ID of the med plan orders to be discontinued.
                 int ID = selectedActivePlan;
+                // Retrieve the list of all drug orders in the selected med plan order.
                 List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(ID);
                 
                 for(planorders planOrder: planOrders){
                     groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
                     groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
                 }
+                // Store the name of the plan
                 model.addAttribute("plan", planOrders.get(0).getDiseaseId().getDisplayString().toUpperCase());
+                // Store the name of the plan ID
                 model.addAttribute("group", ID);
                 model.addAttribute("groupOrderAction", "DISCARD MED PLAN");
                 
@@ -112,7 +122,9 @@ public class EditDrugOrdersFragmentController {
         */
         if(StringUtils.isNotBlank(selectedNonActivePlan)){
             try {
+                // Retrieve the plan ID of the med plan orders to be renewed.
                 int ID = Integer.parseInt(selectedNonActivePlan);
+                // Retrieve the list of all drug orders in the selected med plan order.
                 List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(ID);
                 Concept planConcept = planOrders.get(0).getDiseaseId();
                 
@@ -120,7 +132,9 @@ public class EditDrugOrdersFragmentController {
                     groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
                     groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
                 }
+                // Store the name of the plan
                 model.addAttribute("plan", planConcept.getDisplayString().toUpperCase());
+                // Store the name of the plan ID
                 model.addAttribute("group", ID);
                 model.addAttribute("groupOrderAction", "RENEW MED PLAN");
                 
@@ -135,6 +149,7 @@ public class EditDrugOrdersFragmentController {
         if(StringUtils.isNotBlank(selectedActiveOrder) || selectedActiveItem != null){
             try {
                 int id = 0;
+                // Check if the order selected to be discontinued is an individual drug order or an order from a group / med plan.
                 if(StringUtils.isNotBlank(selectedActiveOrder))
                     id = Integer.parseInt(selectedActiveOrder);
                 else if(selectedActiveItem != null)
@@ -144,7 +159,7 @@ public class EditDrugOrdersFragmentController {
                 groupExtn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                 
                 model.addAttribute("group", id);
-                model.addAttribute("discardType", Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus());
+                model.addAttribute("orderStatus", Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus());
                 model.addAttribute("groupOrderAction", "DISCONTINUE ORDER");
                 
             } catch(NumberFormatException | APIException e){

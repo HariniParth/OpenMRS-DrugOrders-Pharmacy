@@ -55,17 +55,23 @@ public class MailToOrdererFragmentController {
         SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-yyyy");
         
         /*
-          If the check-boxes corresponding to one or more orders are checked to be recorded,
+          If the check-boxes corresponding to one or more orders are checked to be put on hold or discarded,
           fetch the details of the selected orders to be updated in the mail fragment.
         */
-        for(int i=0;i<groupCheckBox.length;i++){            
+        for(int i=0;i<groupCheckBox.length;i++){   
+            // Retrieve the ID of each order that is saved in the check-box corresponding to the order
             int orderID = Integer.parseInt(Long.toString(groupCheckBox[i]));
+            // Store the string of order IDs.
             orderList = orderList.concat(Long.toString(groupCheckBox[i])+" ");
-            
+            // Retrieve the corresponding order record.
             Order order = Context.getOrderService().getOrder(orderID);
+            // Retrieve the corresponding drug order record.
             drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
+            // Store the string of the name of the drugs.
             drugNames = drugNames.concat(drugorder.getDrugName().getDisplayString().toUpperCase()+";");
+            // Store the details of the selected orders.
             orderDetails = orderDetails.concat("Order ID: "+Integer.toString(drugorder.getOrderId())+"\nDrug: "+drugorder.getDrugName().getDisplayString()+"\nStart Date: "+formatter.parse(drugorder.getStartDate().toString())+"\n\n");
+            // Set recipient of the mail to be the orderer.
             if(recipient.equals(""))
                 recipient = order.getOrderer().getName();
         }
@@ -93,6 +99,7 @@ public class MailToOrdererFragmentController {
 
         /*
           Use Google's SMTP service to send emails.
+          Specify the values of the following properties to enable mailing.
         */
         Properties props = new Properties();
         props.put("mail.smtp.auth", "");
