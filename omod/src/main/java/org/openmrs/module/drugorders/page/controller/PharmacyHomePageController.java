@@ -28,13 +28,11 @@ public class PharmacyHomePageController {
     public void controller(PageModel model, @RequestParam(value = "patient_full_name", required = false) String patient_full_name,
                                             @RequestParam(value = "homeCheckbox", required=false) String[] homeCheckbox){
         
+        // Retrieve the list of all registered patients.
         List<Patient> allPatients = Context.getPatientService().getAllPatients();
-        
+        // Trim the string representing the name of the Patient being searched.
         String searchPatient = patient_full_name.trim();
-        
-        /*
-          Find the Patient record corresponding to the name of the Patient typed.
-        */
+        // Find the Patient record of the Patient whose name is entered.
         if(!searchPatient.equals("")){
             for(Patient patient : allPatients){
                 if((patient.getGivenName()+" "+patient.getFamilyName()).equals(searchPatient)){
@@ -49,7 +47,7 @@ public class PharmacyHomePageController {
           Remove the hold on the list of selected drug orders.
         */
         List<Integer> listOfOrders = new ArrayList<>();
-        
+        // Check if more than one order(s) is selected to be removed from hold.
         if(homeCheckbox.length > 0){
             for (String box : homeCheckbox) {
                 String[] selected = box.split(" ");
@@ -101,12 +99,11 @@ public class PharmacyHomePageController {
         // Data structures to store the Orderer's and Patient's name.
         HashMap<Integer,String> ordererName = new HashMap<>();
         HashMap<Integer,String> patientName = new HashMap<>();
-        
+        // Retrieve all the orders placed on hold and all the orders requested to be discarded.
         for(drugorders order: Iterables.concat(ordersOnHold, ordersForDiscard)){
             Person physician = Context.getPersonService().getPerson(Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getProviderId());
-                      
             /*
-              Here, we consolidate the drug orders into three groups - Single, Group and Plan depending on its status, 
+              Here, we segregate the drug orders into three groups - Single, Group and Plan depending on its status, 
               so that each single order or group/plan order set can be represented in a separate row.
             */
             switch (order.getOrderStatus()) {
@@ -116,35 +113,38 @@ public class PharmacyHomePageController {
                     break;
                     
                 case "Active-Group":
+                    // If all the orders in the order group containing this order are not retrieved -
                     if(!groupOrders.containsKey(order.getGroupId())){
-                        
+                        // If the given order is a part of an order group, retrieve all the drug orders in that group.
                         List<drugorders> allGroupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(order.getGroupId());
-                        
                         List<drugorders> activeGroupOrders = new ArrayList<>();
-                        
+                        // From the retrieved set of orders, fetch the orders that are currently active.
                         for(drugorders groupOrder : allGroupOrders){
                             if(groupOrder.getOrderStatus().equals("Active-Group")){
                                 activeGroupOrders.add(groupOrder);
                                 ordererName.put(groupOrder.getOrderId(), physician.getGivenName()+" "+physician.getFamilyName());
                             }
                         }
+                        // Store the active orders in a group as value and the group ID as the key.
                         groupOrders.put(order.getGroupId(), activeGroupOrders);
                     }   break;
                     
                 case "Active-Plan":
                     planorders planorders = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
+                    // If all the orders in the medication plan order containing this order are not retrieved -
                     if(!planOrders.containsKey(planorders.getPlanId())){
-                        
+                        // Retrieve the list of all the drug orders related to the selected medication plan order.
                         List<planorders> allPlanOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planorders.getPlanId());
-                        
                         List<drugorders> activePlanOrders = new ArrayList<>();
                         
                         for(planorders planOrder : allPlanOrders){
+                            // From the list of retrieved orders, fetch the orders that are currently active.
                             if(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getOrderStatus().equals("Active-Plan")){
                                 activePlanOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
                                 ordererName.put(planOrder.getOrderId(), physician.getGivenName()+" "+physician.getFamilyName());
                             }
                         }
+                    // Store the active orders in the plan order as value and the plan ID as the key.
                     planOrders.put(planorders.getPlanId(), activePlanOrders);
                 }   break;
             }

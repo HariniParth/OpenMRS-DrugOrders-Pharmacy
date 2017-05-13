@@ -77,26 +77,32 @@ public class PharmacyPatientPageController {
                             switch (groupAction) {
                                 case "Discard":
                                     drugorder.setForDiscard(1);
+                                    // If order was previously set on hold, remove the on-hold flag.
                                     if(drugorder.getOnHold() == 1)
                                         drugorder.setOnHold(0);
+                                    // If comments to discard the order are provided, save the comments.
                                     if(groupComments != null)
                                         drugorder.setCommentForOrderer(groupComments);
                                     break;
                                 case "On Hold":
                                     drugorder.setOnHold(1);
+                                    // If the order was previously set to be discarded, remove the to-discard flag.
                                     if(drugorder.getForDiscard()== 1)
                                         drugorder.setForDiscard(0);
+                                    // If comments to put the order on hold are provided, save the comments.
                                     if(groupComments != null)
                                         drugorder.setCommentForOrderer(groupComments);
                                     break;
                                 case "Dispatch":
+                                    // If the order was previously set to be discarded, remove the to-discard flag.
                                     if(drugorder.getForDiscard() == 1)
                                         drugorder.setForDiscard(0);
+                                    // If order was previously set on hold, remove the on-hold flag.
                                     else if(drugorder.getOnHold() == 1)
                                         drugorder.setOnHold(0);
                                     /*
                                       If the order is selected to be dispatched, set the last dispatch date and decrement the allowed number of refills.
-                                      Update the order status, save the drug expiry date and comments entered for the Patient.
+                                      Update the order status.
                                     */
                                     if (drugorder.getRefill() > 0) {
                                         drugorder.setLastDispatchDate(Calendar.getInstance().getTime());
@@ -116,9 +122,10 @@ public class PharmacyPatientPageController {
                                         }
                                         Context.getOrderService().voidOrder(Context.getOrderService().getOrder(drugorder.getOrderId()), "No Longer Active");
                                     }   
+                                    // Save the drug expiry date and comments entered for the Patient.
                                     drugorder.setDrugExpiryDate(drugExpiryDate[i]);
                                     drugorder.setCommentForPatient(commentForPatient[i]);
-                                    
+                                    // Print the order details prescription.
                                     printOrder(drugorder.getOrderId());
                                     break;
                             }
@@ -145,7 +152,7 @@ public class PharmacyPatientPageController {
             drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
             
             PrintService service = PrintServiceLookup.lookupDefaultPrintService();
-            
+            // Fetch the details to be printed on the prescription.
             String OrderDetails = drugorder.getDrugName().getDisplayString() + " " + order.getDose() + " " + order.getDoseUnits().getDisplayString() + " " +
                     order.getDuration() + " " + order.getDurationUnits().getDisplayString() + " " + order.getQuantity() + " " + order.getQuantityUnits() + "\n" +
                     "Route: " + order.getRoute().getDisplayString() + " " + "Frequency: " + order.getFrequency().getName() + "\n" +

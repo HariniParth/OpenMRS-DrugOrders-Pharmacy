@@ -53,7 +53,7 @@ public class AdministrationPageController {
             try {
                 if (null != action) switch (action) {
                     /*
-                      When a plan is defined, store the name of the plan and description.
+                      When a plan is defined, store the name of the plan and description. Set the plan status 'Active'.
                       The name of the plan is stored as a concept.
                     */
                     case "definePlan":
@@ -80,7 +80,7 @@ public class AdministrationPageController {
                         break;
                     
                     /*
-                      Add a drug with standard formulations and general consumption actions to the plan.
+                      Add a drug with standard formulations and general consumption actions to the plan. Set the status of the record 'Active'.
                       Save these formulations in the standardplans table and group the plans with the plan ID (Identifying the disease).
                     */
                     case "extendPlan":
@@ -165,6 +165,7 @@ public class AdministrationPageController {
                         
                         /*
                           Before discarding a medication plan, ensure that all the plan items (standard drug orders) associated with that plan are discarded.
+                          If one or more standard plan records associated with a plan is active, the plan cannot be discontinued.
                         */
                         boolean allDrugsDiscarded = true;
                         List<standardplans> allPlans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).getId());
@@ -186,6 +187,7 @@ public class AdministrationPageController {
                         if(groupCheckBox.length > 0){
                             int id = Integer.parseInt(Long.toString(groupCheckBox[0]));
                             standardplans medPlan = Context.getService(standardplansService.class).getMedPlanByID(id);
+                            // Set the status of the drug to 'Non-Active' and the reason for removing the drug from the medication plan.
                             medPlan.setPlanStatus("Non-Active");
                             medPlan.setDiscardReason(discardReason);
                             InfoErrorMessageUtil.flashInfoMessage(session, "Drug removed from Plan!");
@@ -197,19 +199,17 @@ public class AdministrationPageController {
                 System.out.println("Error message "+e.getMessage());
             }
         }
-        
+        /*
+          Check if a plan has been selected to be discarded or updated (in order to highlight the plan in the table).
+        */
         if(planToDiscard != null)
             model.addAttribute("recordedMedPlan", Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).getPlanName().getDisplayString());
-        else 
-            if(!adminPlan.isEmpty())
+        else if(!adminPlan.isEmpty())
                 model.addAttribute("recordedMedPlan", adminPlan);
         else
             model.addAttribute("recordedMedPlan", null);
         
-        /*
-          Get the list of all defined and currently active medication plans.
-          Get the list of all plan items (drugs) defined in the medication plan.
-        */
+        // Get the list of all defined and currently active medication plans.
         HashMap<Concept,List<standardplans>> allMedicationPlans = new HashMap<>();
         
         List<newplans> newPlans = Context.getService(newplansService.class).getAllMedPlans();
@@ -221,6 +221,7 @@ public class AdministrationPageController {
         
         model.addAttribute("newPlans", activePlans);
         
+        // Get the list of all plan items (drugs) defined in the medication plan that are currently active.
         for(newplans newPlan : newPlans){
             List<standardplans> medicationPlans = Context.getService(standardplansService.class).getMedPlansByPlanID(newPlan.getId());
             List<standardplans> activeItems = new ArrayList<>();
@@ -234,10 +235,12 @@ public class AdministrationPageController {
         model.addAttribute("allMedicationPlans", allMedicationPlans);
     }
     
+    // Return the concept defined for a given string.
     private Concept ConceptName(String conceptString){
         return Context.getConceptService().getConceptByName(conceptString);
     }
     
+    // Save an OrderFrequency record.
     private OrderFrequency setOrderFrequency(String Frequency) {
         OrderFrequency orderFrequency = new OrderFrequency();
         orderFrequency.setFrequencyPerDay(0.0);
