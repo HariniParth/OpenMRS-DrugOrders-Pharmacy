@@ -20,7 +20,7 @@ import org.openmrs.module.drugorders.standardplans;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
-import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class AdministrationActionsFragmentController {
     
-    public void controller(PageModel model, @RequestParam(value = "selectedMedPlan", required = false) Integer selectedMedPlan,
+    public void controller(FragmentModel model, @RequestParam(value = "selectedMedPlan", required = false) Integer selectedMedPlan,
                                             @RequestParam(value = "selectedPlanItem", required = false) Integer selectedPlanItem){
 
         model.addAttribute("selectedMedPlan", selectedMedPlan);

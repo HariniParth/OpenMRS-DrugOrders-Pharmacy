@@ -19,7 +19,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
-import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -34,7 +34,7 @@ public class CreateSingleDrugOrderFragmentController {
      * @param patient
      */
     
-    public void controller(PageModel model, @RequestParam("patientId") Patient patient){
+    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient){
               
         // Retrieve the current date and time
         Date startDate = Calendar.getInstance().getTime();

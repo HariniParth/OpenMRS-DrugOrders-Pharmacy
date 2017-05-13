@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
-import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.openmrs.ui.framework.page.PageModel;
  */
 public class SearchBarForPatientFragmentController {
     
-    public void controller(PageModel model) {
+    public void controller(FragmentModel model) {
         
         List<String> allPatientNames = new ArrayList<>();
         

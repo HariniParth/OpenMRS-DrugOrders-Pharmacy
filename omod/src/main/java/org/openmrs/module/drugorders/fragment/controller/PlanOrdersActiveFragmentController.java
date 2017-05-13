@@ -14,7 +14,7 @@ import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.api.planordersService;
 import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.planorders;
-import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class PlanOrdersActiveFragmentController {
     
-    public void controller(PageModel model, @RequestParam("patientId") Patient patient,
+    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient,
                             @RequestParam(value = "activatePlan", required = false) Integer activatePlan){
         
         // Activate saved draft med plan drug orders.

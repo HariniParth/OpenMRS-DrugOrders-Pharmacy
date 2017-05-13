@@ -17,7 +17,7 @@ import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.page.controller.DrugOrderList;
 import org.openmrs.module.drugorders.page.controller.OrderAndDrugOrder;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
-import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class DrugOrdersActiveFragmentController {
     
-    public void controller(PageModel model, HttpSession session, @RequestParam("patientId") Patient patient,
+    public void controller(FragmentModel model, HttpSession session, @RequestParam("patientId") Patient patient,
                             @RequestParam(value = "action", required = false) String action,
                             @RequestParam(value = "removeFromGroup", required = false) String removeFromGroup,
                             @RequestParam(value = "singleCheckBox", required=false) long[] singleCheckBox,

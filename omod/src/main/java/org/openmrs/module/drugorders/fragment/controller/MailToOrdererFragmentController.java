@@ -21,7 +21,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.api.context.UserContext;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.drugorders;
-import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -32,7 +32,7 @@ public class MailToOrdererFragmentController {
     
     protected UserContext userContext;
     
-    public void controller(PageModel model, @RequestParam("patientId") Patient patient,
+    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient,
                             @RequestParam(value = "pharmaGroupAction", required = false) String groupAction,
                             @RequestParam(value = "groupComments", required = false) String groupComments,
                             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,

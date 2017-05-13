@@ -16,7 +16,7 @@ import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.api.planordersService;
 import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.planorders;
-import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class CurrentDrugOrdersFragmentController {
     
-    public void controller(PageModel model, @RequestParam("patientId") Patient patient){
+    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient){
         
         // Storing HashMap<Plan-ID, Plan-Name>
         HashMap<Integer, Concept> planName = new HashMap<>();

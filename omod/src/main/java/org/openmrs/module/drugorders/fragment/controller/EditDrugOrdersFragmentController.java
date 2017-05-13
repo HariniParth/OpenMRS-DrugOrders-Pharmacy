@@ -14,11 +14,11 @@ import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.drugorders;
-import org.openmrs.ui.framework.page.PageModel;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.api.APIException;
 import org.openmrs.module.drugorders.api.planordersService;
 import org.openmrs.module.drugorders.planorders;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -27,21 +27,18 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class EditDrugOrdersFragmentController {
         
-    public void controller(PageModel model,@RequestParam("patientId") Patient patient,
+    public void controller(FragmentModel model,@RequestParam("patientId") Patient patient,
                             @RequestParam(value = "selectedActivePlan", required = false) Integer selectedActivePlan,
                             @RequestParam(value = "selectedNonActivePlan", required = false) String selectedNonActivePlan,
                             @RequestParam(value = "selectedActiveGroup", required = false) String selectedActiveGroup,
                             @RequestParam(value = "selectedNonActiveGroup", required = false) String selectedNonActiveGroup,
                             @RequestParam(value = "selectedActiveItem", required = false) Integer selectedActiveItem,
-                            @RequestParam(value = "selectedActiveOrder", required = false) String selectedActiveOrder,
-                            @RequestParam(value = "associatedDiagnosis", required = false) String associatedDiagnosis){
+                            @RequestParam(value = "selectedActiveOrder", required = false) String selectedActiveOrder){
 
         // Data structure to store data from the drug_orders table
         HashMap<Integer,DrugOrder> groupMain = new HashMap<>();
         // Data structure to store data from the drug_order_extn table
         HashMap<Integer,drugorders> groupExtn = new HashMap<>();
-        
-        model.addAttribute("associatedDiagnosis", associatedDiagnosis);
         
         /*
           Fetch list of concepts that identify the reason to discontinue orders.
@@ -60,7 +57,9 @@ public class EditDrugOrdersFragmentController {
                 // Retrieve the list of all drug orders in the selected group.
                 List<drugorders> groupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(group);
                 for(drugorders groupOrder: groupOrders){
+                    // Store the order ID as key and DrugOrder as value.
                     groupMain.put(groupOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(groupOrder.getOrderId()));
+                    // Store the order ID as key and drugorders as value.
                     groupExtn.put(groupOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(groupOrder.getOrderId()));
                 }
                 model.addAttribute("group", group);
@@ -81,7 +80,9 @@ public class EditDrugOrdersFragmentController {
                 // Retrieve the list of all drug orders in the selected group.
                 List<drugorders> groupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(group);
                 for(drugorders groupOrder: groupOrders){
+                    // Store the order ID as key and DrugOrder as value.
                     groupMain.put(groupOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(groupOrder.getOrderId()));
+                    // Store the order ID as key and drugorders as value.
                     groupExtn.put(groupOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(groupOrder.getOrderId()));
                 }
                 model.addAttribute("group", group);
@@ -103,7 +104,9 @@ public class EditDrugOrdersFragmentController {
                 List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(ID);
                 
                 for(planorders planOrder: planOrders){
+                    // Store the order ID as key and DrugOrder as value.
                     groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
+                    // Store the order ID as key and drugorders as value.
                     groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
                 }
                 // Store the name of the plan
@@ -129,7 +132,9 @@ public class EditDrugOrdersFragmentController {
                 Concept planConcept = planOrders.get(0).getDiseaseId();
                 
                 for(planorders planOrder : planOrders){
+                    // Store the order ID as key and DrugOrder as value.
                     groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
+                    // Store the order ID as key and drugorders as value.
                     groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
                 }
                 // Store the name of the plan
@@ -155,7 +160,9 @@ public class EditDrugOrdersFragmentController {
                 else if(selectedActiveItem != null)
                     id = selectedActiveItem;
                 
+                // Store the order ID as key and DrugOrder as value.
                 groupMain.put(id, (DrugOrder) Context.getOrderService().getOrder(id));
+                // Store the order ID as key and drugorders as value.
                 groupExtn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                 
                 model.addAttribute("group", id);

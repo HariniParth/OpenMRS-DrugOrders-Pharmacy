@@ -21,7 +21,7 @@ import org.openmrs.module.drugorders.standardplans;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
-import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -39,7 +39,7 @@ public class CreateMedPlanDrugOrderFragmentController {
      * @param patientService
      */
     
-    public void controller(PageModel model, @RequestParam("patientId") Patient patient,
+    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient,
             @RequestParam(value = "planName", required = false) String planName,
             @SpringBean("allergyService") PatientService patientService){
 

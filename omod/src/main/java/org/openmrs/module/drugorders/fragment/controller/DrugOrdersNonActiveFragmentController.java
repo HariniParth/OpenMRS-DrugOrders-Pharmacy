@@ -15,7 +15,7 @@ import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.page.controller.DrugOrderList;
 import org.openmrs.module.drugorders.page.controller.OrderAndDrugOrder;
-import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class DrugOrdersNonActiveFragmentController {
     
-    public void controller(PageModel model, @RequestParam("patientId") Patient patient){
+    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient){
         
         // Data structure to store the individual drug orders
         List<drugorders> dorders = new ArrayList<>();
