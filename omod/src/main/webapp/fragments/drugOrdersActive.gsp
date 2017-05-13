@@ -158,24 +158,22 @@
 </script>
 
 <script type="text/javascript">    
+    <!--Highlight row representing individual drug order when selected to be viewed.-->
     jq(".orderRow td:not(:first-child)").click(function(){
         jq(this).parent().children('td').slice(1, 4).css({"background": "#75b2f0","color": "white"});
     });
-</script>
     
-<script type="text/javascript">    
+    <!--Highlight row representing group drug order when selected to be viewed.-->
     jq(".groupDrugDetails").click(function(){
         jq(this).css({"background": "#75b2f0","color": "white"});
     });
-</script>
     
-<script type="text/javascript">    
+    <!--Highlight row representing group drug order when corresponding action buttons are clicked.-->
     jq(".groupDrugButton").click(function(){
         jq(this).parent().children('.groupDrugDetails').css({"background": "#75b2f0","color": "white"});
     });
-</script>
     
-<script type="text/javascript">    
+    <!--Highlight row representing group drug order when corresponding action buttons are hovered upon.-->
     jq(".groupButton").hover(function(event){
         if(event.type == 'mouseenter'){
             jq(this).parent().children('.groupDrug').children('.groupDrugDetails').css({"background": "#75b2f0","color": "white"});
@@ -183,5 +181,4 @@
             jq(this).parent().children('.groupDrug').children('.groupDrugDetails').css({"background": "","color": ""});
         }
     });
-    
 </script>

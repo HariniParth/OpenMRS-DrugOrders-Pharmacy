@@ -525,8 +525,8 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         var order_details = $('<div>').text(drugname +"\nDose: "+dose+" "+doseUnits+"\nRoute: "+route+"\nQuantity: "+quantity+" "+quantityUnits).text();
         $("#order_details").html(order_details.replace(/\n/g,'<br/>'));
         $("#order_duration").text(duration+" "+durationUnits+", "+frequency);
-        
-        if(orderReason !== "" && orderReason !== "null"){
+
+        if(orderReason !== "null"){
             $("#order_reason").text(orderReason);
             jq("#allergicOrderReasonView").show();
             document.getElementById("allergicOrderReasonView").style.display = 'block';
@@ -550,6 +550,7 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
  * Hide the fragment that displays the details of the selected order.
  */
 function hideDrugOrderViewWindow(){
+    jq("#allergicOrderReasonView").hide();
     jq("#activeOrderWindow").show();
     jq("#viewOrderWindow").hide();
     clearHighlights();

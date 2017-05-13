@@ -114,7 +114,7 @@
                                 <div class="ordererID">
                                     <div class="g5"></div>
                                     <div class="g6" onclick="showOrdererContact('${ OrdererName.get(order.orderId) }','${ order.orderId }','${ order.drugName.getDisplayString().toUpperCase() }')"><span class="wordBreak">${ OrdererName.get(order.orderId) }</span></div>
-                                </div><br/><br/>
+                                </div>
                             
                             <% } %>
                         </td>

@@ -60,10 +60,6 @@ public class CurrentDrugOrdersFragmentController {
                 for(planorders plan : planOrders){
                     if(Context.getService(drugordersService.class).getDrugOrderByOrderID(plan.getOrderId()).getOrderStatus().equals("Active-Plan")){
                         activePlanOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(plan.getOrderId()));
-                        
-                        // If the given order within the selected medication plan is active, save the order and retrieve the orderer contact information
-                        Person person = Context.getOrderService().getOrder(drugorder.getOrderId()).getOrderer().getPerson();
-                        OrdererName.put(drugorder.getOrderId(), person.getGivenName()+" "+person.getFamilyName());
                     }
                 }
                 // Store the data about the set of drug orders made for a medication plan by the plan ID
@@ -71,6 +67,9 @@ public class CurrentDrugOrdersFragmentController {
                 // Store the name of the disease associated with the plan order ID
                 planName.put(planOrder.getPlanId(), planOrder.getDiseaseId());
             }
+            // Save and retrieve the orderer contact information.
+            Person person = Context.getOrderService().getOrder(drugorder.getOrderId()).getOrderer().getPerson();
+            OrdererName.put(drugorder.getOrderId(), person.getGivenName()+" "+person.getFamilyName());
         }
         
         /*
@@ -89,15 +88,14 @@ public class CurrentDrugOrdersFragmentController {
                 for(drugorders drugorder : allGroupOrders){
                     if(drugorder.getOrderStatus().equals("Active-Group")){
                         activeGroupOrders.add(drugorder);
-                        
-                        // If the given order within the selected order group is active, save the order and retrieve the orderer contact information
-                        Person person = Context.getOrderService().getOrder(groupOrder.getOrderId()).getOrderer().getPerson();
-                        OrdererName.put(groupOrder.getOrderId(), person.getGivenName()+" "+person.getFamilyName());
                     }
                 }
                 // Store the list of 'grouped' drug orders by the group ID.
                 patientGroupOrders.put(groupOrder.getGroupId(), activeGroupOrders);
-            }            
+            }
+            // Save and retrieve the orderer contact information.
+            Person person = Context.getOrderService().getOrder(groupOrder.getOrderId()).getOrderer().getPerson();
+            OrdererName.put(groupOrder.getOrderId(), person.getGivenName()+" "+person.getFamilyName());
         }
         
         model.addAttribute("patientSingleOrders", patientSingleOrders);

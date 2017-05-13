@@ -114,21 +114,20 @@
                                     <div id="order_value">-</div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <!--
-                            Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
-                        -->
-                                    
-                        <div class="dispatchFields">
-                            <div class="fields" id="view_order_detail">
-                                <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
-                                <div id="order_value">${ ui.includeFragment("uicommons", "field/datetimepicker", [ class: 'drugExpiryDate', label: '', formFieldName: 'drugExpiryDate', useTime: '', defaultDate: expiryDate ]) }</div>
-                            </div>
                             
-                            <div class="fields" id="view_order_detail">
-                                <div id="order_label"><label>Note<span id="asterisk">*</span></label></div>
-                                <div id="order_value"><input type="text" maxlength="255" class="commentForPatient" value=" " name="commentForPatient" ></div>
+                            <!--
+                                Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
+                            -->
+                            <div class="dispatchFields">
+                                <div class="fields" id="view_order_detail">
+                                    <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
+                                    <div id="order_value">${ ui.includeFragment("uicommons", "field/datetimepicker", [ class: 'drugExpiryDate', label: '', formFieldName: 'drugExpiryDate', useTime: '', defaultDate: expiryDate ]) }</div>
+                                </div><br/><br/><br/>
+
+                                <div class="fields" id="view_order_detail">
+                                    <div id="order_label"><label>Note<span id="asterisk">*</span></label></div>
+                                    <div id="order_value"><input type="text" maxlength="255" class="commentForPatient" value=" " name="commentForPatient" ></div>
+                                </div><br/><br/><br/>
                             </div>
                         </div>
                     </div>

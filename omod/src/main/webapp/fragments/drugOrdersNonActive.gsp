@@ -101,24 +101,22 @@
 </script>
 
 <script type="text/javascript">    
+    <!--Highlight row representing individual drug order when selected to be viewed.-->
     jq(".oldOrderRow").click(function(){
         jq(this).children('td').slice(0, 1).css({"background": "#75b2f0","color": "white"});
     });
-</script>
-
-<script type="text/javascript">    
-    jq(".renewGroupButton").click(function(){
-        jq(this).parent().children('td').slice(0, 1).css({"background": "#75b2f0","color": "white"});
-    });
-</script>
-
-<script type="text/javascript">    
+    
+    <!--Highlight row representing group drug order when selected to be viewed.-->
     jq(".oldGroupDetails").click(function(){
         jq(this).css({"background": "#75b2f0","color": "white"});
     });
-</script>
-
-<script type="text/javascript">    
+    
+    <!--Highlight row representing group drug order when corresponding action buttons are clicked.-->
+    jq(".renewGroupButton").click(function(){
+        jq(this).parent().children('td').slice(0, 1).css({"background": "#75b2f0","color": "white"});
+    });
+    
+    <!--Highlight row representing group drug order when corresponding action buttons are hovered upon.-->
     jq(".renewGroupButton > span > i").hover(function(event){
         if(event.type == 'mouseenter'){
             jq(this).parent().parent().parent().children('td').slice(0, 1).children('.oldGroupDetails').css({"background": "#75b2f0","color": "white"});
@@ -126,5 +124,4 @@
             jq(this).parent().parent().parent().children('td').slice(0, 1).children('.oldGroupDetails').css({"background": "","color": ""});
         }
     });
-    
 </script>

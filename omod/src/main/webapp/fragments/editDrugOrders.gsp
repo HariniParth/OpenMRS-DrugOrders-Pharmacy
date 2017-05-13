@@ -89,7 +89,7 @@
                 <div id="order_value">
                     <label id="order_reason"></label>
                 </div>
-            </div><br/>
+            </div><br/><br/>
         </div>
         
         <div class="fields" id="view_order_detail">

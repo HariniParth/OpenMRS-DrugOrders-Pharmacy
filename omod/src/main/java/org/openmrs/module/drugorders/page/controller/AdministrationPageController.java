@@ -123,9 +123,8 @@ public class AdministrationPageController {
                         */
                         if(!(planId.equals(""))){
                             Context.getService(standardplansService.class).discardMedPlan(Context.getService(standardplansService.class).getMedPlanByID(Integer.parseInt(planId)));
-                        } else {
-                            Context.getService(standardplansService.class).saveMedPlan(medPlans);
                         }
+                        Context.getService(standardplansService.class).saveMedPlan(medPlans);
                         
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Updated!");
                         break;

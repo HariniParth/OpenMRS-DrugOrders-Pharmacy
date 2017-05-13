@@ -173,26 +173,31 @@
 </script>
 
 <script type="text/javascript">
-    jq("#draftPlanRow .icon-plus-sign").hide();
-    jq("#draftPlanRow .icon-minus-sign").show();
-    jq("#draftPlanRow .plansDetailsView").show();
+    <!--Display details of selected medication plan orders by default-->
+    jq(".icon-plus-sign").hide();
+    jq(".icon-minus-sign").show();
+    jq(".plansDetailsView").show();
         
+    <!--Display details of selected medication plan orders when 'show' icon is clicked-->
     jq(".icon-plus-sign").click(function(){
         jq(this).parent().nextAll(".plansDetailsView").first().show();
         jq(this).hide();
         jq(this).next(".icon-minus-sign").show();
     });
     
+    <!--Close details of selected medication plan orders when 'hide' icon is clicked-->
     jq(".icon-minus-sign").click(function(){
         jq(this).parent().nextAll(".plansDetailsView").first().hide();
         jq(this).hide();
         jq(this).prev(".icon-plus-sign").show();
     });
     
+    <!--Highlight row representing individual drug order when selected to be viewed.-->
     jq(".planDrug").click(function(){
         jq(this).children('div').slice(0, 1).css({"background": "#75b2f0","color": "white"});
     });
     
+    <!--Highlight row representing group drug order when corresponding action buttons are hovered upon.-->
     jq(".planDiscardButton > span > i").hover(function(event){
         if(event.type == 'mouseenter'){
             jq(this).parent().parent().parent().children('td').slice(0, 1).children(".orderDetails").children(".planDrug").css({"background": "#75b2f0","color": "white"});

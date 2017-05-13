@@ -47,10 +47,7 @@ and open the template in the editor.
     display: none;
     font-size: 14px;
     overflow-x: visible;
-}
-
-.dispatchFields{
-    margin-left: 40px;
+    overflow-y: hidden;
 }
 
 #view_order_detail{

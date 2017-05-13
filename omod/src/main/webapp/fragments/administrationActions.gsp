@@ -210,7 +210,7 @@
                 
                 <% selectedPlan.each { discardPlans -> %>
                     <% discardPlans.value.each { discardPlan -> %>
-                        <h4 class="align-center"><strong>Selected Order(s)</strong></h4><br/>
+                        <h4 class="align-center"><strong>Selected Order(s)</strong></h4>
                         <h5 class="align-center" id="discardPlan">${ discardPlan.key.getDisplayString() }</h5><br/>
                         
                         <div class="fields" id="discardPlanBlock">
