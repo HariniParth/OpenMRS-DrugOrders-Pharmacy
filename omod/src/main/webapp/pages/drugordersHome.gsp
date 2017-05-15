@@ -113,14 +113,17 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 
 <script type="text/javascript">
+    jq("#orderList .icon-plus-sign").show();
+    jq("#orderList .icon-minus-sign").hide();
+    
+    <!--Show the table listing the Non-Active drug orders.-->
     jq(".icon-plus-sign").click(function(){
         jq(this).nextAll(".nonActiveOrderWindow").first().show();
         jq(this).hide();
         jq(this).nextAll(".icon-minus-sign").show();
     });
-</script>
-
-<script type="text/javascript">
+    
+    <!--Hide the table listing the Non-Active drug orders.-->
     jq(".icon-minus-sign").click(function(){
         jq(this).nextAll(".nonActiveOrderWindow").first().hide();
         jq(this).hide();

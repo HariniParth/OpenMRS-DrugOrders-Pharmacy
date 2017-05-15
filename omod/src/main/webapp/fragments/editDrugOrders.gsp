@@ -292,12 +292,14 @@
     <script type="text/javascript">
         jq("#showGroupOrderWindow").show();
         
+        <!--Show the details of the given drug order-->
         jq(".icon-plus-sign").click(function(){
             jq(this).parent().nextAll(".groupBlock").first().show();
             jq(this).hide();
             jq(this).nextAll(".icon-minus-sign").show();
         });
 
+        <!--Hide the details of the given drug order-->
         jq(".icon-minus-sign").click(function(){
             jq(this).parent().nextAll(".groupBlock").first().hide();
             jq(this).hide();

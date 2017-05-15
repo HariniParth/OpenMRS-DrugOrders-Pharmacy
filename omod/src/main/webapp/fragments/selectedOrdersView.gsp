@@ -185,12 +185,14 @@
 <% } %>
 
 <script type="text/javascript">    
+    <!--Show the details of the given drug order-->
     jq(".icon-plus-sign").click(function(){
         jq(this).parent().parent().parent().nextAll(".drugDetails").first().children(".additionalInformation").show();
         jq(this).hide();
         jq(this).next(".icon-minus-sign").show();
     });
     
+    <!--Hide the details of the given drug order-->
     jq(".icon-minus-sign").click(function(){
         jq(this).parent().parent().parent().nextAll(".drugDetails").first().children(".additionalInformation").hide();
         jq(this).hide();

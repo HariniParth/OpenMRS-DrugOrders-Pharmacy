@@ -157,15 +157,19 @@
     </div>
     
     <script type="text/javascript">
+        <!--Hide the individual/group orders table-->
         jq("#activeOrderWindow").hide();
+        <!--Show the medPlanDetailsWindow block-->
         jq("#medPlanDetailsWindow").show();       
 
+        <!--Show the details of the given drug order-->
         jq(".icon-plus-sign").click(function(){
             jq(this).parent().nextAll(".groupBlock").first().show();
             jq(this).hide();
             jq(this).next(".icon-minus-sign").show();
         });
 
+        <!--Hide the details of the given drug order-->
         jq(".icon-minus-sign").click(function(){
             jq(this).parent().nextAll(".groupBlock").first().hide();
             jq(this).hide();

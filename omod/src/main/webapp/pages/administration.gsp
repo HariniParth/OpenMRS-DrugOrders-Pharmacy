@@ -179,38 +179,35 @@
 </script>
 
 <script type="text/javascript">
+    <!--Show the list of drugs defined in the given medication plan.-->
     jq(".icon-plus-sign").click(function(){
         jq(this).parent().nextAll(".plansDetailsView").first().show();
         jq(this).hide();
         jq(this).next(".icon-minus-sign").show();
     });
-</script>
-
-<script type="text/javascript">
+    
+    <!--Hide the list of drugs defined in the given medication plan.-->
     jq(".icon-minus-sign").click(function(){
         jq(this).parent().nextAll(".plansDetailsView").first().hide();
         jq(this).hide();
         jq(this).prev(".icon-plus-sign").show();
     });
-</script>
-
-<script type="text/javascript">
+    
+    <!--Show the details of the standard drug order defined in the given medication plan.-->
     jq(".show-details").click(function(){
         jq(this).parent().nextAll(".groupItem").first().show();
         jq(this).hide();
         jq(this).next(".hide-details").show();
     });
-</script>
-
-<script type="text/javascript">
+    
+    <!--Hide the details of the standard drug order defined in the given medication plan.-->
     jq(".hide-details").click(function(){
         jq(this).parent().nextAll(".groupItem").first().hide();
         jq(this).hide();
         jq(this).prev(".show-details").show();
     });
-</script>
-
-<script type="text/javascript">    
+    
+    <!--Highlight the given standard drug order when clicked to be edited-->
     jq(".planBlock > #button").click(function(){
         jq(this).parent().children('div').slice(0, 1).css({"background": "#75b2f0","color": "white"});
     });
