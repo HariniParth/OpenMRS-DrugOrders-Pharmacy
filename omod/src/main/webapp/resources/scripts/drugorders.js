@@ -164,10 +164,16 @@ function highlight(){
                     $(this).find('.plansDetailsView').find('.planBlock').find('.planBlockDetails').find('.planItem').each(function(){
                         if($(this).text() === selectedDrug.text().toUpperCase()){
                             $(this).parent().parent().css({"background": "#75b2f0","color": "white"});
+                            $(this).parent().parent().find('.show-details').hide();
+                            $(this).parent().parent().find('.hide-details').show();
+                            $(this).parent().parent().find('.groupItem').show();
                         }
                     });
                 } else {
                     $(this).find('.plansDetailsView').find('.planBlock').each(function(){
+                        $(this).find('.planBlockDetails').find('.groupItem').show();
+                        $(this).find('.planBlockDetails').find('.hide-details').show();
+                        $(this).find('.planBlockDetails').find('.show-details').hide();
                         $(this).find('.planBlockDetails').css({"background": "#75b2f0","color": "white"});
                     });
                 }

@@ -94,12 +94,7 @@
     });
 </script>
 
-<script type="text/javascript">
-    <!--Display details of selected medication plan orders by default-->
-    jq(".icon-plus-sign").hide();
-    jq(".icon-minus-sign").show();
-    jq(".plansDetailsView").show();
-    
+<script type="text/javascript">    
     <!--Display details of selected medication plan orders when 'show' icon is clicked-->
     jq(".icon-plus-sign").click(function(){
         jq(this).parent().parent().nextAll(".plansDetailsView").first().show();

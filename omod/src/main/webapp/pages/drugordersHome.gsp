@@ -113,9 +113,11 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 
 <script type="text/javascript">
-    jq("#orderList .icon-plus-sign").show();
-    jq("#orderList .icon-minus-sign").hide();
+    jq("#activeOrderWindow > .icon-plus-sign").show();
+    jq("#activeOrderWindow > .icon-minus-sign").hide();
     
+    jq("#activePlanWindow > .icon-plus-sign").show();
+    jq("#activePlanWindow > .icon-minus-sign").hide();
     <!--Show the table listing the Non-Active drug orders.-->
     jq(".icon-plus-sign").click(function(){
         jq(this).nextAll(".nonActiveOrderWindow").first().show();
