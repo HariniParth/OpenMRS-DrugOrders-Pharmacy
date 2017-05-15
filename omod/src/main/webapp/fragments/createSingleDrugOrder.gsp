@@ -57,7 +57,7 @@
             <div class="fields" id="view_order_detail">
                 <label>Note: The patient is allergic to this drug.</label>
                 <label>Enter the reasons for ordering this drug:</label>
-                <input type="textarea" maxlength="255" id="orderReason" name="orderReason"/>
+                <input type="textarea" maxlength="255" id="orderReason" name="orderReason" />
             </div><br/>
         </div>
 
@@ -82,7 +82,7 @@
                 <label>Dose <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="dose" name="dose"/>
+                <input type="number" id="dose" name="dose" step="0.1" min="0" />
             </div>
         </div>
 
@@ -109,7 +109,7 @@
                 <label>Quantity <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="quantity" name="quantity"/>
+                <input type="number" id="quantity" name="quantity" step="0.1" min="0" />
             </div>
         </div>
 
@@ -136,7 +136,7 @@
                 <label>Duration <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="duration" name="duration" min="0"/>
+                <input type="number" id="duration" name="duration" min="0" />
             </div>
         </div>
 
@@ -205,7 +205,7 @@
                 <label>Refills </label>
             </div>
             <div id="order_value">
-                <input type="number" id="refill" name="refill" value="0" min="0">
+                <input type="number" id="refill" name="refill" value="0" min="0" />
             </div>
         </div>
 
@@ -216,7 +216,7 @@
                 <label>Interval (days)</label>
             </div>
             <div id="order_value">
-                <input type="number" id="interval" name="interval" value="0" min="0">
+                <input type="number" id="interval" name="interval" value="0" min="0" />
             </div>
         </div>
         
