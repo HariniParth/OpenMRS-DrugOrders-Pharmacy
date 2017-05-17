@@ -71,7 +71,7 @@
                     <label><strong>Route</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminRoute" name="adminRoute" class="select_field">
+                    <select id="adminRoute" name="adminRoute">
                         <option value="">Choose option</option>
                         <% routes.each { route -> %>
                             <option value="${ route.getDisplayString() }">${ route.getDisplayString() }</option>
@@ -87,7 +87,7 @@
                     <label><strong>Dose</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="text" id="adminDose" name="adminDose" class="select_field" />
+                    <input type="number" id="adminDose" name="adminDose" step="0.1" min="0" />
                 </div>
             </div>
 
@@ -98,7 +98,7 @@
                     <label><strong>Dose Units</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminDoseUnits" name="adminDoseUnits" class="select_field">
+                    <select id="adminDoseUnits" name="adminDoseUnits">
                         <option value="">Choose option</option>
                         <% doses.each { dose -> %>
                             <option value="${ dose.getDisplayString() }">${ dose.getDisplayString() }</option>
@@ -114,7 +114,7 @@
                     <label><strong>Quantity</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="text" id="adminQuantity" name="adminQuantity" class="select_field" />
+                    <input type="number" id="adminQuantity" name="adminQuantity" step="0.1" min="0" />
                 </div>
             </div>
 
@@ -125,7 +125,7 @@
                     <label><strong>Qnty Units</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminQuantityUnits" name="adminQuantityUnits" class="select_field">
+                    <select id="adminQuantityUnits" name="adminQuantityUnits" >
                         <option value="">Choose option</option>
                         <% quantities.each { quantity -> %>
                             <option value="${ quantity.getDisplayString() }">${ quantity.getDisplayString() }</option>
@@ -141,7 +141,7 @@
                     <label><strong>Duration</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="text" id="adminDuration" name="adminDuration" class="select_field"/>
+                    <input type="number" id="adminDuration" name="adminDuration" min="0" />
                 </div>
             </div>
 
@@ -152,7 +152,7 @@
                     <label><strong>Durn Units</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminDurationUnits" name="adminDurationUnits" class="select_field">
+                    <select id="adminDurationUnits" name="adminDurationUnits">
                         <option value="">Choose option</option>
                         <% durations.each { duration -> %>
                             <option value="${ duration.getDisplayString() }">${ duration.getDisplayString() }</option>
@@ -168,7 +168,7 @@
                     <label><strong>Frequency</strong></label>
                 </div>
                 <div id="order_value">
-                    <select id="adminFrequency" name="adminFrequency" class="select_field">
+                    <select id="adminFrequency" name="adminFrequency">
                         <option value="">Choose option</option>
                         <% frequencies.each { frequency -> %>
                             <option value="${ frequency.getConcept().getDisplayString() }">${ frequency.getConcept().getDisplayString() }</option>
