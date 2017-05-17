@@ -57,10 +57,12 @@ public class EditDrugOrdersFragmentController {
                 // Retrieve the list of all drug orders in the selected group.
                 List<drugorders> groupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(group);
                 for(drugorders groupOrder: groupOrders){
-                    // Store the order ID as key and DrugOrder as value.
-                    groupMain.put(groupOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(groupOrder.getOrderId()));
-                    // Store the order ID as key and drugorders as value.
-                    groupExtn.put(groupOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(groupOrder.getOrderId()));
+                    if(groupOrder.getOrderStatus().equals("Active-Group")){
+                        // Store the order ID as key and DrugOrder as value.
+                        groupMain.put(groupOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(groupOrder.getOrderId()));
+                        // Store the order ID as key and drugorders as value.
+                        groupExtn.put(groupOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(groupOrder.getOrderId()));
+                    }
                 }
                 model.addAttribute("group", group);
                 model.addAttribute("groupOrderAction", "DISCARD ORDER GROUP");
@@ -104,10 +106,12 @@ public class EditDrugOrdersFragmentController {
                 List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(ID);
                 
                 for(planorders planOrder: planOrders){
-                    // Store the order ID as key and DrugOrder as value.
-                    groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
-                    // Store the order ID as key and drugorders as value.
-                    groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
+                    if(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getOrderStatus().equals("Active-Plan")){
+                        // Store the order ID as key and DrugOrder as value.
+                        groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
+                        // Store the order ID as key and drugorders as value.
+                        groupExtn.put(planOrder.getOrderId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
+                    }
                 }
                 // Store the name of the plan
                 model.addAttribute("plan", planOrders.get(0).getDiseaseId().getDisplayString().toUpperCase());
