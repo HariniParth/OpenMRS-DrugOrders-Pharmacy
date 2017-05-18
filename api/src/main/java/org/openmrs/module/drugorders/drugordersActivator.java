@@ -9,7 +9,6 @@
  */
 package org.openmrs.module.drugorders;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import org.apache.commons.logging.Log;
@@ -18,7 +17,6 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptName;
-import org.openmrs.ConceptSet;
 import org.openmrs.GlobalProperty;
 import org.openmrs.OrderFrequency;
 import org.openmrs.api.AdministrationService;
@@ -73,138 +71,201 @@ public class drugordersActivator implements ModuleActivator {
         setGlobalProperties(administrationService, "order.drugRoutesConceptUuid", "162394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         setGlobalProperties(administrationService, "order.durationUnitsConceptUuid", "1732AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
-        ConceptService cs = Context.getConceptService();
+        ConceptService cs = Context.getConceptService();        
 
         /*
+          ===================================================================================
           Create a concept class for 'Discontinue Order Reasons' if it does not exist.
-          Create a concept ID for a set of options and add these concepts to the concept class created.
+          ===================================================================================
         */
         if (cs.getConceptClassByName("Discontinue Order Reasons") == null) {
 
-            ConceptClass conceptClass = saveConceptClass("Discontinue Order Reasons");
-            Concept setConcept = saveConcept("Discontinue Order Reasons", Context.getConceptService().getConceptClassByName("Finding"));
-            String orderDiscontinueReasons[] = {"Allergic", "Alternative", "Ineffective", "Not for Sale", "Recuperated", "Unavailable", "Wrong Diagnosis"};
-
-            for (String reasons : orderDiscontinueReasons) {
-                Concept concept = saveConcept(reasons, conceptClass);
-                setConcept.addSetMember(concept);
-            }
-            Concept otherConcept = cs.getConceptByName("Other");
-            otherConcept.setConceptClass(conceptClass);
-            cs.saveConcept(otherConcept);
-            setConcept.addSetMember(otherConcept);
+            saveConceptClass("Discontinue Order Reasons");
+            saveConcept("Discontinue Order Reasons", Context.getConceptService().getConceptClassByName("Finding"));
         }
 
+        String orderDiscontinueReasons[] = {"Allergic", "Alternative", "Ineffective", "Not for Sale", "Recuperated", "Unavailable", "Wrong Diagnosis"};
+        
+        ConceptClass conceptClass = cs.getConceptClassByName("Discontinue Order Reasons");
+        Concept setConcept = cs.getConceptByName("Discontinue Order Reasons");
+        
+        for (String reason : orderDiscontinueReasons) {
+            // Create a concept for a set of options and add these concepts to the concept class 'Discontinue Order Reasons'.
+            if(cs.getConceptByName(reason) == null){
+                saveConcept(reason, conceptClass);
+            }
+            // Set the concept class if it is not set.
+            if(cs.getConceptByName(reason).getConceptClass() != conceptClass)
+                cs.getConceptByName(reason).setConceptClass(conceptClass);
+            
+            // Add the given string's concept as a member of the 'Discontinue Order Reasons' concept set member.
+            if(!setConcept.getSetMembers().contains(cs.getConceptByName(reason)))
+                setConcept.addSetMember(cs.getConceptByName(reason));
+        }
+        
+        // Create a concept for the 'Other' option.
+        Concept otherConcept = cs.getConceptByName("Other");
+        if(!otherConcept.getConceptClass().equals(cs.getConceptClassByName("Discontinue Order Reasons"))){
+            otherConcept.setConceptClass(conceptClass);
+            cs.saveConcept(otherConcept);
+        }
+        if(!setConcept.getSetMembers().contains(otherConcept))
+            setConcept.addSetMember(otherConcept);
+            
         /*
+          ===================================================================================
           Create a concept class for 'Order Priority' if it does not exist.
-          Create a concept ID for a set of options and add these concepts to the concept class created.
+          ===================================================================================
         */
         if (cs.getConceptClassByName("Order Priority") == null) {
 
-            ConceptClass conceptClass = saveConceptClass("Order Priority");
-            Concept setConcept = saveConcept("Order Priority", cs.getConceptClassByName("Units of Measure"));
-            String orderPriority[] = {"Normal", "High", "Exception"};
+            saveConceptClass("Order Priority");
+            saveConcept("Order Priority", cs.getConceptClassByName("Units of Measure"));
+        }
+        
+        String orderPriority[] = {"Normal", "High", "Exception"};
+        conceptClass = cs.getConceptClassByName("Order Priority");
+        setConcept = cs.getConceptByName("Order Priority");
 
-            for (String orderPrio : orderPriority) {
-                Concept concept = saveConcept(orderPrio, conceptClass);
-                setConcept.addSetMember(concept);
+        for (String orderPrio : orderPriority) {
+            // Create a concept for a set of options and add these concepts to the concept class 'Order Priority'.
+            if(cs.getConceptByName(orderPrio) == null){
+                saveConcept(orderPrio, conceptClass);
             }
+            // Set the concept class if it is not set.
+            if(cs.getConceptByName(orderPrio).getConceptClass() != conceptClass)
+                cs.getConceptByName(orderPrio).setConceptClass(conceptClass);
+            
+            // Add the given string's concept as a member of the 'Order Priority' concept set member.
+            if(!setConcept.getSetMembers().contains(cs.getConceptByName(orderPrio)))
+                setConcept.addSetMember(cs.getConceptByName(orderPrio));
         }
 
         /*
-          Create a concept class for 'Units of Duration' if it does not exist.
-          Create a concept ID for a set of options and add these concepts to the concept class created.
-        */
-        if (cs.getConceptClassByName("Units of Duration") == null) {
-
-            ConceptClass conceptClass = saveConceptClass("Units of Duration");
-            Concept setConcept = saveConcept("Units of Duration", cs.getConceptClassByName("Units of Measure"));
-
-            List<Concept> durations = new ArrayList<>();
-            Concept durationConcept = cs.getConceptByName("Duration units");
-
-            for (ConceptSet durationConcepts : durationConcept.getConceptSets()) {
-                Concept durationMember = durationConcepts.getConcept();
-                durations.add(durationMember);
-            }
-
-            for (Concept duration : durations) {
-                duration.setConceptClass(conceptClass);
-                cs.saveConcept(duration);
-                setConcept.addSetMember(duration);
-            }
-        }
-
-        /*
-          Create a concept class for 'Routes of drug administration' if it does not exist.
-          Add concepts belonging to the concept sets of Routes of administration and add them to the created class.
-        */
-        if (cs.getConceptClassByName("Routes of drug administration") == null) {
-
-            ConceptClass conceptClass = saveConceptClass("Routes of drug administration");
-            Concept setConcept = saveConcept("Routes of drug administration", cs.getConceptClassByName("Procedure"));
-
-            List<Concept> routes = new ArrayList<>();
-            Concept routeConcept = cs.getConceptByName("Routes of administration");
-
-            for (ConceptSet routeConcepts : routeConcept.getConceptSets()) {
-                Concept routeMember = routeConcepts.getConcept();
-                routes.add(routeMember);
-            }
-
-            for (Concept route : routes) {
-                route.setConceptClass(conceptClass);
-                cs.saveConcept(route);
-                setConcept.addSetMember(route);
-            }
-        }
-
-        /*
+          ===================================================================================
           Create a concept class for 'Units of Dose' if it does not exist.
-          Create a concept ID for a set of options and add these concepts to the concept class created.
+          ===================================================================================
         */
         if (cs.getConceptClassByName("Units of Dose") == null) {
 
-            ConceptClass conceptClass = saveConceptClass("Units of Dose");
-            Concept setConcept = saveConcept("Units of Dose", cs.getConceptClassByName("Units of Measure"));
-            String doseUnits[] = {"Fluid ounce", "Gram", "Liter", "Milliliter", "Milligram", "Microgram"};
-
-            List<Concept> doses = new ArrayList<>();
-            for (String doseUnit : doseUnits) {
-                doses.add(cs.getConceptByName(doseUnit));
-            }
-
-            for (Concept dose : doses) {
-                dose.setConceptClass(conceptClass);
-                cs.saveConcept(dose);
-                setConcept.addSetMember(dose);
-            }
+            saveConceptClass("Units of Dose");
+            saveConcept("Units of Dose", cs.getConceptClassByName("Units of Measure"));
         }
-
-        /*
-          Create a concept class for 'Units of Quantity' if it does not exist.
-          Create a concept ID for a set of options and add these concepts to the concept class created.
-        */
-        if (cs.getConceptClassByName("Units of Quantity") == null) {
-
-            ConceptClass conceptClass = saveConceptClass("Units of Quantity");
-            Concept setConcept = saveConcept("Units of Quantity", cs.getConceptClassByName("Units of Measure"));
-            String quantityUnits[] = {"Capsule", "Drop", "Syringe", "Tablet", "Tablespoon", "Teaspoon", "Tube", "Vial"};
-
-            List<Concept> quantities = new ArrayList<>();
-            for (String quantityUnit : quantityUnits) {
-                quantities.add(cs.getConceptByName(quantityUnit));
+        
+        String doseUnits[] = {"Fluid ounce", "Gram", "Liter", "Milliliter", "Milligram", "Microgram"};
+        conceptClass = cs.getConceptClassByName("Units of Dose");
+        setConcept = cs.getConceptByName("Units of Dose");
+        
+        for (String unit : doseUnits) {
+            // Create a concept for a set of options and add these concepts to the concept class 'Units of Dose'.
+            if(cs.getConceptByName(unit) == null){
+                saveConcept(unit, conceptClass);
             }
-
-            for (Concept quantity : quantities) {
-                quantity.setConceptClass(conceptClass);
-                cs.saveConcept(quantity);
-                setConcept.addSetMember(quantity);
-            }
+            // Set the concept class if it is not set.
+            if(cs.getConceptByName(unit).getConceptClass() != conceptClass)
+                cs.getConceptByName(unit).setConceptClass(conceptClass);
+            
+            // Add the given string's concept as a member of the 'Units of Dose' concept set member.
+            if(!setConcept.getSetMembers().contains(cs.getConceptByName(unit)))
+                setConcept.addSetMember(cs.getConceptByName(unit));
         }
         
         /*
+          ===================================================================================
+          Create a concept class for 'Units of Quantity' if it does not exist.
+          ===================================================================================
+        */
+        if (cs.getConceptClassByName("Units of Quantity") == null) {
+
+            saveConceptClass("Units of Quantity");
+            saveConcept("Units of Quantity", cs.getConceptClassByName("Units of Measure"));
+        }
+        
+        String quantityUnits[] = {"Capsule", "Drop", "Syringe", "Tablet", "Tablespoon", "Teaspoon", "Tube", "Vial"};
+        conceptClass = cs.getConceptClassByName("Units of Quantity");
+        setConcept = cs.getConceptByName("Units of Quantity");
+
+        for (String unit : quantityUnits) {
+            // Create a concept for a set of options and add these concepts to the concept class 'Units of Quantity'.
+            if(cs.getConceptByName(unit) == null){
+                saveConcept(unit, conceptClass);
+            }
+            // Set the concept class if it is not set.
+            if(cs.getConceptByName(unit).getConceptClass() != conceptClass)
+                cs.getConceptByName(unit).setConceptClass(conceptClass);
+            
+            // Add the given string's concept as a member of the 'Units of Quantity' concept set member.
+            if(!setConcept.getSetMembers().contains(cs.getConceptByName(unit)))
+                setConcept.addSetMember(cs.getConceptByName(unit));
+        }
+        
+        /*
+          ===================================================================================
+          Create a concept class for 'Routes of drug administration' if it does not exist.
+          ===================================================================================
+        */
+        if (cs.getConceptClassByName("Routes of drug administration") == null) {
+
+            saveConceptClass("Routes of drug administration");
+            saveConcept("Routes of drug administration", cs.getConceptClassByName("Procedure"));
+        }
+        
+        String routes[] = {"In ear", "In eye", "Inhalation", "Intramuscular", "Intranasal", "Intraosseous", "Intravenous", "Oral", "Per NG tube", "Rectally","Transdermal", "Vaginally"};
+        conceptClass = cs.getConceptClassByName("Routes of drug administration");
+        setConcept = cs.getConceptByName("Routes of drug administration");
+
+        for (String route : routes) {
+            // Create a concept for a set of options and add these concepts to the concept class 'Routes of drug administration'.
+            if(cs.getConceptByName(route) == null){
+                saveConcept(route, conceptClass);
+            }
+            // Set the concept class if it is not set.
+            if(cs.getConceptByName(route).getConceptClass() != conceptClass)
+                cs.getConceptByName(route).setConceptClass(conceptClass);
+            
+            // Add the given string's concept as a member of the 'Routes of drug administration' concept set member.
+            if(!setConcept.getSetMembers().contains(cs.getConceptByName(route)))
+                setConcept.addSetMember(cs.getConceptByName(route));
+        }
+        
+        /*
+          ===================================================================================
+          Create a concept class for 'Units of Duration' if it does not exist.
+          ===================================================================================
+        */
+        if (cs.getConceptClassByName("Units of Duration") == null) {
+
+            saveConceptClass("Units of Duration");
+            saveConcept("Units of Duration", cs.getConceptClassByName("Units of Measure"));
+        }
+        
+        String durationUnits[] = {"Days", "Hours", "Minutes", "Months", "Number of occurrences", "Weeks", "Years"};
+        conceptClass = cs.getConceptClassByName("Units of Duration");
+        // Find the concept named 'Units of Duration' belonging to the class 'Units of Duration'.
+        List<Concept> setConcepts = cs.getConceptsByClass(conceptClass);
+        for(Concept con : setConcepts){
+            if(con.isNamed("Units of Duration"))
+                setConcept = con;
+        }
+
+        for (String unit : durationUnits) {
+            // Create a concept for a set of options and add these concepts to the concept class 'Units of Duration'.
+            if(cs.getConceptByName(unit) == null){
+                saveConcept(unit, conceptClass);
+            }
+            // Set the concept class if it is not set.
+            if(cs.getConceptByName(unit).getConceptClass() != conceptClass)
+                cs.getConceptByName(unit).setConceptClass(conceptClass);
+            
+            // Add the given string's concept as a member of the 'Units of Duration' concept set member.
+            if(!setConcept.getSetMembers().contains(cs.getConceptByName(unit)))
+                setConcept.addSetMember(cs.getConceptByName(unit));
+        }
+
+        /*
+          ===================================================================================
           Add frequency options to the class OrderFrequency.
+          ===================================================================================
         */
         if(Context.getOrderService().getOrderFrequencies(true) != null){
             
