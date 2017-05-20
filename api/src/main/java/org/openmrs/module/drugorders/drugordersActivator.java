@@ -210,7 +210,7 @@ public class drugordersActivator implements ModuleActivator {
             saveConcept("Routes of drug administration", cs.getConceptClassByName("Procedure"));
         }
         
-        String routes[] = {"In ear", "In eye", "Inhalation", "Intramuscular", "Intranasal", "Intraosseous", "Intravenous", "Oral", "Per NG tube", "Rectally","Transdermal", "Vaginally"};
+        String routes[] = {"In both ears", "In left ear", "In right ear", "In both eyes", "In left eye", "In right eye", "Inhalation", "Intramuscular", "Intranasal", "Intraosseous", "Intravenous", "Oral", "Per NG tube", "Rectally", "Subcutaneous", "Transdermal", "Vaginally"};
         conceptClass = cs.getConceptClassByName("Routes of drug administration");
         setConcept = cs.getConceptByName("Routes of drug administration");
 
