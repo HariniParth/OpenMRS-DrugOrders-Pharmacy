@@ -27,9 +27,9 @@ public class DrugOrdersNonActiveFragmentController {
     public void controller(FragmentModel model, @RequestParam("patientId") Patient patient){
         
         // Data structure to store the individual drug orders
-        List<drugorders> dorders = new ArrayList<>();
+        List<drugorders> i_orders = new ArrayList<>();
         // Data structure to store the group drug orders
-        HashMap<Integer,List<drugorders>> groupDorders = new HashMap<>();
+        HashMap<Integer,List<drugorders>> g_orders = new HashMap<>();
         // Retrieve the drug orders created for the Patient
         List<OrderAndDrugOrder> drugOrders = DrugOrderList.getDrugOrdersByPatient(patient);
         
@@ -41,18 +41,24 @@ public class DrugOrdersNonActiveFragmentController {
             // Check if a drug order is an individual order or a part of a group and then store it appropriately
             switch (dorder.getOrderStatus()) {
                 case "Non-Active":
-                    dorders.add(dorder);
+                    i_orders.add(dorder);
                     break;
                 case "Non-Active-Group":
-                    if(groupDorders.get(dorder.getGroupId()) == null){
-                        groupDorders.put(dorder.getGroupId(), Context.getService(drugordersService.class).getDrugOrdersByGroupID(dorder.getGroupId()));
+                    if(g_orders.get(dorder.getGroupId()) == null){
+                        // If an order with status 'Non-Active-Group' if found, retrieve all the non-active orders in the given order's group.
+                        List<drugorders> orders = new ArrayList<>();
+                        for(drugorders order : Context.getService(drugordersService.class).getDrugOrdersByGroupID(dorder.getGroupId()))
+                            if(order.getOrderStatus().equals("Non-Active-Group"))
+                                orders.add(order);
+                        
+                        g_orders.put(dorder.getGroupId(), orders);
                     }
                     break;
             }
         }
                 
-        model.addAttribute("oldDrugOrdersExtension", dorders);
-        model.addAttribute("oldDrugOrderGroups", groupDorders);
+        model.addAttribute("oldDrugOrdersExtension", i_orders);
+        model.addAttribute("oldDrugOrderGroups", g_orders);
         
         HashMap<Integer,DrugOrder> oldDrugOrdersMain = DrugOrderList.getDrugOrderMainDataByPatient(patient);
         model.addAttribute("oldDrugOrdersMain", oldDrugOrdersMain);

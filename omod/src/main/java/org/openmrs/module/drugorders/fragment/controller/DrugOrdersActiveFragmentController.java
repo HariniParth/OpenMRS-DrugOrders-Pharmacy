@@ -85,28 +85,35 @@ public class DrugOrdersActiveFragmentController {
         }
         
         // Data structure to store the individual drug orders
-        List<drugorders> dorders = new ArrayList<>();
+        List<drugorders> i_orders = new ArrayList<>();
         // Data structure to store the group drug orders
-        HashMap<Integer,List<drugorders>> groupDorders = new HashMap<>();
+        HashMap<Integer,List<drugorders>> g_orders = new HashMap<>();
         // Retrieve the drug orders created for the Patient
         List<OrderAndDrugOrder> drugOrders = DrugOrderList.getDrugOrdersByPatient(patient);
                 
         for(OrderAndDrugOrder drugOrder : drugOrders){
             drugorders dorder = drugOrder.getdrugorders();
-            // Check if a drug order is an individual order or a part of a group and then store it appropriately
+            // Check if a drug order is an individual order or a part of a group and then store it appropriately.
             switch (dorder.getOrderStatus()) {
                 case "Active":
-                    dorders.add(dorder);
+                    i_orders.add(dorder);
                     break;
                 case "Active-Group":
-                    if(groupDorders.get(dorder.getOrderId()) == null){
-                        groupDorders.put(dorder.getGroupId(), Context.getService(drugordersService.class).getDrugOrdersByGroupID(dorder.getGroupId()));
-                    }   break;
+                    // If an order with status 'Active-Group' if found, retrieve all the active orders in the given order's group.
+                    if(g_orders.get(dorder.getGroupId()) == null){
+                        List<drugorders> orders = new ArrayList<>();
+                        for(drugorders order : Context.getService(drugordersService.class).getDrugOrdersByGroupID(dorder.getGroupId()))
+                            if(order.getOrderStatus().equals("Active-Group"))
+                                orders.add(order);
+                        
+                        g_orders.put(dorder.getGroupId(), orders);
+                    }
+                    break;
             }
         }
                 
-        model.addAttribute("existingDrugOrdersExtension", dorders);
-        model.addAttribute("existingDrugOrderGroups", groupDorders);
+        model.addAttribute("existingDrugOrdersExtension", i_orders);
+        model.addAttribute("existingDrugOrderGroups", g_orders);
         
         HashMap<Integer,DrugOrder> existingDrugOrdersMain = DrugOrderList.getDrugOrderMainDataByPatient(patient);
         model.addAttribute("existingDrugOrdersMain", existingDrugOrdersMain);
