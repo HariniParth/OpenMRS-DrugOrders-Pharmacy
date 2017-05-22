@@ -22,25 +22,25 @@
                 </tr>
             </thead>
             <tbody>
-                <% if(oldDrugOrdersExtension.size() == 0 && oldDrugOrderGroups.size() == 0) { %>
+                <% if(singleOrdersExtn.size() == 0 && groupOrdersExtn.size() == 0) { %>
                     <tr>
                         <td colspan="2" align="center">No Orders Found</td>
                         <td style="display: none;"></td>
                     </tr>
                 <% } %>
 
-                <% oldDrugOrderGroups.each { oldDrugOrder -> %>
+                <% groupOrdersExtn.each { groupOrderExtn -> %>
 
                     <tr class="oldGroupRow">
                         <td>
-                            <% oldDrugOrder.value.each { oldOrder -> %>
+                            <% groupOrderExtn.value.each { groupOrder -> %>
 
-                                <div class="oldGroupDetails" onclick="showDrugOrderViewWindow('VIEW ORDER','${ oldOrder.startDate.format('yyyy-MM-dd') }','${ oldOrder.drugName.getDisplayString() }','${ oldDrugOrdersMain.get(oldOrder.orderId).dose }','${ oldDrugOrdersMain.get(oldOrder.orderId).doseUnits.getDisplayString() }','${ oldDrugOrdersMain.get(oldOrder.orderId).route.getDisplayString() }','${ oldDrugOrdersMain.get(oldOrder.orderId).duration }','${ oldDrugOrdersMain.get(oldOrder.orderId).durationUnits.getDisplayString() }','${ oldDrugOrdersMain.get(oldOrder.orderId).quantity }','${ oldDrugOrdersMain.get(oldOrder.orderId).quantityUnits.getDisplayString() }','${ oldDrugOrdersMain.get(oldOrder.orderId).frequency }','${ oldOrder.refill }','${ oldOrder.isAllergicOrderReasons }','${ oldOrder.associatedDiagnosis.getDisplayString() }','${ oldOrder.priority.getDisplayString() }','${ oldOrder.patientInstructions }','${ oldOrder.pharmacistInstructions }','${ oldOrder.commentForOrderer }','${ oldOrder.orderStatus }')">
+                                <div class="oldGroupDetails" onclick="showDrugOrderViewWindow('VIEW ORDER','${ groupOrder.startDate.format('yyyy-MM-dd') }','${ groupOrder.drugName.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).dose }','${ drugOrdersMain.get(groupOrder.orderId).doseUnits.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).route.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).duration }','${ drugOrdersMain.get(groupOrder.orderId).durationUnits.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).quantity }','${ drugOrdersMain.get(groupOrder.orderId).quantityUnits.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).frequency }','${ groupOrder.refill }','${ groupOrder.isAllergicOrderReasons }','${ groupOrder.associatedDiagnosis.getDisplayString() }','${ groupOrder.priority.getDisplayString() }','${ groupOrder.patientInstructions }','${ groupOrder.pharmacistInstructions }','${ groupOrder.commentForOrderer }','${ groupOrder.orderStatus }')">
                                     <div id="oldOrderId">
-                                        ${ oldOrder.orderId }
+                                        ${ groupOrder.orderId }
                                     </div>
                                     <div id="oldOrderName">
-                                        <div><strong class="wordBreak">${ oldOrder.drugName.getDisplayString().toUpperCase() }</strong></div>
+                                        <div><strong class="wordBreak">${ groupOrder.drugName.getDisplayString().toUpperCase() }</strong></div>
                                         <div class="itemSummary"><em>Click to view details</em></div>
                                     </div>                                    
                                 </div>
@@ -49,29 +49,29 @@
                         </td>
                         <td class="renewGroupButton">
                             <span id="button">
-                                <i class="icon-edit edit-action" title="${ ui.message("Renew") }" onclick="showRenewGroupOrderWindow('${oldDrugOrder.key}')"></i>
+                                <i class="icon-edit edit-action" title="${ ui.message("Renew") }" onclick="showRenewGroupOrderWindow('${groupOrderExtn.key}')"></i>
                             </span>
                         </td>
                     </tr>
 
                 <% } %>
 
-                <% oldDrugOrdersExtension.each { oldDrugOrderExtension -> %>
+                <% singleOrdersExtn.each { singleOrderExtn -> %>
 
                     <tr class="oldOrderRow">
-                        <td class="oldOrderDetails" onclick="showDrugOrderViewWindow('VIEW ORDER','${ oldDrugOrderExtension.startDate.format('yyyy-MM-dd') }','${ oldDrugOrderExtension.drugName.getDisplayString() }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).dose }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).doseUnits.getDisplayString() }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).route.getDisplayString() }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).duration }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).durationUnits.getDisplayString() }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).quantity }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).quantityUnits.getDisplayString() }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).frequency }','${ oldDrugOrderExtension.refill }','${ oldDrugOrderExtension.isAllergicOrderReasons }','${ oldDrugOrderExtension.associatedDiagnosis.getDisplayString() }','${ oldDrugOrderExtension.priority.getDisplayString() }','${ oldDrugOrderExtension.patientInstructions }','${ oldDrugOrderExtension.pharmacistInstructions }','${ oldDrugOrderExtension.commentForOrderer }','${ oldDrugOrderExtension.orderStatus }')">
+                        <td class="oldOrderDetails" onclick="showDrugOrderViewWindow('VIEW ORDER','${ singleOrderExtn.startDate.format('yyyy-MM-dd') }','${ singleOrderExtn.drugName.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).dose }','${ drugOrdersMain.get(singleOrderExtn.orderId).doseUnits.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).route.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).duration }','${ drugOrdersMain.get(singleOrderExtn.orderId).durationUnits.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).quantity }','${ drugOrdersMain.get(singleOrderExtn.orderId).quantityUnits.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).frequency }','${ singleOrderExtn.refill }','${ singleOrderExtn.isAllergicOrderReasons }','${ singleOrderExtn.associatedDiagnosis.getDisplayString() }','${ singleOrderExtn.priority.getDisplayString() }','${ singleOrderExtn.patientInstructions }','${ singleOrderExtn.pharmacistInstructions }','${ singleOrderExtn.commentForOrderer }','${ singleOrderExtn.orderStatus }')">
                             <div id="oldOrderId">
-                                ${ oldDrugOrderExtension.orderId }
+                                ${ singleOrderExtn.orderId }
                             </div>
                             
                             <div id="oldOrderName">
-                                <div><strong class="wordBreak">${ oldDrugOrderExtension.drugName.getDisplayString().toUpperCase() }</strong></div>
+                                <div><strong class="wordBreak">${ singleOrderExtn.drugName.getDisplayString().toUpperCase() }</strong></div>
                                 <div class="itemSummary"><em>Click to view details</em></div>
                             </div>
                         </td>
                         <td>
                             <span id="button">
-                                <i class="icon-edit edit-action" title="${ ui.message("Renew") }" onclick="editSingleOrderDetailsWindow('RENEW DRUG ORDER','${ oldDrugOrderExtension.orderId }','${ oldDrugOrderExtension.drugName.getDisplayString() }',null,'${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).dose }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).doseUnits.getDisplayString() }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).route.getDisplayString() }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).duration }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).durationUnits.getDisplayString() }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).quantity }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).quantityUnits.getDisplayString() }','${ oldDrugOrdersMain.get(oldDrugOrderExtension.orderId).frequency }','${ oldDrugOrderExtension.refill }','${ oldDrugOrderExtension.refillInterval }','${ oldDrugOrderExtension.associatedDiagnosis.getDisplayString() }','${ oldDrugOrderExtension.isAllergicOrderReasons }','${ oldDrugOrderExtension.priority.getDisplayString() }','${ oldDrugOrderExtension.patientInstructions }','${ oldDrugOrderExtension.pharmacistInstructions }','${ oldDrugOrderExtension.orderStatus }','${ currentOrders }','${ allergicDrugs }')"></i>
+                                <i class="icon-edit edit-action" title="${ ui.message("Renew") }" onclick="editSingleOrderDetailsWindow('RENEW DRUG ORDER','${ singleOrderExtn.orderId }','${ singleOrderExtn.drugName.getDisplayString() }',null,'${ drugOrdersMain.get(singleOrderExtn.orderId).dose }','${ drugOrdersMain.get(singleOrderExtn.orderId).doseUnits.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).route.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).duration }','${ drugOrdersMain.get(singleOrderExtn.orderId).durationUnits.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).quantity }','${ drugOrdersMain.get(singleOrderExtn.orderId).quantityUnits.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).frequency }','${ singleOrderExtn.refill }','${ singleOrderExtn.refillInterval }','${ singleOrderExtn.associatedDiagnosis.getDisplayString() }','${ singleOrderExtn.isAllergicOrderReasons }','${ singleOrderExtn.priority.getDisplayString() }','${ singleOrderExtn.patientInstructions }','${ singleOrderExtn.pharmacistInstructions }','${ singleOrderExtn.orderStatus }','${ currentOrders }','${ allergicDrugs }')"></i>
                             </span>
                         </td>
                     </tr>

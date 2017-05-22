@@ -112,11 +112,11 @@ public class DrugOrdersActiveFragmentController {
             }
         }
                 
-        model.addAttribute("existingDrugOrdersExtension", i_orders);
-        model.addAttribute("existingDrugOrderGroups", g_orders);
+        model.addAttribute("singleOrdersExtn", i_orders);
+        model.addAttribute("groupOrdersExtn", g_orders);
         
-        HashMap<Integer,DrugOrder> existingDrugOrdersMain = DrugOrderList.getDrugOrderMainDataByPatient(patient);
-        model.addAttribute("existingDrugOrdersMain", existingDrugOrdersMain);
+        HashMap<Integer,DrugOrder> drugOrdersMain = DrugOrderList.getDrugOrderMainDataByPatient(patient);
+        model.addAttribute("drugOrdersMain", drugOrdersMain);
                 
     }
 }
