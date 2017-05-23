@@ -1,6 +1,5 @@
 <%
     ui.includeCss("drugorders", "drugorders.css")
-    def selectedDisease = "";
     def allergic_order = "";
 %>
 

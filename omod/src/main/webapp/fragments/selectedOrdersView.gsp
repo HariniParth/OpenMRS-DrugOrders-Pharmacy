@@ -1,7 +1,5 @@
 <%
     ui.includeCss("drugorders", "pharmacy.css")
-    def list_of_orders = "";
-    def provider_name = "";
     def allergic_order = "";
     def last_dispatch_date = "";
 %>
@@ -24,9 +22,8 @@
             <h4 id="heading"><strong>Selected Order(s)</strong></h4><br/>
             
             <div class="group">
-                <% groupOrderMain.each { groupOrder -> %>
-                    <% list_of_orders = list_of_orders + groupOrder.key + "," %>
-                    
+                <% groupOrderMain.each { groupOrder -> %>   
+
                     <div class="groupItem">
                                 
                         <div id="view_order_detail">
@@ -131,7 +128,6 @@
                             </div>
                         </div>
                     </div>
-                    <% provider_name = provider.get(groupOrder.key) %>
                 <% } %>
             </div>
             

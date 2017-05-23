@@ -2,7 +2,6 @@
     ui.decorateWith("appui", "standardEmrPage");
     ui.includeCss("drugorders", "drugorders.css")
     ui.includeJavascript("drugorders", "drugorders.js")
-    def editAction = false;
 %>
 
 <div id="pageRedirect"></div>
