@@ -52,7 +52,6 @@ public class MailToOrdererFragmentController {
         String orderList = "";    
         String drugNames = "";
         String orderDetails = "";
-        SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-yyyy");
         
         /*
           If the check-boxes corresponding to one or more orders are checked to be put on hold or discarded,
@@ -70,7 +69,7 @@ public class MailToOrdererFragmentController {
             // Store the string of the name of the drugs.
             drugNames = drugNames.concat(drugorder.getDrugName().getDisplayString().toUpperCase()+";");
             // Store the details of the selected orders.
-            orderDetails = orderDetails.concat("Order ID: "+Integer.toString(drugorder.getOrderId())+"\nDrug: "+drugorder.getDrugName().getDisplayString()+"\nStart Date: "+formatter.parse(drugorder.getStartDate().toString())+"\n\n");
+            orderDetails = orderDetails.concat("Order ID: "+Integer.toString(drugorder.getOrderId())+"\nDrug: "+drugorder.getDrugName().getDisplayString().toUpperCase()+"\nStart Date: "+drugorder.getStartDate().toString()+"\n\n");
             // Set recipient of the mail to be the orderer.
             if(recipient.equals(""))
                 recipient = order.getOrderer().getName();

@@ -168,7 +168,7 @@
                         
                         <i class="icon-plus-sign  edit-action" title="${ ui.message("Show") }"></i>
                         <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"></i>
-                        <strong>${ groupExtn.get(order.key).drugName.getDisplayString() }</strong>
+                        <strong>${ groupExtn.get(order.key).drugName.getDisplayString().toUpperCase() }</strong>
                     </div>
                     
                     <div class="drugDetails">

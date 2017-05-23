@@ -211,7 +211,7 @@
                 <% selectedPlan.each { discardPlans -> %>
                     <% discardPlans.value.each { discardPlan -> %>
                         <h4 class="align-center"><strong>Selected Order(s)</strong></h4>
-                        <h5 class="align-center" id="discardPlan">${ discardPlan.key.getDisplayString() }</h5><br/>
+                        <h5 class="align-center" id="discardPlan"><strong>${ discardPlan.key.getDisplayString().toUpperCase() }</strong></h5><br/>
                         
                         <div class="fields" id="discardPlanBlock">
                             <% discardPlan.value.each { plan -> %>
@@ -219,7 +219,7 @@
                                 <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ plan.id }" checked="true" />
                                 <i class="icon-plus-sign  edit-action" title="${ ui.message("Show") }"></i>
                                 <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"></i>
-                                <strong class="discardDrug">${ plan.drugId.getDisplayString() }</strong><br/><br/>
+                                <strong class="discardDrug">${ plan.drugId.getDisplayString().toUpperCase() }</strong><br/><br/>
 
                                 <div class="groupBlock">                
                                     <div id="view_order_detail">
