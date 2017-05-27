@@ -7,6 +7,8 @@ package org.openmrs.module.drugorders.fragment.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import org.openmrs.Concept;
@@ -20,6 +22,7 @@ import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.openmrs.ui.util.ByFormattedObjectComparator;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -93,6 +96,9 @@ public class CreateSingleDrugOrderFragmentController {
             if(con.getConceptName().isLocalePreferred())
                 names.add(con.getConcept());
         }
+        // Sort the list of concepts by their name
+        Comparator comparator = new ByFormattedObjectComparator(ui);
+        Collections.sort(names, comparator);
         // Get the name property of the concepts.
         String[] properties = new String[] { "name"};
         return SimpleObject.fromCollection(names, ui, properties);
@@ -118,6 +124,9 @@ public class CreateSingleDrugOrderFragmentController {
             if(con.getConceptName().isLocalePreferred())
                 names.add(con.getConcept());
         }
+        // Sort the list of concepts by their name
+        Comparator comparator = new ByFormattedObjectComparator(ui);
+        Collections.sort(names, comparator);
         // Get the name property of the concepts.
         String[] properties = new String[] { "name"};
         return SimpleObject.fromCollection(names, ui, properties);

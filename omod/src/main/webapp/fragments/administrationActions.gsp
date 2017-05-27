@@ -302,7 +302,7 @@
                 .success(function(data) {
                     for (index in data) {
                         var item = data[index];
-                        results.push(item.name);
+                        results.push(item.name.toUpperCase());
                     }
                     response( results );
                 })
@@ -322,7 +322,7 @@
                 .success(function(data) {
                     for (index in data) {
                         var item = data[index];
-                        results.push(item.name);
+                        results.push(item.name.toUpperCase());
                     }
                     response( results );
                 })
@@ -342,7 +342,7 @@
                 .success(function(data) {
                     for (index in data) {
                         var item = data[index];
-                        results.push(item.name);
+                        results.push(item.name.toUpperCase());
                     }
                     response( results );
                 })

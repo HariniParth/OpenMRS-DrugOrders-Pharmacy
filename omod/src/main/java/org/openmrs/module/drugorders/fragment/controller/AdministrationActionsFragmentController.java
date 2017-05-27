@@ -8,6 +8,8 @@ package org.openmrs.module.drugorders.fragment.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptSearchResult;
@@ -21,7 +23,7 @@ import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
-import org.springframework.util.ObjectUtils;
+import org.openmrs.ui.util.ByFormattedObjectComparator;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -115,6 +117,9 @@ public class AdministrationActionsFragmentController {
             if(con.getConceptName().isLocalePreferred())
                 names.add(con.getConcept());
         }
+        // Sort the list of concepts by their name
+        Comparator comparator = new ByFormattedObjectComparator(ui);
+        Collections.sort(names, comparator);
         // Get the name property of the concepts.
         String[] properties = new String[] { "name" };
         return SimpleObject.fromCollection(names, ui, properties);
@@ -140,6 +145,9 @@ public class AdministrationActionsFragmentController {
             if(con.getConceptName().isLocalePreferred())
                 names.add(con.getConcept());
         }
+        // Sort the list of concepts by their name
+        Comparator comparator = new ByFormattedObjectComparator(ui);
+        Collections.sort(names, comparator);
         // Get the name property of the concepts.
         String[] properties = new String[] { "name"};
         return SimpleObject.fromCollection(names, ui, properties);
