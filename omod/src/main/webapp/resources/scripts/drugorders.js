@@ -538,8 +538,15 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
             document.getElementById("allergicOrderReasonView").style.display = 'block';
         }
 
-        $("#patient_instructions").text(patientInstrn);
-        $("#pharmacist_instructions").text(pharmacistInstrn);
+        if(patientInstrn === "null")
+            $("#patient_instructions").text("-");
+        else
+            $("#patient_instructions").text(patientInstrn);
+        
+        if(pharmacistInstrn === "null")
+            $("#pharmacist_instructions").text("-");
+        else
+            $("#pharmacist_instructions").text(pharmacistInstrn);
 
         if(pharmaComments !== "" && pharmaComments !== null && pharmaComments !== "null" && pharmaComments !== undefined){
             $("#pharma_comments").text(pharmaComments);
@@ -603,8 +610,17 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
             jq("#allergicDrugOrderReasonField").show();
             document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
         }
-        $("#patientInstrn").val(patientInstrn);
-        $("#pharmacistInstrn").val(pharmacistInstrn);
+        
+        if(patientInstrn === "null")
+            $("#patientInstrn").val("");
+        else
+            $("#patientInstrn").val(patientInstrn);
+        
+        if(pharmacistInstrn === "null")
+            $("#pharmacistInstrn").val("");
+        else
+            $("#pharmacistInstrn").val(pharmacistInstrn);
+        
         $("#addOrderButton").prop("disabled", false);
         jq("#createOrderWindow").show();
         document.getElementById("createOrderWindow").style.display = 'block';

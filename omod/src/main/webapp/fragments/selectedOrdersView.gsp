@@ -2,6 +2,8 @@
     ui.includeCss("drugorders", "pharmacy.css")
     def allergic_order = "";
     def last_dispatch_date = "";
+    def patient_instr = "";
+    def pharma_instr = "";
 %>
 
 <!--
@@ -92,23 +94,30 @@
                                 </div>
 
                                 <div class="fields" id="view_order_detail">
-                                    <div id="order_label">Instructions</div>
-                                    <div id="order_value">-</div>
+                                    <div id="order_label">Instructions </div>
+                                    <div id="order_value">from Physician:</div>
                                 </div>
 
-                                <div class="fields" id="view_order_detail">
-                                    <div id="order_label">Patient</div>
-                                    <div id="order_value">${ groupOrderExtn.get(groupOrder.key).patientInstructions }</div>
-                                </div>
-
-                                <div class="fields" id="view_order_detail">
-                                    <div id="order_label">Pharmacy</div>
-                                    <div id="order_value">${ groupOrderExtn.get(groupOrder.key).pharmacistInstructions }</div>
-                                </div>
+                                <% if(groupOrderExtn.get(groupOrder.key).patientInstructions != null && groupOrderExtn.get(groupOrder.key).patientInstructions != "null") { %>
+                                    <% patient_instr = groupOrderExtn.get(groupOrder.key).patientInstructions; %>
+                                <% } else { %>
+                                    <% patient_instr = "-"; %>
+                                <% } %>
                                 
                                 <div class="fields" id="view_order_detail">
-                                    <div id="order_label">-</div>
-                                    <div id="order_value">-</div>
+                                    <div id="order_label">Patient</div>
+                                    <div id="order_value">${ patient_instr }</div>
+                                </div>
+
+                                <% if(groupOrderExtn.get(groupOrder.key).pharmacistInstructions != null && groupOrderExtn.get(groupOrder.key).pharmacistInstructions != "null") { %>
+                                    <% pharma_instr = groupOrderExtn.get(groupOrder.key).pharmacistInstructions; %>
+                                <% } else { %>
+                                    <% pharma_instr = "-"; %>
+                                <% } %>
+                                
+                                <div class="fields" id="view_order_detail">
+                                    <div id="order_label">Pharmacy</div>
+                                    <div id="order_value">${ pharma_instr }</div>
                                 </div>
                             </div>
                             
