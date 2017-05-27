@@ -90,7 +90,8 @@ public class CreateSingleDrugOrderFragmentController {
         
         List<Concept> names = new ArrayList<>();
         for (ConceptSearchResult con : results) {
-            names.add(con.getConcept());
+            if(con.getConceptName().isLocalePreferred())
+                names.add(con.getConcept());
         }
         // Get the name property of the concepts.
         String[] properties = new String[] { "name"};
@@ -114,7 +115,8 @@ public class CreateSingleDrugOrderFragmentController {
         
         List<Concept> names = new ArrayList<>();
         for (ConceptSearchResult con : results) {
-            names.add(con.getConcept());
+            if(con.getConceptName().isLocalePreferred())
+                names.add(con.getConcept());
         }
         // Get the name property of the concepts.
         String[] properties = new String[] { "name"};

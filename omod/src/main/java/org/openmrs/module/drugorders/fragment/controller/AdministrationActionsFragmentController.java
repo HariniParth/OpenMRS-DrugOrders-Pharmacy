@@ -21,6 +21,7 @@ import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -111,7 +112,8 @@ public class AdministrationActionsFragmentController {
         
         List<Concept> names = new ArrayList<>();
         for (ConceptSearchResult con : results) {
-            names.add(con.getConcept());
+            if(con.getConceptName().isLocalePreferred())
+                names.add(con.getConcept());
         }
         // Get the name property of the concepts.
         String[] properties = new String[] { "name" };
@@ -135,7 +137,8 @@ public class AdministrationActionsFragmentController {
         
         List<Concept> names = new ArrayList<>();
         for (ConceptSearchResult con : results) {
-            names.add(con.getConcept());
+            if(con.getConceptName().isLocalePreferred())
+                names.add(con.getConcept());
         }
         // Get the name property of the concepts.
         String[] properties = new String[] { "name"};
