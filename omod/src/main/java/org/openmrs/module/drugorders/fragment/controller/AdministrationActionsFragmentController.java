@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdministrationActionsFragmentController {
     
     public void controller(FragmentModel model, @RequestParam(value = "selectedMedPlan", required = false) Integer selectedMedPlan,
-                                            @RequestParam(value = "selectedPlanItem", required = false) Integer selectedPlanItem){
+                           @RequestParam(value = "selectedPlanItem", required = false) Integer selectedPlanItem, UiUtils ui){
 
         model.addAttribute("selectedMedPlan", selectedMedPlan);
         
@@ -68,24 +68,32 @@ public class AdministrationActionsFragmentController {
             
         model.addAttribute("selectedPlan", selectedPlan);
                
+        // To sort the list of concepts by their name
+        Comparator comparator = new ByFormattedObjectComparator(ui);
+        
         // Retrieve the list of concepts belonging to the concept class "Units of Duration".
         List<Concept> durations = getConcepts("Units of Duration");
+        Collections.sort(durations, comparator);
         model.addAttribute("durations", durations);
         
         // Retrieve the list of concepts belonging to the concept class "Routes of drug administration".
         List<Concept> routes = getConcepts("Routes of drug administration");
+        Collections.sort(routes, comparator);
         model.addAttribute("routes", routes);
         
         // Retrieve the list of concepts belonging to the concept class "Units of Dose".
         List<Concept> doses = getConcepts("Units of Dose");
+        Collections.sort(doses, comparator);
         model.addAttribute("doses", doses);
         
         // Retrieve the list of concepts belonging to the concept class "Units of Quantity".
         List<Concept> quantities = getConcepts("Units of Quantity");
+        Collections.sort(quantities, comparator);
         model.addAttribute("quantities", quantities);
  
         // Retrieve the list of OrderFrequency class values.
         List<OrderFrequency> frequencies = Context.getOrderService().getOrderFrequencies(true);
+        Collections.sort(frequencies, comparator);
         model.addAttribute("frequencies", frequencies);
     }
     
