@@ -5,6 +5,8 @@
  */
 package org.openmrs.module.drugorders.fragment.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import org.openmrs.Concept;
@@ -18,7 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.openmrs.api.APIException;
 import org.openmrs.module.drugorders.api.planordersService;
 import org.openmrs.module.drugorders.planorders;
+import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.openmrs.ui.util.ByFormattedObjectComparator;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -27,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class EditDrugOrdersFragmentController {
         
-    public void controller(FragmentModel model,@RequestParam("patientId") Patient patient,
+    public void controller(FragmentModel model,@RequestParam("patientId") Patient patient, UiUtils ui,
                             @RequestParam(value = "selectedActivePlan", required = false) Integer selectedActivePlan,
                             @RequestParam(value = "selectedNonActivePlan", required = false) String selectedNonActivePlan,
                             @RequestParam(value = "selectedActiveGroup", required = false) String selectedActiveGroup,
@@ -39,12 +43,15 @@ public class EditDrugOrdersFragmentController {
         HashMap<Integer,DrugOrder> groupMain = new HashMap<>();
         // Data structure to store data from the drug_order_extn table
         HashMap<Integer,drugorders> groupExtn = new HashMap<>();
+        // To sort the list of concepts by their name
+        Comparator comparator = new ByFormattedObjectComparator(ui);
         
         /*
           Fetch list of concepts that identify the reason to discontinue orders.
         */
         ConceptClass reasonConcept = Context.getConceptService().getConceptClassByName("Discontinue Order Reasons");
         List<Concept> discontinueReasons = Context.getConceptService().getConceptsByClass(reasonConcept);
+        Collections.sort(discontinueReasons, comparator);
         model.addAttribute("discontinueReasons", discontinueReasons);
                
         /*
