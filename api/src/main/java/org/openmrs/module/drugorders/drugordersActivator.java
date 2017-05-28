@@ -84,7 +84,7 @@ public class drugordersActivator implements ModuleActivator {
             saveConcept("Discontinue Order Reasons", Context.getConceptService().getConceptClassByName("Finding"));
         }
 
-        String orderDiscontinueReasons[] = {"Allergic", "Alternative", "Ineffective", "Not for Sale", "Recuperated", "Unavailable", "Wrong Diagnosis"};
+        String orderDiscontinueReasons[] = {"Allergic", "Alternative", "Ineffective", "Not for Sale", "Other", "Recuperated", "Unavailable", "Wrong Diagnosis"};
         
         ConceptClass conceptClass = cs.getConceptClassByName("Discontinue Order Reasons");
         Concept setConcept = cs.getConceptByName("Discontinue Order Reasons");
@@ -95,22 +95,15 @@ public class drugordersActivator implements ModuleActivator {
                 saveConcept(reason, conceptClass);
             }
             // Set the concept class if it is not set.
-            if(cs.getConceptByName(reason).getConceptClass() != conceptClass)
+            if(cs.getConceptByName(reason).getConceptClass() != conceptClass){
                 cs.getConceptByName(reason).setConceptClass(conceptClass);
+                cs.saveConcept(cs.getConceptByName(reason));
+            }                
             
             // Add the given string's concept as a member of the 'Discontinue Order Reasons' concept set member.
             if(!setConcept.getSetMembers().contains(cs.getConceptByName(reason)))
                 setConcept.addSetMember(cs.getConceptByName(reason));
         }
-        
-        // Create a concept for the 'Other' option.
-        Concept otherConcept = cs.getConceptByName("Other");
-        if(!otherConcept.getConceptClass().equals(cs.getConceptClassByName("Discontinue Order Reasons"))){
-            otherConcept.setConceptClass(conceptClass);
-            cs.saveConcept(otherConcept);
-        }
-        if(!setConcept.getSetMembers().contains(otherConcept))
-            setConcept.addSetMember(otherConcept);
             
         /*
           ===================================================================================
@@ -269,9 +262,15 @@ public class drugordersActivator implements ModuleActivator {
         */
         if(Context.getOrderService().getOrderFrequencies(true) != null){
             
-            String frequencyConcepts[] = {"Once daily","Twice daily","Thrice daily","Four times daily","Weekly","Monthly"};
-        
+            String frequencyConcepts[] = {"As required", "Once daily", "Twice daily", "Thrice daily", "Four times daily", "Weekly", "Twice weekly", "Thrice weekly", "Monthly"};
+            conceptClass = cs.getConceptClassByName("Frequency");
+            
             for(String freqConcept : frequencyConcepts){
+                // Save concept if it does not exist
+                if(cs.getConceptByName(freqConcept) == null){
+                    saveConcept(freqConcept, conceptClass);
+                }
+                
                 if(Context.getOrderService().getOrderFrequencyByConcept(cs.getConceptByName(freqConcept)) == null){
                     OrderFrequency orderFrequency = new OrderFrequency();
                     orderFrequency.setFrequencyPerDay(0.0);
