@@ -8,20 +8,11 @@
         See http://www.liquibase.org/manual/home#available_database_refactorings
         for a list of supported elements and attributes
     -->
-    
-    <!--
-        (First time only) If drug_orders_extn table does exists, drop it
-    -->
-    <changeSet id="drug_order_table_1" author="drug_order">
-        <sql>
-            drop table if exists drug_orders_extn;
-        </sql>
-    </changeSet>
-    
+   
     <!--
         (First time only) If plan_orders table does exists, drop it
     -->
-    <changeSet id="drug_order_table_2" author="drug_order">
+    <changeSet id="drug_order_table_2" author="harini_parthasarathy">
         <sql>
             drop table if exists plan_orders;
         </sql>
@@ -30,7 +21,7 @@
     <!--
         (First time only) If standard_plans table does exists, drop it
     -->
-    <changeSet id="drug_order_table_3" author="drug_order">
+    <changeSet id="drug_order_table_3" author="harini_parthasarathy">
         <sql>
             drop table if exists standard_plans;
         </sql>
@@ -39,7 +30,7 @@
     <!--
         (First time only) If new_plans table does exists, drop it
     -->
-    <changeSet id="drug_order_table_4" author="drug_order">
+    <changeSet id="drug_order_table_4" author="harini_parthasarathy">
         <sql>
             drop table if exists new_plans;
         </sql>
@@ -48,8 +39,8 @@
     <!--
         (First time only) create drug_orders_extn table with given set of columns
     -->
-    <changeSet id="drug_order_table_5" author="drug_order">
-        <preConditions onFail="WARN" onError="WARN">
+    <changeSet id="drug_order_table_5" author="harini_parthasarathy">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
             <not>
                 <tableExists tableName="drug_orders_extn" />
             </not>
@@ -88,7 +79,7 @@
     <!--
         (First time only) create new_plans table with given set of columns
     -->
-    <changeSet id="drug_order_table_6" author="drug_order">
+    <changeSet id="drug_order_table_6" author="harini_parthasarathy">
         <preConditions onFail="WARN" onError="WARN">
             <not>
                 <tableExists tableName="new_plans" />
@@ -108,7 +99,7 @@
     <!--
         (First time only) create standard_plans table with given set of columns
     -->
-    <changeSet id="drug_order_table_7" author="drug_order">
+    <changeSet id="drug_order_table_7" author="harini_parthasarathy">
         <preConditions onFail="WARN" onError="WARN">
             <not>
                 <tableExists tableName="standard_plans" />
@@ -138,7 +129,7 @@
     <!--
         (First time only) create plan_orders table with given set of columns
     -->
-    <changeSet id="drug_order_table_8" author="drug_order">
+    <changeSet id="drug_order_table_8" author="harini_parthasarathy">
         <preConditions onFail="WARN" onError="WARN">
             <not>
                 <tableExists tableName="plan_orders" />
