@@ -211,9 +211,10 @@
                 <% selectedPlan.each { discardPlans -> %>
                     <% discardPlans.value.each { discardPlan -> %>
                         <h4 class="align-center"><strong>Selected Order(s)</strong></h4>
-                        <h5 class="align-center" id="discardPlan"><strong>${ discardPlan.key.getDisplayString().toUpperCase() }</strong></h5><br/>
                         
-                        <div class="fields" id="discardPlanBlock">
+                        <div class="fields" id="discardPlanBlock"><br/>
+                            <strong class="align-center" id="discardPlan">${ discardPlan.key.getDisplayString().toUpperCase() }</strong><br/><br/>
+                        
                             <% discardPlan.value.each { plan -> %>
                                 
                                 <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ plan.id }" checked="true" />

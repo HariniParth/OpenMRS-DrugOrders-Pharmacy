@@ -201,7 +201,8 @@ and open the template in the editor.
 
 .groupBlock, .groupItem{
     margin-bottom: 20px;
-    overflow: hidden;
+    overflow-x: visible;
+    overflow-y: hidden;
 }
 
 .groupDrug .groupDrugDetails{
@@ -216,9 +217,13 @@ and open the template in the editor.
 }
 
 .groupDrug .groupDrugDetails #groupDrugName{
-    width: 65%;
+    width: 62%;
     float: left;
     overflow-x: visible;
+}
+
+.groupDrug .groupDrugDetails #colSpace{
+    width: 3%;
 }
 
 .groupDrug .groupDrugDetails #groupDrugDate{

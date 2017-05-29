@@ -87,7 +87,9 @@
                                                 <div class="itemSummary"><em>Click to view details</em></div>
                                             </div>
                                             <% orderList = orderList + order.drugName.getDisplayString() + "," %>
-
+                                            
+                                            <div id="colSpace"></div>
+                                            
                                             <div id="groupDrugDate">${ order.startDate.format('yyyy-MM-dd') }</div>
                                         </div>
 

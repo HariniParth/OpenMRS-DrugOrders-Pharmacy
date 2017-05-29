@@ -564,6 +564,7 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
  */
 function hideDrugOrderViewWindow(){
     jq("#allergicOrderReasonView").hide();
+    jq("#pharmacistCommentsView").hide();
     jq("#activeOrderWindow").show();
     jq("#viewOrderWindow").hide();
     clearHighlights();
@@ -611,12 +612,12 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
             document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
         }
         
-        if(patientInstrn === "null")
+        if(patientInstrn === "null" || orderType === "RENEW DRUG ORDER")
             $("#patientInstrn").val("");
         else
             $("#patientInstrn").val(patientInstrn);
         
-        if(pharmacistInstrn === "null")
+        if(pharmacistInstrn === "null" || orderType === "RENEW DRUG ORDER")
             $("#pharmacistInstrn").val("");
         else
             $("#pharmacistInstrn").val(pharmacistInstrn);

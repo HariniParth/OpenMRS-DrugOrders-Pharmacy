@@ -131,7 +131,7 @@
                                 </div><br/><br/><br/>
 
                                 <div class="fields" id="view_order_detail">
-                                    <div id="order_label"><label>Note<span id="asterisk">*</span></label></div>
+                                    <div id="order_label"><label>Note</label></div>
                                     <div id="order_value"><input type="text" maxlength="255" class="commentForPatient" value=" " name="commentForPatient" ></div>
                                 </div><br/><br/><br/>
                             </div>
