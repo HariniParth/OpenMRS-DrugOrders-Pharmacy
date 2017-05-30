@@ -113,7 +113,7 @@ public class EditDrugOrdersFragmentController {
                 List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(ID);
                 
                 for(planorders planOrder: planOrders){
-                    if(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getOrderStatus().equals("Active-Plan")){
+                    if(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getOrderStatus().equals("Active-Plan") || Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getOrderStatus().equals("Draft-Plan")){
                         // Store the order ID as key and DrugOrder as value.
                         groupMain.put(planOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(planOrder.getOrderId()));
                         // Store the order ID as key and drugorders as value.
