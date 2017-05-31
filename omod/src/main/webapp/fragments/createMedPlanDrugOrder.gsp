@@ -59,6 +59,7 @@
             <div class="dialog-header">
                 <h3 id="dialog-heading">${ ui.message("STANDARD MEDICATION PLAN") }</h3>
             </div>
+            <h4 class="align-center"><strong>Selected Plan Drug(s)</strong></h4>
             
             <input type="hidden" id="selectedPlan" name="selectedPlan" value="${ planName }" />
             
@@ -148,7 +149,7 @@
                         </div>
                     </div>
                 <% } %>
-            </div>
+            </div><br/>
 
             <input type="hidden" id="selectMedPlan" name="action" value="selectMedPlan" />
             <button class="confirm pull-right" id="selectPlanButton" type="submit">${ ui.message("Select") }</button>
