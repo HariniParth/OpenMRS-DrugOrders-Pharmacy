@@ -7,11 +7,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>drugorders</name>
-    <description>helps to place drug orders</description>
+    <description>E-prescription and Pharmacy software to place, revise, manage and record drug orders.</description>
 
     <developers>
         <developer>
-            <name>harini</name>
+            <name>Harini Parthasarathy</name>
         </developer>
     </developers>
 

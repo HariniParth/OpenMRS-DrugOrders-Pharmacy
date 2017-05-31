@@ -15,6 +15,6 @@
         "label": "Pharmacy",
         "url": "drugorders/pharmacyHome.page",
         "icon": "icon-signin",
-        "requiredPrivilege": "App: some random privilege"
+        "requiredPrivilege": "App: pharmacy screen to record order transactions and/or status"
     }
 ]

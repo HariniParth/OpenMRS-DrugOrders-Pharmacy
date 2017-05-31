@@ -9,7 +9,7 @@
 	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
 	<author>Harini Parthasarathy</author>
 	<description>
-            E-prescription and Pharmacy software
+            E-prescription and Pharmacy software to place, revise, manage and record drug orders.
 	</description>
 	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
 	<require_version>${openMRSVersion}</require_version>
