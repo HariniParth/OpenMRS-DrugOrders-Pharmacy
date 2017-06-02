@@ -9,12 +9,12 @@
     },
     
     {
-        "id": "coreapps.activeVisitsHomepageLink",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.pharmacy",
         "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
         "type": "link",
         "label": "Pharmacy",
         "url": "drugorders/pharmacyHome.page",
         "icon": "icon-signin",
-        "requiredPrivilege": "App: pharmacy screen to record order transactions and/or status"
+        "requiredPrivilege": "App: drugorders.pharmacy"
     }
 ]
