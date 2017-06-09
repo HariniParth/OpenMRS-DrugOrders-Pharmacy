@@ -113,6 +113,9 @@ $(document).ready( function() {
         }
     });
     
+    if(document.getElementById("draftPlanList")){
+        jq("#activeOrderWindow").hide();
+    }
     /*
      * If draft order plans are present, disable navigating away from the page.
      */
