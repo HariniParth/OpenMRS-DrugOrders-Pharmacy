@@ -487,20 +487,15 @@ public class DrugordersHomePageController {
         // Save the care setting.
         CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
         order.setCareSetting(careSetting);
-
-        Date start = defaultStartDate(),
-                end = defaultEndDate(start);
         
-        // Save the encounter.
-        List<Encounter> encs = Context.getEncounterService().getEncounters(patient, null, start, end, null, null, null, null, null, false);
-        Encounter encOld = encs.get(0), enc = new Encounter();
+        // Save the encounter, provider details associated with the order.
+        Encounter enc = new Encounter();
         enc.setEncounterDatetime(new Date());
         enc.setPatient(patient);
-        enc.setEncounterType(encOld.getEncounterType());
-        enc.setLocation(encOld.getLocation());
-        List<Provider> provs = Context.getProviderService().getAllProviders();
-        Provider provider = provs.get(0);
-        EncounterRole encRole = Context.getEncounterService().getEncounterRoleByName("Unknown");
+        enc.setEncounterType(Context.getEncounterService().getEncounterType("Visit Note"));
+        enc.setLocation(Context.getLocationService().getDefaultLocation());
+        Provider provider = Context.getProviderService().getProviderByIdentifier("doctor");
+        EncounterRole encRole = Context.getEncounterService().getEncounterRoleByName("Clinician");
         enc.setProvider(encRole, provider);
         enc = (Encounter) Context.getEncounterService().saveEncounter(enc);
 
