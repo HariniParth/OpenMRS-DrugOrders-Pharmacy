@@ -279,27 +279,37 @@
                 .error(function(xhr, status, err) {
                     alert('AJAX error ' + err);
                 });
+            },
+            response: function(event, ui) {
+                if (ui.content.length === 0) {
+                    alert("No drugs found! Cannot place order!");
+                }
             }
         } ),
       
-      jq( "#diagnosis" ).autocomplete({
-        source: function( request, response ) {
-          var results = [];
-          jq.getJSON('${ ui.actionLink("getDiseaseNameSuggestions") }',
-              {
-                'query': request.term, 
-              })
-          .success(function(data) {
-              for (index in data) {
-                  var item = data[index];
-                  results.push(item.name.toUpperCase());
-                  }
-              response( results );
-          })
-         .error(function(xhr, status, err) {
-              alert('AJAX error ' + err);
-          });
-        }
-      } )
+        jq( "#diagnosis" ).autocomplete({
+            source: function( request, response ) {
+                var results = [];
+                jq.getJSON('${ ui.actionLink("getDiseaseNameSuggestions") }',
+                    {
+                      'query': request.term, 
+                    })
+                .success(function(data) {
+                    for (index in data) {
+                        var item = data[index];
+                        results.push(item.name.toUpperCase());
+                        }
+                    response( results );
+                })
+               .error(function(xhr, status, err) {
+                    alert('AJAX error ' + err);
+                });
+            },
+            response: function(event, ui) {
+                if (ui.content.length === 0) {
+                    alert("No diagnosis found! Cannot place order!");
+                }
+            }
+        } )
   });
 </script>
