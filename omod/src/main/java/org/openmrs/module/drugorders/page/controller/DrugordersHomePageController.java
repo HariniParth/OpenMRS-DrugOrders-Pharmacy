@@ -10,15 +10,14 @@ package org.openmrs.module.drugorders.page.controller;
  * @author harini-geek
  */
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.CareSetting;
 import org.openmrs.Concept;
-import org.openmrs.Drug;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
@@ -35,7 +34,6 @@ import org.openmrs.module.drugorders.api.newplansService;
 import org.openmrs.module.drugorders.api.planordersService;
 import org.openmrs.module.drugorders.api.standardplansService;
 import org.openmrs.module.drugorders.drugorders;
-import org.openmrs.module.drugorders.drugordersActivator;
 import org.openmrs.module.drugorders.planorders;
 import org.openmrs.module.drugorders.standardplans;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -101,31 +99,37 @@ public class DrugordersHomePageController {
         if (StringUtils.isNotBlank(action)) {
             try {
                 if ("CREATE DRUG ORDER".equals(action)) {
-                    /*
-                      Check if an order for the selected drug does not already exist.
-                      Ensure that all the required parameters are specified and then create an order.
-                    */
-                    if(!currentOrders.contains(drugName)){
-                        if (!(drugName.equals("")) && !(route.equals("")) && !(dose.equals("")) && !(doseUnits.equals("")) && !(quantity.equals("")) && !(quantityUnits.equals("")) && !(frequency.equals("")) && (duration != null) && !(durationUnits.equals(""))) {
-                        
-                            DrugOrder drugOrder = null;
-                            drugorders drugorder = null;
-                            // Create a DrugOrder record
-                            int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
-                            // Create a drugorders record
-                            createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
-                            // Add the name of the drug to the list of current drug orders.
-                            currentOrders.add(drugName);
-                            // If the orderId property value retrieved is not null, then the order is a created to be a part of an existing order group.
-                            if(orderId != null){
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(orderId);
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
+                    // Check if the specified drug concept and diagnosis concept exists.
+                    if(ConceptName(drugName) == null || ConceptName(diagnosis) == null){
+                        InfoErrorMessageUtil.flashErrorMessage(session, "Unrecognized drug or diagnosis! Cannot place order!");
+                    } 
+                    else {
+                        /*
+                            Check if an order for the selected drug does not already exist.
+                            Ensure that all the required parameters are specified and then create an order.
+                        */
+                        if(!currentOrders.contains(drugName)){
+                            if (!(drugName.equals("")) && !(route.equals("")) && !(dose.equals("")) && !(doseUnits.equals("")) && !(quantity.equals("")) && !(quantityUnits.equals("")) && !(frequency.equals("")) && (duration != null) && !(durationUnits.equals(""))) {
+
+                                DrugOrder drugOrder = null;
+                                drugorders drugorder = null;
+                                // Create a DrugOrder record
+                                int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
+                                // Create a drugorders record
+                                createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
+                                // Add the name of the drug to the list of current drug orders.
+                                currentOrders.add(drugName);
+                                // If the orderId property value retrieved is not null, then the order is a created to be a part of an existing order group.
+                                if(orderId != null){
+                                    Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(orderId);
+                                    Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
+                                }
+                                InfoErrorMessageUtil.flashInfoMessage(session, "Order Created!");
                             }
-                            InfoErrorMessageUtil.flashInfoMessage(session, "Order Created!");
+                        } else {
+                            InfoErrorMessageUtil.flashErrorMessage(session, "Drug already prescribed!");
                         }
-                    } else {
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Drug already prescribed!");
-                    }                  
+                    }              
                 }
                 
                 /*
@@ -286,7 +290,7 @@ public class DrugordersHomePageController {
                                 }
                             }
                         }
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Orders Saved!");
+                        InfoErrorMessageUtil.flashInfoMessage(session, "Orders Renewed!");
                     }
                 }
                 
@@ -371,72 +375,85 @@ public class DrugordersHomePageController {
                   Edit the drug order. This will void the previous order and create a new drug order.
                 */
                 if ("EDIT DRUG ORDER".equals(action)) {
-                    // Retrieve the original order record to create a new order with the same specifications.
-                    drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
-                    // Void the original order
-                    Context.getOrderService().voidOrder(Context.getOrderService().getOrder(orderId), "Discontinued");
-
-                    DrugOrder drugOrder = null;
-                    drugorders drugorder = null;
-
-                    // Create a DrugOrder record.
-                    int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
-                    // Create a drugorders record.
-                    createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
-                    // Remove the name of the drug from the original order from the list of current drug orders.
-                    currentOrders.remove(originalOrder.getDrugName().getDisplayString());
-                    // Add the name of the selected drug to the list of current drug orders.
-                    currentOrders.add(drugName);
-                    
-                    /*
-                      When editing an individual order, ensure to record its status as it was before to ensure that the Single, Group and Med Plan orders are segregated.
-                    */
-                    switch (originalOrder.getOrderStatus()) {
-                        case "Active":
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active");
-                            break;
-                        case "Active-Plan":
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Plan");
-                            Context.getService(planordersService.class).getPlanOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
-                            break;
-                        case "Draft-Plan":
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Draft-Plan");
-                            Context.getService(planordersService.class).getPlanOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
-                            break;
-                        case "Active-Group":
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(originalOrder.getGroupId());
-                            originalOrder.setGroupId(null);
-                            break;
+                    // Check if the specified drug concept and diagnosis concept exists.
+                    if(ConceptName(drugName) == null || ConceptName(diagnosis) == null){
+                        InfoErrorMessageUtil.flashErrorMessage(session, "Unrecognized drug or diagnosis! Cannot place order!");
                     }
-                    originalOrder.setOrderStatus("Non-Active");
-                    InfoErrorMessageUtil.flashInfoMessage(session, "Order Changes Saved!");
+                    else {
+                        // Retrieve the original order record to create a new order with the same specifications.
+                        drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
+                        // Void the original order
+                        Context.getOrderService().voidOrder(Context.getOrderService().getOrder(orderId), "Discontinued");
+
+                        DrugOrder drugOrder = null;
+                        drugorders drugorder = null;
+
+                        // Create a DrugOrder record.
+                        int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
+                        // Create a drugorders record.
+                        createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
+                        // Remove the name of the drug from the original order from the list of current drug orders.
+                        currentOrders.remove(originalOrder.getDrugName().getDisplayString());
+                        // Add the name of the selected drug to the list of current drug orders.
+                        currentOrders.add(drugName);
+
+                        /*
+                          When editing an individual order, ensure to record its status as it was before to ensure that the Single, Group and Med Plan orders are segregated.
+                        */
+                        switch (originalOrder.getOrderStatus()) {
+                            case "Active":
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active");
+                                break;
+                            case "Active-Plan":
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Plan");
+                                Context.getService(planordersService.class).getPlanOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
+                                break;
+                            case "Draft-Plan":
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Draft-Plan");
+                                Context.getService(planordersService.class).getPlanOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
+                                break;
+                            case "Active-Group":
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(originalOrder.getGroupId());
+                                originalOrder.setGroupId(null);
+                                break;
+                        }
+                        originalOrder.setOrderStatus("Non-Active");
+                        InfoErrorMessageUtil.flashInfoMessage(session, "Order Changes Saved!");
+                    }
+                    
                 }
 
                 /*
                   Renew an individual drug order with the selected standard order composition.
                 */
                 if ("RENEW DRUG ORDER".equals(action)) {
-                    // Retrieve the original order record to create a new order with the same specifications.
-                    drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
-                    // Fetch the name of the drug from the original order.
-                    String name = originalOrder.getDrugName().getDisplayString();
-                    // If no active order for the give drug currently exists, create a new drug order.
-                    if(!currentOrders.contains(name)){
-                        DrugOrder drugOrder = null;
-                        drugorders drugorder = null;
-                        
-                        // Create a DrugOrder record.
-                        int order = createNewDrugOrder(drugOrder, patient, name, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
-                        // Create a drugorders record.
-                        createDrugOrderExtension(drugorder, order, patientID, name, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
-                        // Add the name of the drug to the list of current drug orders.
-                        currentOrders.add(name);
-                        
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Order Renewed!");
-                    } else {
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Drug already prescribed!");
-                    }                    
+                    // Check if the specified drug concept and diagnosis concept exists.
+                    if(ConceptName(drugName) == null || ConceptName(diagnosis) == null){
+                        InfoErrorMessageUtil.flashErrorMessage(session, "Unrecognized drug or diagnosis! Cannot place order!");
+                    } 
+                    else {
+                        // Retrieve the original order record to create a new order with the same specifications.
+                        drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
+                        // Fetch the name of the drug from the original order.
+                        String name = originalOrder.getDrugName().getDisplayString();
+                        // If no active order for the give drug currently exists, create a new drug order.
+                        if(!currentOrders.contains(name)){
+                            DrugOrder drugOrder = null;
+                            drugorders drugorder = null;
+
+                            // Create a DrugOrder record.
+                            int order = createNewDrugOrder(drugOrder, patient, name, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
+                            // Create a drugorders record.
+                            createDrugOrderExtension(drugorder, order, patientID, name, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
+                            // Add the name of the drug to the list of current drug orders.
+                            currentOrders.add(name);
+
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Order Renewed!");
+                        } else {
+                            InfoErrorMessageUtil.flashErrorMessage(session, "Drug already prescribed!");
+                        }
+                    }                  
                 }   
                 
                 /*
@@ -465,24 +482,9 @@ public class DrugordersHomePageController {
                                     String frequency, Integer duration, String durationUnits) {
 
         order = new DrugOrder();
-        // If a concept reference for the selected drug does not exist, create a drug concept.
-        if(ConceptName(drugNameConfirmed) == null){
-            
-            drugordersActivator activator = new drugordersActivator();
-            Concept drugConcept =  activator.saveConcept(drugNameConfirmed, Context.getConceptService().getConceptClassByName("Drug"));
-            order.setConcept(drugConcept);
-            
-            // Save the drug concept.
-            Drug drug = new Drug();
-            drug.setName(drugNameConfirmed);
-            drug.setConcept(drugConcept);
-            Context.getConceptService().saveDrug(drug);
-            order.setDrug(drug);
-            
-        } else {
-            order.setConcept(ConceptName(drugNameConfirmed));
-            order.setDrug(Context.getConceptService().getDrugByNameOrId(drugNameConfirmed));
-        }
+        // Save the drug concept associated with the order.
+        order.setConcept(ConceptName(drugNameConfirmed));
+        order.setDrug(Context.getConceptService().getDrugByNameOrId(drugNameConfirmed));
                   
         // Save the care setting.
         CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
@@ -535,14 +537,8 @@ public class DrugordersHomePageController {
         drugorder.setOnHold(0);
         drugorder.setForDiscard(0);
         
-        // If a concept reference for the selected diagnosis does not exist, create a diagnosis concept.
-        if(ConceptName(diagnosis) == null){
-            drugordersActivator activator = new drugordersActivator();
-            Concept diagnosisConcept =  activator.saveConcept(diagnosis, Context.getConceptService().getConceptClassByName("Diagnosis"));
-            drugorder.setAssociatedDiagnosis(diagnosisConcept);
-        } else {
-            drugorder.setAssociatedDiagnosis(ConceptName(diagnosis));
-        }
+        // Save the diagnosis concept associated with the order.
+        drugorder.setAssociatedDiagnosis(ConceptName(diagnosis));
             
         if(!(orderReason).equals(""))
             drugorder.setIsAllergicOrderReasons(orderReason);
