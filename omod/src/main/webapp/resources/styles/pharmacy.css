@@ -114,7 +114,7 @@ and open the template in the editor.
     display: none;
 }
 
-#currentGroupOrdersTable, #nameField{
+#currentGroupOrdersTable, #nameField, #printLabel{
     font-size: 13px;
 }
 
