@@ -368,10 +368,13 @@ function showSingleOrderDetailsWindow(orderType){
  * Hide the fragment to create a individual drug order.
  */
 function hideIndividualOrderDetailsWindow(){
+    if(!document.getElementById("draftPlanList"))
+        jq("#activeOrderWindow").show();
+    
+    $("#diagnosis").prop("readonly", false);
     jq("#createOrderWindow").hide();
-    jq("#activeOrderWindow").show();
-    jq("#orderExistsField").hide();
-    jq("#allergicDrugOrderReasonField").hide();
+    jq("#orderExists").hide();
+    jq("#allergicReason").hide();
     $("#orderId").val("");
     $("#orderType").text("");
     $("#orderAction").val("");
@@ -566,9 +569,11 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
  * Hide the fragment that displays the details of the selected order.
  */
 function hideDrugOrderViewWindow(){
+    if(!document.getElementById("draftPlanList"))
+        jq("#activeOrderWindow").show();
+    
     jq("#allergicOrderReasonView").hide();
     jq("#pharmacistCommentsView").hide();
-    jq("#activeOrderWindow").show();
     jq("#viewOrderWindow").hide();
     clearHighlights();
 }
@@ -587,6 +592,7 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
     if(!dialogOpen){
         if(orderStatus === "Active-Plan" || orderStatus === "Draft-Plan"){
             jq("#activeOrderWindow").hide();
+            $("#diagnosis").prop("readonly", true);
         }
         if(orderType === "RENEW DRUG ORDER"){
             checkExisting(name, currentList);
@@ -611,8 +617,8 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         $("#diagnosis").val(diagnosis);
         if(orderReason !== "" && orderReason !== "null"){
             $("#orderReason").val(orderReason);
-            jq("#allergicDrugOrderReasonField").show();
-            document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
+            jq("#allergicReason").show();
+            document.getElementById("allergicReason").style.display = 'block';
         }
         
         if(patientInstrn === "null" || orderType === "RENEW DRUG ORDER")
@@ -715,10 +721,10 @@ function autoCompleteDrug(currentOrders, allergies){
             }
         });
         if(orderExists){
-            jq("#orderExistsField").show();
-            document.getElementById("orderExistsField").style.display = 'block';
+            jq("#orderExists").show();
+            document.getElementById("orderExists").style.display = 'block';
         } else {
-            jq("#orderExistsField").hide();
+            jq("#orderExists").hide();
         }
         
         var allergyList = allergies.split(",");
@@ -731,10 +737,10 @@ function autoCompleteDrug(currentOrders, allergies){
             } 
         });
         if(isAllergic){
-            jq("#allergicDrugOrderReasonField").show();
-            document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
+            jq("#allergicReason").show();
+            document.getElementById("allergicReason").style.display = 'block';
         } else {
-            jq("#allergicDrugOrderReasonField").hide();
+            jq("#allergicReason").hide();
         }
         validate();
     });
@@ -754,10 +760,10 @@ function checkExisting(drug, currentOrders){
         }
     });
     if(orderExists){
-        jq("#orderExistsField").show();
-        document.getElementById("orderExistsField").style.display = 'block';
+        jq("#orderExists").show();
+        document.getElementById("orderExists").style.display = 'block';
     } else {
-        jq("#orderExistsField").hide();
+        jq("#orderExists").hide();
     }
 }
 
@@ -776,11 +782,10 @@ function checkAllergy(drug, allergies){
     });
     if(isAllergic){
         document.getElementById("orderReason").style.borderColor = "orangered";
-        
-        jq("#allergicDrugOrderReasonField").show();
-        document.getElementById("allergicDrugOrderReasonField").style.display = 'block';
+        document.getElementById("allergicReason").style.display = 'block';
+        jq("#allergicReason").show();
     } else {
-        jq("#allergicDrugOrderReasonField").hide();
+        jq("#allergicReason").hide();
     }
 }
 
@@ -951,9 +956,11 @@ function showDiscardGroupOrderWindow(orderID){
 
 // Hide Group Order window used to discard/renew group of orders.
 function hideGroupOrderWindow(){
-    clearHighlights();
-    jq("#activeOrderWindow").show();
+    if(!document.getElementById("draftPlanList"))
+        jq("#activeOrderWindow").show();
+    
     jq("#showGroupOrderWindow").hide();
+    clearHighlights();
 }
 
 // Show window with a form to add an order to an existing order group.

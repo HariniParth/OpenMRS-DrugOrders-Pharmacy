@@ -41,7 +41,7 @@
             Display a note if an active order for the selected drug exists.
         -->
                 
-        <div id="orderExistsField">
+        <div id="orderExists">
             <div class="fields" id="view_order_detail">
                 <label>Note: Patient is currently prescribed this drug.</label>
                 <label>Cannot place multiple orders for the same drug.</label>
@@ -53,7 +53,7 @@
             Display a field to enter the reason to order the allergic drug.
         -->
                 
-        <div id="allergicDrugOrderReasonField">
+        <div id="allergicReason">
             <div class="fields" id="view_order_detail">
                 <label>Note: The patient is allergic to this drug.</label>
                 <label>Enter the reasons for ordering this drug:</label>
