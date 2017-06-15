@@ -618,6 +618,7 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         if(orderReason !== "" && orderReason !== "null"){
             $("#orderReason").val(orderReason);
             jq("#allergicReason").show();
+            document.getElementById("orderReason").style.borderColor = "";
             document.getElementById("allergicReason").style.display = 'block';
         }
         
@@ -714,9 +715,9 @@ function autoCompleteDrug(currentOrders, allergies){
         var currentOrderList = currentOrders.split(",");
         var orderExists = false;
         $.each(currentOrderList, function(index, value){
-            var order = value.replace("[","").replace("]","").trim();
+            var drugname = value.replace("[","").replace("]","").trim().toUpperCase();
             var selectedDrug = $("#drugName").val().trim();
-            if(selectedDrug === order){
+            if(selectedDrug === drugname){
                 orderExists = true;
             }
         });
@@ -730,7 +731,7 @@ function autoCompleteDrug(currentOrders, allergies){
         var allergyList = allergies.split(",");
         var isAllergic = false;
         $.each(allergyList,function(index,value){
-            var drugname = value.replace("[","").replace("]","").trim();
+            var drugname = value.replace("[","").replace("]","").trim().toUpperCase();
             var selectedDrug = $("#drugName").val().trim();
             if(selectedDrug === drugname){
                 isAllergic = true;
