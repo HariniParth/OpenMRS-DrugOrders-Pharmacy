@@ -84,49 +84,59 @@ public class AdministrationPageController {
                       Save these formulations in the standardplans table and group the plans with the plan ID (Identifying the disease).
                     */
                     case "extendPlan":
-                        standardplans medPlans = new standardplans();
-                        medPlans.setPlanId(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
+                        // Check if the medication plan already includes the selected drug.
+                        List<standardplans> plans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
+                        boolean extendPlan = false;
+                        for(standardplans plan : plans)
+                            if(plan.getDrugId() == ConceptName(adminDrug.trim()))
+                                extendPlan = true;
                         
-                        /*
-                          If the drug name does not exist in the concept dictionary, create a new concept.
-                        */
-                        if(ConceptName(adminDrug.trim()) == null){
-                            drugordersActivator activator = new drugordersActivator();
-                            Concept drugConcept =  activator.saveConcept(adminDrug.trim(), Context.getConceptService().getConceptClassByName("Drug"));
-                            medPlans.setDrugId(drugConcept);
+                        if(!extendPlan){
+                            standardplans medPlans = new standardplans();
+                            medPlans.setPlanId(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
+
+                            /*
+                              If the drug name does not exist in the concept dictionary, create a new concept.
+                            */
+                            if(ConceptName(adminDrug.trim()) == null){
+                                drugordersActivator activator = new drugordersActivator();
+                                Concept drugConcept =  activator.saveConcept(adminDrug.trim(), Context.getConceptService().getConceptClassByName("Drug"));
+                                medPlans.setDrugId(drugConcept);
+                            }
+                            else
+                                medPlans.setDrugId(ConceptName(adminDrug.trim()));
+
+                            medPlans.setPlanStatus("Active");
+                            medPlans.setRoute(ConceptName(adminRoute));
+                            medPlans.setDose(Double.valueOf(adminDose));
+                            medPlans.setDoseUnits(ConceptName(adminDoseUnits));
+                            medPlans.setDuration(adminDuration);
+                            medPlans.setDurationUnits(ConceptName(adminDurationUnits));
+                            medPlans.setQuantity(Double.valueOf(adminQuantity));
+                            medPlans.setQuantityUnits(ConceptName(adminQuantityUnits));
+
+                            /*
+                              Set the OrderFrequency type. 
+                              If it does not existc create a new OrderFrequency record for the selected frequency value.
+                            */
+                            OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequencyByConcept(ConceptName(adminFrequency));
+                            if (orderFrequency == null) {
+                                medPlans.setFrequency(setOrderFrequency(adminFrequency));
+                            } else {
+                                medPlans.setFrequency(orderFrequency);
+                            }   
+
+                            /*
+                              If plan item parameters are being edited, discard the old plan item.
+                            */
+                            if(!(planId.equals(""))){
+                                Context.getService(standardplansService.class).discardMedPlan(Context.getService(standardplansService.class).getMedPlanByID(Integer.parseInt(planId)));
+                            }
+                            Context.getService(standardplansService.class).saveMedPlan(medPlans);
+
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Plan Updated!");
+
                         }
-                        else
-                            medPlans.setDrugId(ConceptName(adminDrug.trim()));
-                        
-                        medPlans.setPlanStatus("Active");
-                        medPlans.setRoute(ConceptName(adminRoute));
-                        medPlans.setDose(Double.valueOf(adminDose));
-                        medPlans.setDoseUnits(ConceptName(adminDoseUnits));
-                        medPlans.setDuration(adminDuration);
-                        medPlans.setDurationUnits(ConceptName(adminDurationUnits));
-                        medPlans.setQuantity(Double.valueOf(adminQuantity));
-                        medPlans.setQuantityUnits(ConceptName(adminQuantityUnits));
-                        
-                        /*
-                          Set the OrderFrequency type. 
-                          If it does not existc create a new OrderFrequency record for the selected frequency value.
-                        */
-                        OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequencyByConcept(ConceptName(adminFrequency));
-                        if (orderFrequency == null) {
-                            medPlans.setFrequency(setOrderFrequency(adminFrequency));
-                        } else {
-                            medPlans.setFrequency(orderFrequency);
-                        }   
-                        
-                        /*
-                          If plan item parameters are being edited, discard the old plan item.
-                        */
-                        if(!(planId.equals(""))){
-                            Context.getService(standardplansService.class).discardMedPlan(Context.getService(standardplansService.class).getMedPlanByID(Integer.parseInt(planId)));
-                        }
-                        Context.getService(standardplansService.class).saveMedPlan(medPlans);
-                        
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Plan Updated!");
                         break;
                         
                     /*
