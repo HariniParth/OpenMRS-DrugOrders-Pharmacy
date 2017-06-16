@@ -375,6 +375,7 @@ function hideIndividualOrderDetailsWindow(){
     jq("#createOrderWindow").hide();
     jq("#orderExists").hide();
     jq("#allergicReason").hide();
+    
     $("#orderId").val("");
     $("#orderType").text("");
     $("#orderAction").val("");
@@ -393,6 +394,7 @@ function hideIndividualOrderDetailsWindow(){
     $("#diagnosis").val("");
     $("#patientInstrn").val("");
     $("#pharmacistInstrn").val("");
+    $("#drugName").prop("readonly", false);
     $("#addOrderButton").prop("disabled", true);
     
     $('#createOrderForm input, #createOrderForm select').each(function(){
@@ -615,6 +617,7 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         $("#interval").val(interval);
         $("#priority").val(priority);
         $("#diagnosis").val(diagnosis);
+        
         if(orderReason !== "" && orderReason !== "null"){
             $("#orderReason").val(orderReason);
             jq("#allergicReason").show();
@@ -632,7 +635,9 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         else
             $("#pharmacistInstrn").val(pharmacistInstrn);
         
+        $("#drugName").prop("readonly", true);
         $("#addOrderButton").prop("disabled", false);
+        
         jq("#createOrderWindow").show();
         document.getElementById("createOrderWindow").style.display = 'block';
     }
@@ -833,7 +838,9 @@ function addPlanItemWindow(planName, listOfDrugs){
     if(!dialogOpen){
         jq("#createPlanWindow").show();
         document.getElementById("createPlanWindow").style.display = 'block';
+        
         $("#adminActionType").text("ADD DRUG TO PLAN");
+        $("#adminPlan").prop("readonly", true);
         $("#listOfDrugs").val(listOfDrugs);
         $("#adminPlan").val(planName);
         checkAdminFields();
@@ -845,7 +852,8 @@ function addPlanItemWindow(planName, listOfDrugs){
  */
 function hideMedPlanCreateWindow(){
     jq("#createPlanWindow").hide();
-    $("#planId").val("");
+    $("#listOfDrugs").val("");
+    $("#planId").val("");    
     $("#adminPlan").val("");
     $("#adminDrug").val("");
     $("#adminRoute").val("");
@@ -856,6 +864,7 @@ function hideMedPlanCreateWindow(){
     $("#adminDuration").val("");
     $("#adminDurationUnits").val("");
     $("#adminFrequency").val("");
+    $("#adminDrug").prop("readonly", false);
     $("#planSaveButton").prop("disabled", true);
         
     $('#createPlanForm input, #createPlanForm select').each(function(){
@@ -879,6 +888,7 @@ function editPlanItemDetails(planId, planName, drugName, dose, doseUnits, route,
     if(!dialogOpen){
         jq("#createPlanWindow").show();
         document.getElementById("createPlanWindow").style.display = 'block';
+        
         $("#adminActionType").text("EDIT PLAN");
         $("#planId").val(planId);
         $("#adminPlan").val(planName);
@@ -891,6 +901,9 @@ function editPlanItemDetails(planId, planName, drugName, dose, doseUnits, route,
         $("#adminDuration").val(duration);
         $("#adminDurationUnits").val(durationUnits);
         $("#adminFrequency").val(frequency);
+        
+        $("#adminPlan").prop("readonly", true);
+        $("#adminDrug").prop("readonly", true);
         $("#planSaveButton").prop("disabled", false);
     }
 }

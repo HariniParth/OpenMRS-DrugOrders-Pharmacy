@@ -46,7 +46,6 @@
     
     <div class="fields">
         <form id="createPlanForm" method="post">
-            <input type="hidden" id="planId" name="planId" />
             
             <div id="disease_field">
                 <label><strong>Enter Plan Name</strong></label>
@@ -212,11 +211,11 @@
                 
                 <% selectedPlan.each { discardPlans -> %>
                     <% discardPlans.value.each { discardPlan -> %>
-                        <h4 class="align-center"><strong>Selected Order(s)</strong></h4>
+                        <h4 class="align-center"><strong>Selected Drug(s)</strong></h4>
+                        <h6 class="align-center"><strong id="discardPlan">${ discardPlan.key.getDisplayString().toUpperCase() }</strong></h6><br/>
                         
-                        <div class="fields" id="discardPlanBlock"><br/>
-                            <strong class="align-center" id="discardPlan">${ discardPlan.key.getDisplayString().toUpperCase() }</strong><br/><br/>
-                        
+                        <div class="fields" id="discardPlanBlock">
+                            
                             <% discardPlan.value.each { plan -> %>
                                 
                                 <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ plan.id }" checked="true" />

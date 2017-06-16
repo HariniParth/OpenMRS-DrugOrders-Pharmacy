@@ -130,7 +130,7 @@
                                                             -->
                                                             <div id="button" class="pull-right">
                                                                 <i class="icon-trash delete-action" title="${ ui.message("Discard") }" onclick="deleteMedPlanItem('${ med.id }')"></i>
-                                                                <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="editPlanItemDetails('${ med.id }','${ newPlan.planName.getDisplayString() }','${ med.drugId.getDisplayString() }','${ med.dose }','${ med.doseUnits.getDisplayString() }','${ med.route.getDisplayString() }','${ med.quantity }','${ med.quantityUnits.getDisplayString() }','${ med.duration }','${ med.durationUnits.getDisplayString() }','${ med.frequency }')"></i>
+                                                                <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="editPlanItemDetails('${ med.id }','${ newPlan.planName.getDisplayString().toUpperCase() }','${ med.drugId.getDisplayString() }','${ med.dose }','${ med.doseUnits.getDisplayString() }','${ med.route.getDisplayString() }','${ med.quantity }','${ med.quantityUnits.getDisplayString() }','${ med.duration }','${ med.durationUnits.getDisplayString() }','${ med.frequency }')"></i>
                                                             </div><br/>
                                                         </div>
                                                     <% } %><br/>
@@ -145,8 +145,8 @@
                                         <td class="planButtons">
                                             <span>
                                                 <i class="icon-trash delete-action" title="${ ui.message("Discard Plan") }" onclick="deleteMedPlan('${ newPlan.id }')"></i>
-                                                <i class="icon-edit edit-action" title="${ ui.message("Rename Plan") }" onclick="renameMedPlan('${ newPlan.id }','${ newPlan.planName.getDisplayString() }','${ newPlan.planDesc }')"></i>
-                                                <i class="icon-plus edit-action" title="${ ui.message("Add Drug To Plan") }" onclick="addPlanItemWindow('${ newPlan.planName.getDisplayString() }','${ list_of_drugs }')"></i>
+                                                <i class="icon-edit edit-action" title="${ ui.message("Rename Plan") }" onclick="renameMedPlan('${ newPlan.id }','${ newPlan.planName.getDisplayString().toUpperCase() }','${ newPlan.planDesc }')"></i>
+                                                <i class="icon-plus edit-action" title="${ ui.message("Add Drug To Plan") }" onclick="addPlanItemWindow('${ newPlan.planName.getDisplayString().toUpperCase() }','${ list_of_drugs }')"></i>
                                             </span>
                                         </td>
                                     </tr>
