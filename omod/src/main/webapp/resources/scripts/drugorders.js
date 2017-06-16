@@ -822,7 +822,7 @@ function hideMedPlanDefineWindow(){
 /*
  * Display a fragment to add a drug to a medication plan.
  */
-function addPlanItemWindow(planName){
+function addPlanItemWindow(planName, listOfDrugs){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -834,6 +834,7 @@ function addPlanItemWindow(planName){
         jq("#createPlanWindow").show();
         document.getElementById("createPlanWindow").style.display = 'block';
         $("#adminActionType").text("ADD DRUG TO PLAN");
+        $("#listOfDrugs").val(listOfDrugs);
         $("#adminPlan").val(planName);
         checkAdminFields();
     }
@@ -1008,4 +1009,16 @@ function removeFromGroup(OrderId){
 function saveDraftOrders(){
     $("#saveDraft").val("saveDraft");
     $("#saveDraftPlanForm").submit();
+}
+
+function checkListOfDrugs(){
+    var listOfDrugs = jq("#listOfDrugs").val().split(" ");
+    var givenDrug = $("#adminDrug").val().toUpperCase();
+    jq.each(listOfDrugs, function(index, value){
+        if(givenDrug.length > 0){
+            if(value === givenDrug){
+                alert("Drug is already a part of the plan");
+            }
+        }
+    });
 }

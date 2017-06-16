@@ -55,12 +55,14 @@
             
             <p><strong>Specify Standard Formulation</strong></p>
             
+            <input type="hidden" id="listOfDrugs">
+            
             <div id="view_order_detail">
                 <div id="order_label">
                     <label id="label"><strong>Drug Name</strong></label>
                 </div>
                 <div id="order_value">
-                    <input id="adminDrug" type="text" name="adminDrug"/>
+                    <input id="adminDrug" type="text" name="adminDrug" oninput="checkListOfDrugs()" />
                 </div>
             </div>
             
@@ -329,6 +331,14 @@
                 })
                 .error(function(xhr, status, err) {
                     alert('AJAX error ' + err);
+                });
+            },
+            select: function(event, ui) {
+                var listOfDrugs = jq("#listOfDrugs").val().split(" ");
+                jq.each(listOfDrugs, function(index, value){
+                    if(value === ui.item.label.toUpperCase()){
+                        alert("Drug is already a part of the plan");
+                    }
                 });
             }
         } ),

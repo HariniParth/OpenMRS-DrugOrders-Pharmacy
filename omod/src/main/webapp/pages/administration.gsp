@@ -1,8 +1,9 @@
 <%
+    def list_of_drugs = "";
     ui.decorateWith("appui", "standardEmrPage");
-    ui.includeCss("drugorders", "drugorders.css")
-    ui.includeJavascript("drugorders", "drugorders.js")
-    ui.includeJavascript("drugorders", "dataTables.js")
+    ui.includeCss("drugorders", "drugorders.css");
+    ui.includeJavascript("drugorders", "drugorders.js");
+    ui.includeJavascript("drugorders", "dataTables.js");
 %>
 
 <script type="text/javascript">
@@ -52,6 +53,9 @@
                     <% if(newPlans.size() > 0) { %>
                         <div>
                             <% newPlans.each { newPlan -> %>
+                                <!-- Existing list of drugs in the medication plan -->
+                                <% list_of_drugs = ""; %>
+                                
                                 <% if(newPlan.planStatus == "Active") { %>
                                     <tr>
                                         <td class="planDetails">
@@ -75,6 +79,8 @@
                                                                     <i class="hide-details icon-minus-sign icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
                                                                     <span class="planItem"><strong class="wordBreak">${ med.drugId.getDisplayString().toUpperCase() }</strong></span>
                                                                 </div><br/>
+                                                                
+                                                                <% list_of_drugs = list_of_drugs + med.drugId.getDisplayString().toUpperCase() + " ";  %>
 
                                                                 <div class="groupItem">
                                                                     <div id="view_order_detail">
@@ -140,7 +146,7 @@
                                             <span>
                                                 <i class="icon-trash delete-action" title="${ ui.message("Discard Plan") }" onclick="deleteMedPlan('${ newPlan.id }')"></i>
                                                 <i class="icon-edit edit-action" title="${ ui.message("Rename Plan") }" onclick="renameMedPlan('${ newPlan.id }','${ newPlan.planName.getDisplayString() }','${ newPlan.planDesc }')"></i>
-                                                <i class="icon-plus edit-action" title="${ ui.message("Add Drug To Plan") }" onclick="addPlanItemWindow('${ newPlan.planName.getDisplayString() }')"></i>
+                                                <i class="icon-plus edit-action" title="${ ui.message("Add Drug To Plan") }" onclick="addPlanItemWindow('${ newPlan.planName.getDisplayString() }','${ list_of_drugs }')"></i>
                                             </span>
                                         </td>
                                     </tr>
