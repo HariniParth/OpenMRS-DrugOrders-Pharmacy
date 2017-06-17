@@ -57,26 +57,23 @@ public class AdministrationPageController {
                       The name of the plan is stored as a concept.
                     */
                     case "definePlan":
-                        newplans newplan = new newplans();
-                        /*
-                          If the plan name does not exist in the concept dictionary, create a new concept.
-                        */
+                        // If the plan name does not exist in the concept dictionary, create a new concept.
+                        if(ConceptName(definePlanName.trim()) == null){
+                            drugordersActivator activator = new drugordersActivator();
+                            activator.saveConcept(definePlanName.trim(), Context.getConceptService().getConceptClassByName("Diagnosis"));
+                        } 
+                        
+                        // Define a medication plan if it does not already exists
                         if(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(definePlanName.trim())) == null){
-                            if(ConceptName(definePlanName.trim()) == null){
-                                drugordersActivator activator = new drugordersActivator();
-                                Concept planConcept =  activator.saveConcept(definePlanName.trim(), Context.getConceptService().getConceptClassByName("Diagnosis"));
-                                newplan.setPlanName(planConcept);
-                            } 
-                            else
-                                newplan.setPlanName(ConceptName(definePlanName.trim()));
-                        } else
-                            newplan.setPlanName(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(definePlanName.trim())).getPlanName());
+                            newplans newplan = new newplans();
+                            newplan.setPlanName(ConceptName(definePlanName.trim()));
+                            newplan.setPlanDesc(definePlanDesc);
+                            newplan.setPlanStatus("Active");
+                            Context.getService(newplansService.class).saveMedPlan(newplan);
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
+                        } else 
+                            InfoErrorMessageUtil.flashErrorMessage(session, "Plan already exists!");
                         
-                        
-                        newplan.setPlanDesc(definePlanDesc);
-                        newplan.setPlanStatus("Active");
-                        Context.getService(newplansService.class).saveMedPlan(newplan);
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
                         break;
                     
                     /*
