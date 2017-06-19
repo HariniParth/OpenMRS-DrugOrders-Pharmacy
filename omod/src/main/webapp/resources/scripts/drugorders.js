@@ -518,7 +518,7 @@ function checkAdminFields(){
 /*
  * Display a fragment that displays the details of the selected order.
  */
-function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, orderReason, diagnosis, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus){
+function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, orderReason, diagnosis, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -536,6 +536,7 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         $("#start_date").text(startdate);        
         $("#order_priority").text(priority);
         $("#order_refills").text(numRefills);
+        $("#refill_interval").text(interval+" day(s)");
         var order_details = $('<div>').text(drugname +"\nDose: "+dose+" "+doseUnits+"\nRoute: "+route+"\nQuantity: "+quantity+" "+quantityUnits).text();
         $("#order_details").html(order_details.replace(/\n/g,'<br/>'));
         $("#order_duration").text(duration+" "+durationUnits+", "+frequency);

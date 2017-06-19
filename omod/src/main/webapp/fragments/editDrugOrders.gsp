@@ -80,6 +80,17 @@
         
         <br/><br/>
         
+        <div class="fields" id="view_order_detail">
+            <div id="order_label">
+                <label><strong>Interval</strong></label>
+            </div>
+            <div id="order_value">
+                <label id="refill_interval"></label>
+            </div>
+        </div>
+        
+        <br/><br/>
+        
         <div id="allergicOrderReasonView">
             <div class="fields" id="view_order_detail">
                 <div id="order_label">
