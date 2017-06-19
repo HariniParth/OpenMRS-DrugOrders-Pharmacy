@@ -581,26 +581,7 @@ public class DrugordersHomePageController {
             drugorder.setDiscontinuationReasons(nonCoded);
         }
     }
-
-    private Date defaultStartDate() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.set(2014, 1, 1);
-        return cal.getTime();
-    }
-
-    private Date defaultEndDate(Date startDate) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(startDate);
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        cal.add(Calendar.MILLISECOND, -1);
-        cal.set(2014, 12, 22);
-        return cal.getTime();
-    }
-
+    
     /*
       Retrieve current active drug orders for the Patient.
     */

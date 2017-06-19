@@ -43,7 +43,7 @@ $(document).ready( function() {
         document.getElementById("discontinueReasonSelect").style.display = 'block';
     }
     
-    $("#discontinueReasonCoded, #discontinueReasonNonCoded").change(function(){
+    $("#codedDiscardReason, #nonCodedDiscardReason").change(function(){
         enableOrderDiscard();
     });
     
@@ -999,13 +999,13 @@ function showAddOrderToGroupWindow(orderType,groupID){
 
 // Prevent allowing an order to be discontinued unless a reason is specified.
 function discontinueReason(){
-    if(document.getElementById("discontinueReasonCoded").value === "Other"){
+    if(document.getElementById("codedDiscardReason").value === "Other"){
         jq("#discontinueReasonText").show();
         document.getElementById("discontinueReasonText").style.display = 'block';
     } else {
         jq("#discontinueReasonText").hide();
     }
-    if(document.getElementById("discontinueReasonCoded").value === ""){
+    if(document.getElementById("codedDiscardReason").value === ""){
         $("#orderActionButton").prop("disabled", true);
     } else {
         $("#orderActionButton").prop("disabled", false);

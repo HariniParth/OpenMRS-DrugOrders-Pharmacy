@@ -267,7 +267,7 @@
                 <div id="discontinueReasonSelect">
                     <label><strong>Select the reason to discontinue</strong></label>
                 
-                    <select id="discontinueReasonCoded" name="discontinueReasonCoded" onchange="discontinueReason()">
+                    <select id="codedDiscardReason" name="codedDiscardReason" onchange="discontinueReason()">
                         <option value="">Choose option</option>
                         <% discontinueReasons.each { discontinueReason -> %>
                             <option value="${ discontinueReason.getDisplayString() }">${ discontinueReason.getDisplayString() }</option>
@@ -277,7 +277,7 @@
                 
                 <div id="discontinueReasonText">
                     <label><strong>Enter the reason to discontinue</strong></label>
-                    <input type="textarea" maxlength="255" id="discontinueReasonNonCoded" name="discontinueReasonNonCoded" />
+                    <input type="textarea" maxlength="255" id="nonCodedDiscardReason" name="nonCodedDiscardReason" />
                 </div><br/>
             </div>
             
