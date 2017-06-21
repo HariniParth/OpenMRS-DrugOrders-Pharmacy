@@ -205,7 +205,7 @@
                 <label>Refills </label>
             </div>
             <div id="order_value">
-                <input type="number" id="refill" name="refill" value="0" min="0" />
+                <input type="number" id="refill" name="refill" value="0" min="0" required="required" />
             </div>
         </div>
 
@@ -216,7 +216,7 @@
                 <label>Interval (days)</label>
             </div>
             <div id="order_value">
-                <input type="number" id="interval" name="interval" value="0" min="0" />
+                <input type="number" id="interval" name="interval" value="0" min="0" required="required" />
             </div>
         </div>
         
@@ -231,7 +231,7 @@
                 <label>Patient</label>
             </div>
             <div id="order_value">
-                <input type="textarea" maxlength="255" id="patientInstrn" name="patientInstrn"/>
+                <input type="textarea" maxlength="255" id="patientInstrn" name="patientInstrn" required="required" />
             </div>
         </div>
 
@@ -242,7 +242,7 @@
                 <label>Pharmacist</label>
             </div>
             <div id="order_value">
-                <input type="textarea" maxlength="255" id="pharmacistInstrn" name="pharmacistInstrn"/>
+                <input type="textarea" maxlength="255" id="pharmacistInstrn" name="pharmacistInstrn" required="required" />
             </div>
         </div>
 
