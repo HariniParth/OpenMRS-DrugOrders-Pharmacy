@@ -43,10 +43,6 @@ $(document).ready( function() {
         document.getElementById("discontinueReasonSelect").style.display = 'block';
     }
     
-    $("#codedDiscardReason, #nonCodedDiscardReason").change(function(){
-        enableOrderDiscard();
-    });
-    
     /*
      * If the admin plan fields are modified, check the value of the remaining mandatory fields.
      * Highlight the unspecified fields. Only when all details are specified, allow to create a medication plan.
@@ -91,11 +87,11 @@ $(document).ready( function() {
     /*
      * Highlight the fields to enter the reasons to order a drug unless they are filled.
      */
-    $('.planOrderReason, .reviseOrderReason').each(function(){
+    $('#discardReason, .planOrderReason, .reviseOrderReason').each(function(){
         this.style.borderColor = "orangered";
     });
     
-    $('.planOrderReason, .reviseOrderReason').each(function(){
+    $('#discardReason, .planOrderReason, .reviseOrderReason').each(function(){
         $(this).on('change', function(){
             if($(this).val() === "")
                 this.style.borderColor = "orangered";
@@ -375,6 +371,7 @@ function hideIndividualOrderDetailsWindow(){
     jq("#createOrderWindow").hide();
     jq("#orderExists").hide();
     jq("#allergicReason").hide();
+    $("#orderReason").attr("required", false);
     
     $("#orderId").val("");
     $("#orderType").text("");
@@ -622,6 +619,7 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         if(orderReason !== "" && orderReason !== "null"){
             $("#orderReason").val(orderReason);
             jq("#allergicReason").show();
+            $("#orderReason").attr("required", true);
             document.getElementById("orderReason").style.borderColor = "";
             document.getElementById("allergicReason").style.display = 'block';
         }
@@ -745,9 +743,11 @@ function autoCompleteDrug(currentOrders, allergies){
         });
         if(isAllergic){
             jq("#allergicReason").show();
+            $("#orderReason").attr("required", true);
             document.getElementById("allergicReason").style.display = 'block';
         } else {
             jq("#allergicReason").hide();
+            $("#orderReason").attr("required", false);
         }
         validate();
     });
@@ -790,9 +790,11 @@ function checkAllergy(drug, allergies){
     if(isAllergic){
         document.getElementById("orderReason").style.borderColor = "orangered";
         document.getElementById("allergicReason").style.display = 'block';
+        $("#orderReason").attr("required", true);
         jq("#allergicReason").show();
     } else {
         jq("#allergicReason").hide();
+        $("#orderReason").attr("required", false);
     }
 }
 
@@ -1002,9 +1004,11 @@ function showAddOrderToGroupWindow(orderType,groupID){
 function discontinueReason(){
     if(document.getElementById("codedDiscardReason").value === "Other"){
         jq("#discontinueReasonText").show();
+        $("#nonCodedDiscardReason").attr("required", true);
         document.getElementById("discontinueReasonText").style.display = 'block';
     } else {
         jq("#discontinueReasonText").hide();
+        $("#nonCodedDiscardReason").attr("required", false);
     }
     if(document.getElementById("codedDiscardReason").value === ""){
         $("#orderActionButton").prop("disabled", true);

@@ -274,11 +274,11 @@
                     <input name="action" value="discardPlan" type="hidden" />
                 <% } else { %>
                     <input name="action" value="discardDrug" type="hidden" /> 
-                <% } %><br/>
+                <% } %> <br/>
                 
                 <div class="fields">
                     <p><strong>Enter Reason To Discard</strong></p>
-                    <input type="textarea" maxlength="255" id="discardReason" name="discardReason" />
+                    <input type="textarea" maxlength="255" id="discardReason" name="discardReason" required="required" />
                 </div><br/>
 
                 <button class="confirm right" id="btn-place" type="button" onclick="discardMedPlan()">${ ui.message("Confirm") }</button>
