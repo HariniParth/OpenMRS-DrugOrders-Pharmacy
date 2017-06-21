@@ -16,7 +16,6 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.newplansService;
 import org.openmrs.module.drugorders.api.standardplansService;
-import org.openmrs.module.drugorders.drugordersActivator;
 import org.openmrs.module.drugorders.newplans;
 import org.openmrs.module.drugorders.standardplans;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
@@ -57,22 +56,20 @@ public class AdministrationPageController {
                       The name of the plan is stored as a concept.
                     */
                     case "definePlan":
-                        // If the plan name does not exist in the concept dictionary, create a new concept.
-                        if(ConceptName(definePlanName.trim()) == null){
-                            drugordersActivator activator = new drugordersActivator();
-                            activator.saveConcept(definePlanName.trim(), Context.getConceptService().getConceptClassByName("Diagnosis"));
-                        } 
-                        
-                        // Define a medication plan if it does not already exists
-                        if(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(definePlanName.trim())) == null){
-                            newplans newplan = new newplans();
-                            newplan.setPlanName(ConceptName(definePlanName.trim()));
-                            newplan.setPlanDesc(definePlanDesc);
-                            newplan.setPlanStatus("Active");
-                            Context.getService(newplansService.class).saveMedPlan(newplan);
-                            InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
+                        // Check if a concept for the given plan name (disease) exists
+                        if(ConceptName(definePlanName.trim()) != null){
+                            // Define a medication plan if it does not already exists
+                            if(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(definePlanName.trim())) == null){
+                                newplans newplan = new newplans();
+                                newplan.setPlanName(ConceptName(definePlanName.trim()));
+                                newplan.setPlanDesc(definePlanDesc);
+                                newplan.setPlanStatus("Active");
+                                Context.getService(newplansService.class).saveMedPlan(newplan);
+                                InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
+                            } else 
+                                InfoErrorMessageUtil.flashErrorMessage(session, "Plan already exists!");
                         } else 
-                            InfoErrorMessageUtil.flashErrorMessage(session, "Plan already exists!");
+                                InfoErrorMessageUtil.flashErrorMessage(session, "Create a diagnosis concept!");
                         
                         break;
                     
@@ -81,73 +78,63 @@ public class AdministrationPageController {
                       Save these formulations in the standardplans table and group the plans with the plan ID (Identifying the disease).
                     */
                     case "extendPlan":
-                        // Check if the medication plan already includes the selected drug.
-                        List<standardplans> plans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
-                        
-                        for(standardplans plan : plans)
-                            if(plan.getDrugId() == ConceptName(adminDrug.trim())){
-                                standardplans sp = Context.getService(standardplansService.class).getMedPlanByID(plan.getId());
-                                sp.setDiscardReason("Modified Formulations");
-                                sp.setPlanStatus("Non-Active");
-                            }
-                                                    
-                        // Extend the new standard medication plan to include the drug with the given formulations.
-                        standardplans medPlans = new standardplans();
-                        medPlans.setPlanId(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
-                        
-                        /*
-                          If the drug name does not exist in the concept dictionary, create a new concept.
-                        */
-                        if(ConceptName(adminDrug.trim()) == null){
-                            drugordersActivator activator = new drugordersActivator();
-                            Concept drugConcept =  activator.saveConcept(adminDrug.trim(), Context.getConceptService().getConceptClassByName("Drug"));
-                            medPlans.setDrugId(drugConcept);
-                        }
-                        else
+                        // Check if a concept for the given drug name exists
+                        if(ConceptName(adminDrug.trim()) != null){
+                            // Check if the medication plan already includes the selected drug.
+                            List<standardplans> plans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
+
+                            for(standardplans plan : plans)
+                                if(plan.getDrugId() == ConceptName(adminDrug.trim())){
+                                    standardplans sp = Context.getService(standardplansService.class).getMedPlanByID(plan.getId());
+                                    sp.setDiscardReason("Modified Formulations");
+                                    sp.setPlanStatus("Non-Active");
+                                }
+
+                            // Extend the new standard medication plan to include the drug with the given formulations.
+                            standardplans medPlans = new standardplans();
+                            medPlans.setPlanId(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
                             medPlans.setDrugId(ConceptName(adminDrug.trim()));
-                        
-                        medPlans.setPlanStatus("Active");
-                        medPlans.setRoute(ConceptName(adminRoute));
-                        medPlans.setDose(Double.valueOf(adminDose));
-                        medPlans.setDoseUnits(ConceptName(adminDoseUnits));
-                        medPlans.setDuration(adminDuration);
-                        medPlans.setDurationUnits(ConceptName(adminDurationUnits));
-                        medPlans.setQuantity(Double.valueOf(adminQuantity));
-                        medPlans.setQuantityUnits(ConceptName(adminQuantityUnits));
-                        
-                        /*
-                          Set the OrderFrequency type. 
-                          If it does not existc create a new OrderFrequency record for the selected frequency value.
-                        */
-                        OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequencyByConcept(ConceptName(adminFrequency));
-                        if (orderFrequency == null) {
-                            medPlans.setFrequency(setOrderFrequency(adminFrequency));
-                        } else {
-                            medPlans.setFrequency(orderFrequency);
-                        }   
-                        
-                        Context.getService(standardplansService.class).saveMedPlan(medPlans);
-                        
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Plan Updated!");
+                            medPlans.setPlanStatus("Active");
+                            medPlans.setRoute(ConceptName(adminRoute));
+                            medPlans.setDose(Double.valueOf(adminDose));
+                            medPlans.setDoseUnits(ConceptName(adminDoseUnits));
+                            medPlans.setDuration(adminDuration);
+                            medPlans.setDurationUnits(ConceptName(adminDurationUnits));
+                            medPlans.setQuantity(Double.valueOf(adminQuantity));
+                            medPlans.setQuantityUnits(ConceptName(adminQuantityUnits));
+
+                            /*
+                              Set the OrderFrequency type. 
+                              If it does not existc create a new OrderFrequency record for the selected frequency value.
+                            */
+                            OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequencyByConcept(ConceptName(adminFrequency));
+                            if (orderFrequency == null) {
+                                medPlans.setFrequency(setOrderFrequency(adminFrequency));
+                            } else {
+                                medPlans.setFrequency(orderFrequency);
+                            }   
+
+                            Context.getService(standardplansService.class).saveMedPlan(medPlans);
+
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Plan Updated!");
+                        } else 
+                            InfoErrorMessageUtil.flashErrorMessage(session, "Create a drug concept!");
+                                                
                         break;
                         
                     /*
                       Rename the plan by replacing the concept ID of the existing name with the concept ID of the new name.
                     */
                     case "renamePlan":
-                        newplans oldPlan = Context.getService(newplansService.class).getMedPlanByPlanID(Integer.parseInt(definePlanId));
-                        /*
-                          If the plan name does not exist in the concept dictionary, create a new concept.
-                        */
-                        if(ConceptName(definePlanName.trim()) == null){
-                            drugordersActivator activator = new drugordersActivator();
-                            Concept planConcept =  activator.saveConcept(definePlanName.trim(), Context.getConceptService().getConceptClassByName("Diagnosis"));
-                            oldPlan.setPlanName(planConcept);
+                        // Check if a concept for the given plan name (disease) exists
+                        if(ConceptName(definePlanName.trim()) != null){
+                            newplans oldPlan = Context.getService(newplansService.class).getMedPlanByPlanID(Integer.parseInt(definePlanId));
+                            oldPlan.setPlanName(ConceptName(definePlanName.trim()));
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Plan Renamed!");
                         } 
                         else
-                            oldPlan.setPlanName(ConceptName(definePlanName.trim()));
+                            InfoErrorMessageUtil.flashErrorMessage(session, "Create a diagnosis concept!");
                         
-                        InfoErrorMessageUtil.flashInfoMessage(session, "Plan Renamed!");
                         break;
                         
                     /*

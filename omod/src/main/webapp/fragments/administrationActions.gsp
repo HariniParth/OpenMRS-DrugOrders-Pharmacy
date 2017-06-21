@@ -311,6 +311,11 @@
                 .error(function(xhr, status, err) {
                     alert('AJAX error ' + err);
                 });
+            },
+            response: function(event, ui) {
+                if (ui.content.length === 0) {
+                    alert("No concept found! Cannot create plan!");
+                }
             }
         } ),
         
@@ -339,26 +344,11 @@
                         alert("Drug is already a part of the plan");
                     }
                 });
-            }
-        } ),
-        
-        jq( "#newPlanName" ).autocomplete({
-            source: function( request, response ) {
-                var results = [];
-                jq.getJSON('${ ui.actionLink("getPlanNameSuggestions") }',
-                    {
-                      'query': request.term, 
-                    })
-                .success(function(data) {
-                    for (index in data) {
-                        var item = data[index];
-                        results.push(item.name.toUpperCase());
-                    }
-                    response( results );
-                })
-                .error(function(xhr, status, err) {
-                    alert('AJAX error ' + err);
-                });
+            },
+            response: function(event, ui) {
+                if (ui.content.length === 0) {
+                    alert("No concept found! Cannot create plan!");
+                }
             }
         } )
     });
