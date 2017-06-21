@@ -34,13 +34,18 @@ public class PharmacyHomePageController {
         String searchPatient = patient_full_name.trim();
         // Find the Patient record of the Patient whose name is entered.
         if(!searchPatient.equals("")){
-            for(Patient patient : allPatients){
-                if((patient.getGivenName()+" "+patient.getFamilyName()).equals(searchPatient)){
-                    model.addAttribute("patient", patient);
-                } else {
-                    model.addAttribute("patient", "");
+            boolean patientFound = false;
+            Patient patient = null;
+            for(Patient p : allPatients){
+                if((p.getGivenName()+" "+p.getFamilyName()).equals(searchPatient)){
+                    patientFound = true;
+                    patient = p;
                 }
             }
+            if(patientFound)
+                model.addAttribute("patient", patient);
+            else
+                model.addAttribute("patient", "");
         } else {
             model.addAttribute("patient", "");
         }
