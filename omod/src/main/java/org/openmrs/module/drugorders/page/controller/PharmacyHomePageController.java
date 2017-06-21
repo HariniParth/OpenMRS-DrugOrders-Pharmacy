@@ -37,6 +37,8 @@ public class PharmacyHomePageController {
             for(Patient patient : allPatients){
                 if((patient.getGivenName()+" "+patient.getFamilyName()).equals(searchPatient)){
                     model.addAttribute("patient", patient);
+                } else {
+                    model.addAttribute("patient", "");
                 }
             }
         } else {

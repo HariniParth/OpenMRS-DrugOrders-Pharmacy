@@ -180,6 +180,11 @@ function autoCompletePatientName(patientNameList){
         select : function( event , ui ) {
             $("#patient_full_name").val(ui.item.label);
             $("#searchByPatient").submit();
+        },
+        response: function(event, ui) {
+            if (ui.content.length === 0) {
+                alert("Cannot find patient!");
+            }
         }
     });
 }
