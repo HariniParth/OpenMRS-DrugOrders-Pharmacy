@@ -70,7 +70,7 @@ and open the template in the editor.
     float: right;
 }
 
-.dialog select, input[type="text"], input[type="number"], #discontinueReasonText input[type="textarea"] {
+.dialog select, input[type="text"], input[type="number"], #discontinueReasonText input[type="textarea"], #definePlanWindow input[type="textarea"] {
     width: 80% !important;
     box-sizing: border-box !important;
 }

@@ -130,7 +130,7 @@
                                                             -->
                                                             <div id="button" class="pull-right">
                                                                 <i class="icon-trash delete-action" title="${ ui.message("Discard") }" onclick="deleteMedPlanItem('${ med.id }')"></i>
-                                                                <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="editPlanItemDetails('${ med.id }','${ newPlan.planName.getDisplayString().toUpperCase() }','${ med.drugId.getDisplayString() }','${ med.dose }','${ med.doseUnits.getDisplayString() }','${ med.route.getDisplayString() }','${ med.quantity }','${ med.quantityUnits.getDisplayString() }','${ med.duration }','${ med.durationUnits.getDisplayString() }','${ med.frequency }')"></i>
+                                                                <i class="icon-edit edit-action" title="${ ui.message("Edit") }" onclick="editPlanItemDetails('${ med.id }','${ newPlan.planName.getDisplayString().toUpperCase() }','${ med.drugId.getDisplayString().toUpperCase() }','${ med.dose }','${ med.doseUnits.getDisplayString() }','${ med.route.getDisplayString() }','${ med.quantity }','${ med.quantityUnits.getDisplayString() }','${ med.duration }','${ med.durationUnits.getDisplayString() }','${ med.frequency }')"></i>
                                                             </div><br/>
                                                         </div>
                                                     <% } %><br/>
@@ -216,5 +216,8 @@
     <!--Highlight the given standard drug order when clicked to be edited-->
     jq(".planBlock > #button").click(function(){
         jq(this).parent().children('div').slice(0, 1).css({"background": "#75b2f0","color": "white"});
+        jq(this).parent().find('.planBlockDetails').find('.show-details').hide();
+        jq(this).parent().find('.planBlockDetails').find('.hide-details').show();
+        jq(this).parent().find('.planBlockDetails').find('.groupItem').show();
     });
 </script>

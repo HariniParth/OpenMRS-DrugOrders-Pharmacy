@@ -149,7 +149,9 @@ $(document).ready( function() {
  * Highlight the selected order in the drug orders table.
  */ 
 function highlight(){
-    
+    /*
+     * Highlight the medication plan selected to be discarded.
+     */
     var selectedPlan = $("#discardPlan").text();
     if(selectedPlan !== ""){
         var $rowsNo = $('#medPlansTable tbody tr .planDetails').filter(function () {

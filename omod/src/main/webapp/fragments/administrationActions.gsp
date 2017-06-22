@@ -23,7 +23,7 @@
             
             <div id="view_order_detail">
                 <label><strong>Enter Description</strong></label>
-                <input type="textarea" maxlength="255" id="definePlanDesc" name="definePlanDesc"/>
+                <input type="textarea" maxlength="255" id="definePlanDesc" name="definePlanDesc" required="required" />
             </div><br/>
             
             <input type="hidden" name="action" id="defineAction" />
@@ -142,7 +142,7 @@
                     <label><strong>Duration</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminDuration" name="adminDuration" min="0" />
+                    <input type="number" id="adminDuration" name="adminDuration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
                 </div>
             </div>
 
