@@ -15,7 +15,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.page.controller.DrugOrderList;
-import org.openmrs.module.drugorders.page.controller.OrderAndDrugOrder;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -84,36 +83,28 @@ public class DrugOrdersActiveFragmentController {
                 InfoErrorMessageUtil.flashErrorMessage(session, "Check Orders To Be Grouped!");
         }
         
-        // Data structure to store the individual drug orders
-        List<drugorders> i_orders = new ArrayList<>();
-        // Data structure to store the group drug orders
-        HashMap<Integer,List<drugorders>> g_orders = new HashMap<>();
-        // Retrieve the drug orders created for the Patient
-        List<OrderAndDrugOrder> drugOrders = DrugOrderList.getDrugOrdersByPatient(patient);
-                
-        for(OrderAndDrugOrder drugOrder : drugOrders){
-            drugorders dorder = drugOrder.getdrugorders();
-            // Check if a drug order is an individual order or a part of a group and then store it appropriately.
-            switch (dorder.getOrderStatus()) {
-                case "Active":
-                    i_orders.add(dorder);
-                    break;
-                case "Active-Group":
-                    // If an order with status 'Active-Group' if found, retrieve all the active orders in the given order's group.
-                    if(g_orders.get(dorder.getGroupId()) == null){
-                        List<drugorders> orders = new ArrayList<>();
-                        for(drugorders order : Context.getService(drugordersService.class).getDrugOrdersByGroupID(dorder.getGroupId()))
-                            if(order.getOrderStatus().equals("Active-Group"))
-                                orders.add(order);
-                        
-                        g_orders.put(dorder.getGroupId(), orders);
-                    }
-                    break;
+        // Data structure to store the list of active single individual drug orders.
+        List<drugorders> singleOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active");
+        
+        // Data structure to store the list of active group drug orders.
+        HashMap<Integer,List<drugorders>> groupOrders = new HashMap<>();
+        
+        // Retrieve the list of active group orders.
+        List<drugorders> groups = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Group");
+        for(drugorders o : groups){
+            if(groupOrders.get(o.getGroupId()) == null){
+                List<drugorders> orders = new ArrayList<>();
+                // Retrieve the list of active orders in the same group as the given 'Active-Group' order.
+                for(drugorders order : Context.getService(drugordersService.class).getDrugOrdersByGroupID(o.getGroupId()))
+                    if(order.getOrderStatus().equals("Active-Group"))
+                        orders.add(order);
+
+                groupOrders.put(o.getGroupId(), orders);
             }
         }
                 
-        model.addAttribute("singleOrdersExtn", i_orders);
-        model.addAttribute("groupOrdersExtn", g_orders);
+        model.addAttribute("singleOrdersExtn", singleOrders);
+        model.addAttribute("groupOrdersExtn", groupOrders);
         
         HashMap<Integer,DrugOrder> drugOrdersMain = DrugOrderList.getDrugOrderMainDataByPatient(patient);
         model.addAttribute("drugOrdersMain", drugOrdersMain);

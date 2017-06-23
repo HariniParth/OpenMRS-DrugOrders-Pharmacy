@@ -26,39 +26,28 @@ public class DrugOrdersNonActiveFragmentController {
     
     public void controller(FragmentModel model, @RequestParam("patientId") Patient patient){
         
-        // Data structure to store the individual drug orders
-        List<drugorders> i_orders = new ArrayList<>();
-        // Data structure to store the group drug orders
-        HashMap<Integer,List<drugorders>> g_orders = new HashMap<>();
-        // Retrieve the drug orders created for the Patient
-        List<OrderAndDrugOrder> drugOrders = DrugOrderList.getDrugOrdersByPatient(patient);
+       // Data structure to store the list of non-active single individual drug orders.
+        List<drugorders> singleOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active");
         
-        /*
-          Get the list of non-active individual and group drug orders placed for the Patient.
-        */
-        for(OrderAndDrugOrder drugOrder : drugOrders){
-            drugorders dorder = drugOrder.getdrugorders();
-            // Check if a drug order is an individual order or a part of a group and then store it appropriately
-            switch (dorder.getOrderStatus()) {
-                case "Non-Active":
-                    i_orders.add(dorder);
-                    break;
-                case "Non-Active-Group":
-                    if(g_orders.get(dorder.getGroupId()) == null){
-                        // If an order with status 'Non-Active-Group' if found, retrieve all the non-active orders in the given order's group.
-                        List<drugorders> orders = new ArrayList<>();
-                        for(drugorders order : Context.getService(drugordersService.class).getDrugOrdersByGroupID(dorder.getGroupId()))
-                            if(order.getOrderStatus().equals("Non-Active-Group"))
-                                orders.add(order);
-                        
-                        g_orders.put(dorder.getGroupId(), orders);
-                    }
-                    break;
+        // Data structure to store the list of non-active group drug orders.
+        HashMap<Integer,List<drugorders>> groupOrders = new HashMap<>();
+        
+        // Retrieve the list of non-active group orders.
+        List<drugorders> groups = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active-Group");
+        for(drugorders o : groups){
+            if(groupOrders.get(o.getGroupId()) == null){
+                List<drugorders> orders = new ArrayList<>();
+                // Retrieve the list of non-active orders in the same group as the given 'Non-Active-Group' order.
+                for(drugorders order : Context.getService(drugordersService.class).getDrugOrdersByGroupID(o.getGroupId()))
+                    if(order.getOrderStatus().equals("Non-Active-Group"))
+                        orders.add(order);
+
+                groupOrders.put(o.getGroupId(), orders);
             }
         }
                 
-        model.addAttribute("singleOrdersExtn", i_orders);
-        model.addAttribute("groupOrdersExtn", g_orders);
+        model.addAttribute("singleOrdersExtn", singleOrders);
+        model.addAttribute("groupOrdersExtn", groupOrders);
         
         HashMap<Integer,DrugOrder> drugOrdersMain = DrugOrderList.getDrugOrderMainDataByPatient(patient);
         model.addAttribute("drugOrdersMain", drugOrdersMain);
