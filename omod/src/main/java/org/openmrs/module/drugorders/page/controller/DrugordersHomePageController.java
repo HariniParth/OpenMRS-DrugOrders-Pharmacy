@@ -108,7 +108,7 @@ public class DrugordersHomePageController {
                             Check if an order for the selected drug does not already exist.
                             Ensure that all the required parameters are specified and then create an order.
                         */
-                        if(!currentOrders.contains(drugName)){
+                        if(!currentOrders.contains(drugName.toUpperCase())){
                             if (!(drugName.equals("")) && !(route.equals("")) && !(dose.equals("")) && !(doseUnits.equals("")) && !(quantity.equals("")) && !(quantityUnits.equals("")) && !(frequency.equals("")) && (duration != null) && !(durationUnits.equals(""))) {
 
                                 DrugOrder drugOrder = null;
@@ -118,7 +118,7 @@ public class DrugordersHomePageController {
                                 // Create a drugorders record
                                 createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
                                 // Add the name of the drug to the list of current drug orders.
-                                currentOrders.add(drugName);
+                                currentOrders.add(drugName.toUpperCase());
                                 // If the orderId property value retrieved is not null, then the order is a created to be a part of an existing order group.
                                 if(orderId != null){
                                     Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(orderId);
@@ -172,7 +172,7 @@ public class DrugordersHomePageController {
                                 // Create a drugorders record
                                 createDrugOrderExtension(drugorder, order, patientID, standardPlan.getDrugId().getDisplayString(), startDate, "", selectedPlan, priority, "Draft-Plan", 0, 0, patientInstrn, pharmacistInstrn);
                                 // Add the name of the drug to the list of current drug orders.
-                                currentOrders.add(standardPlan.getDrugId().getDisplayString());
+                                currentOrders.add(standardPlan.getDrugId().getDisplayString().toUpperCase());
                                 
                                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setPriority(ConceptName("High")); // Set the default priority to 'High'.
                                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setStartDate(Calendar.getInstance().getTime()); // Set the default start date to current date.
@@ -203,7 +203,7 @@ public class DrugordersHomePageController {
                         drugorders order = Context.getService(drugordersService.class).getDrugOrderByOrderID(id);
                         
                         // Remove the name of the drug from the list of current drug orders.
-                        currentOrders.remove(order.getDrugName().getDisplayString());
+                        currentOrders.remove(order.getDrugName().getDisplayString().toUpperCase());
                         order.setOrderStatus("Non-Active");
                         // Remove this order from the group or the plan if it is a part of a group or a plan.
                         if(order.getGroupId() != null)
@@ -240,7 +240,7 @@ public class DrugordersHomePageController {
                                 order.setGroupId(null);
                             }                                
                             // Remove the name of the drug from the list of current drug orders.
-                            currentOrders.remove(order.getDrugName().getDisplayString());
+                            currentOrders.remove(order.getDrugName().getDisplayString().toUpperCase());
                             // Set the reason for discontinuing the order.
                             setDiscontinueReason(order, codedDiscardReason, nonCodedDiscardReason);
                             Context.getOrderService().voidOrder(Context.getOrderService().getOrder(order.getOrderId()), "Discontinued");
@@ -277,7 +277,7 @@ public class DrugordersHomePageController {
                             // Create a drugorders record
                             createDrugOrderExtension(drugorder, order, patientID, orderExtn.getDrugName().getDisplayString(), Calendar.getInstance().getTime(), "", orderExtn.getAssociatedDiagnosis().getDisplayString(), orderExtn.getPriority().getDisplayString(), "Active-Group", orderExtn.getRefill(), orderExtn.getRefillInterval(), "", "");
                             // Add the name of the drug to the list of current drug orders.
-                            currentOrders.add(orderExtn.getDrugName().getDisplayString());
+                            currentOrders.add(orderExtn.getDrugName().getDisplayString().toUpperCase());
                                     
                             Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(groupID);
                             Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
@@ -317,7 +317,7 @@ public class DrugordersHomePageController {
                                 Context.getService(planordersService.class).getPlanOrderByOrderID(id).setPlanId(null);
                             }                                
                             // Remove the name of the drug from the list of current drug orders.
-                            currentOrders.remove(order.getDrugName().getDisplayString());
+                            currentOrders.remove(order.getDrugName().getDisplayString().toUpperCase());
                             // Set the reason for discontinuing the order.
                             setDiscontinueReason(order, codedDiscardReason, nonCodedDiscardReason);
                             Context.getOrderService().voidOrder(Context.getOrderService().getOrder(order.getOrderId()), "Discontinued");
@@ -357,7 +357,7 @@ public class DrugordersHomePageController {
                             // Create an entry in the Plan Orders table.
                             createPlanOrder(order, planID, patientID, orderExtn.getAssociatedDiagnosis().getDisplayString());
                             // Add the name of the drug to the list of current drug orders.
-                            currentOrders.add(orderExtn.getDrugName().getDisplayString());
+                            currentOrders.add(orderExtn.getDrugName().getDisplayString().toUpperCase());
                             
                             // If a drug that the Patient is allergic to is ordered and the reason for ordering the drug is provided (mandatory), save the reason for ordering the drug.
                             if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
@@ -393,9 +393,9 @@ public class DrugordersHomePageController {
                         // Create a drugorders record.
                         createDrugOrderExtension(drugorder, order, patientID, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
                         // Remove the name of the drug from the original order from the list of current drug orders.
-                        currentOrders.remove(originalOrder.getDrugName().getDisplayString());
+                        currentOrders.remove(originalOrder.getDrugName().getDisplayString().toUpperCase());
                         // Add the name of the selected drug to the list of current drug orders.
-                        currentOrders.add(drugName);
+                        currentOrders.add(drugName.toUpperCase());
 
                         /*
                           When editing an individual order, ensure to record its status as it was before to ensure that the Single, Group and Med Plan orders are segregated.
@@ -438,7 +438,7 @@ public class DrugordersHomePageController {
                         // Fetch the name of the drug from the original order.
                         String name = originalOrder.getDrugName().getDisplayString();
                         // If no active order for the give drug currently exists, create a new drug order.
-                        if(!currentOrders.contains(name)){
+                        if(!currentOrders.contains(name.toUpperCase())){
                             DrugOrder drugOrder = null;
                             drugorders drugorder = null;
 
@@ -447,7 +447,7 @@ public class DrugordersHomePageController {
                             // Create a drugorders record.
                             createDrugOrderExtension(drugorder, order, patientID, name, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
                             // Add the name of the drug to the list of current drug orders.
-                            currentOrders.add(name);
+                            currentOrders.add(name.toUpperCase());
 
                             InfoErrorMessageUtil.flashInfoMessage(session, "Order Renewed!");
                         } else {
