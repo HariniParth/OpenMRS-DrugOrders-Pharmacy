@@ -596,10 +596,7 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
             jq("#activeOrderWindow").hide();
             $("#diagnosis").prop("readonly", true);
         }
-        if(orderType === "RENEW DRUG ORDER"){
-            checkExisting(name, currentList);
-        }        
-        checkAllergy(name, allergyList);
+        checkExisting(name, currentList, allergyList, orderType);
         
         $("#orderType").text(orderType);
         $("#orderAction").val(orderType);
@@ -618,9 +615,9 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         $("#priority").val(priority);
         $("#diagnosis").val(diagnosis);
         
-        if(orderReason !== "" && orderReason !== "null"){
-            $("#orderReason").val(orderReason);
+        if(orderReason !== "" && orderReason !== "null" && orderType === "EDIT DRUG ORDER"){
             jq("#allergicReason").show();
+            $("#orderReason").val(orderReason);
             $("#orderReason").attr("required", true);
             document.getElementById("orderReason").style.borderColor = "";
             document.getElementById("allergicReason").style.display = 'block';
@@ -732,24 +729,27 @@ function autoCompleteDrug(currentOrders, allergies){
             document.getElementById("orderExists").style.display = 'block';
         } else {
             jq("#orderExists").hide();
-        }
-        
-        var allergyList = allergies.split(",");
-        var isAllergic = false;
-        $.each(allergyList,function(index,value){
-            var drugname = value.replace("[","").replace("]","").trim().toUpperCase();
-            var selectedDrug = $("#drugName").val().trim();
-            if(selectedDrug === drugname){
-                isAllergic = true;
-            } 
-        });
-        if(isAllergic){
-            jq("#allergicReason").show();
-            $("#orderReason").attr("required", true);
-            document.getElementById("allergicReason").style.display = 'block';
-        } else {
-            jq("#allergicReason").hide();
-            $("#orderReason").attr("required", false);
+            
+            /*
+             * Check if given drug is listed in the list of allergic drug orders.
+             */
+            var allergyList = allergies.split(",");
+            var isAllergic = false;
+            $.each(allergyList,function(index,value){
+                var drugname = value.replace("[","").replace("]","").trim().toUpperCase();
+                var selectedDrug = $("#drugName").val().trim();
+                if(selectedDrug === drugname){
+                    isAllergic = true;
+                } 
+            });
+            if(isAllergic){
+                jq("#allergicReason").show();
+                $("#orderReason").attr("required", true);
+                document.getElementById("allergicReason").style.display = 'block';
+            } else {
+                jq("#allergicReason").hide();
+                $("#orderReason").attr("required", false);
+            }
         }
         validate();
     });
@@ -759,26 +759,31 @@ function autoCompleteDrug(currentOrders, allergies){
  * When a drug order is renewed,
  * - Display a note if the drug exists in the active drug order list.
  */
-function checkExisting(drug, currentOrders){
-    var currentOrderList = currentOrders.split(",");
-    var orderExists = false;
-    $.each(currentOrderList, function(index, value){
-        var order = value.replace("[","").replace("]","").trim();
-        if(drug === order){
-            orderExists = true;
+function checkExisting(drug, currentOrders, allergicDrugs, action){
+    if(action === "RENEW DRUG ORDER"){
+        var currentOrderList = currentOrders.split(",");
+        var orderExists = false;
+        $.each(currentOrderList, function(index, value){
+            var order = value.replace("[","").replace("]","").trim();
+            if(drug === order){
+                orderExists = true;
+            }
+        });
+        if(orderExists){
+            jq("#orderExists").show();
+            document.getElementById("orderExists").style.display = 'block';
+        } else {
+            jq("#orderExists").hide();
+            checkAllergy(drug, allergicDrugs);
         }
-    });
-    if(orderExists){
-        jq("#orderExists").show();
-        document.getElementById("orderExists").style.display = 'block';
     } else {
-        jq("#orderExists").hide();
+        checkAllergy(drug, allergicDrugs);
     }
 }
 
 /*
  * When a drug order is renewed,
- * - Display a note if the Patient is allergic to the drug.
+ * Display a note if the Patient is allergic to the drug.
  */
 function checkAllergy(drug, allergies){
     var allergyList = allergies.split(",");

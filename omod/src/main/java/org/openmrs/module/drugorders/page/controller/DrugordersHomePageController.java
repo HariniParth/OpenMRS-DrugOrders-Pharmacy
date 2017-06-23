@@ -179,7 +179,7 @@ public class DrugordersHomePageController {
                                 
                                 // If a drug that the Patient is allergic to is ordered and the reason for ordering the drug is provided (mandatory), save the reason for ordering the drug.
                                 if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
-                                    if(allergicDrugList.contains(standardPlan.getDrugId().getDisplayString())){
+                                    if(allergicDrugList.contains(standardPlan.getDrugId().getDisplayString().toUpperCase())){
                                         Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setIsAllergicOrderReasons(allergicPlanOrderReason.get(0));
                                         allergicPlanOrderReason.remove(0);
                                     }
@@ -284,7 +284,7 @@ public class DrugordersHomePageController {
                         
                             // If a drug that the Patient is allergic to is ordered and the reason for ordering the drug is provided (mandatory), save the reason for ordering the drug.
                             if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
-                                if(allergicDrugList.contains(orderExtn.getDrugName().getDisplayString())){
+                                if(allergicDrugList.contains(orderExtn.getDrugName().getDisplayString().toUpperCase())){
                                     Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setIsAllergicOrderReasons(allergicPlanOrderReason.get(0));
                                     allergicPlanOrderReason.remove(0);
                                 }
@@ -361,7 +361,7 @@ public class DrugordersHomePageController {
                             
                             // If a drug that the Patient is allergic to is ordered and the reason for ordering the drug is provided (mandatory), save the reason for ordering the drug.
                             if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
-                                if(allergicDrugList.contains(orderExtn.getDrugName().getDisplayString())){
+                                if(allergicDrugList.contains(orderExtn.getDrugName().getDisplayString().toUpperCase())){
                                     Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setIsAllergicOrderReasons(allergicPlanOrderReason.get(0));
                                     allergicPlanOrderReason.remove(0);
                                 }
