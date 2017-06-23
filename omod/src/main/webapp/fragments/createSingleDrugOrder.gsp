@@ -136,7 +136,7 @@
                 <label>Duration <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="duration" name="duration" min="0" />
+                <input type="number" id="duration" name="duration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
             </div>
         </div>
 
@@ -205,7 +205,7 @@
                 <label>Refills </label>
             </div>
             <div id="order_value">
-                <input type="number" id="refill" name="refill" value="0" min="0" required="required" />
+                <input type="number" id="refill" name="refill" value="0" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required="required" />
             </div>
         </div>
 
@@ -216,7 +216,7 @@
                 <label>Interval (days)</label>
             </div>
             <div id="order_value">
-                <input type="number" id="interval" name="interval" value="0" min="0" required="required" />
+                <input type="number" id="interval" name="interval" value="0" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required="required" />
             </div>
         </div>
         

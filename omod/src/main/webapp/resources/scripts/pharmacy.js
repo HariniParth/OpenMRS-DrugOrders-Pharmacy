@@ -230,8 +230,9 @@ function showPharmaConfirmationSection(action){
     $("#pharmaGroupAction").val(action);
     jq("#pharmaGroupButtons").hide();
     
-    if(action === "On Hold" || action === "Discard"){        
+    if(action === "On Hold" || action === "Discard"){
         jq("#pharmaGroupActionButtons").show();
+        $("#groupComments").attr("required", true);
         document.getElementById("pharmaGroupActionButtons").style.display = 'block';
     }
     
@@ -255,6 +256,7 @@ function showPharmaOrderViewSection(){
     jq("#confirmButtons").hide();
     jq(".dispatchFields").hide();
     jq("#pharmaGroupActionButtons").hide();
+    $("#groupComments").attr("required", false);
     
     jq("#pharmaGroupButtons").show();
     document.getElementById("pharmaGroupButtons").style.display = 'block';

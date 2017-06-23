@@ -40,6 +40,11 @@
                 .error(function(xhr, status, err) {
                     alert('AJAX error ' + err);
                 });
+            },
+            response: function(event, ui) {
+                if (ui.content.length === 0) {
+                    alert("No plans found!");
+                }
             }
         } )
     });

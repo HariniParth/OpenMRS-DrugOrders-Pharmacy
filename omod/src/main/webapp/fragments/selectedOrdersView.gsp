@@ -177,7 +177,7 @@
                     <label>Comments</label>
                 </div>
                 <div class="fields">
-                    <input type="textarea" maxlength="255" id="groupComments" name="groupComments" placeholder="Enter Comments for the Orderer" required="required" /><br/>
+                    <input type="textarea" maxlength="255" id="groupComments" name="groupComments" placeholder="Enter Comments for the Orderer" /><br/>
                     <div id="btn-place">
                         <input class="confirm right" id="confirmBtn2" type="submit" name="action" value="Confirm" />
                         <input class="cancel" value="Back" type="button" onclick="showPharmaOrderViewSection()" />
