@@ -15,7 +15,6 @@ import org.openmrs.ConceptSearchResult;
 import org.openmrs.Patient;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.allergyapi.api.PatientService;
 import org.openmrs.module.drugorders.api.newplansService;
 import org.openmrs.module.drugorders.api.standardplansService;
 import org.openmrs.module.drugorders.newplans;
@@ -39,12 +38,10 @@ public class CreateMedPlanDrugOrderFragmentController {
      * @param model
      * @param planName
      * @param patient
-     * @param patientService
      */
     
     public void controller(FragmentModel model, @RequestParam("patientId") Patient patient,
-            @RequestParam(value = "planName", required = false) String planName,
-            @SpringBean("allergyService") PatientService patientService){
+                            @RequestParam(value = "planName", required = false) String planName){
 
         model.addAttribute("planName", planName.trim());
         
@@ -61,22 +58,6 @@ public class CreateMedPlanDrugOrderFragmentController {
                     medplans.add(standardplan);
         }
         model.addAttribute("medplans", medplans);
-        
-        /*
-          Get the list of drugs that the Patient is allergic to.
-          If no drug is recorded as allergic, store the 'null' value.
-        */        
-        int number_of_allergic_drugs = patientService.getAllergies(patient).size();
-        if(number_of_allergic_drugs >=1){
-            ArrayList<String> allergen = new ArrayList<>();
-            for(int i=0;i<number_of_allergic_drugs;i++){
-                allergen.add(patientService.getAllergies(patient).get(i).getAllergen().toString().trim());
-            }
-            model.addAttribute("allergicDrugs", allergen);
-        } else {
-            model.addAttribute("allergicDrugs", "null");
-        } 
-        
     }
     
     /*

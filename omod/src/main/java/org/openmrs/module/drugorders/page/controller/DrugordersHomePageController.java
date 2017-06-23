@@ -87,7 +87,7 @@ public class DrugordersHomePageController {
         
         if(allergies.size() > 0){
             for(Allergy allergy : allergies){
-                allergicDrugList.add(allergy.getAllergen().toString());
+                allergicDrugList.add(allergy.getAllergen().toString().toUpperCase());
                 model.addAttribute("allergicDrugs", allergicDrugList);
             }
         } else {
@@ -593,22 +593,22 @@ public class DrugordersHomePageController {
         // Retrieve orders in "Active" status
         orders = getOrders(patient, "Active");
         for(drugorders order : orders) {
-            drugOrders.add(order.getDrugName().getDisplayString().trim());
+            drugOrders.add(order.getDrugName().getDisplayString().toUpperCase().trim());
         }
         // Retrieve orders in "Active-Plan" status
         orders = getOrders(patient, "Active-Plan");
         for(drugorders order : orders) {
-            drugOrders.add(order.getDrugName().getDisplayString().trim());
+            drugOrders.add(order.getDrugName().getDisplayString().toUpperCase().trim());
         }
         // Retrieve orders in "Draft-Plan" status
         orders = getOrders(patient, "Draft-Plan");
         for(drugorders order : orders) {
-            drugOrders.add(order.getDrugName().getDisplayString().trim());
+            drugOrders.add(order.getDrugName().getDisplayString().toUpperCase().trim());
         }
         // Retrieve orders in "Active-Group" status
         orders = getOrders(patient, "Active-Group");
         for(drugorders order : orders) {
-            drugOrders.add(order.getDrugName().getDisplayString().trim());
+            drugOrders.add(order.getDrugName().getDisplayString().toUpperCase().trim());
         }
         
         return drugOrders;

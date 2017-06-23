@@ -75,7 +75,7 @@
                         <!--
                             Disable options to select a medication plan drug if an active order for that drug exists.
                         -->
-                        <% if(currentOrders.contains(medplan.drugId.getDisplayString())) { %>
+                        <% if(currentOrders.contains(medplan.drugId.getDisplayString().toUpperCase())) { %>
                             <input type="checkbox" class="unchecked" disabled="disabled" />
                         <% } else { %>
                             <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ medplan.drugId }" checked="true" />
@@ -93,7 +93,7 @@
                             Display a note if an active order for the selected drug exists.
                         -->
                         
-                        <% if(currentOrders.contains(medplan.drugId.getDisplayString())) { %>
+                        <% if(currentOrders.contains(medplan.drugId.getDisplayString().toUpperCase())) { %>
                             <div id="view_order_detail">
                                 <label>Note: Drug is currently prescribed to this patient.</label>
                                 <label>Cannot place multiple orders for the same drug.</label>
@@ -105,7 +105,7 @@
                             Display a field to enter the reason to order the allergic drug.
                         -->
                         
-                        <% if(allergicDrugs.contains(medplan.drugId.getDisplayString())) { %>
+                        <% if(allergicDrugs.contains(medplan.drugId.getDisplayString().toUpperCase())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>
                             Enter reasons to order this drug <br/>
                             <input type="textarea" maxlength="255" class="planOrderReason" name="planOrderReason" required="required" />
