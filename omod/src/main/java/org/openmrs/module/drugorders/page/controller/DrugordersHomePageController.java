@@ -23,6 +23,7 @@ import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.OrderFrequency;
 import org.openmrs.Patient;
+import org.openmrs.Person;
 import org.openmrs.Provider;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
@@ -496,7 +497,23 @@ public class DrugordersHomePageController {
         enc.setPatient(patient);
         enc.setEncounterType(Context.getEncounterService().getEncounterType("Visit Note"));
         enc.setLocation(Context.getLocationService().getDefaultLocation());
-        Provider provider = Context.getProviderService().getProviderByIdentifier("doctor");
+        
+        // Fetch the provider account for the current logged in user.
+        Person person = Context.getUserContext().getAuthenticatedUser().getPerson();
+        List<Provider> providers = Context.getProviderService().getAllProviders();
+        Provider provider = null;
+        boolean providerFound = false;
+        
+        for(Provider prov : providers){
+            if(prov.getPerson().equals(person)){
+                provider = prov;
+                providerFound = true;
+            }
+        }
+            
+        if(!providerFound)
+            provider = Context.getProviderService().getProviderByIdentifier("doctor");
+        
         EncounterRole encRole = Context.getEncounterService().getEncounterRoleByName("Clinician");
         enc.setProvider(encRole, provider);
         enc = (Encounter) Context.getEncounterService().saveEncounter(enc);
