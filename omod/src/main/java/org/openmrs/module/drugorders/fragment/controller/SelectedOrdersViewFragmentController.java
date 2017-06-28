@@ -31,9 +31,8 @@ public class SelectedOrdersViewFragmentController {
                             @RequestParam(value = "groupID", required = false) String groupID,
                             @RequestParam(value = "orderID", required = false) String orderID){
         
-        // Get the date exactly 1 year after the current date to set the default drug expiry date.
+        // Get the current date to set the default drug expiry date value as default.
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.YEAR, 1);
         Date expiryDate = cal.getTime();
         model.addAttribute("expiryDate", expiryDate);
         

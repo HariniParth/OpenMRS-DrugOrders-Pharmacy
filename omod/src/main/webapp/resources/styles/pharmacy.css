@@ -274,9 +274,13 @@ form select, .form select {
     float: right;
 }
 
-.g6:hover, #ordererEmail:hover{
+.g6:hover, #ordererEmail:hover, #here:hover{
     text-decoration: underline;
     cursor: pointer;
+}
+
+#here{
+    color: blue;
 }
 
 #clear{

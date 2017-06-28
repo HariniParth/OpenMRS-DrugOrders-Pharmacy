@@ -29,16 +29,17 @@
                     <div class="groupItem">
                                 
                         <div id="view_order_detail">
-                            <span id="nameField">
-                                <h5><input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ groupOrder.key }" ng-model="groupCheckBox" checked="checked" /></span>
-                                    <i class="icon-plus-sign edit-action" title="${ ui.message("Show") }"></i>
-                                    <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"></i>
-                                    <strong>${ groupOrderExtn.get(groupOrder.key).drugName.getDisplayString().toUpperCase() }</strong>
-                                </h5>
-                            </span>
+                            <h5 id="nameField">
+                                <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ groupOrder.key }" ng-model="groupCheckBox" checked="checked" /></span>
+                                <i class="icon-plus-sign edit-action" title="${ ui.message("Show") }"></i>
+                                <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"></i>
+                                <strong>${ groupOrderExtn.get(groupOrder.key).drugName.getDisplayString().toUpperCase() }</strong>
+                            </h5>
                         </div>
 
-                        <div class="drugDetails"><span class="fields">Dose: ${ groupOrder.value.dose } ${ groupOrder.value.doseUnits.getDisplayString() }, Quantity: ${ groupOrder.value.quantity } ${ groupOrder.value.quantityUnits.getDisplayString() }</span><br/><br/>
+                        <div class="drugDetails">
+                            
+                            <span class="fields">Dose: ${ groupOrder.value.dose } ${ groupOrder.value.doseUnits.getDisplayString() }, Quantity: ${ groupOrder.value.quantity } ${ groupOrder.value.quantityUnits.getDisplayString() }</span><br/><br/>
                         
                             <div class="additionalInformation">
                                 <div class="fields" id="view_order_detail">
@@ -126,13 +127,13 @@
                             -->
                             <div class="dispatchFields">
                                 <div class="fields" id="view_order_detail">
-                                    <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
+                                    <div id="order_label"><label>Expiry Date<span id="asterisk">*</span></label></div>
                                     <div id="order_value">${ ui.includeFragment("uicommons", "field/datetimepicker", [ class: 'drugExpiryDate', label: '', formFieldName: 'drugExpiryDate', useTime: '', defaultDate: expiryDate ]) }</div>
                                 </div><br/><br/><br/>
 
                                 <div class="fields" id="view_order_detail">
-                                    <div id="order_label"><label>Note</label></div>
-                                    <div id="order_value"><input type="text" maxlength="255" class="commentForPatient" value=" " name="commentForPatient" ></div>
+                                    <div id="order_label"><label>Pharm Note<span id="asterisk">*</span></label></div>
+                                    <div id="order_value"><input type="text" maxlength="255" class="commentForPatient" name="commentForPatient" required="required" ></div>
                                 </div><br/><br/><br/>
                             </div>
                         </div>
@@ -147,7 +148,7 @@
             <label class="fields" id="statusLabel"><br/>Order Status: <span id="selectedAction"></span></label>
             
             <div class="fields" id="printLabel">
-                Click 'Confirm' to Print Label<br/><br/>
+                Click <span id="here">here</span> to Print Label<br/><br/>
             </div>
             
             <span id="pharmaGroupButtons">
@@ -192,14 +193,14 @@
 <script type="text/javascript">    
     <!--Show the details of the given drug order-->
     jq(".icon-plus-sign").click(function(){
-        jq(this).parent().parent().parent().nextAll(".drugDetails").first().children(".additionalInformation").show();
+        jq(this).parent().parent().nextAll(".drugDetails").first().children(".additionalInformation").show();
         jq(this).hide();
         jq(this).next(".icon-minus-sign").show();
     });
     
     <!--Hide the details of the given drug order-->
     jq(".icon-minus-sign").click(function(){
-        jq(this).parent().parent().parent().nextAll(".drugDetails").first().children(".additionalInformation").hide();
+        jq(this).parent().parent().nextAll(".drugDetails").first().children(".additionalInformation").hide();
         jq(this).hide();
         jq(this).prev(".icon-plus-sign").show();
     });

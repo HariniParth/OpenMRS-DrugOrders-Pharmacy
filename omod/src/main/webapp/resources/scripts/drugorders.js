@@ -12,11 +12,12 @@ var saveDraftOrderDialog = null;
 $(document).ready( function() {
       
     highlight();
+    checkSelection();
     
     $("#planSaveButton").prop("disabled", true);
     $("#addOrderButton").prop("disabled", true);
     $("#planDefineButton").prop("disabled", true);
-    
+        
     /*
      * If a plan is defined (Administrator page), enable the form submission to create a plan.
      */
@@ -66,13 +67,16 @@ $(document).ready( function() {
     });
     
     /*
-     * Enable confirm button to discard/renew an order set if one or more orders from the set is selected.
+     * Enable confirm button to select a medication plan if one or more orders from the plan is selected.
      */
     $('.planDrugName .groupCheckBox').on('change', function() {
         var selected = false;
         $('.planDrugName .groupCheckBox').each(function() {
             if(this.checked) {
-                selected = true;               
+                selected = true; 
+                $(this).parent().next('.drugDetails').first().find('.planOrderReason').prop("readonly", false);                
+            } else {
+                $(this).parent().next('.drugDetails').first().find('.planOrderReason').prop("readonly", true);                
             }
         });
         if(selected){
@@ -80,6 +84,30 @@ $(document).ready( function() {
         } else {
             $("#selectPlanButton").prop("disabled", true);
         }        
+    });
+    
+    /*
+     * Remove the necessity to provide a reason to renew a drug order if it is not selected to be renewed.
+     */
+    $('.groupDrugName .groupCheckBox').on('change', function() {
+        var selected = false;
+        $('.groupDrugName .groupCheckBox').each(function() {
+            if(this.checked) {
+                selected = true;
+                $(this).parent().next('.drugDetails').first().find('.reviseOrderReason').prop("readonly", false);                
+            } else {
+                $(this).parent().next('.drugDetails').first().find('.reviseOrderReason').prop("readonly", true);
+            }
+        });   
+        if(selected && ($("#groupOrderAction").text() === "RENEW MED PLAN" || $("#groupOrderAction").text() === "RENEW ORDER GROUP")){
+            $('#orderActionButton').removeAttr('disabled');
+        }
+        if(selected && ($("#groupOrderAction").text() === "DISCARD MED PLAN" || $("#groupOrderAction").text() === "DISCARD ORDER GROUP")){
+            discontinueReason();
+        }
+        if(!selected){
+            $("#orderActionButton").prop("disabled", true);
+        }
     });
     
     document.getElementsByClassName("unchecked").checked = false;
@@ -305,6 +333,20 @@ function adminRecord(){
         $("#planSaveButton").prop("disabled", false);
     } else {
         $("#planSaveButton").prop("disabled", true);
+    }
+}
+
+function checkSelection(){
+    var ordersSelected = false;
+    $('.groupDrugName .groupCheckBox').each(function() {
+        if(this.checked) {
+            ordersSelected = true;
+        }
+    });
+    if(ordersSelected){
+        $("#orderActionButton").prop("disabled", false);
+    } else {
+        $("#orderActionButton").prop("disabled", true);
     }
 }
 
@@ -1020,7 +1062,7 @@ function discontinueReason(){
     if(document.getElementById("codedDiscardReason").value === ""){
         $("#orderActionButton").prop("disabled", true);
     } else {
-        $("#orderActionButton").prop("disabled", false);
+        checkSelection();
     }
 }
 

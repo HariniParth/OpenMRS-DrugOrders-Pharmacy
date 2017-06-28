@@ -73,7 +73,10 @@ function enableConfirmBtn(){
     var selected = false;
     $('.groupCheckBox').each(function() {
         if(this.checked) {
-            selected = true;               
+            selected = true;  
+            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.commentForPatient').prop("readonly", false);
+        } else {
+            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.commentForPatient').prop("readonly", true);
         }
     });
     
