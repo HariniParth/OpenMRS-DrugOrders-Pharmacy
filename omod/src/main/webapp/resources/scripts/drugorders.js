@@ -348,6 +348,18 @@ function checkSelection(){
     } else {
         $("#orderActionButton").prop("disabled", true);
     }
+    
+    var plansSelected = false;
+    $('.planDrugName .groupCheckBox').each(function() {
+        if(this.checked) {
+            plansSelected = true;
+        }
+    });
+    if(plansSelected){
+        $("#selectPlanButton").prop("disabled", false);
+    } else {
+        $("#selectPlanButton").prop("disabled", true);
+    }
 }
 
 /*

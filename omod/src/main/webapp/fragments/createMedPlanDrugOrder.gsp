@@ -43,7 +43,7 @@
             },
             response: function(event, ui) {
                 if (ui.content.length === 0) {
-                    alert("No plans found!");
+                    alert("No plans found! Administrator has to define the medication plan!");
                 }
             }
         } )

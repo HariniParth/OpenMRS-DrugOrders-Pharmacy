@@ -282,7 +282,7 @@
             },
             response: function(event, ui) {
                 if (ui.content.length === 0) {
-                    alert("No drugs found! Cannot place order!");
+                    alert("No drugs found! Please create a Drug class concept for this drug!");
                 }
             }
         } ),
@@ -307,7 +307,7 @@
             },
             response: function(event, ui) {
                 if (ui.content.length === 0) {
-                    alert("No diagnosis found! Cannot place order!");
+                    alert("No diagnosis found! Please create a Diagnosis class concept for this diagnosis!");
                 }
             }
         } )

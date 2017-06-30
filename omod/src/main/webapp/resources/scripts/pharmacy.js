@@ -237,9 +237,17 @@ function showPharmaConfirmationSection(action){
         jq("#pharmaGroupActionButtons").show();
         $("#groupComments").attr("required", true);
         document.getElementById("pharmaGroupActionButtons").style.display = 'block';
+        
+        $('.commentForPatient').each(function() {
+            $(this).attr("required", false);
+        });
     }
     
     if(action === "Dispatch"){
+        $('.commentForPatient').each(function() {
+            $(this).attr("required", true);
+        });
+        
         jq("#printLabel").show();
         jq("#confirmButtons").show();
         document.getElementById("printLabel").style.display = 'block';

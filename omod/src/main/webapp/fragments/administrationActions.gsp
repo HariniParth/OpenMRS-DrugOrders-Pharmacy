@@ -314,7 +314,7 @@
             },
             response: function(event, ui) {
                 if (ui.content.length === 0) {
-                    alert("No concept found! Cannot create plan!");
+                    alert("No concept found! Please create a Diagnosis class concept for this plan!");
                 }
             }
         } ),
@@ -347,7 +347,7 @@
             },
             response: function(event, ui) {
                 if (ui.content.length === 0) {
-                    alert("No concept found! Cannot create plan!");
+                    alert("No concept found! Please create a Drug class concept for this drug!");
                 }
             }
         } )
