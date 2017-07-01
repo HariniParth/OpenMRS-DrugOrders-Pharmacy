@@ -14,13 +14,12 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.page.controller.DrugOrderList;
-import org.openmrs.module.drugorders.page.controller.OrderAndDrugOrder;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
- * @author harini-geek
+ * @author harini-parthasarathy
  */
 public class DrugOrdersNonActiveFragmentController {
     

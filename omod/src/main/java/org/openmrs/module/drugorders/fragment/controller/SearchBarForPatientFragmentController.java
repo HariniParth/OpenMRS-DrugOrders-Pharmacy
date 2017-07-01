@@ -13,7 +13,7 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 
 /**
  *
- * @author harini-geek
+ * @author harini-parthasarathy
  */
 public class SearchBarForPatientFragmentController {
     

@@ -17,7 +17,7 @@ import org.openmrs.module.drugorders.drugorders;
 
 /**
  *
- * @author harini-geek
+ * @author harini-parthasarathy
  */
 public class DrugOrderList {
     
