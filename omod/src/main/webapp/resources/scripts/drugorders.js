@@ -102,7 +102,7 @@ $(document).ready( function() {
         if(selected && ($("#groupOrderAction").text() === "RENEW MED PLAN" || $("#groupOrderAction").text() === "RENEW ORDER GROUP")){
             $('#orderActionButton').removeAttr('disabled');
         }
-        if(selected && ($("#groupOrderAction").text() === "DISCARD MED PLAN" || $("#groupOrderAction").text() === "DISCARD ORDER GROUP")){
+        if(selected && ($("#groupOrderAction").text() === "DISCARD MED PLAN" || $("#groupOrderAction").text() === "DISCARD ORDER GROUP" || $("#groupOrderAction").text() === "DISCONTINUE ORDER")){
             discontinueReason();
         }
         if(!selected){
