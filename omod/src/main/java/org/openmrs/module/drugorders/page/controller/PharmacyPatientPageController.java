@@ -8,6 +8,7 @@ package org.openmrs.module.drugorders.page.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -30,6 +31,7 @@ import org.openmrs.api.APIException;
 import org.openmrs.module.allergyapi.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.allergyapi.Allergies;
+import org.openmrs.module.allergyapi.Allergy;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
@@ -52,8 +54,20 @@ public class PharmacyPatientPageController {
             @RequestParam(value = "drugExpiryDate", required = false) Date[] drugExpiryDate,
             @RequestParam(value = "commentForPatient", required = false) String[] commentForPatient) {
 
+        /*
+          Get the list of drugs the Patient is allergic to
+        */
         Allergies allergies = patientService.getAllergies(patient);
-        model.addAttribute("allergies", allergies);
+        ArrayList<String> allergicDrugList = new ArrayList<>();
+        
+        if(allergies.size() > 0){
+            for(Allergy allergy : allergies){
+                allergicDrugList.add(allergy.getAllergen().toString().toUpperCase());
+                model.addAttribute("allergicDrugs", allergicDrugList);
+            }
+        } else {
+            model.addAttribute("allergicDrugs", "null");
+        }
         
         if (StringUtils.isNotBlank(action)) {
             try {
