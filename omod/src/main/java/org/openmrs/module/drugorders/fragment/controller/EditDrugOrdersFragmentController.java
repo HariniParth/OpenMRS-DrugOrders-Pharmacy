@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.DrugOrder;
@@ -74,8 +76,8 @@ public class EditDrugOrdersFragmentController {
                 model.addAttribute("group", group);
                 model.addAttribute("groupOrderAction", "DISCARD ORDER GROUP");
                 
-            } catch(NumberFormatException | APIException e){
-                System.out.println(e.toString());
+            } catch(NumberFormatException | APIException ex){
+                Logger.getLogger(EditDrugOrdersFragmentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -97,8 +99,8 @@ public class EditDrugOrdersFragmentController {
                 model.addAttribute("group", group);
                 model.addAttribute("groupOrderAction", "RENEW ORDER GROUP");
                 
-            } catch(NumberFormatException | APIException e){
-                System.out.println(e.toString());
+            } catch(NumberFormatException | APIException ex){
+                Logger.getLogger(EditDrugOrdersFragmentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
                 
@@ -126,8 +128,8 @@ public class EditDrugOrdersFragmentController {
                 model.addAttribute("group", ID);
                 model.addAttribute("groupOrderAction", "DISCARD MED PLAN");
                 
-            } catch(NumberFormatException | APIException e){
-                System.out.println(e.toString());
+            } catch(NumberFormatException | APIException ex){
+                Logger.getLogger(EditDrugOrdersFragmentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
                         
@@ -154,8 +156,8 @@ public class EditDrugOrdersFragmentController {
                 model.addAttribute("group", ID);
                 model.addAttribute("groupOrderAction", "RENEW MED PLAN");
                 
-            } catch(NumberFormatException | APIException e){
-                System.out.println(e.toString());
+            } catch(NumberFormatException | APIException ex){
+                Logger.getLogger(EditDrugOrdersFragmentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
                 
@@ -180,8 +182,8 @@ public class EditDrugOrdersFragmentController {
                 model.addAttribute("orderStatus", Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus());
                 model.addAttribute("groupOrderAction", "DISCONTINUE ORDER");
                 
-            } catch(NumberFormatException | APIException e){
-                System.out.println(e.toString());
+            } catch(NumberFormatException | APIException ex){
+                Logger.getLogger(EditDrugOrdersFragmentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         

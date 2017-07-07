@@ -135,8 +135,8 @@ public class PharmacyPatientPageController {
                     InfoErrorMessageUtil.flashInfoMessage(session, "Order Status - " + groupAction);
                 }
             } 
-            catch (NumberFormatException | APIException e) {
-                System.out.println(e.toString());
+            catch (NumberFormatException | APIException ex) {
+                Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         model.addAttribute("group_order_status", groupAction);
@@ -170,7 +170,9 @@ public class PharmacyPatientPageController {
                     
                     job.print(doc, pras);
                 }
-            }
+            } catch (IllegalArgumentException ex) {
+                Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);
+            } 
             
         } catch (IOException | PrintException ex) {
             Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);

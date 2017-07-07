@@ -5,9 +5,11 @@
  */
 package org.openmrs.module.drugorders.page.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
@@ -183,8 +185,8 @@ public class AdministrationPageController {
                         break;
                 }
                 
-            } catch(APIException | NumberFormatException e){
-                System.out.println("Error message "+e.getMessage());
+            } catch(APIException | NumberFormatException ex){
+                Logger.getLogger(AdministrationPageController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         /*

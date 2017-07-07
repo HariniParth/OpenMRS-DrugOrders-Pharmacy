@@ -7,6 +7,8 @@ package org.openmrs.module.drugorders.fragment.controller;
 
 import java.text.ParseException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -121,8 +123,8 @@ public class MailToOrdererFragmentController {
             mail.setText(message);
             Transport.send(mail);
         }
-        catch (MessagingException e) {
-                throw new RuntimeException(e);
+        catch (MessagingException ex) {
+            Logger.getLogger(MailToOrdererFragmentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.CareSetting;
@@ -466,8 +468,8 @@ public class DrugordersHomePageController {
                         draftOrder.setOrderStatus("Active-Plan");
                 }
                 
-            } catch (APIException | NumberFormatException e) {
-                System.out.println(e.toString());
+            } catch (APIException | NumberFormatException ex) {
+                Logger.getLogger(DrugordersHomePageController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
