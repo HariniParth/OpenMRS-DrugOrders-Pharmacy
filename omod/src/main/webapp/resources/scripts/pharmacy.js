@@ -227,7 +227,7 @@ function selectedSingleOrder(orderID){
  */
 function showPharmaConfirmationSection(action){
     jq("#statusLabel").show();
-    document.getElementById("statusLabel").style.display = 'block';
+    jq("#statusLabel").css("display", "block");
     
     $("#selectedAction").text(action);
     $("#pharmaGroupAction").val(action);
@@ -236,7 +236,7 @@ function showPharmaConfirmationSection(action){
     if(action === "On Hold" || action === "Discard"){
         jq("#pharmaGroupActionButtons").show();
         $("#groupComments").attr("required", true);
-        document.getElementById("pharmaGroupActionButtons").style.display = 'block';
+        jq("#pharmaGroupActionButtons").css("display", "block");
         
         $('.commentForPatient').each(function() {
             $(this).attr("required", false);
@@ -249,10 +249,10 @@ function showPharmaConfirmationSection(action){
         });
         
         jq("#printLabel").show();
+        jq("#printLabel").css("display", "block");
         jq("#confirmButtons").show();
-        document.getElementById("printLabel").style.display = 'block';
         jq(".dispatchFields").show();
-        document.getElementsByClassName("dispatchFields").style.display = 'block';
+        jq(".dispatchFields").css("display", "block");
     }
 }
 
@@ -270,7 +270,7 @@ function showPharmaOrderViewSection(){
     $("#groupComments").attr("required", false);
     
     jq("#pharmaGroupButtons").show();
-    document.getElementById("pharmaGroupButtons").style.display = 'block';
+    jq("#pharmaGroupButtons").css("display", "block");
 }
 
 /*
