@@ -162,22 +162,25 @@ public class PharmacyPatientPageController {
     void printOrder(int orderID){
         
         try {
+            // Fetch the details to be printed on the prescription.
             DrugOrder order = (DrugOrder) Context.getOrderService().getOrder(orderID);
             drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
             
-            PrintService service = PrintServiceLookup.lookupDefaultPrintService();
-            // Fetch the details to be printed on the prescription.
             String OrderDetails = drugorder.getDrugName().getDisplayString() + " " + order.getDose() + " " + order.getDoseUnits().getDisplayString() + " " +
                     order.getDuration() + " " + order.getDurationUnits().getDisplayString() + " " + order.getQuantity() + " " + order.getQuantityUnits() + "\n" +
                     "Route: " + order.getRoute().getDisplayString() + " " + "Frequency: " + order.getFrequency().getName() + "\n" +
                     "Start Date: " + drugorder.getStartDate().toString() + "\n" +
                     "Patient Instructions: " + drugorder.getPatientInstructions();
             
-            try (InputStream is = new ByteArrayInputStream(OrderDetails.getBytes())) {
+            // Fetch the default print service.
+            PrintService service = PrintServiceLookup.lookupDefaultPrintService();
+            
+            try {
                 PrintRequestAttributeSet  pras = new HashPrintRequestAttributeSet();
                 pras.add(new Copies(1));
                 
                 if(service != null){
+                    byte[] is = OrderDetails.getBytes();
                     DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
                     Doc doc = new SimpleDoc(is, flavor, null);
                     DocPrintJob job = service.createPrintJob();
@@ -188,7 +191,7 @@ public class PharmacyPatientPageController {
                 Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);
             } 
             
-        } catch (IOException | PrintException ex) {
+        } catch (PrintException ex) {
             Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
