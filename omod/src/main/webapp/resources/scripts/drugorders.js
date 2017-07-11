@@ -872,8 +872,9 @@ function displayPlanCreationWindow(){
     });
     if(!dialogOpen){
         $("#defineAction").val("definePlan");
+        $("#adminPlanActionType").text("DEFINE MEDICATION PLAN");
         jq("#definePlanWindow").show();
-        jq("#definePlanWindow").css("display", "block");
+        jq("#definePlanWindow").css("display", "block");        
     }
 }
 
@@ -884,8 +885,10 @@ function hideMedPlanDefineWindow(){
     jq("#definePlanWindow").hide();
     $("#definePlanName").val("");
     $("#definePlanDesc").val("");
-    $("#defineAction").val("");
     $("#definePlanId").val("");
+    $("#defineAction").val("");
+    $("#adminPlanActionType").text("");
+    $("#planDefineButton").prop("disabled", true);
 }
 
 /*
@@ -983,7 +986,7 @@ function deleteMedPlan(planID){
 /*
  * Rename Administrator specified medication plan.
  */
-function renameMedPlan(id, planName, planDesc){
+function editMedPlan(id, planName, planDesc){
     var dialogOpen = false;
     var objects = $('.dialog');
     $(objects).each(function(){
@@ -993,11 +996,13 @@ function renameMedPlan(id, planName, planDesc){
     });
     if(!dialogOpen){
         $("#definePlanId").val(id);
-        $("#defineAction").val("renamePlan");
+        $("#defineAction").val("editPlan");
         $("#definePlanName").val(planName);
         $("#definePlanDesc").val(planDesc);
         jq("#definePlanWindow").show();
+        $("#planDefineButton").prop("disabled", false); 
         jq("#definePlanWindow").css("display", "block");
+        $("#adminPlanActionType").text("EDIT MEDICATION PLAN");
     }
 }
 

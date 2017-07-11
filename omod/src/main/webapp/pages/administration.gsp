@@ -145,7 +145,7 @@
                                         <td class="planButtons">
                                             <span>
                                                 <i class="icon-trash delete-action" title="${ ui.message("Discard Plan") }" onclick="deleteMedPlan('${ newPlan.id }')"></i>
-                                                <i class="icon-edit edit-action" title="${ ui.message("Rename Plan") }" onclick="renameMedPlan('${ newPlan.id }','${ newPlan.planName.getDisplayString().toUpperCase() }','${ newPlan.planDesc }')"></i>
+                                                <i class="icon-edit edit-action" title="${ ui.message("Rename Plan") }" onclick="editMedPlan('${ newPlan.id }','${ newPlan.planName.getDisplayString().toUpperCase() }','${ newPlan.planDesc }')"></i>
                                                 <i class="icon-plus edit-action" title="${ ui.message("Add Drug To Plan") }" onclick="addPlanItemWindow('${ newPlan.planName.getDisplayString().toUpperCase() }','${ list_of_drugs }')"></i>
                                             </span>
                                         </td>

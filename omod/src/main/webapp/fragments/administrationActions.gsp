@@ -9,7 +9,7 @@
 
 <div id="definePlanWindow" class="dialog">
     <div class="dialog-header">
-        <span id="dialog-heading"><h3>DEFINE MEDICATION PLAN</h3></span>
+        <span id="dialog-heading"><h3 id="adminPlanActionType"></h3></span>
     </div><br/>
     
     <div class="fields">

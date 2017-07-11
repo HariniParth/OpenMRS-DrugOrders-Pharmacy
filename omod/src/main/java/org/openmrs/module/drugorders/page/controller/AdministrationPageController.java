@@ -127,12 +127,19 @@ public class AdministrationPageController {
                     /*
                       Rename the plan by replacing the concept ID of the existing name with the concept ID of the new name.
                     */
-                    case "renamePlan":
+                    case "editPlan":
                         // Check if a concept for the given plan name (disease) exists
                         if(ConceptName(definePlanName.trim()) != null){
                             newplans oldPlan = Context.getService(newplansService.class).getMedPlanByPlanID(Integer.parseInt(definePlanId));
-                            oldPlan.setPlanName(ConceptName(definePlanName.trim()));
-                            InfoErrorMessageUtil.flashInfoMessage(session, "Plan Renamed!");
+                            
+                            if(oldPlan.getPlanName() != ConceptName(definePlanName.trim()) && Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(definePlanName.trim())) != null){
+                                InfoErrorMessageUtil.flashErrorMessage(session, "Cannot modify plan, plan already exists!");
+                            } 
+                            else {
+                                oldPlan.setPlanName(ConceptName(definePlanName.trim()));
+                                oldPlan.setPlanDesc(definePlanDesc.trim());
+                                InfoErrorMessageUtil.flashInfoMessage(session, "Plan Modified!");
+                            }
                         } 
                         else
                             InfoErrorMessageUtil.flashErrorMessage(session, "Create a diagnosis concept!");
