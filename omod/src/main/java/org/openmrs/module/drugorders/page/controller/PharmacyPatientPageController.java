@@ -5,9 +5,6 @@
  */
 package org.openmrs.module.drugorders.page.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
@@ -161,17 +158,17 @@ public class PharmacyPatientPageController {
     */
     void printOrder(int orderID){
         
+        // Fetch the details to be printed on the prescription.
+        DrugOrder order = (DrugOrder) Context.getOrderService().getOrder(orderID);
+        drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
+
+        String OrderDetails = drugorder.getDrugName().getDisplayString() + " " + order.getDose() + " " + order.getDoseUnits().getDisplayString() + " " +
+                order.getDuration() + " " + order.getDurationUnits().getDisplayString() + " " + order.getQuantity() + " " + order.getQuantityUnits() + "\n" +
+                "Route: " + order.getRoute().getDisplayString() + " " + "Frequency: " + order.getFrequency().getName() + "\n" +
+                "Start Date: " + drugorder.getStartDate().toString() + "\n" +
+                "Patient Instructions: " + drugorder.getPatientInstructions();
+            
         try {
-            // Fetch the details to be printed on the prescription.
-            DrugOrder order = (DrugOrder) Context.getOrderService().getOrder(orderID);
-            drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
-            
-            String OrderDetails = drugorder.getDrugName().getDisplayString() + " " + order.getDose() + " " + order.getDoseUnits().getDisplayString() + " " +
-                    order.getDuration() + " " + order.getDurationUnits().getDisplayString() + " " + order.getQuantity() + " " + order.getQuantityUnits() + "\n" +
-                    "Route: " + order.getRoute().getDisplayString() + " " + "Frequency: " + order.getFrequency().getName() + "\n" +
-                    "Start Date: " + drugorder.getStartDate().toString() + "\n" +
-                    "Patient Instructions: " + drugorder.getPatientInstructions();
-            
             // Fetch the default print service.
             PrintService service = PrintServiceLookup.lookupDefaultPrintService();
             
@@ -194,5 +191,7 @@ public class PharmacyPatientPageController {
         } catch (PrintException ex) {
             Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        System.out.println(OrderDetails);
     }
 }
