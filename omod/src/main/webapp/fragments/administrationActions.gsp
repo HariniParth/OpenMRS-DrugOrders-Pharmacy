@@ -18,7 +18,7 @@
             
             <div id="view_order_detail">
                 <label><strong>Enter Plan Name</strong></label>
-                <input type="text" id="definePlanName" name="definePlanName" />
+                <input type="text" id="definePlanName" name="definePlanName" title="Specify name of the diagnosis" />
             </div><br/>
             
             <div id="view_order_detail">
@@ -61,7 +61,7 @@
                     <label id="label"><strong>Drug Name</strong></label>
                 </div>
                 <div id="order_value">
-                    <input id="adminDrug" type="text" name="adminDrug" oninput="checkListOfDrugs()" />
+                    <input id="adminDrug" type="text" name="adminDrug" oninput="checkListOfDrugs()" title="Specify name of the drug" />
                 </div>
             </div>
             
@@ -88,7 +88,7 @@
                     <label><strong>Dose</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminDose" name="adminDose" step="0.1" min="0" />
+                    <input type="number" id="adminDose" name="adminDose" step="0.1" min="0" title="Specify integer/double dose value" />
                 </div>
             </div>
 
@@ -115,7 +115,7 @@
                     <label><strong>Quantity</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminQuantity" name="adminQuantity" step="0.1" min="0" />
+                    <input type="number" id="adminQuantity" name="adminQuantity" step="0.1" min="0" title="Specify integer/double quantity value" />
                 </div>
             </div>
 
@@ -142,7 +142,7 @@
                     <label><strong>Duration</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminDuration" name="adminDuration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <input type="number" id="adminDuration" name="adminDuration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" />
                 </div>
             </div>
 

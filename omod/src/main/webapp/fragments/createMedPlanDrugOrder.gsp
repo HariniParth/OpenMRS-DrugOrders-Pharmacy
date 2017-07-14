@@ -14,7 +14,7 @@
     <div class="addMedicationPlanWindow">
         <form method="post" id="planForm">
             <div class="fields"><label><strong>Enter Plan Name </strong></label><br/>
-                <input type="text" id="planName" name="planName" oninput="autoCompletePlan()" />
+                <input type="text" id="planName" name="planName" oninput="autoCompletePlan()" title="Specify name of the diagnosis" />
             </div><br/><br/>            
             <button class="cancel pull-right" id="btn-place" type="button" onclick="hideMedicationPlanOrderWindow()">${ ui.message("Cancel") }</button>
         </form>

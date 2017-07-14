@@ -20,7 +20,7 @@
                 <label>Drug name <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="drugName" oninput="autoCompleteDrug('${ currentOrders }','${ allergicDrugs }')" name="drugName" />
+                <input type="text" id="drugName" oninput="autoCompleteDrug('${ currentOrders }','${ allergicDrugs }')" name="drugName" title="Specify name of the drug" />
             </div>
         </div>
         
@@ -82,7 +82,7 @@
                 <label>Dose <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="dose" name="dose" step="0.1" min="0" />
+                <input type="number" id="dose" name="dose" step="0.1" min="0" title="Specify integer/double dose value" />
             </div>
         </div>
 
@@ -109,7 +109,7 @@
                 <label>Quantity <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="quantity" name="quantity" step="0.1" min="0" />
+                <input type="number" id="quantity" name="quantity" step="0.1" min="0" title="Specify integer/double quantity value" />
             </div>
         </div>
 
@@ -136,7 +136,7 @@
                 <label>Duration <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="duration" name="duration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                <input type="number" id="duration" name="duration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" />
             </div>
         </div>
 
@@ -179,7 +179,7 @@
                 <label>Diagnosis <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="diagnosis" name="diagnosis" />
+                <input type="text" id="diagnosis" name="diagnosis" title="Specify name of the diagnosis" />
             </div>
         </div>
 
@@ -205,7 +205,7 @@
                 <label>Refills </label>
             </div>
             <div id="order_value">
-                <input type="number" id="refill" name="refill" value="0" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required="required" />
+                <input type="number" id="refill" name="refill" value="0" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required="required" title="Specify integer refill value" />
             </div>
         </div>
 
@@ -216,14 +216,14 @@
                 <label>Interval (days)</label>
             </div>
             <div id="order_value">
-                <input type="number" id="interval" name="interval" value="0" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required="required" />
+                <input type="number" id="interval" name="interval" value="0" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required="required" title="Specify integer interval value" />
             </div>
         </div>
         
         <br/><br/><br/>
         
         <div class="fields" id="view_order_detail">
-            <label>Instructions from the Physician for -</label>
+            <label>Instructions from the Physician for the -</label>
         </div>  
             
         <div class="fields" id="view_order_detail">
