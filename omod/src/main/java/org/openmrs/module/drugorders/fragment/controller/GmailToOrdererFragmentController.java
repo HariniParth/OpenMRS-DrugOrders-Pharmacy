@@ -6,6 +6,16 @@
 package org.openmrs.module.drugorders.fragment.controller;
 
 import java.text.ParseException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
@@ -19,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author harini-parthasarathy
  */
-public class MailToOrdererFragmentController {
+public class GmailToOrdererFragmentController {
     
     protected UserContext userContext;
     
@@ -60,7 +70,7 @@ public class MailToOrdererFragmentController {
             // Store the string of the name of the drugs.
             drugNames = drugNames.concat(drugorder.getDrugName().getDisplayString().toUpperCase()+";");
             // Store the details of the selected orders.
-            orderDetails = orderDetails.concat("Order ID: "+Integer.toString(drugorder.getOrderId())+"%0ADrug: "+drugorder.getDrugName().getDisplayString().toUpperCase()+"%0AStart Date: "+drugorder.getStartDate().toString()+"%0A%0A");
+            orderDetails = orderDetails.concat("Order ID: "+Integer.toString(drugorder.getOrderId())+"\nDrug: "+drugorder.getDrugName().getDisplayString().toUpperCase()+"\nStart Date: "+drugorder.getStartDate().toString()+"\n\n");
             // Set recipient of the mail to be the orderer.
             if(recipient.equals(""))
                 recipient = order.getOrderer().getName();
@@ -77,5 +87,45 @@ public class MailToOrdererFragmentController {
         model.addAttribute("drugNames", drugNames);
         model.addAttribute("orderDetails", orderDetails);
         model.addAttribute("groupComments", groupComments);
+    }
+    
+    public void contactOrderer(@RequestParam(value = "sender", required = false) String sender,
+                                @RequestParam(value = "recipient", required = false) String recipient,
+                                @RequestParam(value = "subject", required = false) String subject,
+                                @RequestParam(value = "message", required = false) String message){
+        
+        final String username = "";
+        final String password = "";
+
+        /*
+          Use Google's SMTP service to send emails.
+          Specify the values of the following properties to enable mailing.
+        */
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "");
+        props.put("mail.smtp.starttls.enable", "");
+        props.put("mail.smtp.host", "");
+        props.put("mail.smtp.port", "");
+        
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        
+        try {
+            Message mail = new MimeMessage(session);
+            mail.setFrom(new InternetAddress(""));
+            mail.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+            mail.setSubject(subject);
+            mail.setText(message);
+            Transport.send(mail);
+        }
+        catch (MessagingException ex) {
+            Logger.getLogger(MailToOrdererFragmentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }
