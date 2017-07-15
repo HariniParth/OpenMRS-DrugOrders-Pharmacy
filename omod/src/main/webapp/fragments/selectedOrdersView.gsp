@@ -126,6 +126,7 @@
                                 Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
                             -->
                             <div class="dispatchFields">
+                                <br/>
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label"><label>Expiry Date<span id="asterisk">*</span></label></div>
                                     <div id="order_value">${ ui.includeFragment("uicommons", "field/datetimepicker", [ class: 'drugExpiryDate', label: '', formFieldName: 'drugExpiryDate', useTime: '', defaultDate: expiryDate ]) }</div>
@@ -135,6 +136,8 @@
                                     <div id="order_label"><label>Pharm Note<span id="asterisk">*</span></label></div>
                                     <div id="order_value"><input type="text" maxlength="255" class="commentForPatient" name="commentForPatient" required="required" ></div>
                                 </div><br/><br/><br/>
+                                
+                                <span class="print" onclick="printLabel('${ groupOrder.key }')">Print Label</span><br/><br/>
                             </div>
                         </div>
                     </div>
@@ -146,10 +149,6 @@
             <input type="hidden" id="pharmaSingle" value="${ orderID }" />
             
             <label class="fields" id="statusLabel"><br/>Order Status: <span id="selectedAction"></span></label>
-            
-            <div class="fields" id="printLabel">
-                Click <span id="here">here</span> to Print Label<br/><br/>
-            </div>
             
             <span id="pharmaGroupButtons">
                 <div class="fields" id="btn-place">
@@ -163,6 +162,7 @@
             <input type="hidden" id="pharmaGroupAction" name="pharmaGroupAction" />
             
             <div id="confirmButtons">
+                <br/>
                 <div class="fields" id="btn-place">
                     <input class="confirm right" id="confirmBtn1" type="submit" name="action" value="Confirm" />
                     <input class="cancel left" type="button" value="Back" onclick="showPharmaOrderViewSection()" />

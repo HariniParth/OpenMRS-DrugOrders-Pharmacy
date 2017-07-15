@@ -110,11 +110,11 @@ and open the template in the editor.
     min-height: 152px;
 }
 
-.icon-minus-sign.edit-action, #pharmaGroupActionButtons, #statusLabel, #printLabel, #confirmButtons, .dispatchFields, #removeHold, #contactOrderer{
+.icon-minus-sign.edit-action, #pharmaGroupActionButtons, #statusLabel, #confirmButtons, .dispatchFields, #removeHold, #contactOrderer{
     display: none;
 }
 
-#currentGroupOrdersTable, #nameField, #printLabel{
+#currentGroupOrdersTable, #nameField{
     font-size: 13px;
 }
 
@@ -345,6 +345,13 @@ form select, .form select {
     word-break: break-all;
 }
 
-#printLabel > a:hover{
+.print{
+    font-size: 13px;
+    color: #007fff;
+    display: none;
+    float: right;
+}
+
+.print:hover{
     cursor: pointer;
 }

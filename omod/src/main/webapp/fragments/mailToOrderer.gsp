@@ -12,5 +12,7 @@
     <a href="mailto:<${ recipient }>?Subject=Order ID(s): ${ orderList } - Order Status: ${ groupAction }&body=This is to inform you that the following Order(s) Status is set to ${ groupAction }%0A%0APatient ID: ${ patientID }%0A%0APatient Name: ${ patientName }%0A%0A%0A${ orderDetails }%0AComments: ${ groupComments }" target="_top">Send Mail</a> 
     
 <% } else if(ordererName != "") { %>
-    <a href="mailto:<${ recipient }>?Subject=Order ID(s): ${ orderNumber }&body=" target="_top">Send Mail</a> 
+
+    <a href="mailto:<${ ordererName }>?Subject=Order ID(s): ${ orderNumber }&body=" target="_top">Send Mail</a> 
+
 <% } %>

@@ -248,8 +248,8 @@ function showPharmaConfirmationSection(action){
             $(this).attr("required", true);
         });
         
-        jq("#printLabel").show();
-        jq("#printLabel").css("display", "block");
+        jq(".print").show();
+        jq(".print").css("display", "block");
         jq("#confirmButtons").show();
         jq(".dispatchFields").show();
         jq(".dispatchFields").css("display", "block");
@@ -260,12 +260,11 @@ function showPharmaConfirmationSection(action){
  * Hide fields to enter details to dispatch / put on hold / discard a record.
  */
 function showPharmaOrderViewSection(){
-    
-    $("#selectedAction").text("");    
-    jq("#printLabel").hide();
+    jq(".print").hide();
     jq("#statusLabel").hide();
     jq("#confirmButtons").hide();
     jq(".dispatchFields").hide();
+    $("#selectedAction").text(""); 
     jq("#pharmaGroupActionButtons").hide();
     $("#groupComments").attr("required", false);
     
