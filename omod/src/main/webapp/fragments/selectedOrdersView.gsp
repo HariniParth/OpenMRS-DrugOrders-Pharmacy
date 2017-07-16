@@ -1,5 +1,6 @@
 <%
     ui.includeCss("drugorders", "pharmacy.css")
+    def order_id = "";
     def allergic_order = "";
     def last_dispatch_date = "";
     def patient_instr = "";
@@ -25,7 +26,10 @@
             
             <div class="group">
                 <% groupOrderMain.each { groupOrder -> %>   
-
+                    <% if(order_id == "") { %>
+                        <% order_id = groupOrder.key; %>
+                    <% } %>
+                    
                     <div class="groupItem">
                                 
                         <div id="view_order_detail">
@@ -41,7 +45,49 @@
                             
                             <span class="fields">Dose: ${ groupOrder.value.dose } ${ groupOrder.value.doseUnits.getDisplayString() }, Quantity: ${ groupOrder.value.quantity } ${ groupOrder.value.quantityUnits.getDisplayString() }</span><br/><br/>
                         
-                            <div class="additionalInformation">
+                            <div class="fields" id="view_order_detail">
+                                <div id="order_label">Instructions</div>
+                                <div id="order_value">for:</div>
+                            </div>
+
+                            <% if(groupOrderExtn.get(groupOrder.key).pharmacistInstructions != null && groupOrderExtn.get(groupOrder.key).pharmacistInstructions != "null") { %>
+                                <% pharma_instr = groupOrderExtn.get(groupOrder.key).pharmacistInstructions; %>
+                            <% } else { %>
+                                <% pharma_instr = "-"; %>
+                            <% } %>
+
+                            <div class="fields" id="view_order_detail">
+                                <div id="order_label">Pharmacy</div>
+                                <div id="order_value">${ pharma_instr }</div>
+                            </div><br/><br/>
+                            
+                            <% if(groupOrderExtn.get(groupOrder.key).patientInstructions != null && groupOrderExtn.get(groupOrder.key).patientInstructions != "null") { %>
+                                <% patient_instr = groupOrderExtn.get(groupOrder.key).patientInstructions; %>
+                            <% } else { %>
+                                <% patient_instr = "-"; %>
+                            <% } %>
+
+                            <div class="fields" id="view_order_detail">
+                                <div id="order_label">Patient</div>
+                                <div id="order_value">${ patient_instr }</div>
+                            </div><br/>
+                                
+                            <!--
+                                Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
+                            -->
+                            <div class="dispatchFields">
+                                <div class="fields" id="view_order_detail">
+                                    <div id="order_label"><label>Note<span id="asterisk">*</span></label></div>
+                                    <div id="order_value"><input type="textarea" maxlength="255" class="commentForPatient" name="commentForPatient" required="required" ></div>
+                                </div><br/><br/>
+                                
+                                <div class="fields" id="view_order_detail">
+                                    <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
+                                    <div id="order_value">${ ui.includeFragment("uicommons", "field/datetimepicker", [ class: 'drugExpiryDate', label: '', formFieldName: 'drugExpiryDate', useTime: '', defaultDate: expiryDate ]) }</div>
+                                </div><br/><br/><br/>
+                            </div>
+                            
+                            <div class="additionalInformation"><br/>
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label">Route</div>
                                     <div id="order_value">${ groupOrder.value.route.getDisplayString() } </div>
@@ -93,52 +139,8 @@
                                     <div id="order_label">Last Refill</div>
                                     <div id="order_value">${ last_dispatch_date }</div>
                                 </div>
-
-                                <div class="fields" id="view_order_detail">
-                                    <div id="order_label">Instructions </div>
-                                    <div id="order_value">from Physician:</div>
-                                </div>
-
-                                <% if(groupOrderExtn.get(groupOrder.key).patientInstructions != null && groupOrderExtn.get(groupOrder.key).patientInstructions != "null") { %>
-                                    <% patient_instr = groupOrderExtn.get(groupOrder.key).patientInstructions; %>
-                                <% } else { %>
-                                    <% patient_instr = "-"; %>
-                                <% } %>
-                                
-                                <div class="fields" id="view_order_detail">
-                                    <div id="order_label">Patient</div>
-                                    <div id="order_value">${ patient_instr }</div>
-                                </div>
-
-                                <% if(groupOrderExtn.get(groupOrder.key).pharmacistInstructions != null && groupOrderExtn.get(groupOrder.key).pharmacistInstructions != "null") { %>
-                                    <% pharma_instr = groupOrderExtn.get(groupOrder.key).pharmacistInstructions; %>
-                                <% } else { %>
-                                    <% pharma_instr = "-"; %>
-                                <% } %>
-                                
-                                <div class="fields" id="view_order_detail">
-                                    <div id="order_label">Pharmacy</div>
-                                    <div id="order_value">${ pharma_instr }</div>
-                                </div>
-                            </div>
-                            
-                            <!--
-                                Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
-                            -->
-                            <div class="dispatchFields">
-                                <br/>
-                                <div class="fields" id="view_order_detail">
-                                    <div id="order_label"><label>Expiry Date<span id="asterisk">*</span></label></div>
-                                    <div id="order_value">${ ui.includeFragment("uicommons", "field/datetimepicker", [ class: 'drugExpiryDate', label: '', formFieldName: 'drugExpiryDate', useTime: '', defaultDate: expiryDate ]) }</div>
-                                </div><br/><br/><br/>
-
-                                <div class="fields" id="view_order_detail">
-                                    <div id="order_label"><label>Pharm Note<span id="asterisk">*</span></label></div>
-                                    <div id="order_value"><input type="text" maxlength="255" class="commentForPatient" name="commentForPatient" required="required" ></div>
-                                </div><br/><br/><br/>
-                                
-                                <span class="print" onclick="printLabel('${ groupOrder.key }')">Print Label</span><br/><br/>
-                            </div>
+                            </div><br/>
+                            <span class="print" onclick="printLabel('${ groupOrder.key }')">Print Label</span><br/>
                         </div>
                     </div>
                 <% } %>
@@ -179,6 +181,8 @@
                 </div>
                 <div class="fields">
                     <input type="textarea" maxlength="255" id="groupComments" name="groupComments" placeholder="Enter Comments for the Orderer" /><br/>
+                    <a href="mailto:<${ provider.get(order_id) }>?Subject=Order Status Alert!!! Order ID(s): ${ orderList }&body=This is to inform you that the following Order(s) cannot be dispatched.%0A%0APatient ID:   ${ patientID }%0APatient Name: ${ patientName }%0A%0A%0A${ orderDetails }%0AComments: " id="emailLink" target="_top">Send a message to the Orderer</a> <br/><br/>
+                    
                     <div id="btn-place">
                         <input class="confirm right" id="confirmBtn2" type="submit" name="action" value="Confirm" />
                         <input class="cancel" value="Back" type="button" onclick="showPharmaOrderViewSection()" />

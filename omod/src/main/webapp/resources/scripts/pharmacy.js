@@ -74,9 +74,9 @@ function enableConfirmBtn(){
     $('.groupCheckBox').each(function() {
         if(this.checked) {
             selected = true;  
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.commentForPatient').prop("readonly", false);
+            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", false);
         } else {
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.commentForPatient').prop("readonly", true);
+            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", true);
         }
     });
     
@@ -264,9 +264,14 @@ function showPharmaOrderViewSection(){
     jq("#statusLabel").hide();
     jq("#confirmButtons").hide();
     jq(".dispatchFields").hide();
-    $("#selectedAction").text(""); 
+    jq("#selectedAction").text(""); 
+    jq("#groupComments").val("");
     jq("#pharmaGroupActionButtons").hide();
-    $("#groupComments").attr("required", false);
+    jq("#groupComments").attr("required", false);
+    
+    $('.commentForPatient').each(function() {
+        $(this).val("");
+    });
     
     jq("#pharmaGroupButtons").show();
     jq("#pharmaGroupButtons").css("display", "block");

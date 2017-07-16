@@ -42,23 +42,36 @@ public class SelectedOrdersViewFragmentController {
         HashMap<Integer,DrugOrder> groupOrderMain = new HashMap<>();
         // Store HashMap<Order-Id, drugorders>
         HashMap<Integer,drugorders> groupOrderExtn = new HashMap<>();
+        // Store the name of the plan.
+        StringBuilder planId = new StringBuilder();
+        // Store the list of selected drug order IDs.
+        StringBuilder orderList = new StringBuilder();
+        // Store the details of the selected drug orders.
+        StringBuilder orderDetails = new StringBuilder();
         
-        StringBuilder sb = new StringBuilder();
         if(!planID.equals("")){
             
-            // Retrieve the list of Med Plan Orders ordered for this Patient as a part of the selected plan.
+            // Retrieve the list of Med Plan Orders ordered for this Patient as a part of the selected plan (diagnosis/disease).
             List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(Integer.parseInt(planID));
-            sb.append(plans.get(0).getDiseaseId().getDisplayString());
+            // Store the name of the plan.
+            planId.append(plans.get(0).getDiseaseId().getDisplayString());
             
             for(planorders plan : plans){
-                drugorders dorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(plan.getOrderId());
+                // Retrieve the order ID record of the order made as a part of the plan.
+                drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(plan.getOrderId());
                 // From the retrieved med plan order list, select the list of active drug orders.
-                if(dorder.getOrderStatus().equals("Active-Plan")){
-                    groupOrderExtn.put(dorder.getOrderId(), dorder);
-                    DrugOrder DOrder = (DrugOrder) Context.getOrderService().getOrder(dorder.getOrderId());
-                    groupOrderMain.put(dorder.getOrderId(), DOrder);
+                if(drugorder.getOrderStatus().equals("Active-Plan")){
+                    // Append the Order ID to the list of selected order IDs.
+                    orderList.append(drugorder.getOrderId()).append(" ");
+                    // Append the Order details to the list of selected order details.
+                    orderDetails = orderDetails.append("Order ID: ").append(Integer.toString(drugorder.getOrderId())).append("%0ADrug: ").append(drugorder.getDrugName().getDisplayString().toUpperCase()).append("%0AStart Date: ").append(drugorder.getStartDate().toString()).append("%0A%0A");
+                    // Store the corresponding drug_orders_extn table record.
+                    groupOrderExtn.put(drugorder.getOrderId(), drugorder);
+                    // Retrieve and Store the corresponding drug_orders table record.
+                    DrugOrder DOrder = (DrugOrder) Context.getOrderService().getOrder(drugorder.getOrderId());
+                    groupOrderMain.put(drugorder.getOrderId(), DOrder);
                     // Save the Orderer's name corresponding to the drug order.
-                    provider.put(dorder.getOrderId(), DOrder.getOrderer().getPerson().getGivenName() + " " + DOrder.getOrderer().getPerson().getFamilyName() + ", " + StringUtils.capitalize(DOrder.getOrderer().getIdentifier()));                    
+                    provider.put(drugorder.getOrderId(), DOrder.getOrderer().getPerson().getGivenName() + " " + DOrder.getOrderer().getPerson().getFamilyName());                    
                 }
             }
         }
@@ -70,7 +83,13 @@ public class SelectedOrdersViewFragmentController {
             for(drugorders drugorder : drugorders){
                 // From the retrieved med plan order list, select the list of active drug orders.
                 if(drugorder.getOrderStatus().equals("Active-Group")){
+                    // Append the Order ID to the list of selected order IDs.
+                    orderList.append(drugorder.getOrderId()).append(" ");
+                    // Append the Order details to the list of selected order details.
+                    orderDetails = orderDetails.append("Order ID: ").append(Integer.toString(drugorder.getOrderId())).append("%0ADrug: ").append(drugorder.getDrugName().getDisplayString().toUpperCase()).append("%0AStart Date: ").append(drugorder.getStartDate().toString()).append("%0A%0A");
+                    // Store the corresponding drug_orders_extn table record.
                     groupOrderExtn.put(drugorder.getOrderId(), drugorder);
+                    // Retrieve and Store the corresponding drug_orders table record.
                     DrugOrder DrugOrder = (DrugOrder) Context.getOrderService().getOrder(drugorder.getOrderId());
                     groupOrderMain.put(DrugOrder.getOrderId(), DrugOrder);
                     // Save the Orderer's name corresponding to the drug order.
@@ -83,21 +102,31 @@ public class SelectedOrdersViewFragmentController {
             // Retrieved the Drug Order associated with the given Order ID
             int order = Integer.parseInt(orderID);
             drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(order);
+            // Append the Order ID as the selected order ID.
+            orderList.append(drugorder.getOrderId()).append(" ");
+            // Append the Order details to the list of selected order details.
+            orderDetails = orderDetails.append("Order ID: ").append(Integer.toString(drugorder.getOrderId())).append("%0ADrug: ").append(drugorder.getDrugName().getDisplayString().toUpperCase()).append("%0AStart Date: ").append(drugorder.getStartDate().toString()).append("%0A%0A");
+            // Store the corresponding drug_orders_extn table record.
             groupOrderExtn.put(order, drugorder);
-            
+            // Retrieve and Store the corresponding drug_orders table record.
             DrugOrder DrugOrder = (DrugOrder) Context.getOrderService().getOrder(order);
             groupOrderMain.put(order, DrugOrder);
             // Save the Orderer's name corresponding to the drug order.
             provider.put(DrugOrder.getOrderId(), DrugOrder.getOrderer().getPerson().getGivenName() + " " + DrugOrder.getOrderer().getPerson().getFamilyName() + ", " + StringUtils.capitalize(DrugOrder.getOrderer().getIdentifier()));
         }
         
-        model.addAttribute("planID", sb.toString());
+        model.addAttribute("planID", planId.toString());
         model.addAttribute("groupID", groupID);
         model.addAttribute("orderID", orderID);
         
         model.addAttribute("groupOrderMain", groupOrderMain);
         model.addAttribute("groupOrderExtn", groupOrderExtn);
+        model.addAttribute("orderDetails", orderDetails);
+        model.addAttribute("orderList", orderList);
         model.addAttribute("provider", provider);
+        
+        model.addAttribute("patientID", patient.getPatientId());
+        model.addAttribute("patientName", patient.getGivenName()+" "+patient.getFamilyName());
         
     }
 }
