@@ -75,7 +75,7 @@
                             <!--
                                 Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
                             -->
-                            <div class="dispatchFields">
+                            <div class="dispatchFields"><br/>
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label"><label>Note<span id="asterisk">*</span></label></div>
                                     <div id="order_value"><input type="textarea" maxlength="255" class="commentForPatient" name="commentForPatient" required="required" ></div>
@@ -83,7 +83,7 @@
                                 
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
-                                    <div id="order_value">${ ui.includeFragment("uicommons", "field/datetimepicker", [ class: 'drugExpiryDate', label: '', formFieldName: 'drugExpiryDate', useTime: '', defaultDate: expiryDate ]) }</div>
+                                    <div id="order_value"><input type="text" class="drugExpiryDate" name="drugExpiryDate" placeholder="MM/DD/YYYY" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" required="required" ></div>
                                 </div><br/><br/><br/>
                             </div>
                             
@@ -140,7 +140,25 @@
                                     <div id="order_value">${ last_dispatch_date }</div>
                                 </div>
                             </div><br/>
-                            <span class="print" onclick="printLabel('${ groupOrder.key }')">Print Label</span><br/>
+                            <span class="hidden" id="order">${ groupOrder.key }</span>
+                            <span class="print">Print Label</span><br/>
+                        
+                            <script type="text/javascript">
+                                jq( function() {
+                                    jq(".print").on('click', function (){
+                                        var order = jq(this).prev('#order').text();
+                                        var date = jq(this).parent().find('.dispatchFields').first().find('.fields').last().find('#order_value').find('.drugExpiryDate').val();
+                                        var comment = jq(this).parent().find('.dispatchFields').first().find('.fields').first().find('#order_value').find('.commentForPatient').val();
+                                        
+                                        jq.getJSON('${ ui.actionLink("printLabel") }',
+                                        {
+                                          'comment': comment,
+                                          'order': order,
+                                          'date': date
+                                        });
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 <% } %>
@@ -208,4 +226,6 @@
         jq(this).hide();
         jq(this).prev(".icon-plus-sign").show();
     });
+    
+    jq('.drugExpiryDate').datepicker();
 </script>

@@ -11,10 +11,23 @@ import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.api.planordersService;
 import org.openmrs.module.drugorders.drugorders;
+import org.openmrs.module.drugorders.page.controller.PharmacyPatientPageController;
 import org.openmrs.module.drugorders.planorders;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.util.StringUtils;
@@ -128,5 +141,50 @@ public class SelectedOrdersViewFragmentController {
         model.addAttribute("patientID", patient.getPatientId());
         model.addAttribute("patientName", patient.getGivenName()+" "+patient.getFamilyName());
         
+    }
+    
+    /*
+      This function will send a command to the printer to print out the details of the drug order that is relavant to the Patient.
+    */
+    public void printLabel(@RequestParam(value = "comment", required = false) String comment,
+                           @RequestParam(value = "order", required = false) Integer orderID,
+                           @RequestParam(value = "date", required = false) String date){
+        
+        // Fetch the details to be printed on the prescription.
+        DrugOrder order = (DrugOrder) Context.getOrderService().getOrder(orderID);
+        drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
+
+        String OrderDetails = drugorder.getDrugName().getDisplayString() + " " + order.getDose() + " " + order.getDoseUnits().getDisplayString() + " " +
+                order.getDuration() + " " + order.getDurationUnits().getDisplayString() + " " + order.getQuantity() + " " + order.getQuantityUnits() + "\n" +
+                "Route: " + order.getRoute().getDisplayString() + " " + "Frequency: " + order.getFrequency().getName() + "\n" +
+                "Start Date: " + drugorder.getStartDate().toString() + "\n" +
+                "Patient Instructions: " + drugorder.getPatientInstructions() + "\n" +
+                "Comments from Pharmacist" + comment + "\n" +
+                "Drug Expiry Date" + date;
+            
+        try {
+            // Fetch the default print service.
+            PrintService service = PrintServiceLookup.lookupDefaultPrintService();
+            
+            try {
+                PrintRequestAttributeSet  pras = new HashPrintRequestAttributeSet();
+                pras.add(new Copies(1));
+                
+                if(service != null){
+                    byte[] is = OrderDetails.getBytes();
+                    DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
+                    Doc doc = new SimpleDoc(is, flavor, null);
+                    DocPrintJob job = service.createPrintJob();
+                    job.print(doc, pras);
+                }
+            } catch (IllegalArgumentException ex) {
+                Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+            
+        } catch (PrintException ex) {
+            Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println("Prescription "+OrderDetails);
     }
 }

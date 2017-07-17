@@ -10,7 +10,7 @@ var removeFromHoldDialog = null;
 var contactOrdererDialog = null;
 
 $(document).ready( function() {
-    
+       
     removeFromHoldDialog = emr.setupConfirmationDialog({
         selector: '#removeHold',
         actions: {
@@ -75,8 +75,10 @@ function enableConfirmBtn(){
         if(this.checked) {
             selected = true;  
             $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", false);
+            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("readonly", false);
         } else {
             $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", true);
+            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("readonly", true);
         }
     });
     
@@ -235,16 +237,24 @@ function showPharmaConfirmationSection(action){
     
     if(action === "On Hold" || action === "Discard"){
         jq("#pharmaGroupActionButtons").show();
-        $("#groupComments").attr("required", true);
+        jq("#groupComments").attr("required", true);
         jq("#pharmaGroupActionButtons").css("display", "block");
         
         $('.commentForPatient').each(function() {
+            $(this).attr("required", false);
+        });
+        
+        $('.drugExpiryDate').each(function() {
             $(this).attr("required", false);
         });
     }
     
     if(action === "Dispatch"){
         $('.commentForPatient').each(function() {
+            $(this).attr("required", true);
+        });
+        
+        $('.drugExpiryDate').each(function() {
             $(this).attr("required", true);
         });
         
@@ -270,6 +280,10 @@ function showPharmaOrderViewSection(){
     jq("#groupComments").attr("required", false);
     
     $('.commentForPatient').each(function() {
+        $(this).val("");
+    });
+    
+    $('.drugExpiryDate').each(function() {
         $(this).val("");
     });
     

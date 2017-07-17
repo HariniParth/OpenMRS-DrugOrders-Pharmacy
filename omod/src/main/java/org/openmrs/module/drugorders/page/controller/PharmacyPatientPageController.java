@@ -5,24 +5,14 @@
  */
 package org.openmrs.module.drugorders.page.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintException;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.SimpleDoc;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.Copies;
+import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
 import org.openmrs.api.APIException;
 import org.openmrs.module.allergyapi.api.PatientService;
@@ -48,8 +38,8 @@ public class PharmacyPatientPageController {
             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
             @RequestParam(value = "pharmaGroupAction", required = false) String groupAction,
             @RequestParam(value = "groupComments", required = false) String groupComments,
-            @RequestParam(value = "drugExpiryDate", required = false) Date[] drugExpiryDate,
-            @RequestParam(value = "commentForPatient", required = false) String[] commentForPatient) {
+            @RequestParam(value = "drugExpiryDate", required = false) String[] drugExpiryDate,
+            @RequestParam(value = "commentForPatient", required = false) String[] commentForPatient) throws ParseException {
 
         /*
           Get the list of drugs the Patient is allergic to
@@ -134,10 +124,8 @@ public class PharmacyPatientPageController {
                                         Context.getOrderService().voidOrder(Context.getOrderService().getOrder(drugorder.getOrderId()), "No Longer Active");
                                     }   
                                     // Save the drug expiry date and comments entered for the Patient.
-                                    drugorder.setDrugExpiryDate(drugExpiryDate[i]);
+                                    drugorder.setDrugExpiryDate(new SimpleDateFormat("MM/dd/yyyy").parse(drugExpiryDate[i]));
                                     drugorder.setCommentForPatient(commentForPatient[i]);
-                                    // Print the order details prescription.
-                                    printOrder(drugorder.getOrderId());
                                     break;
                             }
                             Context.getService(drugordersService.class).saveDrugOrder(drugorder);
@@ -151,47 +139,5 @@ public class PharmacyPatientPageController {
             }
         }
         model.addAttribute("group_order_status", groupAction);
-    }
-    
-    /*
-      This function will send a command to the printer to print out the details of the drug order that is relavant to the Patient.
-    */
-    void printOrder(int orderID){
-        
-        // Fetch the details to be printed on the prescription.
-        DrugOrder order = (DrugOrder) Context.getOrderService().getOrder(orderID);
-        drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
-
-        String OrderDetails = drugorder.getDrugName().getDisplayString() + " " + order.getDose() + " " + order.getDoseUnits().getDisplayString() + " " +
-                order.getDuration() + " " + order.getDurationUnits().getDisplayString() + " " + order.getQuantity() + " " + order.getQuantityUnits() + "\n" +
-                "Route: " + order.getRoute().getDisplayString() + " " + "Frequency: " + order.getFrequency().getName() + "\n" +
-                "Start Date: " + drugorder.getStartDate().toString() + "\n" +
-                "Patient Instructions: " + drugorder.getPatientInstructions();
-            
-        try {
-            // Fetch the default print service.
-            PrintService service = PrintServiceLookup.lookupDefaultPrintService();
-            
-            try {
-                PrintRequestAttributeSet  pras = new HashPrintRequestAttributeSet();
-                pras.add(new Copies(1));
-                
-                if(service != null){
-                    byte[] is = OrderDetails.getBytes();
-                    DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
-                    Doc doc = new SimpleDoc(is, flavor, null);
-                    DocPrintJob job = service.createPrintJob();
-                    
-                    job.print(doc, pras);
-                }
-            } catch (IllegalArgumentException ex) {
-                Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);
-            } 
-            
-        } catch (PrintException ex) {
-            Logger.getLogger(PharmacyPatientPageController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        System.out.println(OrderDetails);
     }
 }
