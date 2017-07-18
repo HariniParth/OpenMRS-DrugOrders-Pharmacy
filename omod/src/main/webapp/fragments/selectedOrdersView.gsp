@@ -78,7 +78,7 @@
                             <div class="dispatchFields"><br/>
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label"><label>Note<span id="asterisk">*</span></label></div>
-                                    <div id="order_value"><input type="textarea" maxlength="255" class="commentForPatient" name="commentForPatient" required="required" ></div>
+                                    <div id="order_value"><textarea maxlength="255" class="commentForPatient" name="commentForPatient" required="required"></textarea></div>
                                 </div><br/><br/>
                                 
                                 <div class="fields" id="view_order_detail">
@@ -198,16 +198,15 @@
                     <label>Comments</label>
                 </div>
                 <div class="fields">
-                    <input type="textarea" maxlength="255" id="groupComments" name="groupComments" placeholder="Enter Comments for the Orderer" /><br/>
-                    <a href="mailto:<${ provider.get(order_id) }>?Subject=Order Status Alert!!! Order ID(s): ${ orderList }&body=This is to inform you that the following Order(s) cannot be dispatched.%0A%0APatient ID:   ${ patientID }%0APatient Name: ${ patientName }%0A%0A%0A${ orderDetails }%0AComments: " id="emailLink" target="_top">Send a message to the Orderer</a> <br/><br/>
+                    <textarea maxlength="255" id="groupComments" name="groupComments" placeholder="Enter Comments for the Orderer"></textarea><br/>
+                    <a href="mailto:<Recipient Address<>>?Subject=Order Status Alert!!! Order ID(s): ${ orderList }&body=This is to inform you that the following Order(s) cannot be dispatched.%0A%0A%0APatient ID:   ${ patientID }%0A%0APatient Name: ${ patientName }%0A%0APatient DOB:  ${ patientDOB.format('yyyy-MM-dd') }%0A%0APatient Addr: ${ patientAddr }%0A%0A%0A${ orderDetails }%0AComments: " id="emailLink" target="_top">Send a message to the Orderer</a> <br/><br/>
                     
                     <div id="btn-place">
                         <input class="confirm right" id="confirmBtn2" type="submit" name="action" value="Confirm" />
                         <input class="cancel" value="Back" type="button" onclick="showPharmaOrderViewSection()" />
                     </div>
                 </div>
-            </span>
-            
+            </span>            
         </form>
     </div>
 <% } %>

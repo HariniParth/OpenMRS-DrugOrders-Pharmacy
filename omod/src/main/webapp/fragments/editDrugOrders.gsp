@@ -203,7 +203,7 @@
                         <% if((groupOrderAction == "RENEW MED PLAN" || groupOrderAction == "RENEW ORDER GROUP") && allergicDrugs.contains(groupExtn.get(order.key).drugName.getDisplayString().toUpperCase()) && !currentOrders.contains(groupExtn.get(order.key).drugName.getDisplayString().toUpperCase())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>
                             Enter reasons to order this drug <br/>
-                            <input type="textarea" maxlength="255" class="reviseOrderReason" name="reviseOrderReason" required="required" />
+                            <textarea maxlength="255" class="reviseOrderReason" name="reviseOrderReason" required="required"></textarea>
                         <% } %>
                     </div><br/>
                         
@@ -288,7 +288,7 @@
                 
                 <div id="discontinueReasonText">
                     <label><strong>Enter the reason to discontinue</strong></label>
-                    <input type="textarea" maxlength="255" id="nonCodedDiscardReason" name="nonCodedDiscardReason" />
+                    <textarea maxlength="255" id="nonCodedDiscardReason" name="nonCodedDiscardReason"></textarea>
                 </div><br/>
             </div>
             
