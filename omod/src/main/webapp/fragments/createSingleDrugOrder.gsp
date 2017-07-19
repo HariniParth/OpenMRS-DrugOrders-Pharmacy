@@ -20,7 +20,7 @@
                 <label>Drug name <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="drugName" oninput="autoCompleteDrug('${ currentOrders }','${ allergicDrugs }')" name="drugName" title="Specify name of the drug" />
+                <input type="text" id="drugName" oninput="autoCompleteDrug('${ currentOrders }','${ allergicDrugs }')" name="drugName" title="Enter drug name" placeholder="Enter Drug Name" />
             </div>
         </div>
         
@@ -57,7 +57,7 @@
             <div class="fields" id="view_order_detail">
                 <label>Note: The patient is allergic to this drug.</label>
                 <label>Enter the reasons for ordering this drug:</label>
-                <textarea maxlength="255" id="orderReason" name="orderReason"></textarea>
+                <textarea maxlength="255" id="orderReason" name="orderReason" placeholder="Enter the reason to order"></textarea>
             </div><br/>
         </div>
 
@@ -82,7 +82,7 @@
                 <label>Dose <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="dose" name="dose" step="0.1" min="0" title="Specify integer/double dose value" />
+                <input type="number" id="dose" name="dose" step="0.1" min="0" title="Specify integer/double dose value" placeholder="Enter Dose" />
             </div>
         </div>
 
@@ -109,7 +109,7 @@
                 <label>Quantity <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="quantity" name="quantity" step="0.1" min="0" title="Specify integer/double quantity value" />
+                <input type="number" id="quantity" name="quantity" step="0.1" min="0" title="Specify integer/double quantity value" placeholder="Enter Quantity" />
             </div>
         </div>
 
@@ -136,7 +136,7 @@
                 <label>Duration <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="duration" name="duration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" />
+                <input type="number" id="duration" name="duration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" placeholder="Enter Duration" />
             </div>
         </div>
 
@@ -179,7 +179,7 @@
                 <label>Diagnosis <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="text" id="diagnosis" name="diagnosis" title="Specify name of the diagnosis" />
+                <input type="text" id="diagnosis" name="diagnosis" title="Enter disease name" placeholder="Enter disease name" />
             </div>
         </div>
 
@@ -231,22 +231,22 @@
                 <label>Patient</label>
             </div>
             <div id="order_value">
-                <textarea maxlength="255" id="patientInstrn" name="patientInstrn" required="required"></textarea>
+                <textarea maxlength="255" id="patientInstrn" name="patientInstrn" placeholder="Enter instructions for Patient" required="required"></textarea>
             </div>
         </div>
 
-        <br/><br/>
+        <br/><br/><br/>
         
         <div class="fields" id="view_order_detail">
             <div id="order_label">
                 <label>Pharmacist</label>
             </div>
             <div id="order_value">
-                <textarea maxlength="255" id="pharmacistInstrn" name="pharmacistInstrn" required="required"></textarea>
+                <textarea maxlength="255" id="pharmacistInstrn" name="pharmacistInstrn" placeholder="Enter instructions for Pharmacist" required="required"></textarea>
             </div>
         </div>
 
-        <br/><br/><br/>
+        <br/><br/><br/><br/>
         
         <input type="hidden" id="orderAction" name="action" />
         <input type="hidden" id="orderId" name="orderId" />

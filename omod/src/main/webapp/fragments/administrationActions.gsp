@@ -18,12 +18,12 @@
             
             <div id="view_order_detail">
                 <label><strong>Enter Plan Name</strong></label>
-                <input type="text" id="definePlanName" name="definePlanName" title="Specify name of the diagnosis" />
+                <input type="text" id="definePlanName" name="definePlanName" title="Enter diagnosis name" placeholder="Enter Diagnosis Name" />
             </div><br/>
             
             <div id="view_order_detail">
                 <label><strong>Enter Description</strong></label>
-                <textarea maxlength="255" id="definePlanDesc" name="definePlanDesc" required="required"></textarea>
+                <textarea maxlength="255" id="definePlanDesc" name="definePlanDesc" placeholder="Enter a description of the plan" required="required"></textarea>
             </div><br/>
             
             <input type="hidden" name="action" id="defineAction" />
@@ -61,7 +61,7 @@
                     <label id="label"><strong>Drug Name</strong></label>
                 </div>
                 <div id="order_value">
-                    <input id="adminDrug" type="text" name="adminDrug" oninput="checkListOfDrugs()" title="Specify name of the drug" />
+                    <input id="adminDrug" type="text" name="adminDrug" oninput="checkListOfDrugs()" title="Enter Drug Name" />
                 </div>
             </div>
             
@@ -88,7 +88,7 @@
                     <label><strong>Dose</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminDose" name="adminDose" step="0.1" min="0" title="Specify integer/double dose value" />
+                    <input type="number" id="adminDose" name="adminDose" step="0.1" min="0" title="Specify integer/double dose value" placeholder="Enter Dose" />
                 </div>
             </div>
 
@@ -115,7 +115,7 @@
                     <label><strong>Quantity</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminQuantity" name="adminQuantity" step="0.1" min="0" title="Specify integer/double quantity value" />
+                    <input type="number" id="adminQuantity" name="adminQuantity" step="0.1" min="0" title="Specify integer/double quantity value" placeholder="Enter Quantity" />
                 </div>
             </div>
 
@@ -142,7 +142,7 @@
                     <label><strong>Duration</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminDuration" name="adminDuration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" />
+                    <input type="number" id="adminDuration" name="adminDuration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" placeholder="Enter Duration" />
                 </div>
             </div>
 
@@ -278,7 +278,7 @@
                 
                 <div class="fields">
                     <p><strong>Enter Reason To Discard</strong></p>
-                    <textarea maxlength="255" id="discardReason" name="discardReason" required="required"></textarea>
+                    <textarea maxlength="255" id="discardReason" name="discardReason" placeholder="Enter the reason to discard" required="required"></textarea>
                 </div><br/>
 
                 <button class="confirm right" id="btn-place" type="button" onclick="discardMedPlan()">${ ui.message("Confirm") }</button>

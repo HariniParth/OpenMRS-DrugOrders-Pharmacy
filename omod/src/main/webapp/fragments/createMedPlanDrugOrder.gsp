@@ -14,7 +14,7 @@
     <div class="addMedicationPlanWindow">
         <form method="post" id="planForm">
             <div class="fields"><label><strong>Enter Plan Name </strong></label><br/>
-                <input type="text" id="planName" name="planName" oninput="autoCompletePlan()" title="Specify name of the diagnosis" />
+                <input type="text" id="planName" name="planName" oninput="autoCompletePlan()" title="Enter diagnosis name" placeholder="Enter diagnosis name" />
             </div><br/><br/>            
             <button class="cancel pull-right" id="btn-place" type="button" onclick="hideMedicationPlanOrderWindow()">${ ui.message("Cancel") }</button>
         </form>
@@ -108,7 +108,7 @@
                         <% if(allergicDrugs.contains(medplan.drugId.getDisplayString().toUpperCase()) && !currentOrders.contains(medplan.drugId.getDisplayString().toUpperCase())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>
                             Enter reasons to order this drug <br/>
-                            <textarea maxlength="255" class="planOrderReason" name="planOrderReason" required="required"></textarea>
+                            <textarea maxlength="255" class="planOrderReason" name="planOrderReason" placeholder="Enter the reason to order" required="required"></textarea>
                         <% } %>
                     </div><br/>
                         

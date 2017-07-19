@@ -78,8 +78,8 @@
                             <div class="dispatchFields"><br/>
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label"><label>Note<span id="asterisk">*</span></label></div>
-                                    <div id="order_value"><textarea maxlength="255" class="commentForPatient" name="commentForPatient" required="required"></textarea></div>
-                                </div><br/><br/>
+                                    <div id="order_value"><textarea maxlength="255" class="commentForPatient" name="commentForPatient" placeholder="Enter notes for Patient" required="required"></textarea></div>
+                                </div><br/><br/><br/>
                                 
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
@@ -199,7 +199,7 @@
                     <label>Comments</label>
                 </div>
                 <div class="fields">
-                    <textarea maxlength="255" id="groupComments" name="groupComments" placeholder="Enter Comments for the Orderer"></textarea><br/>
+                    <textarea maxlength="255" id="groupComments" name="groupComments" placeholder="Enter comments for the Orderer"></textarea><br/>
                     <a href="#" id="emailLink" onclick="emailLink('${ orderList }','${ patientID }','${ patientName }','${ patientDOB.format('yyyy-MM-dd') }','${ patientAddr }','${ orderDetails }')" target="_top">Send a message to the Orderer</a> <br/><br/>
                     
                     <div id="btn-place">
