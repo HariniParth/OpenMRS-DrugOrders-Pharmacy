@@ -52,13 +52,6 @@ function showOrdererContact(ordererName, orderID, orderName){
 }
 
 /*
- * Submit form to display mail fragment for selected order.
- */
-function contactOrderer(){
-    $("#groupOrdersForm").submit();
-}
-
-/*
  * Submit form to remove hold on orders.
  */
 function removeHoldOnOrders(){
@@ -75,10 +68,10 @@ function enableConfirmBtn(){
         if(this.checked) {
             selected = true;  
             $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", false);
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("readonly", false);
+            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("disabled", false);
         } else {
             $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", true);
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("readonly", true);
+            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("disabled", true);
         }
     });
     
@@ -316,4 +309,10 @@ function closePharmaGroupView(){
 function closeMailWindow(){
     jq("#mailWindow").hide();
     clearHighlights();
+}
+
+function emailLink(orderList, patientID, patientName, patientDOB, patientAddr, orderDetails){
+    var comments = $("#groupComments").val();
+    var selectedAction = $("#selectedAction").text();
+    document.getElementById("emailLink").href = "mailto:<Recipient Address<>>?Subject=Order Status Alert!!! - "+selectedAction+" - Order ID(s): "+orderList+"&body=This is to inform you that the following Order(s) cannot be dispatched.%0A%0A%0APatient ID:   "+patientID+"%0A%0APatient Name: "+patientName+"%0A%0APatient DOB:  "+patientDOB+"%0A%0APatient Addr: "+patientAddr+"%0A%0A%0A"+orderDetails+"%0AComments: "+comments;
 }

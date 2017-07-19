@@ -145,6 +145,7 @@
                         
                             <script type="text/javascript">
                                 jq( function() {
+                                    jq(".print").unbind();
                                     jq(".print").on('click', function (){
                                         var order = jq(this).prev('#order').text();
                                         var date = jq(this).parent().find('.dispatchFields').first().find('.fields').last().find('#order_value').find('.drugExpiryDate').val();
@@ -199,7 +200,7 @@
                 </div>
                 <div class="fields">
                     <textarea maxlength="255" id="groupComments" name="groupComments" placeholder="Enter Comments for the Orderer"></textarea><br/>
-                    <a href="mailto:<Recipient Address<>>?Subject=Order Status Alert!!! Order ID(s): ${ orderList }&body=This is to inform you that the following Order(s) cannot be dispatched.%0A%0A%0APatient ID:   ${ patientID }%0A%0APatient Name: ${ patientName }%0A%0APatient DOB:  ${ patientDOB.format('yyyy-MM-dd') }%0A%0APatient Addr: ${ patientAddr }%0A%0A%0A${ orderDetails }%0AComments: " id="emailLink" target="_top">Send a message to the Orderer</a> <br/><br/>
+                    <a href="#" id="emailLink" onclick="emailLink('${ orderList }','${ patientID }','${ patientName }','${ patientDOB.format('yyyy-MM-dd') }','${ patientAddr }','${ orderDetails }')" target="_top">Send a message to the Orderer</a> <br/><br/>
                     
                     <div id="btn-place">
                         <input class="confirm right" id="confirmBtn2" type="submit" name="action" value="Confirm" />

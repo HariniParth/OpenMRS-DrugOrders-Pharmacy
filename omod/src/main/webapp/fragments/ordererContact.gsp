@@ -15,7 +15,7 @@
 
     <div class="fields" id="view_order_detail">
         <div id="order_label">Email: </div>
-        <div id="order_value"><text id="ordererEmail" onclick="contactOrderer()"></text></div>
+        <div id="order_value"><a href="mailto:<Recipient Address<>>?Subject=&body=" target="_top"><text id="ordererEmail"></text></a></div>
     </div>
     
     <div class="fields" id="view_order_detail">
