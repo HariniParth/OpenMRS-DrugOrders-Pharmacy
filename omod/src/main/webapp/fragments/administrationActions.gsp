@@ -281,8 +281,10 @@
                     <textarea maxlength="255" id="discardReason" name="discardReason" placeholder="Enter the reason to discard" required="required"></textarea>
                 </div><br/>
 
-                <button class="confirm right" id="btn-place" type="button" onclick="discardMedPlan()">${ ui.message("Confirm") }</button>
-                <button class="cancel" id="btn-place" type="button" onclick="hideMedPlanDiscardWindow()">${ ui.message("Cancel") }</button>
+                <div id="btn-place">
+                    <button class="confirm right" id="discardAdminPlan" type="button" onclick="discardMedPlan()">${ ui.message("Confirm") }</button>
+                    <button class="cancel" type="button" onclick="hideMedPlanDiscardWindow()">${ ui.message("Cancel") }</button>
+                </div>
             </form>
         </div>
     </div>

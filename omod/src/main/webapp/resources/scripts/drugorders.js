@@ -16,6 +16,7 @@ $(document).ready( function() {
     
     $("#planSaveButton").prop("disabled", true);
     $("#addOrderButton").prop("disabled", true);
+    $("#discardAdminPlan").prop("disabled", true);
     $("#planDefineButton").prop("disabled", true);
         
     /*
@@ -84,6 +85,20 @@ $(document).ready( function() {
         } else {
             $("#selectPlanButton").prop("disabled", true);
         }        
+    });
+    
+    /*
+     * Enable confirm button to discard a medication plan if one or more orders from the plan is selected.
+     */
+    $('#discardPlanBlock .groupCheckBox').on('change', function() {
+        allowPlanDiscard();       
+    });
+    
+    /*
+     * Check if a reason to discard the medication plan is provided.
+     */
+    $('#discardReason').change(function(){
+        allowPlanDiscard(); 
     });
     
     /*
@@ -1012,6 +1027,23 @@ function editMedPlan(id, planName, planDesc){
 function deleteMedPlanItem(planID){
     $("#selectedPlanItem").val(planID);
     $("#adminPageForm").submit();  
+}
+
+/*
+ * Allow Administrator to discard the selected med plan.
+ */
+function allowPlanDiscard(){
+    var selected = false;
+    $('#discardPlanBlock .groupCheckBox').each(function() {
+        if(this.checked) {
+            selected = true; 
+        } 
+    });
+    if(selected && $("#discardReason").val() !== ""){
+        $('#discardAdminPlan').removeAttr('disabled');
+    } else {
+        $("#discardAdminPlan").prop("disabled", true);
+    } 
 }
 
 /*
