@@ -37,7 +37,7 @@
                                 <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ groupOrder.key }" ng-model="groupCheckBox" checked="checked" /></span>
                                 <i class="icon-plus-sign edit-action" title="${ ui.message("Show") }"></i>
                                 <i class="icon-minus-sign edit-action" title="${ ui.message("Hide") }"></i>
-                                <strong>${ groupOrderExtn.get(groupOrder.key).drugName.getDisplayString().toUpperCase() }</strong>
+                                <span class="checkedDrug"><strong>${ groupOrderExtn.get(groupOrder.key).drugName.getDisplayString().toUpperCase() }</strong></span>
                             </h5>
                         </div>
 

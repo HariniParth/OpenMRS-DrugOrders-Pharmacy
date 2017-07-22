@@ -311,8 +311,34 @@ function closeMailWindow(){
     clearHighlights();
 }
 
+/*
+ * Create a email with order and Patient information to send to the orderer.
+ */
 function emailLink(orderList, patientID, patientName, patientDOB, patientAddr, orderDetails){
+    var checked = 0;
+    var message = "";
+    var selected = "";
+    var notSelected = "";
+    
+    var list = orderList.trim().split(" ");
+    $(".groupCheckBox").each(function(){
+        if(this.checked){
+            checked++;
+            var drug = $(this).nextAll('.checkedDrug').text();
+            selected = selected + drug + ", ";
+        } else {
+            var drug = $(this).nextAll('.checkedDrug').text();
+            notSelected = notSelected + drug + ", ";
+        }
+    });
+    
+    selected = selected.substring(0, selected.length - 2);
+    notSelected = notSelected.substring(0, notSelected.length - 2);
+    
+    if(list.length !== checked)
+        message = "Please note that the remaining Order(s) for "+notSelected+" are available for sale. Please confirm if these can be dispensed.";
+    
     var comments = $("#groupComments").val();
     var selectedAction = $("#selectedAction").text();
-    document.getElementById("emailLink").href = "mailto:<Recipient Address<>>?Subject=Order Status Alert!!! - "+selectedAction+" - Order ID(s): "+orderList+"&body=This is to inform you that the following Order(s) cannot be dispatched.%0A%0A%0APatient ID:   "+patientID+"%0A%0APatient Name: "+patientName+"%0A%0APatient DOB:  "+patientDOB+"%0A%0APatient Addr: "+patientAddr+"%0A%0A%0A"+orderDetails+"%0AComments: "+comments;
+    document.getElementById("emailLink").href = "mailto:<Recipient Address<>>?Subject=Order Status Alert!!! "+selectedAction+"&body=This is to inform you that the following Order(s) for "+selected+" cannot be dispatched.%0AStatus Set: "+selectedAction+"%0A%0APatient ID:   "+patientID+"%0APatient Name: "+patientName+"%0APatient DOB:  "+patientDOB+"%0APatient Addr: "+patientAddr+"%0A%0A"+orderDetails+"%0AComments: "+comments+"%0A%0A"+message;
 }
