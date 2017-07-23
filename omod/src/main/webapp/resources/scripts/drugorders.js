@@ -77,6 +77,7 @@ $(document).ready( function() {
                 selected = true; 
                 $(this).parent().next('.drugDetails').first().find('.planOrderReason').prop("readonly", false);                
             } else {
+                $(this).parent().next('.drugDetails').first().find('.planOrderReason').val("");
                 $(this).parent().next('.drugDetails').first().find('.planOrderReason').prop("readonly", true);                
             }
         });
@@ -111,6 +112,7 @@ $(document).ready( function() {
                 selected = true;
                 $(this).parent().next('.drugDetails').first().find('.reviseOrderReason').prop("readonly", false);                
             } else {
+                $(this).parent().next('.drugDetails').first().find('.reviseOrderReason').val("");
                 $(this).parent().next('.drugDetails').first().find('.reviseOrderReason').prop("readonly", true);
             }
         });   
