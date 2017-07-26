@@ -82,7 +82,7 @@
                 <label>Dose <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="dose" name="dose" step="0.1" min="0" title="Specify integer/double dose value" placeholder="Enter Dose" />
+                <input type="number" id="dose" name="dose" step="0.1" min="0" title="Specify integer/double dose value" placeholder="Enter Dose" onkeyup="validate()" />
             </div>
         </div>
 
@@ -109,7 +109,7 @@
                 <label>Quantity <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="quantity" name="quantity" step="0.1" min="0" title="Specify integer/double quantity value" placeholder="Enter Quantity" />
+                <input type="number" id="quantity" name="quantity" step="0.1" min="0" title="Specify integer/double quantity value" placeholder="Enter Quantity" onkeyup="validate()" />
             </div>
         </div>
 
@@ -136,7 +136,7 @@
                 <label>Duration <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                <input type="number" id="duration" name="duration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" placeholder="Enter Duration" />
+                <input type="number" id="duration" name="duration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" placeholder="Enter Duration" onkeyup="validate()" />
             </div>
         </div>
 
@@ -252,7 +252,7 @@
         <input type="hidden" id="orderId" name="orderId" />
         
         <div class="fields" id="view_order_detail">
-            <div id="addOrderButtonWrapper"><div id="overlay" onclick="checkFormFields()"></div><button class="confirm right" id="addOrderButton" type="submit">${ ui.message("Save") }</button></div>
+            <button class="confirm right" id="addOrderButton" type="submit">${ ui.message("Save") }</button>
             <button class="cancel" type="button" onclick="hideIndividualOrderDetailsWindow()">${ ui.message("Cancel") }</button>
         </div><br/>
         

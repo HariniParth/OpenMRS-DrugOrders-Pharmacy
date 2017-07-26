@@ -20,11 +20,22 @@ $(document).ready( function() {
     $("#planDefineButton").prop("disabled", true);
         
     /*
+     * If drug or diagnosis is selected, check if other parameters are provided and enable form submission.
+     */
+    $('#drugName, #diagnosis').autocomplete({
+        select: function () { 
+            validate();
+            checkFormFields();
+        }
+    });
+    
+    /*
      * If a plan is defined (Administrator page), enable the form submission to create a plan.
      */
     $('#definePlanName').autocomplete({
         select: function () { 
             $("#planDefineButton").prop("disabled", false); 
+            
             if($("#definePlanDesc").val() === "")
                 document.getElementById("definePlanDesc").style.borderColor = "orangered";
             else
@@ -72,7 +83,7 @@ $(document).ready( function() {
      * If the create drug order fields are modified, check the value of the remaining mandatory fields.
      * Highlight the unspecified fields. Only when all details are specified, allow to create a drug order.
      */
-    $("#drugName, #route, #dose, #doseUnits, #quantity, #quantityUnits, #duration, #durationUnits, #frequency, #diagnosis, #orderReason").change(function(){
+    $("#drugName, #route, #dose, #doseUnits, #quantity, #quantityUnits, #duration, #durationUnits, #frequency, #diagnosis, #orderReason, #patientInstrn, #pharmacistInstrn").change(function(){
         validate();
         if($("#drugName").val() !== ""){
             checkFormFields();
@@ -470,7 +481,7 @@ function hideIndividualOrderDetailsWindow(){
     $("#drugName").prop("readonly", false);
     $("#addOrderButton").prop("disabled", true);
     
-    $('#createOrderForm input, #createOrderForm select').each(function(){
+    $('#createOrderForm input, #createOrderForm select, #createOrderForm textarea').each(function(){
         this.style.borderColor = "";
     });
 
@@ -531,6 +542,15 @@ function checkFormFields(){
     else
         document.getElementById("diagnosis").style.borderColor = "";
     
+    if($("#patientInstrn").val() === "")
+        document.getElementById("patientInstrn").style.borderColor = "orangered";
+    else
+        document.getElementById("patientInstrn").style.borderColor = "";
+    
+    if($("#pharmacistInstrn").val() === "")
+        document.getElementById("pharmacistInstrn").style.borderColor = "orangered";
+    else
+        document.getElementById("pharmacistInstrn").style.borderColor = "";
 }
 
 /*
@@ -835,8 +855,8 @@ function autoCompleteDrug(currentOrders, allergies){
                 $("#orderReason").attr("required", false);
             }
         }
-        validate();
     });
+    validate();
 }
 
 /*
