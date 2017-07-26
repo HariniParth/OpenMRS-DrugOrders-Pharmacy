@@ -88,7 +88,7 @@
                     <label><strong>Dose</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminDose" name="adminDose" step="0.1" min="0" title="Specify integer/double dose value" placeholder="Enter Dose" />
+                    <input type="number" id="adminDose" name="adminDose" step="0.1" min="0" title="Specify integer/double dose value" placeholder="Enter Dose" onkeyup="checkAdminFields()" />
                 </div>
             </div>
 
@@ -115,7 +115,7 @@
                     <label><strong>Quantity</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminQuantity" name="adminQuantity" step="0.1" min="0" title="Specify integer/double quantity value" placeholder="Enter Quantity" />
+                    <input type="number" id="adminQuantity" name="adminQuantity" step="0.1" min="0" title="Specify integer/double quantity value" placeholder="Enter Quantity" onkeyup="checkAdminFields()" />
                 </div>
             </div>
 
@@ -142,7 +142,7 @@
                     <label><strong>Duration</strong></label>
                 </div>
                 <div id="order_value">
-                    <input type="number" id="adminDuration" name="adminDuration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" placeholder="Enter Duration" />
+                    <input type="number" id="adminDuration" name="adminDuration" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" title="Specify integer duration value" placeholder="Enter Duration" onkeyup="checkAdminFields()" />
                 </div>
             </div>
 
@@ -278,7 +278,7 @@
                 
                 <div class="fields">
                     <p><strong>Enter Reason To Discard</strong></p>
-                    <textarea maxlength="255" id="discardReason" name="discardReason" placeholder="Enter the reason to discard" required="required"></textarea>
+                    <textarea maxlength="255" id="discardReason" name="discardReason" placeholder="Enter the reason to discard" required="required" onkeyup="allowPlanDiscard()"></textarea>
                 </div><br/>
 
                 <div id="btn-place">

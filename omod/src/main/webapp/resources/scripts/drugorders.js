@@ -25,15 +25,30 @@ $(document).ready( function() {
     $('#definePlanName').autocomplete({
         select: function () { 
             $("#planDefineButton").prop("disabled", false); 
+            if($("#definePlanDesc").val() === "")
+                document.getElementById("definePlanDesc").style.borderColor = "orangered";
+            else
+                document.getElementById("definePlanDesc").style.borderColor = "";
         }
     });
     
     $('#definePlanName').change(function (){ 
-        if($('#definePlanName').val() !== ""){
+        if($(this).val() !== ""){
             $("#planDefineButton").prop("disabled", false); 
         } else {
             $("#planDefineButton").prop("disabled", true); 
+            document.getElementById("definePlanDesc").style.borderColor = "";
         }
+    });
+    
+    /*
+     * Remove highlights from Med Plan description field when provided.
+     */
+    $('#definePlanDesc').change(function (){ 
+        if($(this).val() === "")
+            this.style.borderColor = "orangered";
+        else
+            this.style.borderColor = "";
     });
     
     /*
@@ -50,10 +65,7 @@ $(document).ready( function() {
      * Highlight the unspecified fields. Only when all details are specified, allow to create a medication plan.
      */
     $("#adminPlan, #adminDrug, #adminRoute, #adminDose, #adminDoseUnits, #adminQuantity, #adminQuantityUnits, #adminDuration, #adminDurationUnits, #adminFrequency").change(function(){
-        adminRecord();
-        if($("#adminPlan").val() !== "" || $("#adminDrug").val() !== ""){
-            checkAdminFields();
-        }
+        checkAdminFields();
     });
     
     /*
@@ -342,17 +354,8 @@ function validate(){
 }
 
 /*
- * If the admin plan fields are modified, check the value of the remaining mandatory fields.
- * Highlight the unspecified fields. Only when all details are specified, allow to create a medication plan.
+ * Enable group button action when one or more orders from the selected list are checked to be ordered.
  */
-function adminRecord(){
-    if($("#adminPlan").val() !== "" && $("#adminDrug").val() !== "" && $("#adminRoute").val() !== "" && $("#adminDose").val() !== "" && $("#adminDoseUnits").val() !== "" && $("#adminQuantity").val() !== "" && $("#adminQuantityUnits").val() !== "" && $("#adminDuration").val() !== "" && $("#adminDurationUnits").val() !== "" && $("#adminFrequency").val() !== ""){
-        $("#planSaveButton").prop("disabled", false);
-    } else {
-        $("#planSaveButton").prop("disabled", true);
-    }
-}
-
 function checkSelection(){
     var ordersSelected = false;
     $('.groupDrugName .groupCheckBox').each(function() {
@@ -583,6 +586,16 @@ function checkAdminFields(){
         document.getElementById("adminFrequency").style.borderColor = "orangered";
     else
         document.getElementById("adminFrequency").style.borderColor = "";
+    
+    // Only when all admin plan fields are specified, allow to create a medication plan.
+ 
+    if($("#adminPlan").val() !== "" && $("#adminDrug").val() !== "" && $("#adminRoute").val() !== "" && $("#adminDose").val() !== "" && $("#adminDoseUnits").val() !== "" && $("#adminQuantity").val() !== "" && $("#adminQuantityUnits").val() !== "" && $("#adminDuration").val() !== "" && $("#adminDurationUnits").val() !== "" && $("#adminFrequency").val() !== ""){
+        
+        $("#planSaveButton").prop("disabled", false);
+        
+    } else {
+        $("#planSaveButton").prop("disabled", true);
+    }
 }
 
 /*
@@ -906,6 +919,7 @@ function hideMedPlanDefineWindow(){
     $("#defineAction").val("");
     $("#adminPlanActionType").text("");
     $("#planDefineButton").prop("disabled", true);
+    document.getElementById("definePlanDesc").style.borderColor = "";
 }
 
 /*
@@ -1139,4 +1153,6 @@ function checkListOfDrugs(){
             }
         }
     });
+    // Check if all other fields are filled.
+    checkAdminFields();
 }
