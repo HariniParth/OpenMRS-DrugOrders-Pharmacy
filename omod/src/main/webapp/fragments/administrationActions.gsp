@@ -271,7 +271,7 @@
                 <% } %>
                 
                 <% if(selectedMedPlan != null) { %>
-                    <input name="action" value="discardPlan" type="hidden" />
+                    <input id="planDiscard" name="action" value="discardPlan" type="hidden" />
                 <% } else { %>
                     <input name="action" value="discardDrug" type="hidden" /> 
                 <% } %> <br/>

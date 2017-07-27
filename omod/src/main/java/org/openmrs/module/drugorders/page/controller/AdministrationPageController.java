@@ -71,7 +71,7 @@ public class AdministrationPageController {
                             } else 
                                 InfoErrorMessageUtil.flashErrorMessage(session, "Plan already exists!");
                         } else 
-                                InfoErrorMessageUtil.flashErrorMessage(session, "Create a diagnosis concept!");
+                                InfoErrorMessageUtil.flashErrorMessage(session, "No concept found! Please create a Diagnosis class concept for this plan!");
                         
                         break;
                     
@@ -120,7 +120,7 @@ public class AdministrationPageController {
 
                             InfoErrorMessageUtil.flashInfoMessage(session, "Plan Updated!");
                         } else 
-                            InfoErrorMessageUtil.flashErrorMessage(session, "Create a drug concept!");
+                            InfoErrorMessageUtil.flashErrorMessage(session, "No concept found! Please create a Drug class concept for this drug!");
                                                 
                         break;
                         
@@ -142,7 +142,7 @@ public class AdministrationPageController {
                             }
                         } 
                         else
-                            InfoErrorMessageUtil.flashErrorMessage(session, "Create a diagnosis concept!");
+                            InfoErrorMessageUtil.flashErrorMessage(session, "No concept found! Please create a Diagnosis class concept for this plan!");
                         
                         break;
                         
@@ -173,7 +173,7 @@ public class AdministrationPageController {
                         if(allDrugsDiscarded){
                             Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).setPlanStatus("Non-Active");
                             Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).setDiscardReason(discardReason);
-                            InfoErrorMessageUtil.flashInfoMessage(session, "Plan Discarded!");
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Medication Plan Discarded!");
                         }                        
                         break;
                     
@@ -187,7 +187,7 @@ public class AdministrationPageController {
                             // Set the status of the drug to 'Non-Active' and the reason for removing the drug from the medication plan.
                             medPlan.setPlanStatus("Non-Active");
                             medPlan.setDiscardReason(discardReason);
-                            InfoErrorMessageUtil.flashInfoMessage(session, "Drug removed from Plan!");
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Drug removed from the Medication Plan!");
                         }   
                         break;
                 }

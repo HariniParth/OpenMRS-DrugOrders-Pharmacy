@@ -44,7 +44,7 @@ $(document).ready( function() {
     });
     
     $('#definePlanName').change(function (){ 
-        if($(this).val() !== ""){
+        if($('#definePlanName').val() !== ""){
             $("#planDefineButton").prop("disabled", false); 
         } else {
             $("#planDefineButton").prop("disabled", true); 
@@ -56,6 +56,16 @@ $(document).ready( function() {
      * Remove highlights from Med Plan description field when provided.
      */
     $('#definePlanDesc').change(function (){ 
+        if($(this).val() === "")
+            this.style.borderColor = "orangered";
+        else
+            this.style.borderColor = "";
+    });
+    
+    /*
+     * Remove highlights from Order discontinuation field when reason is provided.
+     */
+    $('#nonCodedDiscardReason').change(function (){ 
         if($(this).val() === "")
             this.style.borderColor = "orangered";
         else
@@ -852,6 +862,7 @@ function autoCompleteDrug(currentOrders, allergies){
                 $("#orderReason").attr("required", true);
             } else {
                 jq("#allergicReason").hide();
+                $("#orderReason").val("");
                 $("#orderReason").attr("required", false);
             }
         }
@@ -1075,7 +1086,7 @@ function allowPlanDiscard(){
             selected = true; 
         } 
     });
-    if(selected && $("#discardReason").val() !== ""){
+    if((selected || $("#planDiscard").val() === "discardPlan") && $("#discardReason").val() !== ""){
         $('#discardAdminPlan').removeAttr('disabled');
     } else {
         $("#discardAdminPlan").prop("disabled", true);
@@ -1138,12 +1149,14 @@ function showAddOrderToGroupWindow(orderType,groupID){
 function discontinueReason(){
     if(document.getElementById("codedDiscardReason").value === "Other"){
         jq("#discontinueReasonText").show();
-        jq("#discontinueReasonText").css("display", "block");
         $("#nonCodedDiscardReason").attr("required", true);
+        jq("#discontinueReasonText").css("display", "block");
+        document.getElementById("nonCodedDiscardReason").style.borderColor = "orangered";
     } else {
         jq("#discontinueReasonText").hide();
         $("#nonCodedDiscardReason").attr("required", false);
     }
+    
     if(document.getElementById("codedDiscardReason").value === ""){
         $("#orderActionButton").prop("disabled", true);
     } else {

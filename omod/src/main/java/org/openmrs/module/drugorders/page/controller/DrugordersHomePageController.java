@@ -103,9 +103,12 @@ public class DrugordersHomePageController {
             try {
                 if ("CREATE DRUG ORDER".equals(action)) {
                     // Check if the specified drug concept and diagnosis concept exists.
-                    if(ConceptName(drugName) == null || ConceptName(diagnosis) == null){
-                        InfoErrorMessageUtil.flashErrorMessage(session, "Unrecognized drug or diagnosis! Cannot place order!");
-                    } 
+                    if(ConceptName(drugName) == null)
+                        InfoErrorMessageUtil.flashErrorMessage(session, "No concept found! Please create a Drug class concept for this drug!");
+                    
+                    else if (ConceptName(diagnosis) == null)
+                        InfoErrorMessageUtil.flashErrorMessage(session, "No concept found! Please create a Diagnosis class concept for this disease!");
+                    
                     else {
                         /*
                             Check if an order for the selected drug does not already exist.

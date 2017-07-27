@@ -69,7 +69,7 @@
             <input type="hidden" id="selectedPlan" name="selectedPlan" value="${ planName }" />
             
             <div id="medPlansBlock" class="fields">
-                <br/><strong class="align-center">${ planName.toUpperCase() }</strong><br/><br/>
+                <h6 class="align-center">${ planName.toUpperCase() }</h6><br/>
                 <% medplans.each { medplan -> %>
                     <div class="planDrugName">
                         <!--
