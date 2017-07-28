@@ -227,5 +227,7 @@
         jq(this).prev(".icon-plus-sign").show();
     });
     
-    jq('.drugExpiryDate').datepicker();
+    jq('.drugExpiryDate').datepicker({
+        minDate:  new Date()
+    });
 </script>

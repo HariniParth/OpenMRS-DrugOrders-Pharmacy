@@ -156,12 +156,12 @@ public class SelectedOrdersViewFragmentController {
         drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
 
         String OrderDetails = drugorder.getDrugName().getDisplayString() + " " + order.getDose() + " " + order.getDoseUnits().getDisplayString() + " " +
-                order.getDuration() + " " + order.getDurationUnits().getDisplayString() + " " + order.getQuantity() + " " + order.getQuantityUnits() + "\n" +
+                order.getDuration() + " " + order.getDurationUnits().getDisplayString() + " " + order.getQuantity() + " " + order.getQuantityUnits().getDisplayString() + "\n" +
                 "Route: " + order.getRoute().getDisplayString() + " " + "Frequency: " + order.getFrequency().getName() + "\n" +
                 "Start Date: " + drugorder.getStartDate().toString() + "\n" +
                 "Patient Instructions: " + drugorder.getPatientInstructions() + "\n" +
-                "Comments from Pharmacist" + comment + "\n" +
-                "Drug Expiry Date" + date;
+                "Comments from Pharmacist: " + comment + "\n" +
+                "Drug Expiry Date: " + date;
             
         try {
             // Fetch the default print service.
