@@ -19,6 +19,11 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptName;
 import org.openmrs.GlobalProperty;
 import org.openmrs.OrderFrequency;
+import org.openmrs.Person;
+import org.openmrs.PersonName;
+import org.openmrs.Privilege;
+import org.openmrs.Role;
+import org.openmrs.User;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
@@ -61,6 +66,24 @@ public class drugordersActivator implements ModuleActivator {
      */
     @Override
     public void started() {
+        
+        // Create a role and privileges for a Pharmacist
+
+        if(Context.getUserService().getPrivilege("App: drugorders.pharmacy") == null){
+            Privilege privilege = new Privilege();
+            privilege.setPrivilege("App: drugorders.pharmacy");
+            privilege.setDescription("Record drug order transactions");
+            Context.getUserService().savePrivilege(privilege);
+            
+            if(Context.getUserService().getRole("Pharmacist") == null){
+                Role role = new Role();
+                role.setRole("Pharmacist");
+                role.addPrivilege(privilege);
+                role.setDescription("Dispense ordered medication, communicate with Physician");
+                Context.getUserService().saveRole(role);
+            }
+        }        
+        
         log.info("drugorders Module started");
         AdministrationService administrationService = Context.getAdministrationService();
         /*
