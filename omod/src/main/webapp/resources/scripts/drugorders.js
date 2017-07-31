@@ -183,6 +183,7 @@ $(document).ready( function() {
         actions: {
             cancel: function() {
             	saveDraftOrderDialog.close();
+                clearHighlights();
             }
         }
     });
@@ -195,7 +196,7 @@ $(document).ready( function() {
      */
     $(document).mouseup(function (e){
         if(document.getElementById("draftPlanList")){
-            if (!$("#draftPlanRow").is(e.target) && $("#draftPlanRow").has(e.target).length === 0 && !$("#createOrderWindow").is(e.target) && $("#createOrderWindow").has(e.target).length === 0 && !$("#showGroupOrderWindow").is(e.target) && $("#showGroupOrderWindow").has(e.target).length === 0 && e.target.nodeName !== "TD"){
+            if (!$("#draftPlanRow").is(e.target) && $("#draftPlanRow").has(e.target).length === 0 && !$("#createOrderWindow").is(e.target) && $("#createOrderWindow").has(e.target).length === 0 && !$("#showGroupOrderWindow").is(e.target) && $("#showGroupOrderWindow").has(e.target).length === 0 && e.target.nodeName !== "TD" && e.target.nodeName !== "TH" && e.target.nodeName !== "I" && e.target.nodeName !== "INPUT" && e.target.toString() !== "[object HTMLSpanElement]"){
                 saveDraftOrderDialog.show();
             }
         }
