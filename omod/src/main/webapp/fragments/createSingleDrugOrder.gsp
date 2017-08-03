@@ -31,7 +31,8 @@
                 <label>Start Date <span id="asterisk">*</span></label>
             </div>
             <div id="order_value">
-                ${ ui.includeFragment("uicommons", "field/datetimepicker", [ id: 'startDate', label: '', formFieldName: 'startDate', useTime: '', defaultDate: startDate ]) }
+                <input type="text" id="startDate" name="startDate" placeholder="MM/DD/YYYY" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" required="required" >
+                <!-- ${ ui.includeFragment("uicommons", "field/datetimepicker", [ id: 'startDate', label: '', formFieldName: 'startDate', useTime: '', defaultDate: startDate ]) } -->
             </div>
         </div>
 
@@ -311,5 +312,13 @@
                 }
             }
         } )
-  });
+    });
+    
+    jq('#startDate').datepicker({
+        minDate: new Date()
+    });
+    
+    jq('#startDate').on('keydown keyup', function(e){
+        e.preventDefault();
+    });
 </script>

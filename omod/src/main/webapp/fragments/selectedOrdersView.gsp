@@ -230,4 +230,8 @@
     jq('.drugExpiryDate').datepicker({
         minDate:  new Date()
     });
+    
+    jq('.drugExpiryDate').on('keydown keyup', function(e){
+        e.preventDefault();
+    });
 </script>

@@ -196,7 +196,7 @@ $(document).ready( function() {
      */
     $(document).mouseup(function (e){
         if(document.getElementById("draftPlanList")){
-            if (!$("#draftPlanRow").is(e.target) && $("#draftPlanRow").has(e.target).length === 0 && !$("#createOrderWindow").is(e.target) && $("#createOrderWindow").has(e.target).length === 0 && !$("#showGroupOrderWindow").is(e.target) && $("#showGroupOrderWindow").has(e.target).length === 0 && e.target.nodeName !== "TD" && e.target.nodeName !== "TH" && e.target.nodeName !== "I" && e.target.nodeName !== "INPUT" && e.target.toString() !== "[object HTMLSpanElement]"){
+            if (!$("#draftPlanRow").is(e.target) && $("#draftPlanRow").has(e.target).length === 0 && !$("#createOrderWindow").is(e.target) && $("#createOrderWindow").has(e.target).length === 0 && !$("#showGroupOrderWindow").is(e.target) && $("#showGroupOrderWindow").has(e.target).length === 0 && e.target.nodeName !== "TD" && e.target.nodeName !== "TH" && e.target.nodeName !== "I" && e.target.nodeName !== "A" && e.target.nodeName !== "INPUT" && e.target.toString() !== "[object HTMLSpanElement]"){
                 saveDraftOrderDialog.show();
             }
         }
@@ -455,6 +455,7 @@ function showSingleOrderDetailsWindow(orderType){
         jq("#confirmOrderWindow").hide();
         jq("#createOrderWindow").show();
         jq("#createOrderWindow").css("display", "block");
+        jq("#startDate").datepicker('setDate', new Date());
     }
 }
 
@@ -712,6 +713,14 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
             $("#diagnosis").prop("readonly", true);
         }
         checkExisting(name, currentList, allergyList, orderType);
+        
+        if(orderType === "RENEW DRUG ORDER"){
+            jq("#startDate").datepicker('setDate', new Date());
+            document.getElementById("patientInstrn").style.borderColor = "orangered";
+            document.getElementById("pharmacistInstrn").style.borderColor = "orangered";
+        } else {
+            jq("#startDate").datepicker('setDate', new Date(startDate));
+        }
         
         $("#orderType").text(orderType);
         $("#orderAction").val(orderType);

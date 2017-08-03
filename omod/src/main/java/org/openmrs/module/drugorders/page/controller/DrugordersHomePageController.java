@@ -10,6 +10,9 @@ package org.openmrs.module.drugorders.page.controller;
  * @author harini-parthasarathy
  */
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,7 +55,7 @@ public class DrugordersHomePageController {
     public void controller( PageModel model, @RequestParam("patientId") Patient patient, HttpSession session,
                             @SpringBean("allergyService") PatientService patientService, 
                             @RequestParam(value = "drugName", required = false) String drugName,
-                            @RequestParam(value = "startDate", required = false) Date startDate,
+                            @RequestParam(value = "startDate", required = false) String date,
                             @RequestParam(value = "route", required = false) String route,
                             @RequestParam(value = "dose", required = false) String dose, 
                             @RequestParam(value = "doseUnits", required = false) String doseUnits,
@@ -81,6 +84,14 @@ public class DrugordersHomePageController {
         int patientID = patient.getPatientId();
         drugName = drugName.trim();
         diagnosis = diagnosis.trim();
+        
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
+        Date startDate = null;
+        try {
+            startDate = df.parse(date);
+        } catch (ParseException ex) {
+            Logger.getLogger(DrugordersHomePageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         /*
           Get the list of drugs the Patient is allergic to
