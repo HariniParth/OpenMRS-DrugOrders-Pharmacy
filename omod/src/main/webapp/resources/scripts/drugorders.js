@@ -455,7 +455,6 @@ function showSingleOrderDetailsWindow(orderType){
         jq("#confirmOrderWindow").hide();
         jq("#createOrderWindow").show();
         jq("#createOrderWindow").css("display", "block");
-        jq("#startDate").datepicker('setDate', new Date());
     }
 }
 
@@ -715,12 +714,9 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         checkExisting(name, currentList, allergyList, orderType);
         
         if(orderType === "RENEW DRUG ORDER"){
-            jq("#startDate").datepicker('setDate', new Date());
             document.getElementById("patientInstrn").style.borderColor = "orangered";
             document.getElementById("pharmacistInstrn").style.borderColor = "orangered";
-        } else {
-            jq("#startDate").datepicker('setDate', new Date(startDate));
-        }
+        } 
         
         $("#orderType").text(orderType);
         $("#orderAction").val(orderType);
