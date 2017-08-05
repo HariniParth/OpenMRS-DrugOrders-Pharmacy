@@ -9,7 +9,7 @@
 var removeFromHoldDialog = null;
 var contactOrdererDialog = null;
 
-$(document).ready( function() {
+jq(document).ready( function() {
        
     removeFromHoldDialog = emr.setupConfirmationDialog({
         selector: '#removeHold',
@@ -26,7 +26,7 @@ $(document).ready( function() {
         
     highlight();
     
-    $('.groupCheckBox').on('change', function() {
+    jq('.groupCheckBox').on('change', function() {
         enableConfirmBtn();
     }); 
     
@@ -43,11 +43,11 @@ function showRemoveOrderHoldWindow(){
  * Display the fragment showing Orderer's contact info
  */
 function showOrdererContact(ordererName, orderID, orderName){
-    $("#orderName").val(orderName);
-    $("#orderNumber").val(orderID);
-    $("#ordererName").val(ordererName);
-    $("#ordererEmail").text(ordererName);
-    $("#ordererPhone").text(ordererName);
+    jq("#orderName").val(orderName);
+    jq("#orderNumber").val(orderID);
+    jq("#ordererName").val(ordererName);
+    jq("#ordererEmail").text(ordererName);
+    jq("#ordererPhone").text(ordererName);
     contactOrdererDialog.show();
 }
 
@@ -55,7 +55,7 @@ function showOrdererContact(ordererName, orderID, orderName){
  * Submit form to remove hold on orders.
  */
 function removeHoldOnOrders(){
-    $("#nonActiveTableForm").submit();
+    jq("#nonActiveTableForm").submit();
 }
 
 /*
@@ -64,25 +64,25 @@ function removeHoldOnOrders(){
 function enableConfirmBtn(){
     
     var selected = false;
-    $('.groupCheckBox').each(function() {
+    jq('.groupCheckBox').each(function() {
         if(this.checked) {
             selected = true;  
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", false);
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("disabled", false);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", false);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("disabled", false);
         } else {
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').val("");
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", true);
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').val("");
-            $(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("disabled", true);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').val("");
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", true);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').val("");
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("disabled", true);
         }
     });
     
     if(selected){
-        $('#confirmBtn1').removeAttr('disabled'); 
-        $('#confirmBtn2').removeAttr('disabled'); 
+        jq('#confirmBtn1').removeAttr('disabled'); 
+        jq('#confirmBtn2').removeAttr('disabled'); 
     } else {
-        $("#confirmBtn1").prop("disabled", true);
-        $("#confirmBtn2").prop("disabled", true);
+        jq("#confirmBtn1").prop("disabled", true);
+        jq("#confirmBtn2").prop("disabled", true);
     } 
 }
 
@@ -90,9 +90,9 @@ function enableConfirmBtn(){
  * Highlight selected orders in the active drug order table.
  */
 function highlight(){
-    var pharmaPlan = $("#pharmaPlan").val();
-    var pharmaGroup = $("#pharmaGroup").val();
-    var pharmaSingle = $("#pharmaSingle").val();
+    var pharmaPlan = jq("#pharmaPlan").val();
+    var pharmaGroup = jq("#pharmaGroup").val();
+    var pharmaSingle = jq("#pharmaSingle").val();
     
     var currentSelected;
     
@@ -105,10 +105,10 @@ function highlight(){
         else
             currentSelected = pharmaPlan;
         
-        var $rows2 = $('#currentGroupOrdersTable tbody .groupRow').filter(function () {
-            var givenGroup = $.trim($(this).find('td').eq(0).text());
+        var jqrows2 = jq('#currentGroupOrdersTable tbody .groupRow').filter(function () {
+            var givenGroup = jq.trim(jq(this).find('td').eq(0).text());
             if(givenGroup === currentSelected){
-                $(this).children('td').slice(1, 2).css({"background": "#75b2f0","color": "white"});
+                jq(this).children('td').slice(1, 2).css({"background": "#75b2f0","color": "white"});
             }
         });
     }       
@@ -119,10 +119,10 @@ function highlight(){
     else if(pharmaSingle !== ""){
         currentSelected = pharmaSingle;
         
-        var $rows1 = $('#currentGroupOrdersTable tbody .singleRow').filter(function () {
-            var givenOrder = $.trim($(this).find('td').eq(0).text());
+        var jqrows1 = jq('#currentGroupOrdersTable tbody .singleRow').filter(function () {
+            var givenOrder = jq.trim(jq(this).find('td').eq(0).text());
             if(givenOrder === currentSelected){
-                $(this).children('td').slice(1, 6).css({"background": "#75b2f0","color": "white"});
+                jq(this).children('td').slice(1, 6).css({"background": "#75b2f0","color": "white"});
             }
         });
     }
@@ -131,22 +131,22 @@ function highlight(){
      * Highlight orders referred to by the mail fragment
      */
     if(document.getElementById("drugNames")){
-        var drugNames = $("#drugNames").val().split(";");
+        var drugNames = jq("#drugNames").val().split(";");
         if(drugNames !== ""){
-            $.each(drugNames, function(index, value){
-                var $rows2 = $('#currentGroupOrdersTable tbody .groupRow').filter(function () {
-                    var $rows3 = $(this).find('td').eq(1).find('.groupElement').each(function(){
-                        var drug = $.trim($(this).find('.d1').find('.e1').find('.g1').find('.c1').find('.wordBreak').text());
+            jq.each(drugNames, function(index, value){
+                var jqrows2 = jq('#currentGroupOrdersTable tbody .groupRow').filter(function () {
+                    var jqrows3 = jq(this).find('td').eq(1).find('.groupElement').each(function(){
+                        var drug = jq.trim(jq(this).find('.d1').find('.e1').find('.g1').find('.c1').find('.wordBreak').text());
                         if(drug === value){
-                            $(this).parent().parent().children('td').slice(1, 2).css({"background": "#75b2f0","color": "white"});
+                            jq(this).parent().parent().children('td').slice(1, 2).css({"background": "#75b2f0","color": "white"});
                         }
                     });
                 });
 
-                var $rows1 = $('#currentGroupOrdersTable tbody .singleRow').filter(function () {
-                    var drug = $.trim($(this).find('td').eq(1).find('.wordBreak').text());
+                var jqrows1 = jq('#currentGroupOrdersTable tbody .singleRow').filter(function () {
+                    var drug = jq.trim(jq(this).find('td').eq(1).find('.wordBreak').text());
                     if(drug === value){
-                        $(this).children('td').slice(1, 6).css({"background": "#75b2f0","color": "white"});
+                        jq(this).children('td').slice(1, 6).css({"background": "#75b2f0","color": "white"});
                     }
                 });
             });
@@ -175,11 +175,11 @@ function clearHighlights(){
  */
 function autoCompletePatientName(patientNameList){
     var list = patientNameList.replace("[","").replace("]","").split(',');
-    $("#patient_full_name").autocomplete({
+    jq("#patient_full_name").autocomplete({
         source : list,
         select : function( event , ui ) {
-            $("#patient_full_name").val(ui.item.label);
-            $("#searchByPatient").submit();
+            jq("#patient_full_name").val(ui.item.label);
+            jq("#searchByPatient").submit();
         },
         response: function(event, ui) {
             if (ui.content.length === 0) {
@@ -193,30 +193,30 @@ function autoCompletePatientName(patientNameList){
  * Display details of selected plan order.
  */
 function selectedPlanOrder(planID){
-    $("#planID").val(planID);
-    $("#orderNumber").val("");
-    $("#ordererName").val("");
-    $("#groupOrdersForm").submit();
+    jq("#planID").val(planID);
+    jq("#orderNumber").val("");
+    jq("#ordererName").val("");
+    jq("#groupOrdersForm").submit();
 }
 
 /*
  * Display details of selected group order.
  */
 function selectedGroupOrder(groupID){
-    $("#groupID").val(groupID);
-    $("#orderNumber").val("");
-    $("#ordererName").val("");
-    $("#groupOrdersForm").submit();
+    jq("#groupID").val(groupID);
+    jq("#orderNumber").val("");
+    jq("#ordererName").val("");
+    jq("#groupOrdersForm").submit();
 }
 
 /*
  * Display details of selected single order.
  */
 function selectedSingleOrder(orderID){
-    $("#orderID").val(orderID);
-    $("#orderNumber").val("");
-    $("#ordererName").val("");
-    $("#groupOrdersForm").submit();
+    jq("#orderID").val(orderID);
+    jq("#orderNumber").val("");
+    jq("#ordererName").val("");
+    jq("#groupOrdersForm").submit();
 }
 
 /*
@@ -226,8 +226,8 @@ function showPharmaConfirmationSection(action){
     jq("#statusLabel").show();
     jq("#statusLabel").css("display", "block");
     
-    $("#selectedAction").text(action);
-    $("#pharmaGroupAction").val(action);
+    jq("#selectedAction").text(action);
+    jq("#pharmaGroupAction").val(action);
     jq("#pharmaGroupButtons").hide();
     
     if(action === "On Hold" || action === "Discard"){
@@ -235,22 +235,22 @@ function showPharmaConfirmationSection(action){
         jq("#groupComments").attr("required", true);
         jq("#pharmaGroupActionButtons").css("display", "block");
         
-        $('.commentForPatient').each(function() {
-            $(this).attr("required", false);
+        jq('.commentForPatient').each(function() {
+            jq(this).attr("required", false);
         });
         
-        $('.drugExpiryDate').each(function() {
-            $(this).attr("required", false);
+        jq('.drugExpiryDate').each(function() {
+            jq(this).attr("required", false);
         });
     }
     
     if(action === "Dispatch"){
-        $('.commentForPatient').each(function() {
-            $(this).attr("required", true);
+        jq('.commentForPatient').each(function() {
+            jq(this).attr("required", true);
         });
         
-        $('.drugExpiryDate').each(function() {
-            $(this).attr("required", true);
+        jq('.drugExpiryDate').each(function() {
+            jq(this).attr("required", true);
         });
         
         jq(".print").show();
@@ -274,12 +274,12 @@ function showPharmaOrderViewSection(){
     jq("#pharmaGroupActionButtons").hide();
     jq("#groupComments").attr("required", false);
     
-    $('.commentForPatient').each(function() {
-        $(this).val("");
+    jq('.commentForPatient').each(function() {
+        jq(this).val("");
     });
     
-    $('.drugExpiryDate').each(function() {
-        $(this).val("");
+    jq('.drugExpiryDate').each(function() {
+        jq(this).val("");
     });
     
     jq("#pharmaGroupButtons").show();
@@ -290,8 +290,8 @@ function showPharmaOrderViewSection(){
  * Clear the Patient name search field.
  */
 function clearPatientTableFilters(){
-    $("#patient_full_name").val("");
-    $("#searchByPatient").submit();
+    jq("#patient_full_name").val("");
+    jq("#searchByPatient").submit();
 }
 
 /*
@@ -299,9 +299,9 @@ function clearPatientTableFilters(){
  */
 function closePharmaGroupView(){
     jq("#pharmaGroupView").hide();
-    $("#pharmaSingle").val();
-    $("#pharmaGroup").val();
-    $("#pharmaPlan").val();
+    jq("#pharmaSingle").val();
+    jq("#pharmaGroup").val();
+    jq("#pharmaPlan").val();
     clearHighlights();
 }
 
@@ -323,13 +323,13 @@ function emailLink(orderList, patientID, patientName, patientDOB, patientAddr, o
     var notSelected = "";
     
     var list = orderList.trim().split(" ");
-    $(".groupCheckBox").each(function(){
+    jq(".groupCheckBox").each(function(){
         if(this.checked){
             checked++;
-            var drug = $(this).nextAll('.checkedDrug').text();
+            var drug = jq(this).nextAll('.checkedDrug').text();
             selected = selected + drug + ", ";
         } else {
-            var drug = $(this).nextAll('.checkedDrug').text();
+            var drug = jq(this).nextAll('.checkedDrug').text();
             notSelected = notSelected + drug + ", ";
         }
     });
@@ -340,7 +340,7 @@ function emailLink(orderList, patientID, patientName, patientDOB, patientAddr, o
     if(list.length !== checked)
         message = "Please note that the remaining Order(s) for "+notSelected+" are available for sale. Please confirm if these can be dispensed.";
     
-    var comments = $("#groupComments").val();
-    var selectedAction = $("#selectedAction").text();
+    var comments = jq("#groupComments").val();
+    var selectedAction = jq("#selectedAction").text();
     document.getElementById("emailLink").href = "mailto:<Recipient Address<>>?Subject=Order Status Alert!!! "+selectedAction+"&body=This is to inform you that the following Order(s) for "+selected+" cannot be dispatched.%0AStatus Set: "+selectedAction+"%0A%0APatient ID:   "+patientID+"%0APatient Name: "+patientName+"%0APatient DOB:  "+patientDOB+"%0APatient Addr: "+patientAddr+"%0A%0A"+orderDetails+"%0AComments: "+comments+"%0A%0A"+message;
 }

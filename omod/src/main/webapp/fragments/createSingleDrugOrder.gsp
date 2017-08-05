@@ -223,30 +223,14 @@
         <br/><br/><br/>
         
         <div class="fields" id="view_order_detail">
-            <label>Instructions from the Physician for the -</label>
-        </div>  
-            
-        <div class="fields" id="view_order_detail">
-            <div id="order_label">
-                <label>Patient</label>
-            </div>
-            <div id="order_value">
-                <textarea maxlength="255" id="patientInstrn" name="patientInstrn" placeholder="Enter instructions for Patient" required="required"></textarea>
-            </div>
-        </div>
-
-        <br/><br/><br/>
+            <label>Instructions for Patient</label>
+            <textarea maxlength="255" id="patientInstrn" name="patientInstrn" placeholder="Enter instructions for Patient" required="required"></textarea>
+        </div><br/>
         
         <div class="fields" id="view_order_detail">
-            <div id="order_label">
-                <label>Pharmacist</label>
-            </div>
-            <div id="order_value">
-                <textarea maxlength="255" id="pharmacistInstrn" name="pharmacistInstrn" placeholder="Enter instructions for Pharmacist" required="required"></textarea>
-            </div>
-        </div>
-
-        <br/><br/><br/><br/>
+            <label>Instructions for Pharmacist</label>
+            <textarea maxlength="255" id="pharmacistInstrn" name="pharmacistInstrn" placeholder="Enter instructions for Pharmacist" required="required"></textarea>
+        </div><br/>
         
         <input type="hidden" id="orderAction" name="action" />
         <input type="hidden" id="orderId" name="orderId" />

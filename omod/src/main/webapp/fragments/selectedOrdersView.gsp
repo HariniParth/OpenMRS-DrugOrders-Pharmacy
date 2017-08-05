@@ -58,7 +58,7 @@
 
                             <div class="fields" id="view_order_detail">
                                 <div id="order_label">Pharmacy</div>
-                                <div id="order_value">${ pharma_instr }</div>
+                                <div id="order_value">${ pharma_instr.replace("newline"," ") }</div>
                             </div><br/><br/>
                             
                             <% if(groupOrderExtn.get(groupOrder.key).patientInstructions != null && groupOrderExtn.get(groupOrder.key).patientInstructions != "null") { %>
@@ -69,7 +69,7 @@
 
                             <div class="fields" id="view_order_detail">
                                 <div id="order_label">Patient</div>
-                                <div id="order_value">${ patient_instr }</div>
+                                <div id="order_value">${ patient_instr.replace("newline"," ") }</div>
                             </div><br/>
                                 
                             <!--
@@ -77,9 +77,9 @@
                             -->
                             <div class="dispatchFields"><br/>
                                 <div class="fields" id="view_order_detail">
-                                    <div id="order_label"><label>Note<span id="asterisk">*</span></label></div>
-                                    <div id="order_value"><textarea maxlength="255" class="commentForPatient" name="commentForPatient" placeholder="Enter notes for Patient" required="required"></textarea></div>
-                                </div><br/><br/><br/>
+                                    <label>Note<span id="asterisk">*</span></label>
+                                    <textarea maxlength="255" class="commentForPatient" name="commentForPatient" placeholder="Enter notes for Patient" required="required"></textarea>
+                                </div><br/>
                                 
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
@@ -116,7 +116,7 @@
 
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label">Allergy</div>
-                                    <div id="order_value">${ allergic_order }</div>
+                                    <div id="order_value">${ allergic_order.replace("newline"," ") }</div>
                                 </div>
 
                                 <div class="fields" id="view_order_detail">
@@ -149,7 +149,7 @@
                                     jq(".print").on('click', function (){
                                         var order = jq(this).prev('#order').text();
                                         var date = jq(this).parent().find('.dispatchFields').first().find('.fields').last().find('#order_value').find('.drugExpiryDate').val();
-                                        var comment = jq(this).parent().find('.dispatchFields').first().find('.fields').first().find('#order_value').find('.commentForPatient').val();
+                                        var comment = jq(this).parent().find('.dispatchFields').first().find('.fields').find('.commentForPatient').val();
                                         
                                         jq.getJSON('${ ui.actionLink("printLabel") }',
                                         {
