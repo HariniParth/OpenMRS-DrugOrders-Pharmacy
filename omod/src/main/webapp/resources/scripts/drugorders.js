@@ -656,7 +656,7 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         $("#order_duration").text(duration+" "+durationUnits+", "+frequency);
 
         if(orderReason !== "null"){
-            $("#order_reason").text(orderReason);
+            $("#order_reason").text(orderReason.replace(/newline/g,"\n"));
             jq("#allergicOrderReasonView").show();
             jq("#allergicOrderReasonView").css("display", "block");
         }
@@ -664,15 +664,15 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         if(patientInstrn === "null")
             $("#patient_instructions").text("-");
         else
-            $("#patient_instructions").text(patientInstrn);
+            $("#patient_instructions").text(patientInstrn.replace(/newline/g,"\n"));
         
         if(pharmacistInstrn === "null")
             $("#pharmacist_instructions").text("-");
         else
-            $("#pharmacist_instructions").text(pharmacistInstrn);
+            $("#pharmacist_instructions").text(pharmacistInstrn.replace(/newline/g,"\n"));
 
         if(pharmaComments !== "" && pharmaComments !== null && pharmaComments !== "null" && pharmaComments !== undefined){
-            $("#pharma_comments").text(pharmaComments);
+            $("#pharma_comments").text(pharmaComments.replace(/newline/g,"\n"));
             jq("#pharmacistCommentsView").show();
             jq("#pharmacistCommentsView").css("display", "block");
         }
@@ -737,8 +737,8 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         
         if(orderReason !== "" && orderReason !== "null" && orderType === "EDIT DRUG ORDER"){
             jq("#allergicReason").show();
-            $("#orderReason").val(orderReason);
-            $("#orderReason").attr("required", true);
+            jq("#orderReason").val(orderReason.replace(/newline/g,"\n"));
+            jq("#orderReason").attr("required", true);
             jq("#orderReason").css("borderColor", "");
             jq("#allergicReason").css("display", "block");
         }
@@ -746,12 +746,12 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         if(patientInstrn === "null" || orderType === "RENEW DRUG ORDER")
             $("#patientInstrn").val("");
         else
-            $("#patientInstrn").val(patientInstrn);
+            $("#patientInstrn").val(patientInstrn.replace(/newline/g,"\n"));
         
         if(pharmacistInstrn === "null" || orderType === "RENEW DRUG ORDER")
             $("#pharmacistInstrn").val("");
         else
-            $("#pharmacistInstrn").val(pharmacistInstrn);
+            $("#pharmacistInstrn").val(pharmacistInstrn.replace(/newline/g,"\n"));
         
         $("#drugName").prop("readonly", true);
         $("#addOrderButton").prop("disabled", false);
@@ -1066,7 +1066,7 @@ function editMedPlan(id, planName, planDesc){
         $("#definePlanId").val(id);
         $("#defineAction").val("editPlan");
         $("#definePlanName").val(planName);
-        $("#definePlanDesc").val(planDesc);
+        $("#definePlanDesc").val(planDesc.replace(/newline/g,"\n"));
         jq("#definePlanWindow").show();
         $("#planDefineButton").prop("disabled", false); 
         jq("#definePlanWindow").css("display", "block");

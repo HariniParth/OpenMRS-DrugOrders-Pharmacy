@@ -148,8 +148,15 @@ public class DrugordersHomePageController {
                     */
                     List<String> allergicPlanOrderReason = new ArrayList<>();
                     for(String reason : planOrderReason){
-                        if(!reason.equals(""))
-                            allergicPlanOrderReason.add(reason);                
+                        if(!reason.equals("")){
+                            // Fix saving multiple lines of text input.
+                            String [] reasons = reason.split("\n");
+                            StringBuilder sb = new StringBuilder();
+                            for(String s : reasons){
+                                sb.append(s.trim()).append("newline");
+                            }
+                            allergicPlanOrderReason.add(sb.toString());  
+                        }              
                     }
                     
                     /*
@@ -266,8 +273,15 @@ public class DrugordersHomePageController {
                         // If the drug is identified to be allergic, save the reason for ordering the drug and create an order.
                         List<String> allergicPlanOrderReason = new ArrayList<>();
                         for(String reason : reviseOrderReason){
-                            if(!reason.equals(""))
-                                allergicPlanOrderReason.add(reason);                
+                            if(!reason.equals("")){
+                                // Fix saving multiple lines of text input.
+                                String [] reasons = reason.split("\n");
+                                StringBuilder sb = new StringBuilder();
+                                for(String s : reasons){
+                                    sb.append(s.trim()).append("newline");
+                                }
+                                allergicPlanOrderReason.add(sb.toString()); 
+                            }           
                         }
                     
                         for(int i=0;i<groupCheckBox.length;i++){
@@ -562,12 +576,35 @@ public class DrugordersHomePageController {
         // Save the diagnosis concept associated with the order.
         drugorder.setAssociatedDiagnosis(ConceptName(diagnosis));
             
-        if(!(orderReason).equals(""))
-            drugorder.setIsAllergicOrderReasons(orderReason);
-        if(!(patientInstrn).equals(""))
-            drugorder.setPatientInstructions(patientInstrn);
-        if(!(pharmacistInstrn).equals(""))
-            drugorder.setPharmacistInstructions(pharmacistInstrn);
+        if(!(orderReason).equals("")){
+            // Fix saving multiple lines of text input.
+            String [] reason = orderReason.split("\n");
+            StringBuilder sb = new StringBuilder();
+            for(String s : reason){
+                sb.append(s.trim()).append("newline");
+            }
+            drugorder.setIsAllergicOrderReasons(sb.toString());
+        }
+            
+        if(!(patientInstrn).equals("")){
+            // Fix saving multiple lines of text input.
+            String [] instructions = patientInstrn.split("\n");
+            StringBuilder sb = new StringBuilder();
+            for(String s : instructions){
+                sb.append(s.trim()).append("newline");
+            }
+            drugorder.setPatientInstructions(sb.toString());
+        }
+            
+        if(!(pharmacistInstrn).equals("")){
+            // Fix saving multiple lines of text input.
+            String [] instructions = pharmacistInstrn.split("\n");
+            StringBuilder sb = new StringBuilder();
+            for(String s : instructions){
+                sb.append(s.trim()).append("newline");
+            }
+            drugorder.setPharmacistInstructions(sb.toString());
+        }
         
         Context.getService(drugordersService.class).saveDrugOrder(drugorder);
     }
@@ -600,7 +637,13 @@ public class DrugordersHomePageController {
             drugorder.setDiscontinueReason(ConceptName(coded.trim()));
         }
         else if(!(nonCoded.equals(""))){
-            drugorder.setDiscontinuationReasons(nonCoded);
+            // Fix saving multiple lines of text input.
+            String [] instructions = nonCoded.split("\n");
+            StringBuilder sb = new StringBuilder();
+            for(String s : instructions){
+                sb.append(s.trim()).append("newline");
+            }
+            drugorder.setDiscontinuationReasons(sb.toString());
         }
     }
     

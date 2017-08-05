@@ -64,7 +64,15 @@ public class AdministrationPageController {
                             if(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(definePlanName.trim())) == null){
                                 newplans newplan = new newplans();
                                 newplan.setPlanName(ConceptName(definePlanName.trim()));
-                                newplan.setPlanDesc(definePlanDesc);
+                                
+                                // Fix saving multiple lines of text input.
+                                String [] planDesc = definePlanDesc.split("\n");
+                                StringBuilder sb = new StringBuilder();
+                                for(String s : planDesc){
+                                    sb.append(s.trim()).append("newline");
+                                }
+                                newplan.setPlanDesc(sb.toString());
+                                
                                 newplan.setPlanStatus("Active");
                                 Context.getService(newplansService.class).saveMedPlan(newplan);
                                 InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
@@ -137,7 +145,14 @@ public class AdministrationPageController {
                             } 
                             else {
                                 oldPlan.setPlanName(ConceptName(definePlanName.trim()));
-                                oldPlan.setPlanDesc(definePlanDesc.trim());
+                                // Fix saving multiple lines of text input.
+                                String [] planDesc = definePlanDesc.split("\n");
+                                StringBuilder sb = new StringBuilder();
+                                for(String s : planDesc){
+                                    sb.append(s.trim()).append("newline");
+                                }
+                                oldPlan.setPlanDesc(sb.toString());
+                                
                                 InfoErrorMessageUtil.flashInfoMessage(session, "Plan Modified!");
                             }
                         } 

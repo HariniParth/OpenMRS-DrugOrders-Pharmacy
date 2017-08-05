@@ -82,8 +82,16 @@ public class PharmacyPatientPageController {
                                     if(drugorder.getOnHold() == 1)
                                         drugorder.setOnHold(0);
                                     // If comments to discard the order are provided, save the comments.
-                                    if(groupComments != null)
-                                        drugorder.setCommentForOrderer(groupComments);
+                                    if(groupComments != null){
+                                        // Fix saving multiple lines of text input.
+                                        String [] comments = groupComments.split("\n");
+                                        StringBuilder sb = new StringBuilder();
+                                        for(String s : comments){
+                                            sb.append(s.trim()).append("newline");
+                                        }
+                                        drugorder.setCommentForOrderer(sb.toString()); 
+                                    }
+                                        
                                     break;
                                 case "On Hold":
                                     drugorder.setOnHold(1);
@@ -91,8 +99,15 @@ public class PharmacyPatientPageController {
                                     if(drugorder.getForDiscard()== 1)
                                         drugorder.setForDiscard(0);
                                     // If comments to put the order on hold are provided, save the comments.
-                                    if(groupComments != null)
-                                        drugorder.setCommentForOrderer(groupComments);
+                                    if(groupComments != null){
+                                        // Fix saving multiple lines of text input.
+                                        String [] comments = groupComments.split("\n");
+                                        StringBuilder sb = new StringBuilder();
+                                        for(String s : comments){
+                                            sb.append(s.trim()).append("newline");
+                                        }
+                                        drugorder.setCommentForOrderer(sb.toString()); 
+                                    }
                                     break;
                                 case "Dispatch":
                                     // If the order was previously set to be discarded, remove the to-discard flag.
@@ -125,7 +140,15 @@ public class PharmacyPatientPageController {
                                     }   
                                     // Save the drug expiry date and comments entered for the Patient.
                                     drugorder.setDrugExpiryDate(new SimpleDateFormat("MM/dd/yyyy").parse(drugExpiryDate[i]));
-                                    drugorder.setCommentForPatient(commentForPatient[i]);
+                                    
+                                    // Fix saving multiple lines of text input.
+                                    String [] comments = commentForPatient[i].split("\n");
+                                    StringBuilder sb = new StringBuilder();
+                                    for(String s : comments){
+                                        sb.append(s.trim()).append("newline");
+                                    }
+                                    drugorder.setCommentForPatient(sb.toString());
+                                    
                                     break;
                             }
                             Context.getService(drugordersService.class).saveDrugOrder(drugorder);

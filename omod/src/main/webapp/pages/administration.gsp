@@ -63,9 +63,9 @@
                                                 <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
                                                 <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
                                                 <span class="planName"><strong class="wordBreak">${ newPlan.planName.getDisplayString().toUpperCase() }</strong></span>
-                                            </div>
+                                            </div><br/>
 
-                                            <div class="desc"><span class="wordBreak">${ newPlan.planDesc }</span></div><br/>
+                                            <div class="desc"><span class="wordBreak">${ newPlan.planDesc.replace("newline","<br/>") }</span></div><br/>
 
                                             <div class="plansDetailsView">
                                                 <% medPlan = allMedicationPlans.get(newPlan.planName) %>
