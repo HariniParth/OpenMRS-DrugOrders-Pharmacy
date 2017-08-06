@@ -93,54 +93,26 @@
         
         <div id="allergicOrderReasonView">
             <div class="fields" id="view_order_detail">
-                <div id="order_label">
-                    <label><strong>Allergy Note</strong></label>
-                </div>
-                <div id="order_value">
-                    <label id="order_reason"></label>
-                </div>
-            </div><br/><br/>
+                <label><strong>Allergic Drug Order Note</strong></label>
+                <label id="order_reason"></label>
+            </div><br/>
         </div>
         
         <div class="fields" id="view_order_detail">
-            <label><strong>Instructions from Physician for</strong></label>
+            <label><strong>Instructions for Patient</strong></label>
+            <label id="patient_instructions"></label>
         </div><br/>
 
         <div class="fields" id="view_order_detail">
-            <div id="order_label">
-                <label><strong>Patient</strong></label>
-            </div>
-            <div id="order_value">
-                <label id="patient_instructions"></label>
-            </div>
-        </div>
-        
-        <br/><br/>
-
-        <div class="fields" id="view_order_detail">
-            <div id="order_label">
-                <label><strong>Pharmacist</strong></label>
-            </div>
-            <div id="order_value">
-                <label id="pharmacist_instructions"></label>
-            </div>
-        </div>
-        
-        <br/><br/>
+            <label><strong>Instructions for Pharmacist</strong></label>
+            <label id="pharmacist_instructions"></label>
+        </div><br/>
         
         <div id="pharmacistCommentsView">
             <div class="fields" id="view_order_detail">
-                <label><strong>Pharmacist's Comments for</strong></label>
+                <label><strong>Pharmacist's Comments</strong></label>
+                <label id="pharma_comments"></label>
             </div><br/>
-            
-            <div class="fields" id="view_order_detail">
-                <div id="order_label">
-                    <label><strong>Physician</strong></label>
-                </div>
-                <div id="order_value">
-                    <label id="pharma_comments"></label>
-                </div>
-            </div><br/><br/>
         </div>
     </div><br/>
     <button class="cancel right" id="btn-place" onclick="hideDrugOrderViewWindow()">${ ui.message("Close") }</button>

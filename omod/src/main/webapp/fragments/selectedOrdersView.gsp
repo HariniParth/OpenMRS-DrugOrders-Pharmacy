@@ -45,11 +45,6 @@
                             
                             <span class="fields">Dose: ${ groupOrder.value.dose } ${ groupOrder.value.doseUnits.getDisplayString() }, Quantity: ${ groupOrder.value.quantity } ${ groupOrder.value.quantityUnits.getDisplayString() }</span><br/><br/>
                         
-                            <div class="fields" id="view_order_detail">
-                                <div id="order_label">Instructions</div>
-                                <div id="order_value">for:</div>
-                            </div>
-
                             <% if(groupOrderExtn.get(groupOrder.key).pharmacistInstructions != null && groupOrderExtn.get(groupOrder.key).pharmacistInstructions != "null") { %>
                                 <% pharma_instr = groupOrderExtn.get(groupOrder.key).pharmacistInstructions; %>
                             <% } else { %>
@@ -57,9 +52,9 @@
                             <% } %>
 
                             <div class="fields" id="view_order_detail">
-                                <div id="order_label">Pharmacy</div>
-                                <div id="order_value">${ pharma_instr.replace("newline"," ") }</div>
-                            </div><br/><br/>
+                                <label><strong>Instructions for Pharmacy:</strong></label>
+                                ${ pharma_instr.replace("newline","<br/>") }
+                            </div>
                             
                             <% if(groupOrderExtn.get(groupOrder.key).patientInstructions != null && groupOrderExtn.get(groupOrder.key).patientInstructions != "null") { %>
                                 <% patient_instr = groupOrderExtn.get(groupOrder.key).patientInstructions; %>
@@ -68,9 +63,9 @@
                             <% } %>
 
                             <div class="fields" id="view_order_detail">
-                                <div id="order_label">Patient</div>
-                                <div id="order_value">${ patient_instr.replace("newline"," ") }</div>
-                            </div><br/>
+                                <label><strong>Instructions for Patient:</strong></label>
+                                ${ patient_instr.replace("newline","<br/>") }
+                            </div>
                                 
                             <!--
                                 Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
@@ -91,43 +86,32 @@
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label">Route</div>
                                     <div id="order_value">${ groupOrder.value.route.getDisplayString() } </div>
-                                </div>
+                                </div><br/>
                                 
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label">Duration</div>
                                     <div id="order_value">${ groupOrder.value.duration } ${ groupOrder.value.durationUnits.getDisplayString() }</div>
-                                </div>
+                                </div><br/>
                                 
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label">Frequency</div>
                                     <div id="order_value">${ groupOrder.value.frequency }</div>
-                                </div>
+                                </div><br/>
 
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label">Diagnosis</div>
                                     <div id="order_value">${ groupOrderExtn.get(groupOrder.key).associatedDiagnosis.getDisplayString() }</div>
-                                </div>
-
-                                <% if(groupOrderExtn.get(groupOrder.key).isAllergicOrderReasons != null) { %>
-                                    <% allergic_order = groupOrderExtn.get(groupOrder.key).isAllergicOrderReasons; %>
-                                <% } else { %>
-                                    <% allergic_order = "NA"; %>
-                                <% } %>
-
-                                <div class="fields" id="view_order_detail">
-                                    <div id="order_label">Allergy</div>
-                                    <div id="order_value">${ allergic_order.replace("newline"," ") }</div>
-                                </div>
+                                </div><br/>
 
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label">Refills</div>
                                     <div id="order_value">${ groupOrderExtn.get(groupOrder.key).refill }</div>
-                                </div>
+                                </div><br/>
 
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label">Interval</div>
                                     <div id="order_value">${ groupOrderExtn.get(groupOrder.key).refillInterval } (days)</div>
-                                </div>
+                                </div><br/>
 
                                 <% if(groupOrderExtn.get(groupOrder.key).lastDispatchDate != null) { %>
                                     <% last_dispatch_date = groupOrderExtn.get(groupOrder.key).lastDispatchDate.format('yyyy-MM-dd'); %>
@@ -138,7 +122,19 @@
                                 <div class="fields" id="view_order_detail">
                                     <div id="order_label">Last Refill</div>
                                     <div id="order_value">${ last_dispatch_date }</div>
-                                </div>
+                                </div><br/>
+                                
+                                <% if(groupOrderExtn.get(groupOrder.key).isAllergicOrderReasons != null) { %>
+                                    <% allergic_order = groupOrderExtn.get(groupOrder.key).isAllergicOrderReasons; %>
+                                <% } else { %>
+                                    <% allergic_order = "NA"; %>
+                                <% } %>
+
+                                <div class="fields" id="view_order_detail">
+                                    <label>Allergic Drug Order Note: </label>
+                                    ${ allergic_order.replace("newline","<br/>") }
+                                </div><br/>
+                                
                             </div><br/>
                             <span class="hidden" id="order">${ groupOrder.key }</span>
                             <span class="print">Print Label</span><br/>

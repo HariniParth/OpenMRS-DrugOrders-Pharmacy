@@ -656,8 +656,8 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         jq("#order_duration").text(duration+" "+durationUnits+", "+frequency);
 
         if(orderReason !== "null"){
-            var order_reason = jq('<div>').text(orderReason).text();
-            jq("#order_reason").html(order_reason.replace(/newline/g," "));
+            var order_reason = jq('<div>').text("<br/>"+orderReason).text();
+            jq("#order_reason").html(order_reason.replace(/newline/g,"<br/>"));
             jq("#allergicOrderReasonView").show();
             jq("#allergicOrderReasonView").css("display", "block");
         }
@@ -665,19 +665,20 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
         if(patientInstrn === "null")
             jq("#patient_instructions").text("-");
         else {
-            var patient_instructions = jq('<div>').text(patientInstrn).text();
-            jq("#patient_instructions").html(patient_instructions.replace(/newline/g," "));
+            var patient_instructions = jq('<div>').text("<br/>"+patientInstrn).text();
+            jq("#patient_instructions").html(patient_instructions.replace(/newline/g,"<br/>"));
         }
         
         if(pharmacistInstrn === "null")
             jq("#pharmacist_instructions").text("-");
         else {
-            var pharmacist_instructions = jq('<div>').text(pharmacistInstrn).text();
-            jq("#pharmacist_instructions").html(pharmacist_instructions.replace(/newline/g," "));
+            var pharmacist_instructions = jq('<div>').text("<br/>"+pharmacistInstrn).text();
+            jq("#pharmacist_instructions").html(pharmacist_instructions.replace(/newline/g,"<br/>"));
         }
 
         if(pharmaComments !== "" && pharmaComments !== null && pharmaComments !== "null" && pharmaComments !== undefined){
-            jq("#pharma_comments").text(pharmaComments.replace(/newline/g," "));
+            var pharma_comments = jq('<div>').text("<br/>"+pharmaComments).text();
+            jq("#pharma_comments").html(pharma_comments.replace(/newline/g,"<br/>"));
             jq("#pharmacistCommentsView").show();
             jq("#pharmacistCommentsView").css("display", "block");
         }

@@ -159,7 +159,7 @@ public class SelectedOrdersViewFragmentController {
                 order.getDuration() + " " + order.getDurationUnits().getDisplayString() + " " + order.getQuantity() + " " + order.getQuantityUnits().getDisplayString() + "\n" +
                 "Route: " + order.getRoute().getDisplayString() + " " + "Frequency: " + order.getFrequency().getName() + "\n" +
                 "Start Date: " + drugorder.getStartDate().toString() + "\n" +
-                "Patient Instructions: " + drugorder.getPatientInstructions() + "\n" +
+                "Patient Instructions: " + drugorder.getPatientInstructions().replaceAll("newline", "\n") + "\n" +
                 "Comments from Pharmacist: " + comment + "\n" +
                 "Drug Expiry Date: " + date;
             
