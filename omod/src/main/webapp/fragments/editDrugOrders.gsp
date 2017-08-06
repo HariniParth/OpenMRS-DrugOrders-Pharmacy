@@ -175,7 +175,7 @@
                         <% if((groupOrderAction == "RENEW MED PLAN" || groupOrderAction == "RENEW ORDER GROUP") && allergicDrugs.contains(groupExtn.get(order.key).drugName.getDisplayString().toUpperCase()) && !currentOrders.contains(groupExtn.get(order.key).drugName.getDisplayString().toUpperCase())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>
                             Enter reasons to order this drug <br/>
-                            <textarea maxlength="255" class="reviseOrderReason" name="reviseOrderReason" placeholder="Enter the reason to order" required="required"></textarea>
+                            <textarea maxlength="225" class="reviseOrderReason" name="reviseOrderReason" placeholder="Enter the reason to order" required="required"></textarea>
                         <% } %>
                     </div><br/>
                         

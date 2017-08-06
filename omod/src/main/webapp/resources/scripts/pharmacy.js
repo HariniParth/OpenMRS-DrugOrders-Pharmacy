@@ -30,6 +30,15 @@ jq(document).ready( function() {
         enableConfirmBtn();
     }); 
     
+    var lines = 5;
+    // Check the number of rows entered in the given textarea
+    jq("textarea").on("keydown", function(e){
+        
+        var newLines = $(this).val().split("\n").length;
+        if(e.keyCode === 13 && newLines >= lines) {
+            return false;
+        }
+    });
 });
 
 /*

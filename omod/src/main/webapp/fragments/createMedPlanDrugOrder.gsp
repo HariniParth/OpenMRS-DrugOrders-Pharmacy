@@ -108,7 +108,7 @@
                         <% if(allergicDrugs.contains(medplan.drugId.getDisplayString().toUpperCase()) && !currentOrders.contains(medplan.drugId.getDisplayString().toUpperCase())) { %>
                             <br/> NOTE: Patient is allergic to this drug <br/>
                             Enter reasons to order this drug <br/>
-                            <textarea maxlength="255" class="planOrderReason" name="planOrderReason" placeholder="Enter the reason to order" required="required"></textarea>
+                            <textarea maxlength="225" class="planOrderReason" name="planOrderReason" placeholder="Enter the reason to order" required="required"></textarea>
                         <% } %>
                     </div><br/>
                         
