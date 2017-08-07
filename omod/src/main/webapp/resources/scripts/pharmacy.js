@@ -39,6 +39,22 @@ jq(document).ready( function() {
             return false;
         }
     });
+    
+    /*
+     * Highlight the fields to enter the reasons to order a drug unless they are filled.
+     */
+    jq('#groupComments, .commentForPatient, .drugExpiryDate').each(function(){
+        this.style.borderColor = "orangered";
+    });
+    
+    jq('#groupComments, .commentForPatient, .drugExpiryDate').each(function(){
+        jq(this).on('change', function(){
+            if(jq(this).val().trim() === "")
+                this.style.borderColor = "orangered";
+            else
+                this.style.borderColor = "";
+        });
+    });
 });
 
 /*
@@ -76,22 +92,32 @@ function enableConfirmBtn(){
     jq('.groupCheckBox').each(function() {
         if(this.checked) {
             selected = true;  
-            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", false);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').find('.commentForPatient').prop("readonly", false);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').find('.commentForPatient').css("borderColor", "orangered");
+            
             jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("disabled", false);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').css("borderColor", "orangered");
         } else {
-            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').val("");
-            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').first().find('#order_value').find('.commentForPatient').prop("readonly", true);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').find('.commentForPatient').val("");
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').find('.commentForPatient').prop("readonly", true);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').find('.commentForPatient').css("borderColor", "");
+            
             jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').val("");
             jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').prop("disabled", true);
+            jq(this).parent().parent().next('.drugDetails').find('.dispatchFields').find('.fields').last().find('#order_value').find('.drugExpiryDate').css("borderColor", "");
         }
     });
     
     if(selected){
         jq('#confirmBtn1').removeAttr('disabled'); 
         jq('#confirmBtn2').removeAttr('disabled'); 
+        jq("#groupComments").prop("readonly", false);
+        jq("#groupComments").css("borderColor", "orangered");
     } else {
         jq("#confirmBtn1").prop("disabled", true);
         jq("#confirmBtn2").prop("disabled", true);
+        jq("#groupComments").prop("readonly", true);
+        jq("#groupComments").css("borderColor", "");
     } 
 }
 

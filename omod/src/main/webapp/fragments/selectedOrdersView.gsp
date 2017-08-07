@@ -52,7 +52,7 @@
                             <% } %>
 
                             <div class="fields" id="view_order_detail">
-                                <label><strong>Instructions for Pharmacy:</strong></label>
+                                <label><strong>Instructions for the Pharmacist:</strong></label>
                                 ${ pharma_instr.replace("newline","<br/>") }
                             </div>
                             
@@ -63,7 +63,7 @@
                             <% } %>
 
                             <div class="fields" id="view_order_detail">
-                                <label><strong>Instructions for Patient:</strong></label>
+                                <label><strong>Instructions for the Patient:</strong></label>
                                 ${ patient_instr.replace("newline","<br/>") }
                             </div>
                                 

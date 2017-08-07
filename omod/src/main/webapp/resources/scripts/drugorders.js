@@ -66,7 +66,7 @@ jq(document).ready( function() {
      * Remove highlights from Order discontinuation field when reason is provided.
      */
     jq('#nonCodedDiscardReason').change(function (){ 
-        if(jq(this).val() === "")
+        if(jq(this).val().trim() === "")
             this.style.borderColor = "orangered";
         else
             this.style.borderColor = "";
@@ -109,9 +109,11 @@ jq(document).ready( function() {
             if(this.checked) {
                 selected = true; 
                 jq(this).parent().next('.drugDetails').first().find('.planOrderReason').prop("readonly", false);                
+                jq(this).parent().next('.drugDetails').first().find('.planOrderReason').css("borderColor", "orangered");
             } else {
                 jq(this).parent().next('.drugDetails').first().find('.planOrderReason').val("");
-                jq(this).parent().next('.drugDetails').first().find('.planOrderReason').prop("readonly", true);                
+                jq(this).parent().next('.drugDetails').first().find('.planOrderReason').prop("readonly", true);      
+                jq(this).parent().next('.drugDetails').first().find('.planOrderReason').css("borderColor", ""); 
             }
         });
         if(selected){
@@ -143,10 +145,12 @@ jq(document).ready( function() {
         jq('.groupDrugName .groupCheckBox').each(function() {
             if(this.checked) {
                 selected = true;
-                jq(this).parent().next('.drugDetails').first().find('.reviseOrderReason').prop("readonly", false);                
+                jq(this).parent().next('.drugDetails').first().find('.reviseOrderReason').prop("readonly", false);
+                jq(this).parent().next('.drugDetails').first().find('.reviseOrderReason').css("borderColor", "orangered");
             } else {
                 jq(this).parent().next('.drugDetails').first().find('.reviseOrderReason').val("");
                 jq(this).parent().next('.drugDetails').first().find('.reviseOrderReason').prop("readonly", true);
+                jq(this).parent().next('.drugDetails').first().find('.reviseOrderReason').css("borderColor", "");
             }
         });   
         if(selected && (jq("#groupOrderAction").text() === "RENEW MED PLAN" || jq("#groupOrderAction").text() === "RENEW ORDER GROUP")){
@@ -171,7 +175,7 @@ jq(document).ready( function() {
     
     jq('#discardReason, .planOrderReason, .reviseOrderReason').each(function(){
         jq(this).on('change', function(){
-            if(jq(this).val() === "")
+            if(jq(this).val().trim() === "")
                 this.style.borderColor = "orangered";
             else
                 this.style.borderColor = "";
@@ -226,8 +230,7 @@ jq(document).ready( function() {
     var lines = 5;
     // Check the number of rows entered in the given textarea
     jq("textarea").on("keydown", function(e){
-        
-        var newLines = $(this).val().split("\n").length;
+        var newLines = jq(this).val().split("\n").length;
         if(e.keyCode === 13 && newLines >= lines) {
             return false;
         }
@@ -513,7 +516,7 @@ function hideIndividualOrderDetailsWindow(){
  * Highlight create drug order form fields if they are not filled.
  */
 function checkFormFields(){
-    if(jq("#orderReason").val() === "")
+    if(jq("#orderReason").val().trim() === "")
         document.getElementById("orderReason").style.borderColor = "orangered";
     else
         document.getElementById("orderReason").style.borderColor = "";
@@ -563,12 +566,12 @@ function checkFormFields(){
     else
         document.getElementById("diagnosis").style.borderColor = "";
     
-    if(jq("#patientInstrn").val() === "")
+    if(jq("#patientInstrn").val().trim() === "")
         document.getElementById("patientInstrn").style.borderColor = "orangered";
     else
         document.getElementById("patientInstrn").style.borderColor = "";
     
-    if(jq("#pharmacistInstrn").val() === "")
+    if(jq("#pharmacistInstrn").val().trim() === "")
         document.getElementById("pharmacistInstrn").style.borderColor = "orangered";
     else
         document.getElementById("pharmacistInstrn").style.borderColor = "";
@@ -642,7 +645,7 @@ function checkAdminFields(){
 /*
  * Display a fragment that displays the details of the selected order.
  */
-function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, orderReason, diagnosis, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus){
+function showDrugOrderViewWindow(startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, orderReason, diagnosis, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus){
     var dialogOpen = false;
     var objects = jq('.dialog');
     jq(objects).each(function(){
@@ -655,7 +658,6 @@ function showDrugOrderViewWindow(action, startdate, drugname, dose, doseUnits, r
             jq("#activeOrderWindow").hide();
         }
         
-        jq("#activeOrderAction").text(action);
         jq("#order_diagnosis").text(diagnosis);
         jq("#start_date").text(startdate);        
         jq("#order_priority").text(priority);
@@ -727,12 +729,7 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
             jq("#activeOrderWindow").hide();
             jq("#diagnosis").prop("readonly", true);
         }
-        checkExisting(name, currentList, allergyList, orderType);
-        
-        if(orderType === "RENEW DRUG ORDER"){
-            document.getElementById("patientInstrn").style.borderColor = "orangered";
-            document.getElementById("pharmacistInstrn").style.borderColor = "orangered";
-        } 
+        checkExisting(name, currentList, allergyList, orderType); 
         
         jq("#orderType").text(orderType);
         jq("#orderAction").val(orderType);
@@ -759,13 +756,17 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
             jq("#allergicReason").css("display", "block");
         }
         
-        if(patientInstrn === "null" || orderType === "RENEW DRUG ORDER")
+        if(patientInstrn === "null" || patientInstrn === null || orderType === "RENEW DRUG ORDER"){
             jq("#patientInstrn").val("");
+            document.getElementById("patientInstrn").style.borderColor = "orangered";
+        }
         else
             jq("#patientInstrn").val(patientInstrn.replace(/newline/g,"\n"));
         
-        if(pharmacistInstrn === "null" || orderType === "RENEW DRUG ORDER")
+        if(pharmacistInstrn === "null" || pharmacistInstrn === null || orderType === "RENEW DRUG ORDER"){
             jq("#pharmacistInstrn").val("");
+            document.getElementById("pharmacistInstrn").style.borderColor = "orangered";
+        }
         else
             jq("#pharmacistInstrn").val(pharmacistInstrn.replace(/newline/g,"\n"));
         
@@ -811,7 +812,7 @@ function createStandardPlan(){
 /*
  * Confirm discard selected Administrator define plan and associated plan items.
  */
-function discardMedPlan(){
+function discardMedPlan(){    
     jq("#discardPlanForm").submit();
 }
 

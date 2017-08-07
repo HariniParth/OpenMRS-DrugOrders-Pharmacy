@@ -11,7 +11,7 @@
 <div id="viewOrderWindow" class="dialog">
 
     <div class="dialog-header">
-        <h3 id="dialog-heading"><label id="activeOrderAction"></label></h3>
+        <h3 id="dialog-heading"><label>VIEW ORDER DETAILS</label></h3>
     </div>
     <h4 class="align-center"><strong>Selected Order</strong></h4><br/>
     
@@ -99,12 +99,12 @@
         </div>
         
         <div class="fields" id="view_order_detail">
-            <label><strong>Instructions for Patient</strong></label>
+            <label><strong>Instructions for the Patient</strong></label>
             <label id="patient_instructions"></label>
         </div><br/>
 
         <div class="fields" id="view_order_detail">
-            <label><strong>Instructions for Pharmacist</strong></label>
+            <label><strong>Instructions for the Pharmacist</strong></label>
             <label id="pharmacist_instructions"></label>
         </div><br/>
         
@@ -260,7 +260,7 @@
                 
                 <div id="discontinueReasonText">
                     <label><strong>Enter the reason to discontinue</strong></label>
-                    <textarea maxlength="255" id="nonCodedDiscardReason" name="nonCodedDiscardReason" placeholder="Enter the reason to discontinue"></textarea>
+                    <textarea maxlength="225" id="nonCodedDiscardReason" name="nonCodedDiscardReason" placeholder="Enter the reason to discontinue"></textarea>
                 </div><br/>
             </div>
             
