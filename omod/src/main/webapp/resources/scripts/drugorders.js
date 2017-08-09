@@ -200,7 +200,7 @@ jq(document).ready( function() {
      */
     jq(document).mouseup(function (e){
         if(document.getElementById("draftPlanList")){
-            if (!jq("#draftPlanRow").is(e.target) && jq("#draftPlanRow").has(e.target).length === 0 && !jq("#createOrderWindow").is(e.target) && jq("#createOrderWindow").has(e.target).length === 0 && !jq("#showGroupOrderWindow").is(e.target) && jq("#showGroupOrderWindow").has(e.target).length === 0 && e.target.nodeName !== "TD" && e.target.nodeName !== "TH" && e.target.nodeName !== "I" && e.target.nodeName !== "A" && e.target.nodeName !== "INPUT" && e.target.toString() !== "[object HTMLSpanElement]"){
+            if (!jq("#draftPlanRow").is(e.target) && jq("#draftPlanRow").has(e.target).length === 0 && !jq("#createOrderWindow").is(e.target) && jq("#createOrderWindow").has(e.target).length === 0 && !jq("#showGroupOrderWindow").is(e.target) && jq("#showGroupOrderWindow").has(e.target).length === 0 && !jq("#viewOrderWindow").is(e.target) && jq("#viewOrderWindow").has(e.target).length === 0 && e.target.nodeName !== "TD" && e.target.nodeName !== "TH" && e.target.nodeName !== "I" && e.target.nodeName !== "A" && e.target.nodeName !== "INPUT" && e.target.toString() !== "[object HTMLSpanElement]" && e.target.className !== "datetimepicker datetimepicker-dropdown-bottom-left dropdown-menu"){
                 saveDraftOrderDialog.show();
             }
         }
