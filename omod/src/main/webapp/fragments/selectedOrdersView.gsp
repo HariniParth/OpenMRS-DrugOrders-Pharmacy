@@ -19,7 +19,7 @@
         <form method="post" id="groupActionForm">
 
             <div class="dialog-header">
-                <h3 id="dialog-heading">${ ui.message("Record Action") }</h3>
+                <h3>${ ui.message("Record Action") }</h3>
             </div>
 
             <h4 id="heading"><strong>Selected Order(s)</strong></h4><br/>

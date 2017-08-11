@@ -9,7 +9,7 @@
 
 <div id="definePlanWindow" class="dialog">
     <div class="dialog-header">
-        <span id="dialog-heading"><h3 id="adminPlanActionType"></h3></span>
+        <h3 id="adminPlanActionType"></h3>
     </div><br/>
     
     <div class="fields">
@@ -41,7 +41,7 @@
             
 <div id="createPlanWindow" class="dialog">
     <div class="dialog-header">
-        <span id="dialog-heading"><h3 id="adminActionType"></h3></span>
+        <h3 id="adminActionType"></h3>
     </div><br/>
     
     <div class="fields">
@@ -197,7 +197,7 @@
 
     <div id="deletePlanWindow" class="dialog">
         <div class="dialog-header">
-            <h3 id="dialog-heading">
+            <h3>
                 <% if(selectedMedPlan != null) { %>
                     ${ ui.message("DISCARD PLAN") }
                 <% } else { %>

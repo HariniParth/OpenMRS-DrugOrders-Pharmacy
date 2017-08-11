@@ -12,7 +12,7 @@
     <form id="createOrderForm" method="post">
 
         <div class="dialog-header">
-            <span id="dialog-heading"><h3 name="action" id="orderType"></h3></span>
+            <h3 name="action" id="orderType"></h3>
         </div><br/>
         
         <div class="fields" id="view_order_detail">

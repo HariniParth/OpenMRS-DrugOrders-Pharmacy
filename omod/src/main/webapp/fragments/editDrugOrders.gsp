@@ -11,7 +11,7 @@
 <div id="viewOrderWindow" class="dialog">
 
     <div class="dialog-header">
-        <h3 id="dialog-heading"><label>VIEW ORDER DETAILS</label></h3>
+        <h3>VIEW ORDER DETAILS</h3>
     </div>
     <h4 class="align-center"><strong>Selected Order</strong></h4><br/>
     
@@ -131,7 +131,7 @@
         <form method="post">
             
             <div class="dialog-header">
-                <span id="dialog-heading"><h3 id="groupOrderAction">${ groupOrderAction }</h3></span>
+                <h3 id="groupOrderAction">${ groupOrderAction }</h3>
             </div>
             <h4 class="align-center"><strong>Selected Order(s)</strong></h4><br/>
 

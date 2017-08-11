@@ -8,7 +8,7 @@
 
 <div id="medPlanWindow" class="dialog">
     <div class="dialog-header">
-        <h3 id="dialog-heading">${ ui.message("SELECT MEDICATION PLAN") }</h3>
+        <h3>${ ui.message("SELECT MEDICATION PLAN") }</h3>
     </div><br/>
     
     <div class="addMedicationPlanWindow">
@@ -62,7 +62,7 @@
         <form method="post">    
             
             <div class="dialog-header">
-                <h3 id="dialog-heading">${ ui.message("STANDARD MEDICATION PLAN") }</h3>
+                <h3>${ ui.message("STANDARD MEDICATION PLAN") }</h3>
             </div>
             <h4 class="align-center"><strong>Selected Plan Drug(s)</strong></h4>
             

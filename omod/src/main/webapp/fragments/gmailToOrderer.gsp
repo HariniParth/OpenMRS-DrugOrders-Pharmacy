@@ -12,7 +12,7 @@
     <div id="mailWindow" class="dialog">
         <form method="post" id="mailOrdererForm">
             <div class="dialog-header">
-                <h3 id="dialog-heading">${ ui.message("Mail To Orderer") }</h3>
+                <h3>${ ui.message("Mail To Orderer") }</h3>
             </div>
 
             <input type="hidden" id="drugNames" value="${ drugNames }" />

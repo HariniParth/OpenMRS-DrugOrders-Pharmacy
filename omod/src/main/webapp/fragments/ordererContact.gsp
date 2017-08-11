@@ -9,7 +9,7 @@
 
 <div id="contactOrderer" class="dialog">
     <div class="dialog-header">
-        <h3 id="dialog-heading">${ ui.message("Contact Orderer") }</h3>
+        <h3>${ ui.message("Contact Orderer") }</h3>
     </div>
     <br/>
 

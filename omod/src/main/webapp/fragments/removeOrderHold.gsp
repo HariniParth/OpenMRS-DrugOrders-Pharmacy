@@ -9,7 +9,7 @@
 
 <div id="removeHold" class="dialog">
     <div class="dialog-header">
-        <h3 id="dialog-heading">${ ui.message("Remove Order Hold") }</h3>
+        <h3>${ ui.message("Remove Order Hold") }</h3>
     </div>
 
     <h4 id="heading"><strong>Remove hold on selected Order(s)?</strong></h4><br/>

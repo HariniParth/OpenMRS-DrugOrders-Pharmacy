@@ -10,7 +10,7 @@
 <div id="saveDraftPlan" class="dialog">
     <form method="post" id="saveDraftPlanForm">
         <div class="dialog-header">
-            <h3 id="dialog-heading">${ ui.message("Save Draft Orders") }</h3>
+            <h3>${ ui.message("Save Draft Orders") }</h3>
         </div>
 
         <h4 id="heading"><strong>Save draft med plan orders?</strong></h4><br/>
