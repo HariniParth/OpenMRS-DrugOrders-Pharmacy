@@ -155,7 +155,7 @@ public class DrugordersHomePageController {
                             for(String s : reasons){
                                 sb.append(s.trim()).append("newline");
                             }
-                            allergicPlanOrderReason.add(sb.toString());  
+                            allergicPlanOrderReason.add(sb.substring(0, sb.length()-7));  
                         }              
                     }
                     
@@ -280,7 +280,7 @@ public class DrugordersHomePageController {
                                 for(String s : reasons){
                                     sb.append(s.trim()).append("newline");
                                 }
-                                allergicPlanOrderReason.add(sb.toString()); 
+                                allergicPlanOrderReason.add(sb.substring(0, sb.length()-7)); 
                             }           
                         }
                     
@@ -583,7 +583,7 @@ public class DrugordersHomePageController {
             for(String s : reason){
                 sb.append(s.trim()).append("newline");
             }
-            drugorder.setIsAllergicOrderReasons(sb.toString());
+            drugorder.setIsAllergicOrderReasons(sb.substring(0, sb.length()-7));
         }
             
         if(!(patientInstrn).equals("")){
@@ -593,7 +593,7 @@ public class DrugordersHomePageController {
             for(String s : instructions){
                 sb.append(s.trim()).append("newline");
             }
-            drugorder.setPatientInstructions(sb.toString());
+            drugorder.setPatientInstructions(sb.substring(0, sb.length()-7));
         }
             
         if(!(pharmacistInstrn).equals("")){
@@ -603,7 +603,7 @@ public class DrugordersHomePageController {
             for(String s : instructions){
                 sb.append(s.trim()).append("newline");
             }
-            drugorder.setPharmacistInstructions(sb.toString());
+            drugorder.setPharmacistInstructions(sb.substring(0, sb.length()-7));
         }
         
         Context.getService(drugordersService.class).saveDrugOrder(drugorder);
@@ -643,7 +643,7 @@ public class DrugordersHomePageController {
             for(String s : instructions){
                 sb.append(s.trim()).append("newline");
             }
-            drugorder.setDiscontinuationReasons(sb.toString());
+            drugorder.setDiscontinuationReasons(sb.substring(0, sb.length()-7));
         }
     }
     

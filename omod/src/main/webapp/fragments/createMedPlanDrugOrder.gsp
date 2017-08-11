@@ -38,7 +38,7 @@
                     response( results );
                 })
                 .error(function(xhr, status, err) {
-                    alert('AJAX error ' + err);
+                    console.log(err);
                 });
             },
             response: function(event, ui) {

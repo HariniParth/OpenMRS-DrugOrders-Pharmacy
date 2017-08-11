@@ -30,13 +30,13 @@ jq(document).ready( function() {
     });
     
     /*
-     * If a plan is defined (Administrator page), enable the form submission to create a plan.
+     * If a plan is selected (Administrator page), enable the form submission to create a plan.
      */
     jq('#definePlanName').autocomplete({
         select: function () { 
             jq("#planDefineButton").prop("disabled", false); 
             
-            if(jq("#definePlanDesc").val() === "")
+            if(jq("#definePlanDesc").val().trim() === "")
                 document.getElementById("definePlanDesc").style.borderColor = "orangered";
             else
                 document.getElementById("definePlanDesc").style.borderColor = "";
@@ -44,11 +44,16 @@ jq(document).ready( function() {
     });
     
     jq('#definePlanName').change(function (){ 
-        if(jq('#definePlanName').val() !== ""){
-            jq("#planDefineButton").prop("disabled", false); 
-        } else {
+        if(jq('#definePlanName').val().trim() === ""){
             jq("#planDefineButton").prop("disabled", true); 
-            document.getElementById("definePlanDesc").style.borderColor = "";
+        } 
+        else {
+            jq("#planDefineButton").prop("disabled", false); 
+            
+            if(jq("#definePlanDesc").val().trim() === "")
+                document.getElementById("definePlanDesc").style.borderColor = "orangered";
+            else
+                document.getElementById("definePlanDesc").style.borderColor = "";
         }
     });
     
@@ -56,7 +61,7 @@ jq(document).ready( function() {
      * Remove highlights from Med Plan description field when provided.
      */
     jq('#definePlanDesc').change(function (){ 
-        if(jq(this).val() === "")
+        if(jq(this).val().trim() === "")
             this.style.borderColor = "orangered";
         else
             this.style.borderColor = "";
@@ -1109,7 +1114,10 @@ function allowPlanDiscard(){
             selected = true; 
         } 
     });
-    if((selected || jq("#planDiscard").val() === "discardPlan") && jq("#discardReason").val() !== ""){
+    
+    var emptyPlan = document.getElementsByClassName("discardDrug");
+
+    if((selected || emptyPlan.length === 0) && jq("#discardReason").val().trim() !== ""){
         jq('#discardAdminPlan').removeAttr('disabled');
     } else {
         jq("#discardAdminPlan").prop("disabled", true);

@@ -311,7 +311,7 @@
                     response( results );
                 })
                 .error(function(xhr, status, err) {
-                    alert('AJAX error ' + err);
+                    console.log(err);
                 });
             },
             response: function(event, ui) {
@@ -336,7 +336,7 @@
                     response( results );
                 })
                 .error(function(xhr, status, err) {
-                    alert('AJAX error ' + err);
+                    console.log(err);
                 });
             },
             select: function(event, ui) {

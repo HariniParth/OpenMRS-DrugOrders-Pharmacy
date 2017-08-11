@@ -89,7 +89,7 @@ public class PharmacyPatientPageController {
                                         for(String s : comments){
                                             sb.append(s.trim()).append("newline");
                                         }
-                                        drugorder.setCommentForOrderer(sb.toString()); 
+                                        drugorder.setCommentForOrderer(sb.substring(0, sb.length()-7)); 
                                     }
                                         
                                     break;
@@ -106,7 +106,7 @@ public class PharmacyPatientPageController {
                                         for(String s : comments){
                                             sb.append(s.trim()).append("newline");
                                         }
-                                        drugorder.setCommentForOrderer(sb.toString()); 
+                                        drugorder.setCommentForOrderer(sb.substring(0, sb.length()-7)); 
                                     }
                                     break;
                                 case "Dispatch":
@@ -147,7 +147,7 @@ public class PharmacyPatientPageController {
                                     for(String s : comments){
                                         sb.append(s.trim()).append("newline");
                                     }
-                                    drugorder.setCommentForPatient(sb.toString());
+                                    drugorder.setCommentForPatient(sb.substring(0, sb.length()-7));
                                     
                                     break;
                             }

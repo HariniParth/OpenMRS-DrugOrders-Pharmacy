@@ -71,7 +71,7 @@ public class AdministrationPageController {
                                 for(String s : planDesc){
                                     sb.append(s.trim()).append("newline");
                                 }
-                                newplan.setPlanDesc(sb.toString());
+                                newplan.setPlanDesc(sb.substring(0, sb.length()-7));
                                 
                                 newplan.setPlanStatus("Active");
                                 Context.getService(newplansService.class).saveMedPlan(newplan);
@@ -151,7 +151,7 @@ public class AdministrationPageController {
                                 for(String s : planDesc){
                                     sb.append(s.trim()).append("newline");
                                 }
-                                oldPlan.setPlanDesc(sb.toString());
+                                oldPlan.setPlanDesc(sb.substring(0, sb.length()-7));
                                 
                                 InfoErrorMessageUtil.flashInfoMessage(session, "Plan Modified!");
                             }
