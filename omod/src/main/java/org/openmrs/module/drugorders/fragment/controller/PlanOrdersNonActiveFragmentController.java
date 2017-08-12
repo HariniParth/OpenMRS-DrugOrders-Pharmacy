@@ -66,8 +66,10 @@ public class PlanOrdersNonActiveFragmentController {
                 
                 for(planorders plan : plans){
                     int id = plan.getOrderId();
-                    o_main.put(id, (DrugOrder) Context.getOrderService().getOrder(id));
-                    o_extn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
+                    if(Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus().equals("Non-Active-Plan")){
+                        o_main.put(id, (DrugOrder) Context.getOrderService().getOrder(id));
+                        o_extn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
+                    }
                 }
                 
                 p_main.put(nonActiveMedPlan.getDiseaseId(), o_main);

@@ -92,7 +92,7 @@ public class AdministrationPageController {
                         if(ConceptName(adminDrug.trim()) != null){
                             // Check if the medication plan already includes the selected drug.
                             List<standardplans> plans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
-
+                            // If a medication plan is prepared including a drug that is already a part of the plan, the older record is removed and the new record is saved.
                             for(standardplans plan : plans)
                                 if(plan.getDrugId() == ConceptName(adminDrug.trim())){
                                     standardplans sp = Context.getService(standardplansService.class).getMedPlanByID(plan.getId());
@@ -139,7 +139,7 @@ public class AdministrationPageController {
                         // Check if a concept for the given plan name (disease) exists
                         if(ConceptName(definePlanName.trim()) != null){
                             newplans oldPlan = Context.getService(newplansService.class).getMedPlanByPlanID(Integer.parseInt(definePlanId));
-                            
+                            // Check if the new name provided to the medication plan corresponds to another existing plan in the list.
                             if(oldPlan.getPlanName() != ConceptName(definePlanName.trim()) && Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(definePlanName.trim())) != null){
                                 InfoErrorMessageUtil.flashErrorMessage(session, "Cannot modify plan, plan already exists!");
                             } 
@@ -170,6 +170,7 @@ public class AdministrationPageController {
                             for(int i=0;i<groupCheckBox.length;i++){
                                 int id = Integer.parseInt(Long.toString(groupCheckBox[i]));
                                 standardplans medPlan = Context.getService(standardplansService.class).getMedPlanByID(id);
+                                medPlan.setPlanId(null);
                                 medPlan.setPlanStatus("Non-Active");
                                 medPlan.setDiscardReason(discardReason);
                             }
@@ -200,6 +201,7 @@ public class AdministrationPageController {
                             int id = Integer.parseInt(Long.toString(groupCheckBox[0]));
                             standardplans medPlan = Context.getService(standardplansService.class).getMedPlanByID(id);
                             // Set the status of the drug to 'Non-Active' and the reason for removing the drug from the medication plan.
+                            medPlan.setPlanId(null);
                             medPlan.setPlanStatus("Non-Active");
                             medPlan.setDiscardReason(discardReason);
                             InfoErrorMessageUtil.flashInfoMessage(session, "Drug removed from the Medication Plan!");

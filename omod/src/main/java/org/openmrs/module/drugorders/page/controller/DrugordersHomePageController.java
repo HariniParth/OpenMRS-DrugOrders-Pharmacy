@@ -237,8 +237,14 @@ public class DrugordersHomePageController {
                   Save the reason for discontinuing the orders and set status to Non-Active.
                 */
                 if ("DISCARD ORDER GROUP".equals(action)) {
-                    // Calculate the number of drug orders in the selected order group.
-                    int ordersInGrp = Context.getService(drugordersService.class).getDrugOrdersByGroupID(groupOrderID).size();
+                    // Calculate the number of active drug orders in the selected order group to identify if some or all of the drugs from the group are being discarded.
+                    int ordersInGrp = 0;
+                    // Retrieve all the drug orders made as a part of the selected group order.
+                    List<drugorders> drugOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(groupOrderID);
+                    for(drugorders drugOrder : drugOrders){
+                        if(Context.getService(drugordersService.class).getDrugOrderByOrderID(drugOrder.getOrderId()).getOrderStatus().equals("Active-Group"))
+                            ordersInGrp++;
+                    }
                     
                     if(groupCheckBox.length > 0){
                         // Retrieve the list of orders to be discarded from the check-boxes which hold the order ID as a value.
@@ -320,8 +326,14 @@ public class DrugordersHomePageController {
                   Save the reason for discontinuing the orders and set status to Non-Active.
                 */
                 if ("DISCARD MED PLAN".equals(action)){
-                    // Calculate the number of drug orders in the selected medication plans.
-                    int ordersInPlan = Context.getService(planordersService.class).getPlanOrdersByPlanID(groupOrderID).size();
+                    // Calculate the number of active drug orders in the selected medication plan to identify if some or all of the drugs from the plan are being discarded.
+                    int ordersInPlan = 0;
+                    // Retrieve all the drug orders made as a part of the selected plan order.
+                    List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(groupOrderID);
+                    for(planorders planOrder : planOrders){
+                        if(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getOrderStatus().equals("Active-Plan"))
+                            ordersInPlan++;
+                    }
                     
                     if(groupCheckBox.length > 0){
                         // Retrieve the list of orders to be discarded from the check-boxes which hold the order ID as a value.
