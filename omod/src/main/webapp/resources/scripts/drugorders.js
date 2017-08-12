@@ -672,7 +672,7 @@ function showDrugOrderViewWindow(startdate, drugname, dose, doseUnits, route, du
         jq("#order_details").html(order_details.replace(/\n/g,'<br/>'));
         jq("#order_duration").text(duration+" "+durationUnits+", "+frequency);
 
-        if(orderReason !== "null"){
+        if(orderReason !== "null" || orderReason !== null){
             var order_reason = jq('<div>').text("<br/>"+orderReason).text();
             jq("#order_reason").html(order_reason.replace(/newline/g,"<br/>"));
             jq("#allergicOrderReasonView").show();
@@ -680,14 +680,14 @@ function showDrugOrderViewWindow(startdate, drugname, dose, doseUnits, route, du
         }
 
         if(patientInstrn === "null")
-            jq("#patient_instructions").text("-");
+            jq("#patient_instructions").text("Nil");
         else {
             var patient_instructions = jq('<div>').text("<br/>"+patientInstrn).text();
             jq("#patient_instructions").html(patient_instructions.replace(/newline/g,"<br/>"));
         }
         
         if(pharmacistInstrn === "null")
-            jq("#pharmacist_instructions").text("-");
+            jq("#pharmacist_instructions").text("Nil");
         else {
             var pharmacist_instructions = jq('<div>').text("<br/>"+pharmacistInstrn).text();
             jq("#pharmacist_instructions").html(pharmacist_instructions.replace(/newline/g,"<br/>"));
