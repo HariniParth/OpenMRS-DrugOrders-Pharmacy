@@ -18,7 +18,7 @@ jq(document).ready( function() {
     jq("#addOrderButton").prop("disabled", true);
     jq("#discardAdminPlan").prop("disabled", true);
     jq("#planDefineButton").prop("disabled", true);
-        
+      
     /*
      * If drug or diagnosis is selected, check if other parameters are provided and enable form submission.
      */
@@ -233,12 +233,20 @@ jq(document).ready( function() {
     });
     
     var lines = 5;
-    // Check the number of rows entered in the given textarea
     jq("textarea").on("keydown", function(e){
+        // Check the number of rows entered in the given textarea
         var newLines = jq(this).val().split("\n").length;
         if(e.keyCode === 13 && newLines >= lines) {
             return false;
         }
+        
+        /*
+        * Disable typing whitespaces before entering any data in the textarea fields. 
+        * This will not allow empty spaces to be submitted.
+        */
+        if(e.keyCode === 32)
+            if(jq(this).val().trim() === "")
+                return false;
     });
 });
 
