@@ -492,9 +492,23 @@ public class DrugordersHomePageController {
                   Save the draft of orders created for medication plan drugs.
                 */
                 if ("saveDraft".equals(action)){
+                    // Get the list of med plan related drug orders that are currently in 'Draft' status and set the status to 'Active'.
                     List<drugorders> draftOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Plan");
-                    for(drugorders draftOrder : draftOrders)
-                        draftOrder.setOrderStatus("Active-Plan");
+                    
+                    // Check if Physician has provided instructions to the Patient and to the Pharmacist.
+                    boolean detailsProvided = true;
+                    for(drugorders draftOrder : draftOrders){
+                        if(draftOrder.getPatientInstructions() == null || draftOrder.getPharmacistInstructions() == null){
+                            detailsProvided = false;
+                            InfoErrorMessageUtil.flashErrorMessage(session, "Please update instructions on Order Number "+draftOrder.getOrderId());   
+                        }
+                    }
+                    
+                    if(detailsProvided){
+                        for(drugorders draftOrder : draftOrders){
+                            draftOrder.setOrderStatus("Active-Plan");
+                        }
+                    }
                 }
                 
             } catch (APIException | NumberFormatException ex) {

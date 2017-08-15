@@ -7,6 +7,7 @@ package org.openmrs.module.drugorders.fragment.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
@@ -14,6 +15,7 @@ import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.api.planordersService;
 import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.planorders;
+import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,15 +25,30 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class PlanOrdersActiveFragmentController {
     
-    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient,
+    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient, HttpSession session,
                             @RequestParam(value = "activatePlan", required = false) Integer activatePlan){
         
         // Activate saved draft med plan drug orders.
         if(activatePlan != null){
             // Get the list of med plan related drug orders that are currently in 'Draft' status and set the status to 'Active'.
             List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(activatePlan);
-            for(planorders order : planOrders)
-                Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).setOrderStatus("Active-Plan");
+            
+            // Check if Physician has provided instructions to the Patient and to the Pharmacist.
+            boolean detailsProvided = true;
+            for(planorders order : planOrders){
+                drugorders d = Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId());
+                if(d.getPatientInstructions() == null || d.getPharmacistInstructions() == null){
+                    detailsProvided = false;
+                    InfoErrorMessageUtil.flashErrorMessage(session, "Please update instructions on Order Number "+d.getOrderId());   
+                }
+            }
+            
+            if(detailsProvided){
+                for(planorders order : planOrders){
+                    drugorders d = Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId());
+                    d.setOrderStatus("Active-Plan");
+                }
+            }
         }
         
         /* 
