@@ -72,9 +72,9 @@
                         
                         <td colspan="4" class="groupDetails">
                             <% groupOrderExtn.value.each { order -> %>
-                                <% if(order.orderStatus == "Active-Group") { %>
+                                <% if(order.orderStatus == "Active-Group" || order.orderStatus == "Draft-Group") { %>
 
-                                    <div class="groupDrug <% if(order.forDiscard == 1) { %> discontinued <% } %> <% if(order.onHold == 1) { %> onhold <% } %>" title="${ ui.message(order.commentForOrderer) }">
+                                    <div class="groupDrug <% if(order.forDiscard == 1) { %> discontinued <% } %> <% if(order.onHold == 1) { %> onhold <% } %> <% if(order.orderStatus == "Draft-Group") { %> draftGroup <% } %>" title="${ ui.message(order.commentForOrderer) }">
                                         
                                         <div class="groupDrugDetails" onclick="showDrugOrderViewWindow('${ order.startDate.format('yyyy-MM-dd') }','${ order.drugName.getDisplayString() }','${ drugOrdersMain.get(order.orderId).dose }','${ drugOrdersMain.get(order.orderId).doseUnits.getDisplayString() }','${ drugOrdersMain.get(order.orderId).route.getDisplayString() }','${ drugOrdersMain.get(order.orderId).duration }','${ drugOrdersMain.get(order.orderId).durationUnits.getDisplayString() }','${ drugOrdersMain.get(order.orderId).quantity }','${ drugOrdersMain.get(order.orderId).quantityUnits.getDisplayString() }','${ drugOrdersMain.get(order.orderId).frequency }','${ order.refill }','${ order.refillInterval }','${ order.isAllergicOrderReasons }','${ order.associatedDiagnosis.getDisplayString() }','${ order.priority.getDisplayString() }','${ order.patientInstructions }','${ order.pharmacistInstructions }','${ order.commentForOrderer }','${ order.orderStatus }')">
                                             

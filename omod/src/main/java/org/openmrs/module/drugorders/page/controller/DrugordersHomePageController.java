@@ -98,7 +98,7 @@ public class DrugordersHomePageController {
         }
         
         List<String> currentOrders = getCurrentDrugOrders(patient);
-        
+                
         if (StringUtils.isNotBlank(action)) {
             try {
                 if ("CREATE DRUG ORDER".equals(action)) {
@@ -242,7 +242,8 @@ public class DrugordersHomePageController {
                     // Retrieve all the drug orders made as a part of the selected group order.
                     List<drugorders> drugOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(groupOrderID);
                     for(drugorders drugOrder : drugOrders){
-                        if(Context.getService(drugordersService.class).getDrugOrderByOrderID(drugOrder.getOrderId()).getOrderStatus().equals("Active-Group"))
+                        drugorders order = Context.getService(drugordersService.class).getDrugOrderByOrderID(drugOrder.getOrderId());
+                        if(order.getOrderStatus().equals("Active-Group") || order.getOrderStatus().equals("Draft-Group"))
                             ordersInGrp++;
                     }
                     
@@ -306,7 +307,7 @@ public class DrugordersHomePageController {
                             currentOrders.add(orderExtn.getDrugName().getDisplayString().toUpperCase());
                                     
                             Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(groupID);
-                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
+                            Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Draft-Group");
                         
                             // If a drug that the Patient is allergic to is ordered and the reason for ordering the drug is provided (mandatory), save the reason for ordering the drug.
                             if(allergicDrugList.size() > 0 && allergicPlanOrderReason.size() > 0){
@@ -449,6 +450,11 @@ public class DrugordersHomePageController {
                                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(originalOrder.getGroupId());
                                 originalOrder.setGroupId(null);
                                 break;
+                            case "Draft-Group":
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(originalOrder.getGroupId());
+                                originalOrder.setGroupId(null);
+                                break;
                         }
                         originalOrder.setOrderStatus("Non-Active");
                         InfoErrorMessageUtil.flashInfoMessage(session, "Order Changes Saved!");
@@ -514,6 +520,12 @@ public class DrugordersHomePageController {
             } catch (APIException | NumberFormatException ex) {
                 Logger.getLogger(DrugordersHomePageController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        
+        // Get the list of group drug orders that are currently in 'Draft' status and notify the Physician.
+        List<drugorders> draftGroupOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Group");
+        for(drugorders draftOrder : draftGroupOrders){
+            InfoErrorMessageUtil.flashErrorMessage(session, "Please update instructions on Order Number "+draftOrder.getOrderId());
         }
         
         model.addAttribute("currentOrders", currentOrders);
@@ -701,6 +713,11 @@ public class DrugordersHomePageController {
         for(drugorders order : orders) {
             drugOrders.add(order.getDrugName().getDisplayString().toUpperCase().trim());
         }
+        // Retrieve orders in "Draft-Group" status
+        orders = getOrders(patient, "Draft-Group");
+        for(drugorders order : orders) {
+            drugOrders.add(order.getDrugName().getDisplayString().toUpperCase().trim());
+        }        
         
         return drugOrders;
     }

@@ -91,12 +91,14 @@ public class DrugOrdersActiveFragmentController {
         
         // Retrieve the list of active group orders.
         List<drugorders> groups = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Group");
+        groups.addAll(Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Group"));
+        
         for(drugorders o : groups){
             if(groupOrders.get(o.getGroupId()) == null){
                 List<drugorders> orders = new ArrayList<>();
                 // Retrieve the list of active orders in the same group as the given 'Active-Group' order.
                 for(drugorders order : Context.getService(drugordersService.class).getDrugOrdersByGroupID(o.getGroupId()))
-                    if(order.getOrderStatus().equals("Active-Group"))
+                    if(order.getOrderStatus().equals("Active-Group") || order.getOrderStatus().equals("Draft-Group"))
                         orders.add(order);
 
                 groupOrders.put(o.getGroupId(), orders);

@@ -680,7 +680,7 @@ function showDrugOrderViewWindow(startdate, drugname, dose, doseUnits, route, du
         jq("#order_details").html(order_details.replace(/\n/g,'<br/>'));
         jq("#order_duration").text(duration+" "+durationUnits+", "+frequency);
 
-        if(orderReason !== "null" || orderReason !== null){
+        if(orderReason !== "null" && orderReason !== null){
             var order_reason = jq('<div>').text("<br/>"+orderReason).text();
             jq("#order_reason").html(order_reason.replace(/newline/g,"<br/>"));
             jq("#allergicOrderReasonView").show();

@@ -66,7 +66,7 @@ public class EditDrugOrdersFragmentController {
                 // Retrieve the list of all drug orders in the selected group.
                 List<drugorders> groupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(group);
                 for(drugorders groupOrder: groupOrders){
-                    if(groupOrder.getOrderStatus().equals("Active-Group")){
+                    if(groupOrder.getOrderStatus().equals("Active-Group") || groupOrder.getOrderStatus().equals("Draft-Group")){
                         // Store the order ID as key and DrugOrder as value.
                         groupMain.put(groupOrder.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(groupOrder.getOrderId()));
                         // Store the order ID as key and drugorders as value.
