@@ -252,7 +252,7 @@ public class drugordersActivator implements ModuleActivator {
             saveConcept("Units of Duration", cs.getConceptClassByName("Units of Measure"));
         }
         
-        String durationUnits[] = {"As long as needed","Days", "Hours", "Minutes", "Months", "Weeks", "Years"};
+        String durationUnits[] = {"Days", "Hours", "Minutes", "Months", "Seconds", "Weeks", "Years"};
         conceptClass = cs.getConceptClassByName("Units of Duration");
         // Find the concept named 'Units of Duration' belonging to the class 'Units of Duration'.
         List<Concept> setConcepts = cs.getConceptsByClass(conceptClass);
