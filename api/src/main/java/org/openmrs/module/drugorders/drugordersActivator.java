@@ -19,11 +19,8 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptName;
 import org.openmrs.GlobalProperty;
 import org.openmrs.OrderFrequency;
-import org.openmrs.Person;
-import org.openmrs.PersonName;
 import org.openmrs.Privilege;
 import org.openmrs.Role;
-import org.openmrs.User;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
@@ -255,7 +252,7 @@ public class drugordersActivator implements ModuleActivator {
             saveConcept("Units of Duration", cs.getConceptClassByName("Units of Measure"));
         }
         
-        String durationUnits[] = {"Days", "Hours", "Minutes", "Months", "Number of occurrences", "Weeks", "Years"};
+        String durationUnits[] = {"As long as needed","Days", "Hours", "Minutes", "Months", "Weeks", "Years"};
         conceptClass = cs.getConceptClassByName("Units of Duration");
         // Find the concept named 'Units of Duration' belonging to the class 'Units of Duration'.
         List<Concept> setConcepts = cs.getConceptsByClass(conceptClass);
