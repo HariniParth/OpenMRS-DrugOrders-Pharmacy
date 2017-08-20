@@ -42,7 +42,11 @@ public class HibernatestandardplansDAO implements standardplansDAO {
     // Save standard medication plan
     @Override
     public standardplans saveMedPlan(standardplans plan) {
-        sessionFactory.getCurrentSession().saveOrUpdate(plan);
+        if(sessionFactory.getCurrentSession().contains(plan))
+            sessionFactory.getCurrentSession().saveOrUpdate(plan);
+        else
+            sessionFactory.getCurrentSession().merge(plan);
+        
         return plan;
     };
         

@@ -69,7 +69,11 @@ public class HibernatenewplansDAO implements newplansDAO {
     // Save a new medication plan
     @Override
     public newplans saveMedPlan(newplans plan){
-        sessionFactory.getCurrentSession().saveOrUpdate(plan);
+        if(sessionFactory.getCurrentSession().contains(plan))
+            sessionFactory.getCurrentSession().saveOrUpdate(plan);
+        else
+            sessionFactory.getCurrentSession().merge(plan);
+        
         return plan;
     };
     

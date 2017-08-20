@@ -60,7 +60,11 @@ public class HibernatedrugordersDAO implements drugordersDAO {
     
     @Override
     public drugorders saveDrugOrder(drugorders drugOrder) {
-        sessionFactory.getCurrentSession().saveOrUpdate(drugOrder);
+        if(sessionFactory.getCurrentSession().contains(drugOrder))
+            sessionFactory.getCurrentSession().saveOrUpdate(drugOrder);
+        else 
+            sessionFactory.getCurrentSession().merge(drugOrder);
+        
         return drugOrder;
     };
     
