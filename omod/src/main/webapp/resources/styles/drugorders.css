@@ -259,9 +259,8 @@ and open the template in the editor.
     color: orange;
 }
 
-.groupDrug.draftGroup > div:first-child > *{
-    color: yellow;
-    font-weight: bolder;
+.groupDrug.draftGroup{
+    background-color: yellow;
 }
 
 .dataTables_length select {
