@@ -40,11 +40,7 @@ public class HibernateplanordersDAO implements planordersDAO {
     // Save plan order record
     @Override
     public planorders savePlanOrder(planorders order){
-        if(sessionFactory.getCurrentSession().contains(order))
-            sessionFactory.getCurrentSession().saveOrUpdate(order);
-        else
-            sessionFactory.getCurrentSession().merge(order);
-        
+        sessionFactory.getCurrentSession().saveOrUpdate(order);
         return order;
     };
     

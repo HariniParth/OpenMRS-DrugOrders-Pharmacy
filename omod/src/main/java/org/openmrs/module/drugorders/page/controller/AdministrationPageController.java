@@ -94,7 +94,7 @@ public class AdministrationPageController {
                             List<standardplans> plans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
                             // If a medication plan is prepared including a drug that is already a part of the plan, the older record is removed and the new record is saved.
                             for(standardplans plan : plans)
-                                if(plan.getDrugId() == ConceptName(adminDrug.trim())){
+                                if(plan.getPlanStatus().equals("Active") && plan.getDrugId() == ConceptName(adminDrug.trim())){
                                     standardplans sp = Context.getService(standardplansService.class).getMedPlanByID(plan.getId());
                                     sp.setDiscardReason("Modified Formulations");
                                     sp.setPlanStatus("Non-Active");
