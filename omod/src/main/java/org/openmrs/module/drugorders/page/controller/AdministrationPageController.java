@@ -190,7 +190,9 @@ public class AdministrationPageController {
                             Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).setPlanStatus("Non-Active");
                             Context.getService(newplansService.class).getMedPlanByPlanID(planToDiscard).setDiscardReason(discardReason);
                             InfoErrorMessageUtil.flashInfoMessage(session, "Medication Plan Discarded!");
-                        }                        
+                        } else
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Drugs removed from the Medication Plan!");
+                        
                         break;
                     
                     /*

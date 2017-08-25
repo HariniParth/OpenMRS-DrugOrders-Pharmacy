@@ -40,7 +40,7 @@
                                     <div class="fields">
                                         <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
                                         <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                        <strong class="wordBreak">${ DraftPlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
+                                        <strong class="wordBreak">${ planName.get(drugOrderMain.key).getDisplayString().toUpperCase() }</strong>
                                     </div><br/>
 
                                     <span class="hidden" id="id">${ drugOrderMain.key }</span>
@@ -98,7 +98,7 @@
                                 <div class="fields">
                                     <i class="icon-plus-sign edit-action" title="${ ui.message("View Details") }"></i>
                                     <i class="icon-minus-sign edit-action" title="${ ui.message("Hide Details") }"></i>
-                                    <strong class="wordBreak">${ ActivePlanExtn.get(drugOrderMain.key).entrySet().iterator().next().getValue().associatedDiagnosis.getDisplayString().toUpperCase() }</strong>
+                                    <strong class="wordBreak">${ planName.get(drugOrderMain.key).getDisplayString().toUpperCase() }</strong>
                                 </div><br/>
                                 
                                 <span class="hidden" id="id">${ drugOrderMain.key }</span>

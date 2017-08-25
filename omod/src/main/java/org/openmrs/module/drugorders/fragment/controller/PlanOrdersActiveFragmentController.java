@@ -8,6 +8,7 @@ package org.openmrs.module.drugorders.fragment.controller;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpSession;
+import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
@@ -51,6 +52,8 @@ public class PlanOrdersActiveFragmentController {
             }
         }
         
+        // Store the mapping of plan name to plan ID
+        HashMap<Integer, Concept> planName = new HashMap<>();
         /* 
           =========================================================================================
           To Display the list of medication plan related drug orders, with the status "Active-Plan"
@@ -75,7 +78,9 @@ public class PlanOrdersActiveFragmentController {
             
             // If the selected plan related drug orders are not already retrieved, retrieve the orders and store the objects in ActivePlanMain and ActivePlanExtn HashMap.
             if(!ActivePlanMain.containsKey(p_order.getPlanId())){
-
+                
+                // Store the mapping of plan name to plan ID
+                planName.put(p_order.getPlanId(), order.getAssociatedDiagnosis());
                 // Storing HashMap<Order-ID, DrugOrder>
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 // Storing HashMap<Order-ID, drugorders>
@@ -127,6 +132,8 @@ public class PlanOrdersActiveFragmentController {
             // If the selected plan related orders are not already retrieved, retrieve the orders
             if(!DraftPlanMain.containsKey(p_order.getPlanId())){
 
+                // Store the mapping of plan name to plan ID
+                planName.put(p_order.getPlanId(), order.getAssociatedDiagnosis());
                 // Storing HashMap<Order-ID, DrugOrder>
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 // Storing HashMap<Order-ID, drugorders>
@@ -151,5 +158,7 @@ public class PlanOrdersActiveFragmentController {
             
         model.addAttribute("DraftPlanMain", DraftPlanMain);
         model.addAttribute("DraftPlanExtn", DraftPlanExtn);
+        
+        model.addAttribute("planName", planName);
     }
 }
