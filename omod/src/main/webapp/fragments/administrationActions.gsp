@@ -23,7 +23,7 @@
             
             <div id="view_order_detail">
                 <label><strong>Enter Description</strong></label>
-                <textarea maxlength="225" id="definePlanDesc" name="definePlanDesc" placeholder="Enter a description of the plan" required="required"></textarea>
+                <textarea maxlength="912" id="definePlanDesc" name="definePlanDesc" placeholder="Enter a description of the plan" required="required"></textarea>
             </div><br/>
             
             <input type="hidden" name="action" id="defineAction" />
@@ -278,7 +278,7 @@
                 
                 <div class="fields">
                     <p><strong>Enter Reason To Discard</strong></p>
-                    <textarea maxlength="225" id="discardReason" name="discardReason" placeholder="Enter the reason to discard" required="required" onkeyup="allowPlanDiscard()"></textarea>
+                    <textarea maxlength="912" id="discardReason" name="discardReason" placeholder="Enter the reason to discard" required="required" onkeyup="allowPlanDiscard()"></textarea>
                 </div><br/>
 
                 <div id="btn-place">

@@ -57,7 +57,7 @@
             <div class="fields" id="view_order_detail">
                 <label>Note: The patient is allergic to this drug.</label>
                 <label>Enter the reasons for ordering this drug:</label>
-                <textarea maxlength="225" id="orderReason" name="orderReason" placeholder="Enter the reason to order"></textarea>
+                <textarea maxlength="912" id="orderReason" name="orderReason" placeholder="Enter the reason to order"></textarea>
             </div><br/>
         </div>
 
@@ -224,12 +224,12 @@
         
         <div class="fields" id="view_order_detail">
             <label>Instructions for Patient</label>
-            <textarea maxlength="225" id="patientInstrn" name="patientInstrn" placeholder="Enter instructions for Patient" required="required"></textarea>
+            <textarea maxlength="912" id="patientInstrn" name="patientInstrn" placeholder="Enter instructions for Patient" required="required"></textarea>
         </div><br/>
         
         <div class="fields" id="view_order_detail">
             <label>Instructions for Pharmacist</label>
-            <textarea maxlength="225" id="pharmacistInstrn" name="pharmacistInstrn" placeholder="Enter instructions for Pharmacist" required="required"></textarea>
+            <textarea maxlength="912" id="pharmacistInstrn" name="pharmacistInstrn" placeholder="Enter instructions for Pharmacist" required="required"></textarea>
         </div><br/>
         
         <input type="hidden" id="orderAction" name="action" />

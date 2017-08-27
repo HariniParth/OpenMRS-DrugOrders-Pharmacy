@@ -84,7 +84,7 @@ public class PharmacyPatientPageController {
                                     // If comments to discard the order are provided, save the comments.
                                     if(groupComments != null){
                                         // Fix saving multiple lines of text input.
-                                        String [] comments = groupComments.split("\n");
+                                        String [] comments = groupComments.trim().split("\n");
                                         StringBuilder sb = new StringBuilder();
                                         for(String s : comments){
                                             sb.append(s.trim()).append("newline");
@@ -101,7 +101,7 @@ public class PharmacyPatientPageController {
                                     // If comments to put the order on hold are provided, save the comments.
                                     if(groupComments != null){
                                         // Fix saving multiple lines of text input.
-                                        String [] comments = groupComments.split("\n");
+                                        String [] comments = groupComments.trim().split("\n");
                                         StringBuilder sb = new StringBuilder();
                                         for(String s : comments){
                                             sb.append(s.trim()).append("newline");
@@ -142,7 +142,7 @@ public class PharmacyPatientPageController {
                                     drugorder.setDrugExpiryDate(new SimpleDateFormat("MM/dd/yyyy").parse(drugExpiryDate[i]));
                                     
                                     // Fix saving multiple lines of text input.
-                                    String [] comments = commentForPatient[i].split("\n");
+                                    String [] comments = commentForPatient[i].trim().split("\n");
                                     StringBuilder sb = new StringBuilder();
                                     for(String s : comments){
                                         sb.append(s.trim()).append("newline");

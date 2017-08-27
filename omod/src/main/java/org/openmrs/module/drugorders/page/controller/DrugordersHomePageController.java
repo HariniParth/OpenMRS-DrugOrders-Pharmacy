@@ -150,7 +150,7 @@ public class DrugordersHomePageController {
                     for(String reason : planOrderReason){
                         if(!reason.equals("")){
                             // Fix saving multiple lines of text input.
-                            String [] reasons = reason.split("\n");
+                            String [] reasons = reason.trim().split("\n");
                             StringBuilder sb = new StringBuilder();
                             for(String s : reasons){
                                 sb.append(s.trim()).append("newline");
@@ -282,7 +282,7 @@ public class DrugordersHomePageController {
                         for(String reason : reviseOrderReason){
                             if(!reason.equals("")){
                                 // Fix saving multiple lines of text input.
-                                String [] reasons = reason.split("\n");
+                                String [] reasons = reason.trim().split("\n");
                                 StringBuilder sb = new StringBuilder();
                                 for(String s : reasons){
                                     sb.append(s.trim()).append("newline");
@@ -616,7 +616,7 @@ public class DrugordersHomePageController {
             
         if(!(orderReason).equals("")){
             // Fix saving multiple lines of text input.
-            String [] reason = orderReason.split("\n");
+            String [] reason = orderReason.trim().split("\n");
             StringBuilder sb = new StringBuilder();
             for(String s : reason){
                 sb.append(s.trim()).append("newline");
@@ -626,7 +626,7 @@ public class DrugordersHomePageController {
             
         if(!(patientInstrn).equals("")){
             // Fix saving multiple lines of text input.
-            String [] instructions = patientInstrn.split("\n");
+            String [] instructions = patientInstrn.trim().split("\n");
             StringBuilder sb = new StringBuilder();
             for(String s : instructions){
                 sb.append(s.trim()).append("newline");
@@ -636,7 +636,7 @@ public class DrugordersHomePageController {
             
         if(!(pharmacistInstrn).equals("")){
             // Fix saving multiple lines of text input.
-            String [] instructions = pharmacistInstrn.split("\n");
+            String [] instructions = pharmacistInstrn.trim().split("\n");
             StringBuilder sb = new StringBuilder();
             for(String s : instructions){
                 sb.append(s.trim()).append("newline");
@@ -676,7 +676,7 @@ public class DrugordersHomePageController {
         }
         else if(!(nonCoded.equals(""))){
             // Fix saving multiple lines of text input.
-            String [] instructions = nonCoded.split("\n");
+            String [] instructions = nonCoded.trim().split("\n");
             StringBuilder sb = new StringBuilder();
             for(String s : instructions){
                 sb.append(s.trim()).append("newline");

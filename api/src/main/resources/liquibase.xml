@@ -57,10 +57,10 @@
             <column name="drug_name" type="int"></column>
             <column name="start_date" type="datetime"></column>
             <column name="is_allergic" type="tinyint(1)"></column>
-            <column name="is_allergic_order_reasons" type="varchar(255)"></column>          
+            <column name="is_allergic_order_reasons" type="varchar(1024)"></column>          
             <column name="associated_diagnosis" type="int"></column>
-            <column name="patient_instructions" type="varchar(255)"></column>
-            <column name="pharmacist_instructions" type="varchar(255)"></column> 
+            <column name="patient_instructions" type="varchar(1024)"></column>
+            <column name="pharmacist_instructions" type="varchar(1024)"></column> 
             <column name="priority" type="int"></column>
             <column name="refill" type="int"></column>
             <column name="refill_interval" type="int"></column>
@@ -68,11 +68,11 @@
             <column name="on_hold" type="tinyint(1)"></column>
             <column name="for_discard" type="tinyint(1)"></column>
             <column name="discontinue_reason" type="int"></column>
-            <column name="discontinuation_reasons" type="varchar(255)"></column>
+            <column name="discontinuation_reasons" type="varchar(1024)"></column>
             <column name="last_dispatch_date" type="datetime"></column>
             <column name="drug_expiry_date" type="datetime"></column>
-            <column name="comment_for_orderer" type="varchar(255)"></column>
-            <column name="comment_for_patient" type="varchar(255)"></column>
+            <column name="comment_for_orderer" type="varchar(1024)"></column>
+            <column name="comment_for_patient" type="varchar(1024)"></column>
         </createTable>
     </changeSet>
     
@@ -90,9 +90,9 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="plan_name" type="int"></column>
-            <column name="plan_desc" type="varchar(255)"></column>
+            <column name="plan_desc" type="varchar(1024)"></column>
             <column name="plan_status" type="varchar(50)"></column>
-            <column name="discard_reason" type="varchar(255)"></column>
+            <column name="discard_reason" type="varchar(1024)"></column>
         </createTable>
     </changeSet>
     
@@ -122,7 +122,7 @@
             <column name="route" type="int"></column>
             <column name="frequency" type="int"></column>
             <column name="plan_status" type="varchar(50)"></column>
-            <column name="discard_reason" type="varchar(255)"></column>
+            <column name="discard_reason" type="varchar(1024)"></column>
         </createTable>
     </changeSet>
     

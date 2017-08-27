@@ -232,7 +232,7 @@ jq(document).ready( function() {
         }
     });
     
-    var lines = 5;
+    var lines = 16;
     jq("textarea").on("keydown", function(e){
         // Check the number of rows entered in the given textarea
         var newLines = jq(this).val().split("\n").length;
