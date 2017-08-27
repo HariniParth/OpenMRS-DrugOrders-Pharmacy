@@ -762,11 +762,8 @@ function editSingleOrderDetailsWindow(orderType, orderId, name, startDate, dose,
         jq("#diagnosis").val(diagnosis);
         
         if(orderReason !== "" && orderReason !== "null" && orderType === "EDIT DRUG ORDER"){
-            jq("#allergicReason").show();
-            jq("#orderReason").val(orderReason.replace(/newline/g,"\n"));
-            jq("#orderReason").attr("required", true);
             jq("#orderReason").css("borderColor", "");
-            jq("#allergicReason").css("display", "block");
+            jq("#orderReason").val(orderReason.replace(/newline/g,"\n"));                        
         }
         
         if(patientInstrn === "null" || patientInstrn === null || orderType === "RENEW DRUG ORDER"){
