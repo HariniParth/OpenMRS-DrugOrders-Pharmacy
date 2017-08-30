@@ -1,6 +1,16 @@
 # OpenMRS-DrugOrders-Pharmacy
 E-prescription and Pharmacy software system
 
+Installation Guide
+https://docs.google.com/document/d/18kNC41LmN4cV3Hzv4LeW_ghEmDAjBbzpTJhQyK3yqjQ/
+
+User Guide
+https://docs.google.com/document/d/1a2xIBwTHdAfR3QnrwrF_sYl9cclufymMoUSns3TSngw/
+
+Developer Guide
+https://docs.google.com/document/d/1ME-nferIxI1oFyrmQTWWXIV9yA1YiFN4HA0mHD2rXcw/
+
+
 This is the code developed for Drug Orders and Pharmacy module.
 The module has four pages (Administration page, Drug Orders page, Pharmacy home page and Pharmacy Patient page).
 
