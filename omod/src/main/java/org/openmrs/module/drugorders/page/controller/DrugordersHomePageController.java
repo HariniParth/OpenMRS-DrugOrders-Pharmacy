@@ -82,6 +82,13 @@ public class DrugordersHomePageController {
         drugName = drugName.trim();
         diagnosis = diagnosis.trim();
         
+        // If selected Start Date is before the current Date, then set Start Date as Current Date.
+        if(startDate != null){
+            if(startDate.before(new Date())){
+                startDate = new Date();
+                InfoErrorMessageUtil.flashInfoMessage(session, "Please note that the Start Date can only be set to on or after the current date.");
+            }
+        }
         /*
           Get the list of drugs the Patient is allergic to
         */

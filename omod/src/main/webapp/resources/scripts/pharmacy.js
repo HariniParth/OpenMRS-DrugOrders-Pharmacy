@@ -35,8 +35,12 @@ jq(document).ready( function() {
         // Check the number of rows entered in the given textarea
         var newLines = $(this).val().split("\n").length;
         if(e.keyCode === 13 && newLines >= lines) {
+            alert("Field next line limit reached!");
             return false;
         }
+        
+        if(jq(this).val().length >= 912 && e.keyCode !== 8 && e.keyCode !== 46)
+            alert("Field length limit reached!");
         
         /*
         * Disable typing whitespaces before entering any data in the textarea fields. 
