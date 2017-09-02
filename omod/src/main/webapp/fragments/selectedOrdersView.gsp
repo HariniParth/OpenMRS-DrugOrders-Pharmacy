@@ -44,7 +44,11 @@
                         <div class="drugDetails">
                             
                             <span class="fields">Dose: ${ groupOrder.value.dose } ${ groupOrder.value.doseUnits.getDisplayString() }, Quantity: ${ groupOrder.value.quantity } ${ groupOrder.value.quantityUnits.getDisplayString() }</span><br/><br/>
-                        
+                            
+                            <% if(allergicDrugs.contains(groupOrderExtn.get(groupOrder.key).drugName.getDisplayString().toUpperCase()) && groupOrderExtn.get(groupOrder.key).isAllergicOrderReasons == null) { %>
+                                <span class="fields" id="note">PLEASE NOTE: This drug is allergic and cannot be dispatched without a reason. Please contact the Orderer.</span><br/><br/>
+                            <% } %>
+                                
                             <% if(groupOrderExtn.get(groupOrder.key).pharmacistInstructions != null && groupOrderExtn.get(groupOrder.key).pharmacistInstructions != "null") { %>
                                 <% pharma_instr = groupOrderExtn.get(groupOrder.key).pharmacistInstructions; %>
                             <% } else { %>
@@ -70,17 +74,29 @@
                             <!--
                                 Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
                             -->
-                            <div class="dispatchFields"><br/>
-                                <div class="fields" id="view_order_detail">
-                                    <label>Note<span id="asterisk">*</span></label>
-                                    <textarea maxlength="912" class="commentForPatient" name="commentForPatient" placeholder="Enter notes for Patient" required="required"></textarea>
-                                </div><br/>
                                 
-                                <div class="fields" id="view_order_detail">
-                                    <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
-                                    <div id="order_value"><input type="text" class="drugExpiryDate" name="drugExpiryDate" placeholder="MM/DD/YYYY" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" required="required" ></div>
-                                </div><br/><br/><br/>
-                            </div>
+                            <% if(!(allergicDrugs.contains(groupOrderExtn.get(groupOrder.key).drugName.getDisplayString().toUpperCase()) && groupOrderExtn.get(groupOrder.key).isAllergicOrderReasons == null)) { %>
+                            
+                                <div class="dispatchFields"><br/>
+                                    <div class="fields" id="view_order_detail">
+                                        <label>Note<span id="asterisk">*</span></label>
+                                        <textarea maxlength="912" class="commentForPatient" name="commentForPatient" placeholder="Enter notes for Patient" required="required"></textarea>
+                                    </div><br/>
+
+                                    <div class="fields" id="view_order_detail">
+                                        <div id="order_label"><label>Expiry<span id="asterisk">*</span></label></div>
+                                        <div id="order_value"><input type="text" class="drugExpiryDate" name="drugExpiryDate" placeholder="MM/DD/YYYY" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" required="required" /></div>
+                                    </div><br/><br/><br/>
+                                </div>
+                                
+                            <% } else { %>
+                            
+                                <div class="hidden">
+                                    <textarea class="commentForPatient" name="commentForPatient">N/A</textarea>
+                                    <input class="drugExpiryDate" name="drugExpiryDate" type="text" value="01/01/0001" />
+                                </div>
+                            
+                            <% } %>
                             
                             <div class="additionalInformation"><br/>
                                 <div class="fields" id="view_order_detail">

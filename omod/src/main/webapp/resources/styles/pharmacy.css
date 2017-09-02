@@ -293,7 +293,7 @@ form select, .form select {
     cursor: pointer;
 }
 
-#selectedAction{
+#selectedAction, #note{
     color: red;
     font-weight: bold;
 }

@@ -66,95 +66,110 @@ public class PharmacyPatientPageController {
                       If one or more check-boxes corresponding to a drug or a drug order is checked, retrieve the order ID.
                     */
                     if(groupCheckBox.length > 0){
+                        boolean dispatched = false, notDispatched = false;
+                        
                         for(int i=0;i<groupCheckBox.length;i++){
                             
                             int orderID = Integer.parseInt(Long.toString(groupCheckBox[i]));
                             drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderID);
                             
-                            /*
-                              If the order is selected to be put on hold or requested to be discarded,
-                               apply the appropriate status on the order and save the comments.
-                            */
-                            switch (groupAction) {
-                                case "Discard":
-                                    drugorder.setForDiscard(1);
-                                    // If order was previously set on hold, remove the on-hold flag.
-                                    if(drugorder.getOnHold() == 1)
-                                        drugorder.setOnHold(0);
-                                    // If comments to discard the order are provided, save the comments.
-                                    if(groupComments != null){
-                                        // Fix saving multiple lines of text input.
-                                        String [] comments = groupComments.trim().split("\n");
-                                        StringBuilder sb = new StringBuilder();
-                                        for(String s : comments){
-                                            sb.append(s.trim()).append("newline");
+                                /*
+                                  If the order is selected to be put on hold or requested to be discarded,
+                                   apply the appropriate status on the order and save the comments.
+                                */
+                                switch (groupAction) {
+                                    case "Discard":
+                                        drugorder.setForDiscard(1);
+                                        // If order was previously set on hold, remove the on-hold flag.
+                                        if(drugorder.getOnHold() == 1)
+                                            drugorder.setOnHold(0);
+                                        // If comments to discard the order are provided, save the comments.
+                                        if(groupComments != null){
+                                            // Fix saving multiple lines of text input.
+                                            String [] comments = groupComments.trim().split("\n");
+                                            StringBuilder sb = new StringBuilder();
+                                            for(String s : comments){
+                                                sb.append(s.trim()).append("newline");
+                                            }
+                                            drugorder.setCommentForOrderer(sb.substring(0, sb.length()-7)); 
                                         }
-                                        drugorder.setCommentForOrderer(sb.substring(0, sb.length()-7)); 
-                                    }
                                         
-                                    break;
-                                case "On Hold":
-                                    drugorder.setOnHold(1);
-                                    // If the order was previously set to be discarded, remove the to-discard flag.
-                                    if(drugorder.getForDiscard()== 1)
-                                        drugorder.setForDiscard(0);
-                                    // If comments to put the order on hold are provided, save the comments.
-                                    if(groupComments != null){
-                                        // Fix saving multiple lines of text input.
-                                        String [] comments = groupComments.trim().split("\n");
-                                        StringBuilder sb = new StringBuilder();
-                                        for(String s : comments){
-                                            sb.append(s.trim()).append("newline");
+                                        break;
+                                        
+                                    case "On Hold":
+                                        drugorder.setOnHold(1);
+                                        // If the order was previously set to be discarded, remove the to-discard flag.
+                                        if(drugorder.getForDiscard()== 1)
+                                            drugorder.setForDiscard(0);
+                                        // If comments to put the order on hold are provided, save the comments.
+                                        if(groupComments != null){
+                                            // Fix saving multiple lines of text input.
+                                            String [] comments = groupComments.trim().split("\n");
+                                            StringBuilder sb = new StringBuilder();
+                                            for(String s : comments){
+                                                sb.append(s.trim()).append("newline");
+                                            }
+                                            drugorder.setCommentForOrderer(sb.substring(0, sb.length()-7)); 
                                         }
-                                        drugorder.setCommentForOrderer(sb.substring(0, sb.length()-7)); 
-                                    }
-                                    break;
-                                case "Dispatch":
-                                    // If the order was previously set to be discarded, remove the to-discard flag.
-                                    if(drugorder.getForDiscard() == 1)
-                                        drugorder.setForDiscard(0);
-                                    // If order was previously set on hold, remove the on-hold flag.
-                                    else if(drugorder.getOnHold() == 1)
-                                        drugorder.setOnHold(0);
-                                    /*
-                                      If the order is selected to be dispatched, set the last dispatch date and decrement the allowed number of refills.
-                                      Update the order status.
-                                    */
-                                    if (drugorder.getRefill() > 0) {
-                                        drugorder.setLastDispatchDate(Calendar.getInstance().getTime());
-                                        drugorder.setRefill(drugorder.getRefill() - 1);
-                                    }
-                                    else {
-                                        switch (drugorder.getOrderStatus()) {
-                                            case "Active":
-                                                drugorder.setOrderStatus("Non-Active");
-                                                break;
-                                            case "Active-Group":
-                                                drugorder.setOrderStatus("Non-Active-Group");
-                                                break;
-                                            case "Active-Plan":
-                                                drugorder.setOrderStatus("Non-Active-Plan");
-                                                break;
+                                        
+                                        break;
+                                        
+                                    case "Dispatch":
+                                        // Check if the drug is allergic but has no order reasons specified.
+                                        if(!(drugorder.getIsAllergicOrderReasons() == null && allergicDrugList.contains(drugorder.getDrugName().getDisplayString().toUpperCase()))){
+                            
+                                            // If the order was previously set to be discarded, remove the to-discard flag.
+                                            if(drugorder.getForDiscard() == 1)
+                                                drugorder.setForDiscard(0);
+                                            // If order was previously set on hold, remove the on-hold flag.
+                                            else if(drugorder.getOnHold() == 1)
+                                                drugorder.setOnHold(0);
+                                            /*
+                                              If the order is selected to be dispatched, set the last dispatch date and decrement the allowed number of refills.
+                                              Update the order status.
+                                            */
+                                            if (drugorder.getRefill() > 0) {
+                                                drugorder.setLastDispatchDate(Calendar.getInstance().getTime());
+                                                drugorder.setRefill(drugorder.getRefill() - 1);
+                                            }
+                                            else {
+                                                switch (drugorder.getOrderStatus()) {
+                                                    case "Active":
+                                                        drugorder.setOrderStatus("Non-Active");
+                                                        break;
+                                                    case "Active-Group":
+                                                        drugorder.setOrderStatus("Non-Active-Group");
+                                                        break;
+                                                    case "Active-Plan":
+                                                        drugorder.setOrderStatus("Non-Active-Plan");
+                                                        break;
+                                                }
+                                                Context.getOrderService().voidOrder(Context.getOrderService().getOrder(drugorder.getOrderId()), "No Longer Active");
+                                            }   
+                                            // Save the drug expiry date and comments entered for the Patient.
+                                            drugorder.setDrugExpiryDate(new SimpleDateFormat("MM/dd/yyyy").parse(drugExpiryDate[i]));
+
+                                            // Fix saving multiple lines of text input.
+                                            String [] comments = commentForPatient[i].trim().split("\n");
+                                            StringBuilder sb = new StringBuilder();
+                                            for(String s : comments){
+                                                sb.append(s.trim()).append("newline");
+                                            }
+                                            drugorder.setCommentForPatient(sb.substring(0, sb.length()-7));
+                                            
+                                            dispatched = true;
+                                        } 
+                                        else{
+                                            InfoErrorMessageUtil.flashErrorMessage(session, "Cannot dispatch allergic drug(s) without valid reasons.");
+                                            notDispatched = true;
                                         }
-                                        Context.getOrderService().voidOrder(Context.getOrderService().getOrder(drugorder.getOrderId()), "No Longer Active");
-                                    }   
-                                    // Save the drug expiry date and comments entered for the Patient.
-                                    drugorder.setDrugExpiryDate(new SimpleDateFormat("MM/dd/yyyy").parse(drugExpiryDate[i]));
-                                    
-                                    // Fix saving multiple lines of text input.
-                                    String [] comments = commentForPatient[i].trim().split("\n");
-                                    StringBuilder sb = new StringBuilder();
-                                    for(String s : comments){
-                                        sb.append(s.trim()).append("newline");
-                                    }
-                                    drugorder.setCommentForPatient(sb.substring(0, sb.length()-7));
-                                    
-                                    break;
-                            }
+                                        break;
+                                }
                             Context.getService(drugordersService.class).saveDrugOrder(drugorder);
                         }
+                        if(!(dispatched == false && notDispatched == true))
+                            InfoErrorMessageUtil.flashInfoMessage(session, "Order Status - " + groupAction);
                     }
-                    InfoErrorMessageUtil.flashInfoMessage(session, "Order Status - " + groupAction);
                 }
             } 
             catch (NumberFormatException | APIException ex) {
