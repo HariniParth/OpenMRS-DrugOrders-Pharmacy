@@ -66,6 +66,18 @@ jq(document).ready( function() {
                 this.style.borderColor = "";
         });
     });
+    
+    jq('.drugExpiryDate').datepicker({
+        minDate:  new Date(),
+        nextText: "===>",
+        prevText: "===<",
+        changeYear: true,
+        changeMonth: true
+    });
+    
+    jq('.drugExpiryDate').on('keydown keyup', function(e){
+        e.preventDefault();
+    });
 });
 
 /*

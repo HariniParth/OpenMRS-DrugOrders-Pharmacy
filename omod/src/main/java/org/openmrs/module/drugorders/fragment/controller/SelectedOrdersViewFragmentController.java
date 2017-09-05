@@ -5,6 +5,7 @@
  */
 package org.openmrs.module.drugorders.fragment.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.openmrs.DrugOrder;
@@ -23,12 +24,19 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
+import javax.servlet.http.HttpSession;
+import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.allergyapi.Allergies;
+import org.openmrs.module.allergyapi.Allergy;
+import org.openmrs.module.allergyapi.api.PatientService;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.api.planordersService;
 import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.page.controller.PharmacyPatientPageController;
 import org.openmrs.module.drugorders.planorders;
+import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
+import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +47,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class SelectedOrdersViewFragmentController {
     
-    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient,
+    public void controller(FragmentModel model, HttpSession session,
+                            @RequestParam("patientId") Patient patient, 
+                            @SpringBean("allergyService") PatientService patientService,
                             @RequestParam(value = "planID", required = false) String planID,
                             @RequestParam(value = "groupID", required = false) String groupID,
                             @RequestParam(value = "orderID", required = false) String orderID){
@@ -48,6 +58,16 @@ public class SelectedOrdersViewFragmentController {
         Calendar cal = Calendar.getInstance();
         Date expiryDate = cal.getTime();
         model.addAttribute("expiryDate", expiryDate);
+              
+        Allergies allergies = patientService.getAllergies(patient);
+        ArrayList<Concept> allergicDrugList = new ArrayList<>();
+        if(allergies.size() > 0){
+            for(Allergy allergy : allergies){
+                allergicDrugList.add(allergy.getAllergen().getCodedAllergen());
+            }
+        }
+        
+        boolean allergyAlert = false;
         
         // Store HashMap<Order-ID, Orderer name>
         HashMap<Integer,String> provider = new HashMap<>();
@@ -85,6 +105,9 @@ public class SelectedOrdersViewFragmentController {
                     groupOrderExtn.put(drugorder.getOrderId(), drugorder);
                     // Save the Orderer's name corresponding to the drug order.
                     provider.put(drugorder.getOrderId(), DrugOrder.getOrderer().getPerson().getGivenName() + " " + DrugOrder.getOrderer().getPerson().getFamilyName());                    
+                
+                    if(allergicDrugList.contains(drugorder.getDrugName()) && drugorder.getIsAllergicOrderReasons() == null)
+                        allergyAlert = true;
                 }
             }
         }
@@ -107,6 +130,9 @@ public class SelectedOrdersViewFragmentController {
                     groupOrderExtn.put(drugorder.getOrderId(), drugorder);
                     // Save the Orderer's name corresponding to the drug order.
                     provider.put(DrugOrder.getOrderId(), DrugOrder.getOrderer().getPerson().getGivenName() + " " + DrugOrder.getOrderer().getPerson().getFamilyName() + ", " + StringUtils.capitalize(DrugOrder.getOrderer().getIdentifier()));
+                
+                    if(allergicDrugList.contains(drugorder.getDrugName()) && drugorder.getIsAllergicOrderReasons() == null)
+                        allergyAlert = true;
                 }
             }
         }
@@ -126,7 +152,14 @@ public class SelectedOrdersViewFragmentController {
             groupOrderExtn.put(order, drugorder);
             // Save the Orderer's name corresponding to the drug order.
             provider.put(DrugOrder.getOrderId(), DrugOrder.getOrderer().getPerson().getGivenName() + " " + DrugOrder.getOrderer().getPerson().getFamilyName() + ", " + StringUtils.capitalize(DrugOrder.getOrderer().getIdentifier()));
+        
+            if(allergicDrugList.contains(drugorder.getDrugName()) && drugorder.getIsAllergicOrderReasons() == null)
+                allergyAlert = true;
         }
+        
+        if(allergyAlert)
+            InfoErrorMessageUtil.flashInfoMessage(session, "Recommended to place the order(s) on hold to get an update on the reason for ordering allergic drug(s)");
+        
         
         model.addAttribute("planID", planId.toString());
         model.addAttribute("groupID", groupID);

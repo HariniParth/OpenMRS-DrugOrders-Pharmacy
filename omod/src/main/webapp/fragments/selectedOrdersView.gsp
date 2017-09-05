@@ -46,7 +46,7 @@
                             <span class="fields">Dose: ${ groupOrder.value.dose } ${ groupOrder.value.doseUnits.getDisplayString() }, Quantity: ${ groupOrder.value.quantity } ${ groupOrder.value.quantityUnits.getDisplayString() }</span><br/><br/>
                             
                             <% if(allergicDrugs.contains(groupOrderExtn.get(groupOrder.key).drugName.getDisplayString().toUpperCase()) && groupOrderExtn.get(groupOrder.key).isAllergicOrderReasons == null) { %>
-                                <span class="fields" id="note">PLEASE NOTE: This drug is allergic and cannot be dispatched without a reason. Please contact the Orderer.</span><br/><br/>
+                                <span class="fields" id="note">PLEASE NOTE: The Patient is allergic to this drug. Cannot dispatch drug without a reason. Please contact the Orderer.</span><br/><br/>
                             <% } %>
                                 
                             <% if(groupOrderExtn.get(groupOrder.key).pharmacistInstructions != null && groupOrderExtn.get(groupOrder.key).pharmacistInstructions != "null") { %>
@@ -237,13 +237,5 @@
         jq(this).parent().parent().nextAll(".drugDetails").first().children(".additionalInformation").hide();
         jq(this).hide();
         jq(this).prev(".icon-plus-sign").show();
-    });
-    
-    jq('.drugExpiryDate').datepicker({
-        minDate:  new Date()
-    });
-    
-    jq('.drugExpiryDate').on('keydown keyup', function(e){
-        e.preventDefault();
     });
 </script>

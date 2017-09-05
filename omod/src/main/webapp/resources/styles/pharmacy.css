@@ -355,3 +355,7 @@ form select, .form select {
 .print:hover{
     cursor: pointer;
 }
+
+.ui-datepicker .ui-datepicker-prev .ui-icon, .ui-datepicker .ui-datepicker-next .ui-icon{
+    text-indent: -28.5px !important;
+}
