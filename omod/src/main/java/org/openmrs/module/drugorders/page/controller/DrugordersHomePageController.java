@@ -423,7 +423,7 @@ public class DrugordersHomePageController {
                         // Retrieve the original order record to create a new order with the same specifications.
                         drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
                         // Void the original order
-                        Context.getOrderService().voidOrder(Context.getOrderService().getOrder(orderId), "Discontinued");
+                        Context.getOrderService().voidOrder(Context.getOrderService().getOrder(orderId), "Order modified and replaced.");
 
                         DrugOrder drugOrder = null;
                         drugorders drugorder = null;
@@ -622,6 +622,8 @@ public class DrugordersHomePageController {
         drugorder.setAssociatedDiagnosis(ConceptName(diagnosis));
             
         if(!(orderReason).equals("")){
+            // Patient is identified to be allergic to this drug.
+            drugorder.setIsAllergic(1);
             // Fix saving multiple lines of text input.
             String [] reason = orderReason.trim().split("\n");
             StringBuilder sb = new StringBuilder();
@@ -629,7 +631,8 @@ public class DrugordersHomePageController {
                 sb.append(s.trim()).append("newline");
             }
             drugorder.setIsAllergicOrderReasons(sb.substring(0, sb.length()-7));
-        }
+        } else
+            drugorder.setIsAllergic(0);
             
         if(!(patientInstrn).equals("")){
             // Fix saving multiple lines of text input.
