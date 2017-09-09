@@ -5,6 +5,7 @@
     def last_dispatch_date = "";
     def patient_instr = "";
     def pharma_instr = "";
+    def pharma_comm = "";
 %>
 
 <!--
@@ -70,7 +71,16 @@
                                 <label><strong>Instructions for the Patient:</strong></label>
                                 ${ patient_instr.replace("newline","<br/>") }
                             </div>
-                                
+                            
+                            <% if(groupOrderExtn.get(groupOrder.key).commentForOrderer != null && groupOrderExtn.get(groupOrder.key).commentForOrderer != "null") { %>
+                                <% pharma_comm = groupOrderExtn.get(groupOrder.key).commentForOrderer; %>
+                            
+                                <div class="fields" id="view_order_detail">
+                                    <label><strong>Comments for the Physician:</strong></label>
+                                    ${ pharma_comm.replace("newline","<br/>") }
+                                </div>
+                            <% } %>
+                            
                             <!--
                                 Display fields to enter drug expiry date and a note for the Patient if orders are selected to be dispatched.
                             -->
