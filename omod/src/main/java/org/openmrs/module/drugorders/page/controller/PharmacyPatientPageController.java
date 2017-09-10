@@ -48,10 +48,15 @@ public class PharmacyPatientPageController {
         ArrayList<String> allergicDrugList = new ArrayList<>();
         
         if(allergies.size() > 0){
+            int count = 0;
             for(Allergy allergy : allergies){
                 allergicDrugList.add(allergy.getAllergen().toString().toUpperCase());
-                model.addAttribute("allergicDrugs", allergicDrugList);
+                if(count<allergies.size()-1){
+                    allergicDrugList.add(",");
+                    count++;
+                }
             }
+            model.addAttribute("allergicDrugs", allergicDrugList);
         } else {
             model.addAttribute("allergicDrugs", "null");
         }
