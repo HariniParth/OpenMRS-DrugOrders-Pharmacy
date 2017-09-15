@@ -102,10 +102,13 @@ public class PharmacyPatientPageController {
                                     break;
 
                                 case "On Hold":
+                                    // If the order was previously set to be discarded, it cannot be modified.
+                                    if(drugorder.getForDiscard()== 1){
+                                        InfoErrorMessageUtil.flashErrorMessage(session, "Order(s) selected to be discontinued cannot be modified!");
+                                        return;
+                                    }
+                                    
                                     drugorder.setOnHold(1);
-                                    // If the order was previously set to be discarded, remove the to-discard flag.
-                                    if(drugorder.getForDiscard()== 1)
-                                        drugorder.setForDiscard(0);
                                     // If comments to put the order on hold are provided, save the comments.
                                     if(groupComments != null){
                                         // Fix saving multiple lines of text input.
@@ -120,14 +123,16 @@ public class PharmacyPatientPageController {
                                     break;
 
                                 case "Dispatch":
+                                    // If the order was previously set to be discarded, it cannot be modified.
+                                    if(drugorder.getForDiscard() == 1){
+                                        InfoErrorMessageUtil.flashErrorMessage(session, "Order(s) selected to be discontinued cannot be modified!");
+                                        return;
+                                    }
+                                        
                                     // Check if the drug is allergic but has no order reasons specified.
                                     if(!(drugorder.getIsAllergicOrderReasons() == null && allergicDrugList.contains(drugorder.getDrugName().getDisplayString().toUpperCase()))){
-
-                                        // If the order was previously set to be discarded, remove the to-discard flag.
-                                        if(drugorder.getForDiscard() == 1)
-                                            drugorder.setForDiscard(0);
                                         // If order was previously set on hold, remove the on-hold flag.
-                                        else if(drugorder.getOnHold() == 1)
+                                        if(drugorder.getOnHold() == 1)
                                             drugorder.setOnHold(0);
                                         /*
                                           If the order is selected to be dispatched, set the last dispatch date and decrement the allowed number of refills.
