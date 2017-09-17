@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.openmrs.Concept;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
@@ -31,11 +32,19 @@ public class CurrentDrugOrdersFragmentController {
         HashMap<Integer, Concept> planName = new HashMap<>();
         // Storing HashMap<Order-ID, Orderer-Name>
         HashMap<Integer, String> OrdererName = new HashMap<>();
+        // Get the list of all Orders for the Patient.
+        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
         
         /*
           Get the list of all active individual drug orders placed for the Patient.
         */
-        List<drugorders> patientSingleOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active");
+        List<drugorders> patientSingleOrders = new ArrayList<>();
+        for(Order order : orders){
+            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Active")){
+                patientSingleOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
+            }
+        }
+        
         for(drugorders drugorder : patientSingleOrders){
             Person person = Context.getOrderService().getOrder(drugorder.getOrderId()).getOrderer().getPerson();
             OrdererName.put(drugorder.getOrderId(), person.getGivenName()+" "+person.getFamilyName());
@@ -45,9 +54,15 @@ public class CurrentDrugOrdersFragmentController {
           Get the list of all active medication plan drug orders placed for the Patient.
         */
         HashMap<Integer, List<drugorders>> patientPlanOrders = new HashMap<>();
-        List<drugorders> drugorders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Plan");
+        List<drugorders> planDrugorders = new ArrayList<>();
         
-        for(drugorders drugorder : drugorders){
+        for(Order order : orders){
+            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Active-Plan")){
+                planDrugorders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
+            }
+        }
+        
+        for(drugorders drugorder : planDrugorders){
             planorders planOrder = Context.getService(planordersService.class).getPlanOrderByOrderID(drugorder.getOrderId());
             
             // If the drug orders associated with this standard plan are not retrieved yet, then retrieve the orders.
@@ -76,9 +91,15 @@ public class CurrentDrugOrdersFragmentController {
           Get the list of all active 'grouped' drug orders placed for the Patient.
         */
         HashMap<Integer, List<drugorders>> patientGroupOrders = new HashMap<>();
-        List<drugorders> groupOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Group");
+        List<drugorders> groupDrugOrders = new ArrayList<>();
         
-        for(drugorders groupOrder : groupOrders){
+        for(Order order : orders){
+            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Active-Group")){
+                groupDrugOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
+            }
+        }
+        
+        for(drugorders groupOrder : groupDrugOrders){
             // If the orders belonging to this order's group are not retrieved yet, then retrieve the orders.
             if(!patientGroupOrders.containsKey(groupOrder.getGroupId())){
                 List<drugorders> allGroupOrders = Context.getService(drugordersService.class).getDrugOrdersByGroupID(groupOrder.getGroupId());

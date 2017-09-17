@@ -10,8 +10,6 @@
 package org.openmrs.module.drugorders.api.db;
 
 import java.util.List;
-import org.openmrs.Concept;
-import org.openmrs.Patient;
 import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.api.drugordersService;
 
@@ -22,23 +20,15 @@ public interface drugordersDAO {
 	
     // Get last assigned Group ID
     public int getLastGroupID();
-    
     // Get orders placed on hold
     public List<drugorders> getOrdersOnHold();
-    
     // Get orders requested to be discarded
     public List<drugorders> getOrdersForDiscard();
-    
+    // Save the drug order record
     public drugorders saveDrugOrder(drugorders drugOrder);
-    
-    public drugorders getDrugOrderByOrderID(Integer orderId);    
-    
+    // Get order by refering to the order ID
+    public drugorders getDrugOrderByOrderID(Integer orderId);
+    // Get order by refering to the group ID
     public List<drugorders> getDrugOrdersByGroupID(Integer groupId);
-    
-    public List<drugorders> getDrugOrdersByPatient(Patient patient);
-    
-    public drugorders getDrugOrderByDrugAndPatient(Concept drug, Patient patient);
-    
-    public List<drugorders> getDrugOrdersByPatientAndStatus(Patient patient, String status);
-    
+        
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.openmrs.DrugOrder;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
@@ -25,23 +26,37 @@ public class DrugOrdersNonActiveFragmentController {
     
     public void controller(FragmentModel model, @RequestParam("patientId") Patient patient){
         
-       // Data structure to store the list of non-active single individual drug orders.
-        List<drugorders> singleOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active");
+        // Get the list of all Orders for the Patient.
+        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
+        
+        // Data structure to store the list of non-active single individual drug orders.
+        List<drugorders> singleOrders = new ArrayList<>();
+        for(Order order : orders){
+            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Non-Active")){
+                singleOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
+            }
+        }
         
         // Data structure to store the list of non-active group drug orders.
         HashMap<Integer,List<drugorders>> groupOrders = new HashMap<>();
         
         // Retrieve the list of non-active group orders.
-        List<drugorders> groups = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active-Group");
+        List<drugorders> groups = new ArrayList<>();
+        for(Order order : orders){
+            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Non-Active-Group")){
+                groups.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
+            }
+        }
+        
         for(drugorders o : groups){
             if(groupOrders.get(o.getGroupId()) == null){
-                List<drugorders> orders = new ArrayList<>();
+                List<drugorders> groupDrugOrders = new ArrayList<>();
                 // Retrieve the list of non-active orders in the same group as the given 'Non-Active-Group' order.
                 for(drugorders order : Context.getService(drugordersService.class).getDrugOrdersByGroupID(o.getGroupId()))
                     if(order.getOrderStatus().equals("Non-Active-Group"))
-                        orders.add(order);
+                        groupDrugOrders.add(order);
 
-                groupOrders.put(o.getGroupId(), orders);
+                groupOrders.put(o.getGroupId(), groupDrugOrders);
             }
         }
                 

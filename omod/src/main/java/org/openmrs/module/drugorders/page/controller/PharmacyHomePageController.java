@@ -100,12 +100,13 @@ public class PharmacyHomePageController {
         
         // Data structures to store the single, group and plan orders. <OrderID, Order>
         List<drugorders> singleOrders = new ArrayList<>();
-        HashMap<Integer, List<drugorders>> groupOrders = new HashMap<>();
         HashMap<Integer, List<drugorders>> planOrders = new HashMap<>();
+        HashMap<Integer, List<drugorders>> groupOrders = new HashMap<>();
         
-        // Data structures to store the Orderer's and Patient's name.
+        // Data structures to store the Orderer's and Patient's name and ID.
         HashMap<Integer,String> ordererName = new HashMap<>();
         HashMap<Integer,String> patientName = new HashMap<>();
+        HashMap<Integer, Integer> patientID = new HashMap<>();
         // Retrieve all the orders placed on hold and all the orders requested to be discarded.
         for(drugorders order: Iterables.concat(ordersOnHold, ordersForDiscard)){
             Person physician = Context.getPersonService().getPerson(Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getProviderId());
@@ -116,6 +117,7 @@ public class PharmacyHomePageController {
             switch (order.getOrderStatus()) {
                 case "Active":
                     singleOrders.add(order);
+                    patientID.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()).getPatient().getPatientId());
                     ordererName.put(order.getOrderId(), physician.getGivenName()+" "+physician.getFamilyName());
                     break;
                     
@@ -129,6 +131,7 @@ public class PharmacyHomePageController {
                         for(drugorders groupOrder : allGroupOrders){
                             if(groupOrder.getOrderStatus().equals("Active-Group")){
                                 activeGroupOrders.add(groupOrder);
+                                patientID.put(groupOrder.getOrderId(), Context.getOrderService().getOrder(groupOrder.getOrderId()).getPatient().getPatientId());
                                 ordererName.put(groupOrder.getOrderId(), physician.getGivenName()+" "+physician.getFamilyName());
                             }
                         }
@@ -148,6 +151,7 @@ public class PharmacyHomePageController {
                             // From the list of retrieved orders, fetch the orders that are currently active.
                             if(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getOrderStatus().equals("Active-Plan")){
                                 activePlanOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()));
+                                patientID.put(planOrder.getOrderId(), Context.getOrderService().getOrder(planOrder.getOrderId()).getPatient().getPatientId());
                                 ordererName.put(planOrder.getOrderId(), physician.getGivenName()+" "+physician.getFamilyName());
                             }
                         }
@@ -157,11 +161,13 @@ public class PharmacyHomePageController {
             }
             
             //Store the list of Patient's name who have an Order that is On-Hold or For-Discard
-            if(!patientName.containsKey(order.getPatientId())){
-                Patient patient = Context.getPatientService().getPatient(order.getPatientId());
-                patientName.put(order.getPatientId(), patient.getGivenName()+" "+patient.getFamilyName());
+            if(!patientName.containsKey(Context.getOrderService().getOrder(order.getOrderId()).getPatient().getPatientId())){
+                Patient patient = Context.getOrderService().getOrder(order.getOrderId()).getPatient();
+                patientName.put(patient.getPatientId(), patient.getGivenName()+" "+patient.getFamilyName());
             }
         }
+        
+        model.addAttribute("patientID", patientID);
         model.addAttribute("patientName", patientName);
         model.addAttribute("ordererName", ordererName);
         model.addAttribute("patientSingles", singleOrders);

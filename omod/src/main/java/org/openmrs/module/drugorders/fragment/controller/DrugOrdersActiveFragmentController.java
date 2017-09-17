@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.openmrs.DrugOrder;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
@@ -83,25 +84,37 @@ public class DrugOrdersActiveFragmentController {
                 InfoErrorMessageUtil.flashErrorMessage(session, "Check Orders To Be Grouped!");
         }
         
+        // Get the list of all Orders for the Patient.
+        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
+        
         // Data structure to store the list of active single individual drug orders.
-        List<drugorders> singleOrders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active");
+        List<drugorders> singleOrders = new ArrayList<>();
+        for(Order order : orders){
+            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Active")){
+                singleOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
+            }
+        }
         
         // Data structure to store the list of active group drug orders.
         HashMap<Integer,List<drugorders>> groupOrders = new HashMap<>();
         
         // Retrieve the list of active group orders.
-        List<drugorders> groups = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Active-Group");
-        groups.addAll(Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Draft-Group"));
+        List<drugorders> groups = new ArrayList<>();
+        for(Order order : orders){
+            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Active-Group") || Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Draft-Group")){
+                groups.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
+            }
+        }
         
         for(drugorders o : groups){
             if(groupOrders.get(o.getGroupId()) == null){
-                List<drugorders> orders = new ArrayList<>();
+                List<drugorders> groupDrugOrders = new ArrayList<>();
                 // Retrieve the list of active orders in the same group as the given 'Active-Group' order.
                 for(drugorders order : Context.getService(drugordersService.class).getDrugOrdersByGroupID(o.getGroupId()))
                     if(order.getOrderStatus().equals("Active-Group") || order.getOrderStatus().equals("Draft-Group"))
-                        orders.add(order);
+                        groupDrugOrders.add(order);
 
-                groupOrders.put(o.getGroupId(), orders);
+                groupOrders.put(o.getGroupId(), groupDrugOrders);
             }
         }
                 

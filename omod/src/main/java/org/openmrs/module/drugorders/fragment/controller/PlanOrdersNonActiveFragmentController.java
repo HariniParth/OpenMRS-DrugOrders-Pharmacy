@@ -5,10 +5,12 @@
  */
 package org.openmrs.module.drugorders.fragment.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
@@ -26,6 +28,8 @@ public class PlanOrdersNonActiveFragmentController {
     
     public void controller(FragmentModel model, @RequestParam("patientId") Patient patient){
 
+        // Get the list of all Orders for the Patient.
+        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
         /* 
           =============================================================================================
           To Display the list of medication plan related drug orders, with the status "Non-Active-Plan"
@@ -44,9 +48,15 @@ public class PlanOrdersNonActiveFragmentController {
         HashMap<Integer, HashMap<Concept, HashMap<Integer, drugorders>>> NonActivePlanExtn = new HashMap<>();
         
         // Retrieve the list of medication plan related drug orders, having the status "Non-Active-Plan"
-        List<drugorders> orders = Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, "Non-Active-Plan");
         
-        for(drugorders order : orders){
+        List<drugorders> drugorders = new ArrayList<>();        
+        for(Order order : orders){
+            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Non-Active-Plan")){
+                drugorders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
+            }
+        }
+        
+        for(drugorders order : drugorders){
             // Retrieve the corresponding planorders record.
             planorders nonActiveMedPlan = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
             

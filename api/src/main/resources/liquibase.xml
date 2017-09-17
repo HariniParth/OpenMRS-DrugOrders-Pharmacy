@@ -53,7 +53,6 @@
                 <constraints nullable="true" foreignKeyName="order_id" references="orders(order_id)" />
             </column>
             <column name="group_id" type="int"></column>
-            <column name="patient_id" type="int"></column>
             <column name="drug_name" type="int"></column>
             <column name="start_date" type="datetime"></column>
             <column name="is_allergic" type="tinyint(1)"></column>

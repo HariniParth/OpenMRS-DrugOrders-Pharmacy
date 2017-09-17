@@ -78,7 +78,7 @@ ${ ui.includeFragment("drugorders", "removeOrderHold") } <br/><br/>
                                     <div class="l11">
                                         <div class="l21">
                                             <% if(name == "") { %>
-                                                <% name = patientName.get(o.patientId.toInteger()) %>
+                                                <% name = patientName.get(patientID.get(o.orderId)) %>
                                                 <span class="wordBreak">${ name }</span>
                                             <% } %>
                                         </div>
@@ -125,7 +125,7 @@ ${ ui.includeFragment("drugorders", "removeOrderHold") } <br/><br/>
                                     <div class="l11">
                                         <div class="l21">
                                             <% if(name == "") { %>
-                                                <% name = patientName.get(o.patientId.toInteger()) %>
+                                                <% name = patientName.get(patientID.get(o.orderId)) %>
                                                 <span class="wordBreak">${ name }</span>
                                             <% } %>
                                         </div>
@@ -164,9 +164,14 @@ ${ ui.includeFragment("drugorders", "removeOrderHold") } <br/><br/>
 
                 <% patientSingles.each { order -> %>
                     <tr class="singleHome <% if(order.forDiscard == 1) { %> forDiscard <% } %> <% if(order.onHold == 1) { %> onHold <% } %>">
+                        
                         <td class="selectSingle"><input type="checkbox" name="homeCheckbox" value="SINGLE ${ order.orderId }" /></td>
-                        <td><span class="wordBreak">${ patientName.get(order.patientId.toInteger()) }</span></td>
-                        <td><span class="wordBreak">${ order.drugName.getDisplayString().toUpperCase()}</span></td>
+                        <td>
+                            <span class="wordBreak">${ patientName.get(patientID.get(order.orderId)) }</span>
+                        </td>
+                        <td>
+                            <span class="wordBreak">${ order.drugName.getDisplayString().toUpperCase()}</span>
+                        </td>
                         <td>${ order.startDate.format('yyyy-MM-dd') }</td>
                         <td>
                             <% if(order.onHold == 1) { %>

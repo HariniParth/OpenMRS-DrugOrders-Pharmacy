@@ -31,8 +31,6 @@ public class drugorders extends BaseOpenmrsObject implements Serializable {
         private Integer groupId;
         // Concept ID representing the drug
         private Concept drugName;
-        // ID of the Patient for whom the order is made
-        private Integer patientId;
         // If the Patient is allergic to the drug ordered
         private Integer isAllergic;
         // Disease to treat
@@ -98,14 +96,6 @@ public class drugorders extends BaseOpenmrsObject implements Serializable {
         public void setGroupId(Integer groupId) {
             this.groupId = groupId;
         }
-        
-        public Integer getPatientId() {
-            return patientId;
-	}
-
-	public void setPatientId(Integer patientId) {
-            this.patientId = patientId;
-	}
         
         public Concept getDrugName() {
             return drugName;

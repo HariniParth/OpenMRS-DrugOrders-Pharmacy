@@ -12,8 +12,6 @@ package org.openmrs.module.drugorders.api.db.hibernate;
 
 import java.util.List;
 import java.util.Iterator;
-import org.openmrs.Concept;
-import org.openmrs.Patient;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.apache.commons.logging.Log;
@@ -80,14 +78,6 @@ public class HibernatedrugordersDAO implements drugordersDAO {
         return crit.list();
     };
     
-    @Override
-    public List<drugorders> getDrugOrdersByPatient(Patient patient) {
-        Criteria crit = sessionFactory.getCurrentSession().createCriteria(
-                drugorders.class);
-        crit.add(Restrictions.eq("patientId", patient.getPatientId()));
-        return crit.list();
-    };
-    
     // Get last assigned Group ID
     @Override
     public int getLastGroupID(){
@@ -106,22 +96,6 @@ public class HibernatedrugordersDAO implements drugordersDAO {
         }
             
         return groupId;
-    };
-    
-    @Override
-    public drugorders getDrugOrderByDrugAndPatient(Concept drug, Patient patient){
-        Criteria crit = sessionFactory.getCurrentSession().createCriteria(
-                drugorders.class);
-        crit.add(Restrictions.eq("drugName", drug)).add(Restrictions.eq("patientId", patient.getPatientId()));
-        return (drugorders) crit.uniqueResult();
-    };
-    
-    @Override
-    public List<drugorders> getDrugOrdersByPatientAndStatus(Patient patient, String status){
-        Criteria crit = sessionFactory.getCurrentSession().createCriteria(
-                drugorders.class);
-        crit.add(Restrictions.eq("orderStatus", status)).add(Restrictions.eq("patientId", patient.getPatientId()));
-        return crit.list();
     };
     
 }

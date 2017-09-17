@@ -15,7 +15,6 @@
         <discriminator column="id" insert="false" />
         <property name="orderId" column="order_id" not-null="false" ></property>
         <property name="groupId" column="group_id" not-null="false" ></property>
-        <property name="patientId" column="patient_id" not-null="false" ></property>
         <many-to-one name="drugName" column="drug_name" class="org.openmrs.Concept" />
         <property name="startDate" column="start_date" type="java.util.Date" ></property> 
         <property name="isAllergic" column="is_allergic" not-null="false" ></property>

@@ -7,6 +7,7 @@ package org.openmrs.module.drugorders.fragment.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
@@ -35,6 +36,16 @@ public class DrugordersFragmentController {
     }
     
     private List<drugorders> getActiveOrders(Patient patient, String status){
-        return Context.getService(drugordersService.class).getDrugOrdersByPatientAndStatus(patient, status);
+        
+        // Get the list of all Orders for the Patient.
+        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
+        
+        List<drugorders> drugorders = new ArrayList<>();        
+        for(Order order : orders){
+            if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals(status)){
+                drugorders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
+            }
+        }
+        return drugorders;
     }
 }
