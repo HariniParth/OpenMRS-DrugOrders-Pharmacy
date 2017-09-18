@@ -428,45 +428,38 @@ public class DrugordersHomePageController {
                     }
                     else {
                         // Retrieve the original order record to create a new order with the same specifications.
-                        drugorders originalOrder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
+                        DrugOrder drugOrder = (DrugOrder) Context.getOrderService().getOrder(orderId);
+                        drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
+                        String status = drugorder.getOrderStatus();
                         // Void the original order
                         Context.getOrderService().voidOrder(Context.getOrderService().getOrder(orderId), "Order modified and replaced.");
-
-                        DrugOrder drugOrder = null;
-                        drugorders drugorder = null;
 
                         // Create a DrugOrder record.
                         int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
                         // Create a drugorders record.
-                        createDrugOrderExtension(drugorder, order, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
+                        createDrugOrderExtension(drugorder, order, drugName, startDate, orderReason, diagnosis, priority, status, refill, interval, patientInstrn, pharmacistInstrn);
 
                         /*
                           When editing an individual order, ensure to record its status as it was before to ensure that the Single, Group and Med Plan orders are segregated.
                         */
-                        switch (originalOrder.getOrderStatus()) {
-                            case "Active":
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active");
-                                break;
+                        switch (status) {
                             case "Active-Plan":
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Plan");
-                                Context.getService(planordersService.class).getPlanOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
+                                Context.getService(planordersService.class).getPlanOrderByOrderID(drugorder.getOrderId()).setOrderId(order);
                                 break;
                             case "Draft-Plan":
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Draft-Plan");
-                                Context.getService(planordersService.class).getPlanOrderByOrderID(originalOrder.getOrderId()).setOrderId(order);
+                                Context.getService(planordersService.class).getPlanOrderByOrderID(drugorder.getOrderId()).setOrderId(order);
                                 break;
                             case "Active-Group":
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(originalOrder.getGroupId());
-                                originalOrder.setGroupId(null);
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(drugorder.getGroupId());
+                                drugorder.setGroupId(null);
                                 break;
                             case "Draft-Group":
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setOrderStatus("Active-Group");
-                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(originalOrder.getGroupId());
-                                originalOrder.setGroupId(null);
+                                Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(drugorder.getGroupId());
+                                drugorder.setGroupId(null);
                                 break;
                         }
-                        originalOrder.setOrderStatus("Non-Active");
+                        
+                        drugorder.setOrderStatus("Non-Active");
                         InfoErrorMessageUtil.flashInfoMessage(session, "Order Changes Saved!");
                     }
                     
