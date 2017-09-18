@@ -29,6 +29,7 @@ import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.Provider;
 import org.openmrs.api.APIException;
+import org.openmrs.api.OrderContext;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.allergyapi.Allergies;
 import org.openmrs.module.allergyapi.Allergy;
@@ -438,10 +439,6 @@ public class DrugordersHomePageController {
                         int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
                         // Create a drugorders record.
                         createDrugOrderExtension(drugorder, order, drugName, startDate, orderReason, diagnosis, priority, "Active", refill, interval, patientInstrn, pharmacistInstrn);
-                        // Remove the name of the drug from the original order from the list of current drug orders.
-                        currentOrders.remove(originalOrder.getDrugName().getDisplayString().toUpperCase());
-                        // Add the name of the selected drug to the list of current drug orders.
-                        currentOrders.add(drugName.toUpperCase());
 
                         /*
                           When editing an individual order, ensure to record its status as it was before to ensure that the Single, Group and Med Plan orders are segregated.
@@ -606,6 +603,11 @@ public class DrugordersHomePageController {
         order.setPatient(patient);
         order.setEncounter(enc);
         order.setOrderer(provider);
+        
+        // Set the OrderContext
+        OrderContext orderContext = new OrderContext();
+        orderContext.setCareSetting(careSetting);
+        orderContext.setOrderType(Context.getOrderService().getOrderTypeByName("Drug Order"));
 
         order.setRoute(ConceptName(route));
         order.setDose(Double.valueOf(dose));
@@ -617,7 +619,7 @@ public class DrugordersHomePageController {
         OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequencyByConcept(ConceptName(frequency));
         order.setFrequency(orderFrequency);
         order.setNumRefills(0);
-        order = (DrugOrder) Context.getOrderService().saveOrder(order, null);
+        order = (DrugOrder) Context.getOrderService().saveOrder(order, orderContext);
         int orderID = order.getOrderId();
         return orderID; 
     }
