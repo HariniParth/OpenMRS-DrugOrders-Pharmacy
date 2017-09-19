@@ -431,9 +431,10 @@ public class DrugordersHomePageController {
                         DrugOrder drugOrder = (DrugOrder) Context.getOrderService().getOrder(orderId);
                         drugorders drugorder = Context.getService(drugordersService.class).getDrugOrderByOrderID(orderId);
                         String status = drugorder.getOrderStatus();
+                        
                         // Void the original order
                         Context.getOrderService().voidOrder(Context.getOrderService().getOrder(orderId), "Order modified and replaced.");
-
+                        
                         // Create a DrugOrder record.
                         int order = createNewDrugOrder(drugOrder, patient, drugName, route, dose, doseUnits, quantity, quantityUnits, frequency, duration, durationUnits);
                         // Create a drugorders record.
@@ -457,7 +458,7 @@ public class DrugordersHomePageController {
                                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(drugorder.getGroupId());
                                 drugorder.setGroupId(null);
                                 break;
-                        }
+                        }                  
                         
                         drugorder.setOrderStatus("Non-Active");
                         InfoErrorMessageUtil.flashInfoMessage(session, "Order Changes Saved!");
@@ -553,11 +554,12 @@ public class DrugordersHomePageController {
       This function will save the standard parameters associated with the Order and Drug Order class.
       It will save the order's basic parameters in the drug_orders table and create an Drug Order record.
     */
-    private int createNewDrugOrder( DrugOrder order, Patient patient, String drugNameConfirmed, String route,
+    private int createNewDrugOrder( DrugOrder drugOrder, Patient patient, String drugNameConfirmed, String route,
                                     String dose, String doseUnits, String quantity, String quantityUnits,
                                     String frequency, Integer duration, String durationUnits) {
 
-        order = new DrugOrder();
+        // Create a new drug order.
+        DrugOrder order = new DrugOrder();
         // Save the drug concept associated with the order.
         order.setConcept(ConceptName(drugNameConfirmed));
         order.setDrug(Context.getConceptService().getDrugByNameOrId(drugNameConfirmed));
@@ -583,7 +585,7 @@ public class DrugordersHomePageController {
             if(prov.getPerson().equals(person)){
                 provider = prov;
                 providerFound = true;
-            }
+            } 
         }
             
         if(!providerFound)
@@ -601,6 +603,10 @@ public class DrugordersHomePageController {
         OrderContext orderContext = new OrderContext();
         orderContext.setCareSetting(careSetting);
         orderContext.setOrderType(Context.getOrderService().getOrderTypeByName("Drug Order"));
+        
+        // If an existing order is being modified, set the reference to the previous order ID.
+        if(drugOrder != null)
+            order.setPreviousOrder(Context.getOrderService().getOrder(drugOrder.getOrderId()));
 
         order.setRoute(ConceptName(route));
         order.setDose(Double.valueOf(dose));
@@ -622,6 +628,7 @@ public class DrugordersHomePageController {
       It saves data in the drug_order_extn table.
     */
     private void createDrugOrderExtension(drugorders drugorder, int drugOrderID, String drugName, Date startDate, String orderReason, String diagnosis, String priority, String status, int refill, int interval, String patientInstrn, String pharmacistInstrn){
+        // Create a new drugorders record.
         drugorder = new drugorders();
         drugorder.setOrderId(drugOrderID);
         drugorder.setDrugName(ConceptName(drugName));
