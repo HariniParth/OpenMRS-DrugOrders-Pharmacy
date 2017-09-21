@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpSession;
+import org.openmrs.CareSetting;
 import org.openmrs.DrugOrder;
 import org.openmrs.Order;
+import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.drugorders;
-import org.openmrs.module.drugorders.page.controller.DrugOrderList;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -121,7 +122,17 @@ public class DrugOrdersActiveFragmentController {
         model.addAttribute("singleOrdersExtn", singleOrders);
         model.addAttribute("groupOrdersExtn", groupOrders);
         
-        HashMap<Integer,DrugOrder> drugOrdersMain = DrugOrderList.getDrugOrderMainDataByPatient(patient);
+        HashMap<Integer, DrugOrder> drugOrdersMain = new HashMap<>();
+        // Get the records for CareSetting 'Outpatient'.
+        CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
+        // Get the records for OrderType 'Drug Order'
+        OrderType orderType = Context.getOrderService().getOrderTypeByName("Drug Order");
+        // Get the list of all DrugOrder records.
+        List<Order> drugOrders = Context.getOrderService().getOrders(patient, careSetting, orderType, false);
+        for(Order order: drugOrders){
+            drugOrdersMain.put(order.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(order.getOrderId()));
+        }
+        
         model.addAttribute("drugOrdersMain", drugOrdersMain);
                 
     }
