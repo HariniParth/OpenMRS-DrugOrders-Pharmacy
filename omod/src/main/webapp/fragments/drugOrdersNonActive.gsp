@@ -37,7 +37,7 @@
 
                                 <div class="oldGroupDetails" onclick="showDrugOrderViewWindow('${ groupOrder.startDate.format('yyyy-MM-dd') }','${ groupOrder.drugName.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).dose }','${ drugOrdersMain.get(groupOrder.orderId).doseUnits.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).route.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).duration }','${ drugOrdersMain.get(groupOrder.orderId).durationUnits.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).quantity }','${ drugOrdersMain.get(groupOrder.orderId).quantityUnits.getDisplayString() }','${ drugOrdersMain.get(groupOrder.orderId).frequency }','${ groupOrder.refill }','${ groupOrder.refillInterval }','${ groupOrder.isAllergicOrderReasons }','${ groupOrder.associatedDiagnosis.getDisplayString() }','${ groupOrder.priority.getDisplayString() }','${ groupOrder.patientInstructions }','${ groupOrder.pharmacistInstructions }','${ groupOrder.commentForOrderer }','${ groupOrder.orderStatus }')">
                                     <div id="oldOrderId">
-                                        ${ groupOrder.orderId }
+                                        ${ groupOrder.orderId } <% if(Orders.get(groupOrder.orderId).previousOrder != null) { %> <br/><div class="prevOrderID">(${ Orders.get(groupOrder.orderId).previousOrder.orderId })</div> <% } %>
                                     </div>
                                     <div id="oldOrderName">
                                         <div><strong class="wordBreak">${ groupOrder.drugName.getDisplayString().toUpperCase() }</strong></div>
@@ -61,7 +61,7 @@
                     <tr class="oldOrderRow">
                         <td class="oldOrderDetails" onclick="showDrugOrderViewWindow('${ singleOrderExtn.startDate.format('yyyy-MM-dd') }','${ singleOrderExtn.drugName.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).dose }','${ drugOrdersMain.get(singleOrderExtn.orderId).doseUnits.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).route.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).duration }','${ drugOrdersMain.get(singleOrderExtn.orderId).durationUnits.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).quantity }','${ drugOrdersMain.get(singleOrderExtn.orderId).quantityUnits.getDisplayString() }','${ drugOrdersMain.get(singleOrderExtn.orderId).frequency }','${ singleOrderExtn.refill }','${ singleOrderExtn.refillInterval }','${ singleOrderExtn.isAllergicOrderReasons }','${ singleOrderExtn.associatedDiagnosis.getDisplayString() }','${ singleOrderExtn.priority.getDisplayString() }','${ singleOrderExtn.patientInstructions }','${ singleOrderExtn.pharmacistInstructions }','${ singleOrderExtn.commentForOrderer }','${ singleOrderExtn.orderStatus }')">
                             <div id="oldOrderId">
-                                ${ singleOrderExtn.orderId }
+                                ${ singleOrderExtn.orderId } <% if(Orders.get(singleOrderExtn.orderId).previousOrder != null) { %> <br/><div class="prevOrderID">(${ Orders.get(singleOrderExtn.orderId).previousOrder.orderId })</div> <% } %>
                             </div>
                             
                             <div id="oldOrderName">

@@ -122,17 +122,22 @@ public class DrugOrdersActiveFragmentController {
         model.addAttribute("singleOrdersExtn", singleOrders);
         model.addAttribute("groupOrdersExtn", groupOrders);
         
+        // Store the list of Orders records.
+        HashMap<Integer, Order> Orders = new HashMap<>();
+        // Store the list of Drug Order records.
         HashMap<Integer, DrugOrder> drugOrdersMain = new HashMap<>();
         // Get the records for CareSetting 'Outpatient'.
         CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
         // Get the records for OrderType 'Drug Order'
         OrderType orderType = Context.getOrderService().getOrderTypeByName("Drug Order");
         // Get the list of all DrugOrder records.
-        List<Order> drugOrders = Context.getOrderService().getOrders(patient, careSetting, orderType, false);
+        List<Order> drugOrders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
         for(Order order: drugOrders){
+            Orders.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()));
             drugOrdersMain.put(order.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(order.getOrderId()));
         }
         
+        model.addAttribute("Orders", Orders);
         model.addAttribute("drugOrdersMain", drugOrdersMain);
                 
     }

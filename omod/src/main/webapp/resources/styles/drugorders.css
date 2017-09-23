@@ -100,6 +100,11 @@ and open the template in the editor.
     font-size: 14px;
 }
 
+.prevOrderID{
+    font-size: 14px;
+    color: gray;
+}
+
 .desc{
     font-size: 14px;
     margin-left: 30px;

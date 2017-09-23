@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpSession;
+import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
 import org.openmrs.Order;
+import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.drugorders.api.drugordersService;
@@ -56,8 +58,13 @@ public class PlanOrdersActiveFragmentController {
         
         // Store the mapping of plan name to plan ID
         HashMap<Integer, Concept> planName = new HashMap<>();
+        // Get the records for CareSetting 'Outpatient'.
+        CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
+        // Get the records for OrderType 'Drug Order'
+        OrderType orderType = Context.getOrderService().getOrderTypeByName("Drug Order");
         // Get the list of all Orders for the Patient.
-        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
+        List<Order> orders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
+        
         /* 
           =========================================================================================
           To Display the list of medication plan related drug orders, with the status "Active-Plan"
@@ -73,10 +80,13 @@ public class PlanOrdersActiveFragmentController {
           Storing HashMap<Plan-ID, HashMap<Order-ID, drugorders>>
         */
         HashMap<Integer,HashMap<Integer,drugorders>> ActivePlanExtn = new HashMap <>();
+        // Store the list of Orders records.
+        HashMap<Integer, Order> Orders = new HashMap<>();
         
         // Retrieve the list of medication plan related drug orders, having the status "Active-Plan"
         List<drugorders> drugorders = new ArrayList<>();        
         for(Order order : orders){
+            Orders.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()));
             if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Active-Plan")){
                 drugorders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
             }
@@ -115,7 +125,7 @@ public class PlanOrdersActiveFragmentController {
             
         model.addAttribute("ActivePlanMain", ActivePlanMain);
         model.addAttribute("ActivePlanExtn", ActivePlanExtn);
-        
+        model.addAttribute("Orders", Orders);
         
         /* 
           ========================================================================================

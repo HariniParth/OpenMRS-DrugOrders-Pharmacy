@@ -635,7 +635,8 @@ public class DrugordersHomePageController {
         drugorder.setStartDate(startDate);
         drugorder.setRefill(refill);
         drugorder.setRefillInterval(interval);
-        drugorder.setOrderStatus(status);
+        if(status.equals("Draft-Group"))drugorder.setOrderStatus("Active-Group");
+            else drugorder.setOrderStatus(status);
         drugorder.setPriority(ConceptName(priority));
         drugorder.setOnHold(0);
         drugorder.setForDiscard(0);
