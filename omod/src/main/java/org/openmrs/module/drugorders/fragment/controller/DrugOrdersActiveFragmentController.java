@@ -124,6 +124,8 @@ public class DrugOrdersActiveFragmentController {
         
         // Store the list of Orders records.
         HashMap<Integer, Order> Orders = new HashMap<>();
+        // Store the list of Orderer records.
+        HashMap<Integer, String> Orderer = new HashMap<>();
         // Store the list of Drug Order records.
         HashMap<Integer, DrugOrder> drugOrdersMain = new HashMap<>();
         // Get the records for CareSetting 'Outpatient'.
@@ -134,10 +136,12 @@ public class DrugOrdersActiveFragmentController {
         List<Order> drugOrders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
         for(Order order: drugOrders){
             Orders.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()));
+            Orderer.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getPerson().getGivenName() + " " + Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getPerson().getFamilyName());
             drugOrdersMain.put(order.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(order.getOrderId()));
         }
         
         model.addAttribute("Orders", Orders);
+        model.addAttribute("Orderer", Orderer);
         model.addAttribute("drugOrdersMain", drugOrdersMain);
                 
     }

@@ -55,12 +55,15 @@ public class PlanOrdersNonActiveFragmentController {
         HashMap<Integer, HashMap<Concept, HashMap<Integer, drugorders>>> NonActivePlanExtn = new HashMap<>();
         // Store the list of Orders records.
         HashMap<Integer, Order> Orders = new HashMap<>();
+        // Store the list of Orderer records.
+        HashMap<Integer, String> Orderer = new HashMap<>();
         
         // Retrieve the list of medication plan related drug orders, having the status "Non-Active-Plan"
         
         List<drugorders> drugorders = new ArrayList<>();        
         for(Order order : orders){
             Orders.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()));
+            Orderer.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getPerson().getGivenName() + " " + Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getPerson().getFamilyName());
             if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Non-Active-Plan")){
                 drugorders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
             }
@@ -102,5 +105,6 @@ public class PlanOrdersNonActiveFragmentController {
         model.addAttribute("NonActivePlanMain", NonActivePlanMain);
         model.addAttribute("NonActivePlanExtn", NonActivePlanExtn);
         model.addAttribute("Orders", Orders);
+        model.addAttribute("Orderer", Orderer);
     }
 }

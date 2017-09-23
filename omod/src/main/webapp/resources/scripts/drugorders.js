@@ -662,7 +662,7 @@ function checkAdminFields(){
 /*
  * Display a fragment that displays the details of the selected order.
  */
-function showDrugOrderViewWindow(startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, orderReason, diagnosis, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus){
+function showDrugOrderViewWindow(startdate, drugname, dose, doseUnits, route, duration, durationUnits, quantity, quantityUnits, frequency, numRefills, interval, orderReason, diagnosis, priority, patientInstrn, pharmacistInstrn, pharmaComments, orderStatus, orderer){
     var dialogOpen = false;
     var objects = jq('.dialog');
     jq(objects).each(function(){
@@ -680,8 +680,10 @@ function showDrugOrderViewWindow(startdate, drugname, dose, doseUnits, route, du
         jq("#order_priority").text(priority);
         jq("#order_refills").text(numRefills);
         jq("#refill_interval").text(interval+" day(s)");
+        
         var order_details = jq('<div>').text(drugname +"\nDose: "+dose+" "+doseUnits+"\nRoute: "+route+"\nQuantity: "+quantity+" "+quantityUnits).text();
         jq("#order_details").html(order_details.replace(/\n/g,'<br/>'));
+        
         jq("#order_duration").text(duration+" "+durationUnits+", "+frequency);
 
         if(orderReason !== "null" && orderReason !== null){
@@ -712,6 +714,8 @@ function showDrugOrderViewWindow(startdate, drugname, dose, doseUnits, route, du
             jq("#pharmacistCommentsView").css("display", "block");
         }
 
+        jq("#orderer").text(orderer);
+        
         jq("#viewOrderWindow").show();
         jq("#viewOrderWindow").css("display", "block");
     }

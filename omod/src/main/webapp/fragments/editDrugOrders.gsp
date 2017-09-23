@@ -114,6 +114,17 @@
                 <label id="pharma_comments"></label>
             </div><br/>
         </div>
+        
+        --------------------------------------------------------------
+        
+        <div class="fields" id="view_order_detail">
+            <div id="order_label">
+                <label><strong>Orderer</strong></label>
+            </div>
+            <div id="order_value">
+                <label id="orderer"></label>
+            </div><br/>
+        </div><br/>
     </div><br/>
     <button class="cancel right" id="btn-place" onclick="hideDrugOrderViewWindow()">${ ui.message("Close") }</button>
 </div>
