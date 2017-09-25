@@ -6,10 +6,8 @@
 package org.openmrs.module.drugorders.api.impl;
 
 import java.util.List;
-import org.openmrs.Concept;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Patient;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.drugorders.planorders;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,13 +61,6 @@ public class planordersServiceImpl extends BaseOpenmrsService implements planord
     @Override
     public List<planorders> getPlanOrdersByPlanID(Integer planId){
         return dao.getPlanOrdersByPlanID(planId);
-    }
-    
-    // Get the list of planorders records by plan name and Patient
-    @Transactional(readOnly = true)
-    @Override
-    public List<planorders> getPlanOrdersByPlanAndPatient(Concept concept, Patient patient){
-        return dao.getPlanOrdersByPlanAndPatient(concept, patient);
     }
     
 }

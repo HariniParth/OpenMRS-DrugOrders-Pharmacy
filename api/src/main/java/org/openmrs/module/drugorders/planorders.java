@@ -5,7 +5,6 @@
  */
 package org.openmrs.module.drugorders;
 
-import org.openmrs.Concept;
 import java.io.Serializable;
 import org.openmrs.BaseOpenmrsObject;
 
@@ -19,11 +18,7 @@ public class planorders extends BaseOpenmrsObject implements Serializable{
     // Plan ID number
     private Integer planId;
     // Drug order ID number
-    private Integer orderId;
-    // Patient for whom the plan is ordered
-    private Integer patientId;
-    // Disease to treat which the plan is ordered
-    private Concept diseaseId;    
+    private Integer orderId;  
     
     public planorders(){
         
@@ -55,19 +50,4 @@ public class planorders extends BaseOpenmrsObject implements Serializable{
         this.orderId = orderId;
     }
     
-    public Concept getDiseaseId() {
-        return diseaseId;
-    }
-
-    public void setDiseaseId(Concept diseaseId) {
-        this.diseaseId = diseaseId;
-    }
-    
-    public Integer getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Integer patientId) {
-        this.patientId = patientId;
-    }
 }

@@ -7,14 +7,12 @@ package org.openmrs.module.drugorders.api.db.hibernate;
 
 import java.util.Iterator;
 import java.util.List;
-import org.openmrs.Concept;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.apache.commons.logging.Log;
 import org.hibernate.criterion.Restrictions;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.Projections;
-import org.openmrs.Patient;
 import org.openmrs.module.drugorders.planorders;
 import org.springframework.transaction.annotation.Transactional;
 import org.openmrs.module.drugorders.api.db.planordersDAO;
@@ -67,23 +65,7 @@ public class HibernateplanordersDAO implements planordersDAO {
         crit.add(Restrictions.eq("planId", planId));
         return crit.list();
     };
-    
-    /**
-     *
-     * @param concept
-     * @param patient
-     * @return
-     * Get the list of planorders records by plan name and Patient
-     */
-    @Transactional(readOnly = true)
-    @Override
-    public List<planorders> getPlanOrdersByPlanAndPatient(Concept concept, Patient patient){
-        Criteria crit = sessionFactory.getCurrentSession().createCriteria(
-                planorders.class);
-        crit.add(Restrictions.eq("diseaseId", concept)).add(Restrictions.eq("patientId", patient.getPatientId()));
-        return crit.list();
-    };
-    
+        
     // Get last assigned Plan ID
     @Override
     public int getLastPlanID(){

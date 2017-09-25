@@ -95,8 +95,8 @@ public class PlanOrdersNonActiveFragmentController {
                     }
                 }
                 
-                p_main.put(nonActiveMedPlan.getDiseaseId(), o_main);
-                p_extn.put(nonActiveMedPlan.getDiseaseId(), o_extn);
+                p_main.put(Context.getService(drugordersService.class).getDrugOrderByOrderID(nonActiveMedPlan.getOrderId()).getAssociatedDiagnosis(), o_main);
+                p_extn.put(Context.getService(drugordersService.class).getDrugOrderByOrderID(nonActiveMedPlan.getOrderId()).getAssociatedDiagnosis(), o_extn);
                 
                 NonActivePlanMain.put(nonActiveMedPlan.getPlanId(), p_main);
                 NonActivePlanExtn.put(nonActiveMedPlan.getPlanId(), p_extn);

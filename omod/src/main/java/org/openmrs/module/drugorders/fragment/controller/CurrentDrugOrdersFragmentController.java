@@ -80,7 +80,7 @@ public class CurrentDrugOrdersFragmentController {
                 // Store the data about the set of drug orders made for a medication plan by the plan ID
                 patientPlanOrders.put(planOrder.getPlanId(), activePlanOrders);
                 // Store the name of the disease associated with the plan order ID
-                planName.put(planOrder.getPlanId(), planOrder.getDiseaseId());
+                planName.put(planOrder.getPlanId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getAssociatedDiagnosis());
             }
             // Save and retrieve the orderer contact information.
             Person person = Context.getOrderService().getOrder(drugorder.getOrderId()).getOrderer().getPerson();

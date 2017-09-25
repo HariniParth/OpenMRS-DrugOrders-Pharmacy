@@ -123,7 +123,7 @@ public class EditDrugOrdersFragmentController {
                     }
                 }
                 // Store the name of the plan
-                model.addAttribute("plan", planOrders.get(0).getDiseaseId().getDisplayString().toUpperCase());
+                model.addAttribute("plan", Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrders.get(0).getOrderId()).getAssociatedDiagnosis().getDisplayString().toUpperCase());
                 // Store the name of the plan ID
                 model.addAttribute("group", ID);
                 model.addAttribute("groupOrderAction", "DISCARD MED PLAN");
@@ -142,7 +142,7 @@ public class EditDrugOrdersFragmentController {
                 int ID = Integer.parseInt(selectedNonActivePlan);
                 // Retrieve the list of all drug orders in the selected med plan order.
                 List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(ID);
-                Concept planConcept = planOrders.get(0).getDiseaseId();
+                Concept planConcept = Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrders.get(0).getOrderId()).getAssociatedDiagnosis();
                 
                 for(planorders planOrder : planOrders){
                     // Store the order ID as key and DrugOrder as value.

@@ -212,7 +212,7 @@ public class DrugordersHomePageController {
                                     }
                                 }
                                 // Create a planorders record.
-                                createPlanOrder(order, planID, patientID, selectedPlan);
+                                createPlanOrder(order, planID);
                             }
                         }
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
@@ -402,7 +402,7 @@ public class DrugordersHomePageController {
                             // Create a drugorders record.
                             createDrugOrderExtension(drugorder, order, orderExtn.getDrugName().getDisplayString(), Calendar.getInstance().getTime(), "", orderExtn.getAssociatedDiagnosis().getDisplayString(), orderExtn.getPriority().getDisplayString(), "Draft-Plan", orderExtn.getRefill(), orderExtn.getRefillInterval(), "", "");
                             // Create an entry in the Plan Orders table.
-                            createPlanOrder(order, planID, patientID, orderExtn.getAssociatedDiagnosis().getDisplayString());
+                            createPlanOrder(order, planID);
                             // Add the name of the drug to the list of current drug orders.
                             currentOrders.add(orderExtn.getDrugName().getDisplayString().toUpperCase());
                             
@@ -683,13 +683,11 @@ public class DrugordersHomePageController {
     /*
       This function will record an order placed for a drug that is a part of a medication plan / regimen.
     */
-    private void createPlanOrder(int drugOrderID, int planID, int patientID, String diseaseName){
+    private void createPlanOrder(int drugOrderID, int planID){
         
         planorders diseaseDrugOrder = new planorders();
         diseaseDrugOrder.setPlanId(planID);
         diseaseDrugOrder.setOrderId(drugOrderID);
-        diseaseDrugOrder.setPatientId(patientID);
-        diseaseDrugOrder.setDiseaseId(ConceptName(diseaseName));
         Context.getService(planordersService.class).savePlanOrder(diseaseDrugOrder);
         
     }

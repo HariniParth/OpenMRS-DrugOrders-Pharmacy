@@ -142,8 +142,6 @@
             <column name="order_id" type="int">
                 <constraints nullable="true" foreignKeyName="plan_order_id" references="orders(order_id)" />
             </column>
-            <column name="disease_id" type="int"></column>
-            <column name="patient_id" type="int"></column>
         </createTable>
     </changeSet>
     

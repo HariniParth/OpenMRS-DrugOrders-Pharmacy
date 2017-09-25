@@ -88,8 +88,6 @@
         <discriminator column="id" insert="false" />
         <property name="planId" column="plan_id" not-null="false" ></property>
         <property name="orderId" column="order_id" not-null="false" ></property>
-        <property name="patientId" column="patient_id" not-null="false" ></property>
-        <many-to-one name="diseaseId" column="disease_id" class="org.openmrs.Concept" />
         
     </class>
     

@@ -87,7 +87,7 @@ public class SelectedOrdersViewFragmentController {
             // Retrieve the list of Med Plan Orders ordered for this Patient as a part of the selected plan (diagnosis/disease).
             List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(Integer.parseInt(planID));
             // Store the name of the plan.
-            planId.append(plans.get(0).getDiseaseId().getDisplayString());
+            planId.append(Context.getService(drugordersService.class).getDrugOrderByOrderID(plans.get(0).getOrderId()).getAssociatedDiagnosis().getDisplayString());
             
             for(planorders plan : plans){
                 // Retrieve the order ID record of the order made as a part of the plan.
