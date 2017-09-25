@@ -27,8 +27,12 @@ public class DrugOrdersNonActiveFragmentController {
     
     public void controller(FragmentModel model, @RequestParam("patientId") Patient patient){
         
+        // Get the records for CareSetting 'Outpatient'.
+        CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
+        // Get the records for OrderType 'Drug Order'
+        OrderType orderType = Context.getOrderService().getOrderTypeByName("Drug Order");
         // Get the list of all Orders for the Patient.
-        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
+        List<Order> orders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
         
         // Data structure to store the list of non-active single individual drug orders.
         List<drugorders> singleOrders = new ArrayList<>();
@@ -70,10 +74,6 @@ public class DrugOrdersNonActiveFragmentController {
         HashMap<Integer, String> Orderer = new HashMap<>();
         // Store the list of Drug Order records.
         HashMap<Integer, DrugOrder> drugOrdersMain = new HashMap<>();
-        // Get the records for CareSetting 'Outpatient'.
-        CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
-        // Get the records for OrderType 'Drug Order'
-        OrderType orderType = Context.getOrderService().getOrderTypeByName("Drug Order");
         // Get the list of all DrugOrder records.
         List<Order> drugOrders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
         for(Order order: drugOrders){

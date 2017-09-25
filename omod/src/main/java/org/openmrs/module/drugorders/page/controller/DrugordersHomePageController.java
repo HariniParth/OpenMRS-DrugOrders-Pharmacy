@@ -25,6 +25,7 @@ import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.Order;
 import org.openmrs.OrderFrequency;
+import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.Provider;
@@ -80,7 +81,6 @@ public class DrugordersHomePageController {
                             @RequestParam(value = "planOrderReason", required = false) String[] planOrderReason,
                             @RequestParam(value = "reviseOrderReason", required = false) String[] reviseOrderReason) {
 
-        int patientID = patient.getPatientId();
         drugName = drugName.trim();
         diagnosis = diagnosis.trim();
         
@@ -112,6 +112,10 @@ public class DrugordersHomePageController {
         }
         
         List<String> currentOrders = getCurrentDrugOrders(patient);
+        // Get the records for CareSetting 'Outpatient'.
+        CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
+        // Get the records for OrderType 'Drug Order'
+        OrderType orderType = Context.getOrderService().getOrderTypeByName("Drug Order");
                 
         if (StringUtils.isNotBlank(action)) {
             try {
@@ -445,10 +449,10 @@ public class DrugordersHomePageController {
                         */
                         switch (status) {
                             case "Active-Plan":
-                                Context.getService(planordersService.class).getPlanOrderByOrderID(drugorder.getOrderId()).setOrderId(order);
+                                Context.getService(planordersService.class).getPlanOrderByOrderID(orderId).setOrderId(order);
                                 break;
                             case "Draft-Plan":
-                                Context.getService(planordersService.class).getPlanOrderByOrderID(drugorder.getOrderId()).setOrderId(order);
+                                Context.getService(planordersService.class).getPlanOrderByOrderID(orderId).setOrderId(order);
                                 break;
                             case "Active-Group":
                                 Context.getService(drugordersService.class).getDrugOrderByOrderID(order).setGroupId(drugorder.getGroupId());
@@ -503,9 +507,10 @@ public class DrugordersHomePageController {
                 */
                 if ("saveDraft".equals(action)){
                     // Get the list of all Orders for the Patient.
-                    List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
+                    List<Order> orders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
                     // Get the list of med plan related drug orders that are currently in 'Draft' status and set the status to 'Active'.
                     List<drugorders> draftOrders = new ArrayList<>();
+                    
                     for(Order order : orders){
                         if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Draft-Plan")){
                             draftOrders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
@@ -534,7 +539,7 @@ public class DrugordersHomePageController {
         }
         
         // Get the list of all Orders for the Patient.
-        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
+        List<Order> orders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
         // Get the list of group drug orders that are currently in 'Draft' status and notify the Physician.
         List<drugorders> draftGroupOrders = new ArrayList<>();
         for(Order order : orders){
@@ -753,9 +758,16 @@ public class DrugordersHomePageController {
         return drugOrders;
     }
     
+    /*
+      Get the list of Orders with a specific status.
+    */
     private List<drugorders> getOrders(Patient patient, String status){
+        // Get the records for CareSetting 'Outpatient'.
+        CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
+        // Get the records for OrderType 'Drug Order'
+        OrderType orderType = Context.getOrderService().getOrderTypeByName("Drug Order");
         // Get the list of all Orders for the Patient.
-        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
+        List<Order> orders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
         
         List<drugorders> drugorders = new ArrayList<>();
         for(Order order : orders){

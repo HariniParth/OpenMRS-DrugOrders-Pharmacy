@@ -8,8 +8,10 @@ package org.openmrs.module.drugorders.fragment.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.Order;
+import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
@@ -32,8 +34,12 @@ public class CurrentDrugOrdersFragmentController {
         HashMap<Integer, Concept> planName = new HashMap<>();
         // Storing HashMap<Order-ID, Orderer-Name>
         HashMap<Integer, String> OrdererName = new HashMap<>();
+        // Get the records for CareSetting 'Outpatient'.
+        CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");
+        // Get the records for OrderType 'Drug Order'
+        OrderType orderType = Context.getOrderService().getOrderTypeByName("Drug Order");
         // Get the list of all Orders for the Patient.
-        List<Order> orders = Context.getOrderService().getAllOrdersByPatient(patient);
+        List<Order> orders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
         
         /*
           Get the list of all active individual drug orders placed for the Patient.
