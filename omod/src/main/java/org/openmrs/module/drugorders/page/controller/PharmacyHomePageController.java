@@ -35,19 +35,19 @@ public class PharmacyHomePageController {
         // Find the Patient record of the Patient whose name is entered.
         if(!searchPatient.equals("")){
             boolean patientFound = false;
-            Patient patient = null;
+            List<Patient> patients = new ArrayList<>();
             for(Patient p : allPatients){
                 if((p.getGivenName()+" "+p.getFamilyName()).equals(searchPatient)){
                     patientFound = true;
-                    patient = p;
+                    patients.add(p);
                 }
             }
             if(patientFound)
-                model.addAttribute("patient", patient);
+                model.addAttribute("patients", patients);
             else
-                model.addAttribute("patient", "");
+                model.addAttribute("patients", "");
         } else {
-            model.addAttribute("patient", "");
+            model.addAttribute("patients", "");
         }
         
         /*

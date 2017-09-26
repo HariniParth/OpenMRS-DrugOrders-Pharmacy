@@ -32,14 +32,16 @@ ${ ui.includeFragment("drugorders", "searchBarForPatient") } <br/>
         </thead>
         
         <tbody>
-            <% if(patient != "") { %>
-                <tr class="patientRow" onclick="location.href='${ ui.pageLink("drugorders", "pharmacyPatient", [patientId: patient.patientId]) }';">     
-                    <td><span class="wordBreak">${ patient.givenName } ${ patient.familyName }</span></td>
-                    <td>${ patient.birthdate.format('yyyy-MM-dd') }</td>
-                    <td>${ patient.age }</td>
-                    <td>${ patient.gender }</td>
-                    <td><span class="wordBreak">${ patient.addresses.address1[0] } ${ patient.addresses.cityVillage[0] } ${ patient.addresses.stateProvince[0] } - ${ patient.addresses.postalCode[0] } ${ patient.addresses.country[0] }</span></td>
-                </tr>
+            <% if(patient != "null") { %>
+                <% patients.each { patient -> %>
+                    <tr class="patientRow" onclick="location.href='${ ui.pageLink("drugorders", "pharmacyPatient", [patientId: patient.patientId]) }';">     
+                        <td><span class="wordBreak">${ patient.givenName } ${ patient.familyName }</span></td>
+                        <td>${ patient.birthdate.format('yyyy-MM-dd') }</td>
+                        <td>${ patient.age }</td>
+                        <td>${ patient.gender }</td>
+                        <td><span class="wordBreak">${ patient.addresses.address1[0] } ${ patient.addresses.cityVillage[0] } ${ patient.addresses.stateProvince[0] } - ${ patient.addresses.postalCode[0] } ${ patient.addresses.country[0] }</span></td>
+                    </tr>
+                <% } %>
             <% } %>
         </tbody>
     </table>
