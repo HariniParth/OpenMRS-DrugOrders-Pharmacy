@@ -400,5 +400,5 @@ function emailLink(orderList, patientID, patientName, patientDOB, patientAddr, o
     
     var comments = jq("#groupComments").val();
     var selectedAction = jq("#selectedAction").text();
-    document.getElementById("emailLink").href = "mailto:<Recipient Address<>>?Subject=Order Status Alert!!! "+selectedAction+"&body=This is to inform you that the following Order(s) for "+selected+" cannot be dispatched.%0AStatus Set: "+selectedAction+"%0A%0APatient ID:   "+patientID+"%0APatient Name: "+patientName+"%0APatient DOB:  "+patientDOB+"%0APatient Addr: "+patientAddr+"%0A%0A"+orderDetails+"%0AComments: "+comments+"%0A%0A"+message;
+    document.getElementById("emailLink").href = "mailto:<Recipient Address<>>?Subject=Order Status Alert!!! "+selectedAction+"&body=This is to inform you that the following Order(s) for "+selected+" cannot be dispatched.%0AStatus Set: "+selectedAction+"%0A%0APatient ID:   "+patientID+"%0APatient Name: "+patientName+"%0APatient DOB:  "+patientDOB+"%0APatient Addr: "+patientAddr+"%0A%0A"+orderDetails+"%0AComments: "+comments.replace(/\n/g,'%0A')+"%0A%0A"+message;
 }
