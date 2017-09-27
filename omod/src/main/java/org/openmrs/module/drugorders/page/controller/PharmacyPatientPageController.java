@@ -154,6 +154,7 @@ public class PharmacyPatientPageController {
                                                     drugorder.setOrderStatus("Non-Active-Plan");
                                                     break;
                                             }
+                                            Context.getOrderService().voidOrder(Context.getOrderService().getOrder(drugorder.getOrderId()), "Order is fulfilled!");
                                         }   
                                         // Save the drug expiry date and comments entered for the Patient.
                                         drugorder.setDrugExpiryDate(new SimpleDateFormat("MM/dd/yyyy").parse(drugExpiryDate[i]));
