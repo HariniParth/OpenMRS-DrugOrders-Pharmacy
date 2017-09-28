@@ -62,8 +62,11 @@ public class PlanOrdersNonActiveFragmentController {
         
         List<drugorders> drugorders = new ArrayList<>();        
         for(Order order : orders){
+            // Store the list of Order records
             Orders.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()));
-            Orderer.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getPerson().getGivenName() + " " + Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getPerson().getFamilyName());
+            // Store the list of Orderer name records
+            Orderer.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()).getCreator().getGivenName() + " " + Context.getOrderService().getOrder(order.getOrderId()).getCreator().getFamilyName());
+            
             if(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()).getOrderStatus().equals("Non-Active-Plan")){
                 drugorders.add(Context.getService(drugordersService.class).getDrugOrderByOrderID(order.getOrderId()));
             }

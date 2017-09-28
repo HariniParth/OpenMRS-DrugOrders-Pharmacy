@@ -78,7 +78,7 @@ public class DrugOrdersNonActiveFragmentController {
         List<Order> drugOrders = Context.getOrderService().getOrders(patient, careSetting, orderType, true);
         for(Order order: drugOrders){
             Orders.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()));
-            Orderer.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getPerson().getGivenName() + " " + Context.getOrderService().getOrder(order.getOrderId()).getOrderer().getPerson().getFamilyName());
+            Orderer.put(order.getOrderId(), Context.getOrderService().getOrder(order.getOrderId()).getCreator().getGivenName() + " " + Context.getOrderService().getOrder(order.getOrderId()).getCreator().getFamilyName());
             drugOrdersMain.put(order.getOrderId(), (DrugOrder) Context.getOrderService().getOrder(order.getOrderId()));
         }
         
