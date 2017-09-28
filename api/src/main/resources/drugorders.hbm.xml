@@ -62,7 +62,7 @@
             <generator class="native" />
         </id>
         <discriminator column="id" insert="false" />
-        <property name="planId" column="plan_id" not-null="false" ></property>
+        <property name="newPlanId" column="new_plan_id" not-null="false" ></property>
         <many-to-one name="drugId" column="drug_id" class="org.openmrs.Concept" />
         <property name="dose" column="dose" type="java.lang.Double" length="10" ></property>
         <many-to-one name="doseUnits" column="dose_units" class="org.openmrs.Concept" />
@@ -86,7 +86,7 @@
             <generator class="native" />
         </id>
         <discriminator column="id" insert="false" />
-        <property name="planId" column="plan_id" not-null="false" ></property>
+        <property name="standardPlanId" column="standard_plan_id" not-null="false" ></property>
         <property name="orderId" column="order_id" not-null="false" ></property>
         
     </class>

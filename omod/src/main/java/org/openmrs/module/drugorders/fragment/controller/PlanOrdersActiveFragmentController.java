@@ -100,17 +100,17 @@ public class PlanOrdersActiveFragmentController {
             planorders p_order = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
             
             // If the selected plan related drug orders are not already retrieved, retrieve the orders and store the objects in ActivePlanMain and ActivePlanExtn HashMap.
-            if(!ActivePlanMain.containsKey(p_order.getPlanId())){
+            if(!ActivePlanMain.containsKey(p_order.getStandardPlanId())){
                 
                 // Store the mapping of plan name to plan ID
-                planName.put(p_order.getPlanId(), order.getAssociatedDiagnosis());
+                planName.put(p_order.getStandardPlanId(), order.getAssociatedDiagnosis());
                 // Storing HashMap<Order-ID, DrugOrder>
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 // Storing HashMap<Order-ID, drugorders>
                 HashMap<Integer,drugorders> extn = new HashMap<>();
                 
                 // Fetch the references to the related drug orders made as a part of the same plan order.
-                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getPlanId());
+                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getStandardPlanId());
 
                 for(planorders plan : plans){
                     int id = plan.getOrderId();
@@ -121,8 +121,8 @@ public class PlanOrdersActiveFragmentController {
                     }
                 }
 
-                ActivePlanMain.put(p_order.getPlanId(), main);
-                ActivePlanExtn.put(p_order.getPlanId(), extn);
+                ActivePlanMain.put(p_order.getStandardPlanId(), main);
+                ActivePlanExtn.put(p_order.getStandardPlanId(), extn);
             }
         }
             
@@ -160,17 +160,17 @@ public class PlanOrdersActiveFragmentController {
             planorders p_order = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
 
             // If the selected plan related orders are not already retrieved, retrieve the orders
-            if(!DraftPlanMain.containsKey(p_order.getPlanId())){
+            if(!DraftPlanMain.containsKey(p_order.getStandardPlanId())){
 
                 // Store the mapping of plan name to plan ID
-                planName.put(p_order.getPlanId(), order.getAssociatedDiagnosis());
+                planName.put(p_order.getStandardPlanId(), order.getAssociatedDiagnosis());
                 // Storing HashMap<Order-ID, DrugOrder>
                 HashMap<Integer,DrugOrder> main = new HashMap<>();
                 // Storing HashMap<Order-ID, drugorders>
                 HashMap<Integer,drugorders> extn = new HashMap<>();
                 
                 // Fetch the references to the related drug orders made as a part of the same plan order.
-                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getPlanId());
+                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getStandardPlanId());
 
                 for(planorders plan : plans){
                     int id = plan.getOrderId();
@@ -181,8 +181,8 @@ public class PlanOrdersActiveFragmentController {
                     }
                 }
 
-                DraftPlanMain.put(p_order.getPlanId(), main);
-                DraftPlanExtn.put(p_order.getPlanId(), extn);
+                DraftPlanMain.put(p_order.getStandardPlanId(), main);
+                DraftPlanExtn.put(p_order.getStandardPlanId(), extn);
             }
         }
             

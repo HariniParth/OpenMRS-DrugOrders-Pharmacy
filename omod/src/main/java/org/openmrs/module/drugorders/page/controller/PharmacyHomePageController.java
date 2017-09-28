@@ -142,9 +142,9 @@ public class PharmacyHomePageController {
                 case "Active-Plan":
                     planorders planorders = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
                     // If all the orders in the medication plan order containing this order are not retrieved -
-                    if(!planOrders.containsKey(planorders.getPlanId())){
+                    if(!planOrders.containsKey(planorders.getStandardPlanId())){
                         // Retrieve the list of all the drug orders related to the selected medication plan order.
-                        List<planorders> allPlanOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planorders.getPlanId());
+                        List<planorders> allPlanOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planorders.getStandardPlanId());
                         List<drugorders> activePlanOrders = new ArrayList<>();
                         
                         for(planorders planOrder : allPlanOrders){
@@ -156,7 +156,7 @@ public class PharmacyHomePageController {
                             }
                         }
                     // Store the active orders in the plan order as value and the plan ID as the key.
-                    planOrders.put(planorders.getPlanId(), activePlanOrders);
+                    planOrders.put(planorders.getStandardPlanId(), activePlanOrders);
                 }   break;
             }
             

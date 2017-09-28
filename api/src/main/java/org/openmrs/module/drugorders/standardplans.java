@@ -25,7 +25,7 @@ public class standardplans extends BaseOpenmrsObject implements Serializable{
     // Standard formulation - Drug Concept
     private Concept drugId;
     // Standard formulation - Plan ID
-    private Integer planId;
+    private Integer newPlanId;
     // Standard formulation - Quantity
     private Double quantity;
     // Standard formulation - Duration
@@ -65,12 +65,12 @@ public class standardplans extends BaseOpenmrsObject implements Serializable{
         this.planStatus = planStatus;
     }
     
-    public Integer getPlanId() {
-        return planId;
+    public Integer getNewPlanId() {
+        return newPlanId;
     }
 
-    public void setPlanId(Integer planId) {
-        this.planId = planId;
+    public void setNewPlanId(Integer newPlanId) {
+        this.newPlanId = newPlanId;
     }
 
     public Concept getDrugId() {

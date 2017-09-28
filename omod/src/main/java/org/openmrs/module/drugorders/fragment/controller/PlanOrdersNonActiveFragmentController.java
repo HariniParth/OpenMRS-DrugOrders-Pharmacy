@@ -74,8 +74,8 @@ public class PlanOrdersNonActiveFragmentController {
             planorders nonActiveMedPlan = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
             
             // If the selected plan related orders are not already retrieved, retrieve the orders
-            if(!NonActivePlanMain.containsKey(nonActiveMedPlan.getPlanId())){
-                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(nonActiveMedPlan.getPlanId());
+            if(!NonActivePlanMain.containsKey(nonActiveMedPlan.getStandardPlanId())){
+                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(nonActiveMedPlan.getStandardPlanId());
                 
                 // Storing HashMap<Plan-Name, HashMap<Order-ID, DrugOrder>>
                 HashMap<Concept, HashMap<Integer, DrugOrder>> p_main = new HashMap<>();
@@ -98,8 +98,8 @@ public class PlanOrdersNonActiveFragmentController {
                 p_main.put(Context.getService(drugordersService.class).getDrugOrderByOrderID(nonActiveMedPlan.getOrderId()).getAssociatedDiagnosis(), o_main);
                 p_extn.put(Context.getService(drugordersService.class).getDrugOrderByOrderID(nonActiveMedPlan.getOrderId()).getAssociatedDiagnosis(), o_extn);
                 
-                NonActivePlanMain.put(nonActiveMedPlan.getPlanId(), p_main);
-                NonActivePlanExtn.put(nonActiveMedPlan.getPlanId(), p_extn);
+                NonActivePlanMain.put(nonActiveMedPlan.getStandardPlanId(), p_main);
+                NonActivePlanExtn.put(nonActiveMedPlan.getStandardPlanId(), p_extn);
             }
         }
         model.addAttribute("NonActivePlanMain", NonActivePlanMain);

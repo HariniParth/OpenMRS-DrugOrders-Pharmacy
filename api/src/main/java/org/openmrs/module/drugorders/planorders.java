@@ -16,7 +16,7 @@ public class planorders extends BaseOpenmrsObject implements Serializable{
     
     private Integer id;
     // Plan ID number
-    private Integer planId;
+    private Integer standardPlanId;
     // Drug order ID number
     private Integer orderId;  
     
@@ -34,12 +34,12 @@ public class planorders extends BaseOpenmrsObject implements Serializable{
         this.id = id;
     }
     
-    public Integer getPlanId() {
-        return planId;
+    public Integer getStandardPlanId() {
+        return standardPlanId;
     }
 
-    public void setPlanId(Integer planId) {
-        this.planId = planId;
+    public void setStandardPlanId(Integer standardPlanId) {
+        this.standardPlanId = standardPlanId;
     }
     
     public Integer getOrderId() {

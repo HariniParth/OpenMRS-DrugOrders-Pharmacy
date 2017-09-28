@@ -62,7 +62,7 @@ public class HibernateplanordersDAO implements planordersDAO {
     public List<planorders> getPlanOrdersByPlanID(Integer planId){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(
                 planorders.class);
-        crit.add(Restrictions.eq("planId", planId));
+        crit.add(Restrictions.eq("standardPlanId", planId));
         return crit.list();
     };
         
@@ -76,7 +76,7 @@ public class HibernateplanordersDAO implements planordersDAO {
         Iterator it=l.iterator();
         int planId = 0;
         if(it.hasNext()){
-            Criteria critMax = sessionFactory.getCurrentSession().createCriteria(planorders.class).setProjection(Projections.max("planId"));
+            Criteria critMax = sessionFactory.getCurrentSession().createCriteria(planorders.class).setProjection(Projections.max("standardPlanId"));
             if(critMax.uniqueResult() == null)
                 planId = 0;
             else

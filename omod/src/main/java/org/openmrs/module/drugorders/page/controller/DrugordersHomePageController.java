@@ -240,7 +240,7 @@ public class DrugordersHomePageController {
                         if(order.getGroupId() != null)
                             order.setGroupId(null);
                         if(Context.getService(planordersService.class).getPlanOrderByOrderID(id) != null)
-                            Context.getService(planordersService.class).getPlanOrderByOrderID(id).setPlanId(null);
+                            Context.getService(planordersService.class).getPlanOrderByOrderID(id).setStandardPlanId(null);
                         // Set the reason for discontinuing the order.
                         setDiscontinueReason(order, codedDiscardReason, nonCodedDiscardReason);
                         // Void the drug order.
@@ -365,7 +365,7 @@ public class DrugordersHomePageController {
                                 order.setOrderStatus("Non-Active-Plan");
                             else {
                                 order.setOrderStatus("Non-Active");
-                                Context.getService(planordersService.class).getPlanOrderByOrderID(id).setPlanId(null);
+                                Context.getService(planordersService.class).getPlanOrderByOrderID(id).setStandardPlanId(null);
                             }                                
                             // Remove the name of the drug from the list of current drug orders.
                             currentOrders.remove(order.getDrugName().getDisplayString().toUpperCase());
@@ -691,7 +691,7 @@ public class DrugordersHomePageController {
     private void createPlanOrder(int drugOrderID, int planID){
         
         planorders diseaseDrugOrder = new planorders();
-        diseaseDrugOrder.setPlanId(planID);
+        diseaseDrugOrder.setStandardPlanId(planID);
         diseaseDrugOrder.setOrderId(drugOrderID);
         Context.getService(planordersService.class).savePlanOrder(diseaseDrugOrder);
         

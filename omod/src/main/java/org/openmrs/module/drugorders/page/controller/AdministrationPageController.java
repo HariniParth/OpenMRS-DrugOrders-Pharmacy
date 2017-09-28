@@ -102,7 +102,7 @@ public class AdministrationPageController {
 
                             // Extend the new standard medication plan to include the drug with the given formulations.
                             standardplans medPlans = new standardplans();
-                            medPlans.setPlanId(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
+                            medPlans.setNewPlanId(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(adminPlan)).getId());
                             medPlans.setDrugId(ConceptName(adminDrug.trim()));
                             medPlans.setPlanStatus("Active");
                             medPlans.setRoute(ConceptName(adminRoute));
@@ -170,7 +170,7 @@ public class AdministrationPageController {
                             for(int i=0;i<groupCheckBox.length;i++){
                                 int id = Integer.parseInt(Long.toString(groupCheckBox[i]));
                                 standardplans medPlan = Context.getService(standardplansService.class).getMedPlanByID(id);
-                                medPlan.setPlanId(null);
+                                medPlan.setNewPlanId(null);
                                 medPlan.setPlanStatus("Non-Active");
                                 medPlan.setDiscardReason(discardReason);
                             }
@@ -203,7 +203,7 @@ public class AdministrationPageController {
                             int id = Integer.parseInt(Long.toString(groupCheckBox[0]));
                             standardplans medPlan = Context.getService(standardplansService.class).getMedPlanByID(id);
                             // Set the status of the drug to 'Non-Active' and the reason for removing the drug from the medication plan.
-                            medPlan.setPlanId(null);
+                            medPlan.setNewPlanId(null);
                             medPlan.setPlanStatus("Non-Active");
                             medPlan.setDiscardReason(discardReason);
                             InfoErrorMessageUtil.flashInfoMessage(session, "Drug removed from the Medication Plan!");

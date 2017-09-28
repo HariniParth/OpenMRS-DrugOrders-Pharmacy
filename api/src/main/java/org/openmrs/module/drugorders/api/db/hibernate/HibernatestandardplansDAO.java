@@ -52,7 +52,7 @@ public class HibernatestandardplansDAO implements standardplansDAO {
     public List<standardplans> getMedPlansByPlanID(Integer planId){
         
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(standardplans.class);
-        crit.add(Restrictions.eq("planId", planId));
+        crit.add(Restrictions.eq("newPlanId", planId));
         return crit.list();
     };
     

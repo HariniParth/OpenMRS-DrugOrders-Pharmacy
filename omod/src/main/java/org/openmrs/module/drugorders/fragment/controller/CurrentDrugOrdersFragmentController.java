@@ -72,9 +72,9 @@ public class CurrentDrugOrdersFragmentController {
             planorders planOrder = Context.getService(planordersService.class).getPlanOrderByOrderID(drugorder.getOrderId());
             
             // If the drug orders associated with this standard plan are not retrieved yet, then retrieve the orders.
-            if(!patientPlanOrders.containsKey(planOrder.getPlanId())){
+            if(!patientPlanOrders.containsKey(planOrder.getStandardPlanId())){
                 // Retrieve the set of drug orders that are associated with the given planorders ID.
-                List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planOrder.getPlanId());
+                List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planOrder.getStandardPlanId());
                 List<drugorders> activePlanOrders = new ArrayList<>();
                 
                 // From the set of retrieved drug orders, select the orders that are currently active.
@@ -84,9 +84,9 @@ public class CurrentDrugOrdersFragmentController {
                     }
                 }
                 // Store the data about the set of drug orders made for a medication plan by the plan ID
-                patientPlanOrders.put(planOrder.getPlanId(), activePlanOrders);
+                patientPlanOrders.put(planOrder.getStandardPlanId(), activePlanOrders);
                 // Store the name of the disease associated with the plan order ID
-                planName.put(planOrder.getPlanId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getAssociatedDiagnosis());
+                planName.put(planOrder.getStandardPlanId(), Context.getService(drugordersService.class).getDrugOrderByOrderID(planOrder.getOrderId()).getAssociatedDiagnosis());
             }
             // Save and retrieve the orderer contact information.
             Person person = Context.getOrderService().getOrder(drugorder.getOrderId()).getOrderer().getPerson();

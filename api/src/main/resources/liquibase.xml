@@ -108,7 +108,7 @@
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="plan_id" type="int">
+            <column name="new_plan_id" type="int">
                 <constraints nullable="true" foreignKeyName="new_plan_id" references="new_plans(id)" />
             </column>
             <column name="drug_id" type="int"></column>
@@ -138,7 +138,9 @@
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="plan_id" type="int"></column>
+            <column name="standard_plan_id" type="int">
+                <constraints nullable="true" foreignKeyName="standard_plan_id" references="standard_plans(id)" />
+            </column>
             <column name="order_id" type="int">
                 <constraints nullable="true" foreignKeyName="plan_order_id" references="orders(order_id)" />
             </column>

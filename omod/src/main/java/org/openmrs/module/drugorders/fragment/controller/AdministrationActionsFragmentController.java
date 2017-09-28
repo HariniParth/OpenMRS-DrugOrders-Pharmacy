@@ -62,8 +62,8 @@ public class AdministrationActionsFragmentController {
             List<standardplans> plans = new ArrayList<>();
             standardplans plan = Context.getService(standardplansService.class).getMedPlanByID(selectedPlanItem);
             plans.add(plan);
-            plansByName.put(Context.getService(newplansService.class).getMedPlanByPlanID(plan.getPlanId()).getPlanName(), plans);
-            selectedPlan.put(plan.getPlanId(), plansByName);
+            plansByName.put(Context.getService(newplansService.class).getMedPlanByPlanID(plan.getNewPlanId()).getPlanName(), plans);
+            selectedPlan.put(plan.getNewPlanId(), plansByName);
         }
             
         model.addAttribute("selectedPlan", selectedPlan);
