@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.drugorders">
+
+    <!--
+        Map columns of drug_orders_extn table with drugorders class properties
+    -->
+    <class name="drugorders" table="drug_orders_extn">
+        <id name="id" type="int" column="id" unsaved-value="0">
+            <generator class="native" />
+        </id>
+        <discriminator column="id" insert="false" />
+        <property name="orderId" column="order_id" not-null="false" ></property>
+        <property name="groupId" column="group_id" not-null="false" ></property>
+        <many-to-one name="drugName" column="drug_name" class="org.openmrs.Concept" />
+        <property name="startDate" column="start_date" type="java.util.Date" ></property> 
+        <property name="isAllergic" column="is_allergic" not-null="false" ></property>
+        <property name="isAllergicOrderReasons" column="is_allergic_order_reasons" type="java.lang.String" ></property>
+        <property name="orderStatus" column="order_status" type="java.lang.String" ></property>
+        <property name="onHold" column="on_hold" not-null="false" ></property>
+        <property name="forDiscard" column="for_discard" not-null="false" ></property>
+        <property name="refill" column="refill" ></property>
+        <property name="refillInterval" column="refill_interval" ></property>
+        <many-to-one name="priority" column="priority" class="org.openmrs.Concept" />
+        <many-to-one name="discontinueReason" column="discontinue_reason" class="org.openmrs.Concept" />
+        <property name="discontinuationReasons" column="discontinuation_reasons" type="java.lang.String" ></property>
+        <many-to-one name="associatedDiagnosis" column="associated_diagnosis" class="org.openmrs.Concept" />
+        <property name="patientInstructions" column="patient_instructions" type="java.lang.String" length="255" ></property> 
+        <property name="pharmacistInstructions" column="pharmacist_instructions" type="java.lang.String" length="255" ></property>
+        <property name="lastDispatchDate" column="last_dispatch_date" type="java.util.Date" ></property>
+        <property name="drugExpiryDate" column="drug_expiry_date" type="java.util.Date" ></property> 
+        <property name="commentForOrderer" column="comment_for_orderer" type="java.lang.String" length="255"></property> 
+        <property name="commentForPatient" column="comment_for_patient" type="java.lang.String" length="255"></property> 
+
+    </class>
+
+    <!--
+        Map columns of new_plans table with newplans class properties
+    -->
+    <class name="newplans" table="new_plans">
+
+        <id name="id" type="int" column="id" unsaved-value="0">
+            <generator class="native" />
+        </id>
+        <discriminator column="id" insert="false" />
+        <many-to-one name="planName" column="plan_name" class="org.openmrs.Concept" />
+        <property name="planDesc" column="plan_desc" type="java.lang.String" length="255" ></property> 
+        <property name="planStatus" column="plan_status" type="java.lang.String" ></property>
+        <property name="discardReason" column="discard_reason" type="java.lang.String" ></property>
+        
+    </class>
+    
+    <!--
+        Map columns of standard_plans table with standardplans class properties
+    -->
+    <class name="standardplans" table="standard_plans">
+
+        <id name="id" type="int" column="id" unsaved-value="0">
+            <generator class="native" />
+        </id>
+        <discriminator column="id" insert="false" />
+        <property name="newPlanId" column="new_plan_id" not-null="false" ></property>
+        <many-to-one name="drugId" column="drug_id" class="org.openmrs.Concept" />
+        <property name="dose" column="dose" type="java.lang.Double" length="10" ></property>
+        <many-to-one name="doseUnits" column="dose_units" class="org.openmrs.Concept" />
+        <property name="quantity" column="quantity" type="java.lang.Double" length="10" ></property>
+        <many-to-one name="quantityUnits" column="quantity_units" class="org.openmrs.Concept" />
+        <property name="duration" column="duration" ></property>
+        <many-to-one name="durationUnits" column="duration_units" class="org.openmrs.Concept" />
+        <many-to-one name="route" column="route" class="org.openmrs.Concept" />
+        <many-to-one name="frequency" column="frequency" class="org.openmrs.OrderFrequency" />
+        <property name="planStatus" column="plan_status" type="java.lang.String" ></property>
+        <property name="discardReason" column="discard_reason" type="java.lang.String" ></property>
+        
+    </class>
+    
+    <!--
+        Map columns of plan_orders table with planorders class properties
+    -->
+    <class name="planorders" table="plan_orders">
+
+        <id name="id" type="int" column="id" unsaved-value="0">
+            <generator class="native" />
+        </id>
+        <discriminator column="id" insert="false" />
+        <property name="standardPlanId" column="standard_plan_id" not-null="false" ></property>
+        <property name="orderId" column="order_id" not-null="false" ></property>
+        
+    </class>
+    
+</hibernate-mapping>

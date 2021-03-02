@@ -9,12 +9,6 @@
  */
 package org.openmrs.module.drugorders.extension.html;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.openmrs.module.Extension;
-import org.openmrs.module.web.extension.AdministrationSectionExt;
-
 /**
  * This class defines the links that will appear on the administration page under the
  * "drugorders.title" heading. 

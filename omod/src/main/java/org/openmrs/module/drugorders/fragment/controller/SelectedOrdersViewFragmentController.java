@@ -25,27 +25,35 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.servlet.http.HttpSession;
+
+import org.openmrs.Allergies;
+import org.openmrs.Allergy;
 import org.openmrs.Concept;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.allergyapi.Allergies;
-import org.openmrs.module.allergyapi.Allergy;
-import org.openmrs.module.allergyapi.api.PatientService;
+//import org.openmrs.module.allergyapi.Allergies;
+//import org.openmrs.module.allergyapi.Allergy;
+//import org.openmrs.module.allergyapi.api.PatientService;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.api.planordersService;
-import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.page.controller.PharmacyPatientPageController;
+import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.drugorders.planorders;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
- * @author harini-parthasarathy
+ * @author harini-parthasarathy, MAGEMBE SHARIF
  */
 public class SelectedOrdersViewFragmentController {
+	
+	@Autowired
+	PharmacyPatientPageController pharmacyPatientPageController;
     
     public void controller(FragmentModel model, HttpSession session,
                             @RequestParam("patientId") Patient patient, 

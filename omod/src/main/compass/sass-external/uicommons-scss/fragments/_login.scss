@@ -1,12 +1,15 @@
+
 #login-form {
+  padding: 10px;
+
   p {
-    margin-right: 20px;
+    margin-right: 10px;
     text-align: right;
 
     input[type=text], input[type=password] {
       margin-bottom: 20px;
     }
-    
+
     input[type=submit] {
       padding: 8px 40px;
     }
@@ -14,5 +17,60 @@
 
   .error-message {
     text-align: none;
+  }
+}
+
+@media (min-width : 992px) {
+  #login-form input.form-control-lg {
+    height: calc(1.5em + .5rem + 2px);
+    width: 444px;
+  }
+
+  #login-form ul{
+    font-size: 1.0em;
+  }
+}
+
+@media (max-width : 360px) {
+  #body-wrapper {
+    width: 329px;
+  }
+
+  #login-form ul.select li {
+    width: 238px;
+  }
+
+  header{
+    width: 329px;
+  }
+}
+
+@media (min-width: 992px){
+  #login-form ul {
+    font-size: 1.0em;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 910px){
+  #username,#password {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 910px) and (min-width: 810px){
+  #username,#password {
+    width: 350px;
+  }
+}
+
+@media screen and (max-width: 810px) and (min-width: 710px){
+  #username,#password {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 710px) and (min-width: 670px){
+  #username,#password {
+    width: 279px;
   }
 }
