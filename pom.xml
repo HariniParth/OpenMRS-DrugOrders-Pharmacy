@@ -26,15 +26,15 @@
         <url>https://github.com/openmrs/openmrs-module-drugorders</url>
     </scm>
 
-    <properties>
-        <openMRSVersion>1.11.4</openMRSVersion>
+   <properties>
+        <openMRSVersion>1.12.0</openMRSVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <uiframeworkVersion>3.4</uiframeworkVersion>
-        <appframeworkVersion>2.4</appframeworkVersion>
-        <uicommonsVersion>1.7</uicommonsVersion>
-        <emrapiVersion>1.11.1</emrapiVersion>
-        <appuiVersion>1.4</appuiVersion>
-        <allergyapiVersion>1.3</allergyapiVersion>
+        <uiframeworkVersion>3.20.0</uiframeworkVersion>
+        <appframeworkVersion>2.16.0</appframeworkVersion>
+        <uicommonsVersion>2.16.0</uicommonsVersion>
+        <emrapiVersion>1.24.6</emrapiVersion>
+        <appuiVersion>1.13.0</appuiVersion>
+        <allergyapiVersion>1.5-SNAPSHOT</allergyapiVersion>
     </properties>
 
     <dependencyManagement>
