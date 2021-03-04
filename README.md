@@ -11,7 +11,7 @@ E-prescription and Pharmacy software system
 This is the code developed for Drug Orders and Pharmacy module.
 The module has four pages (Administration page, Drug Orders page, Pharmacy home page and Pharmacy Patient page).
 
-- Path to controller: 
+ #Path to controller: 
 
 https://github.com/HariniParth/OpenMRS-DrugOrders-Pharmacy/tree/master/omod/src/main/java/org/openmrs/module/drugorders
 
