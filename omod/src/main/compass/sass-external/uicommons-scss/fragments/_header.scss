@@ -74,7 +74,7 @@ header {
     @include border-radius(3px);
     width: 853px;
     font-size: 0.8em;
-    z-index: 1;
+    z-index: 999;
 
     .select {
       font-size: 1em;

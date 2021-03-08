@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <!--
+        See http://www.liquibase.org/manual/home#available_database_refactorings
+        for a list of supported elements and attributes
+    -->
+   
+    <!--
+        (First time only) If plan_orders table does exists, drop it
+    -->
+    <changeSet id="drug_order_table_2" author="harini_parthasarathy">
+        <sql>
+            drop table if exists plan_orders;
+        </sql>
+    </changeSet>
+    
+    <!--
+        (First time only) If standard_plans table does exists, drop it
+    -->
+    <changeSet id="drug_order_table_3" author="harini_parthasarathy">
+        <sql>
+            drop table if exists standard_plans;
+        </sql>
+    </changeSet>
+    
+    <!--
+        (First time only) If new_plans table does exists, drop it
+    -->
+    <changeSet id="drug_order_table_4" author="harini_parthasarathy">
+        <sql>
+            drop table if exists new_plans;
+        </sql>
+    </changeSet>
+
+    <!--
+        (First time only) create drug_orders_extn table with given set of columns
+    -->
+    <changeSet id="drug_order_table_5" author="harini_parthasarathy">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="drug_orders_extn" />
+            </not>
+        </preConditions>
+        <createTable tableName="drug_orders_extn">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="int">
+                <constraints nullable="true" foreignKeyName="order_id" references="orders(order_id)" />
+            </column>
+            <column name="group_id" type="int"></column>
+            <column name="drug_name" type="int"></column>
+            <column name="start_date" type="datetime"></column>
+            <column name="is_allergic" type="tinyint(1)"></column>
+            <column name="is_allergic_order_reasons" type="varchar(1024)"></column>          
+            <column name="associated_diagnosis" type="int"></column>
+            <column name="patient_instructions" type="varchar(1024)"></column>
+            <column name="pharmacist_instructions" type="varchar(1024)"></column> 
+            <column name="priority" type="int"></column>
+            <column name="refill" type="int"></column>
+            <column name="refill_interval" type="int"></column>
+            <column name="order_status" type="varchar(50)"></column>
+            <column name="on_hold" type="tinyint(1)"></column>
+            <column name="for_discard" type="tinyint(1)"></column>
+            <column name="discontinue_reason" type="int"></column>
+            <column name="discontinuation_reasons" type="varchar(1024)"></column>
+            <column name="last_dispatch_date" type="datetime"></column>
+            <column name="drug_expiry_date" type="datetime"></column>
+            <column name="comment_for_orderer" type="varchar(1024)"></column>
+            <column name="comment_for_patient" type="varchar(1024)"></column>
+        </createTable>
+    </changeSet>
+    
+    <!--
+        (First time only) create new_plans table with given set of columns
+    -->
+    <changeSet id="drug_order_table_6" author="harini_parthasarathy">
+        <preConditions onFail="WARN" onError="WARN">
+            <not>
+                <tableExists tableName="new_plans" />
+            </not>
+        </preConditions>
+        <createTable tableName="new_plans">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="plan_name" type="int"></column>
+            <column name="plan_desc" type="varchar(1024)"></column>
+            <column name="plan_status" type="varchar(50)"></column>
+            <column name="discard_reason" type="varchar(1024)"></column>
+        </createTable>
+    </changeSet>
+    
+    <!--
+        (First time only) create standard_plans table with given set of columns
+    -->
+    <changeSet id="drug_order_table_7" author="harini_parthasarathy">
+        <preConditions onFail="WARN" onError="WARN">
+            <not>
+                <tableExists tableName="standard_plans" />
+            </not>
+        </preConditions>
+        <createTable tableName="standard_plans">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="new_plan_id" type="int">
+                <constraints nullable="true" foreignKeyName="new_plan_id" references="new_plans(id)" />
+            </column>
+            <column name="drug_id" type="int"></column>
+            <column name="dose" type="double precision"></column>
+            <column name="dose_units" type="int"></column>
+            <column name="quantity" type="double precision"></column>
+            <column name="quantity_units" type="int"></column>
+            <column name="duration" type="int"></column>
+            <column name="duration_units" type="int"></column>
+            <column name="route" type="int"></column>
+            <column name="frequency" type="int"></column>
+            <column name="plan_status" type="varchar(50)"></column>
+            <column name="discard_reason" type="varchar(1024)"></column>
+        </createTable>
+    </changeSet>
+    
+    <!--
+        (First time only) create plan_orders table with given set of columns
+    -->
+    <changeSet id="drug_order_table_8" author="harini_parthasarathy">
+        <preConditions onFail="WARN" onError="WARN">
+            <not>
+                <tableExists tableName="plan_orders" />
+            </not>
+        </preConditions>
+        <createTable tableName="plan_orders">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="standard_plan_id" type="int">
+                <constraints nullable="true" foreignKeyName="standard_plan_id" references="standard_plans(id)" />
+            </column>
+            <column name="order_id" type="int">
+                <constraints nullable="true" foreignKeyName="plan_order_id" references="orders(order_id)" />
+            </column>
+        </createTable>
+    </changeSet>
+    
+</databaseChangeLog>

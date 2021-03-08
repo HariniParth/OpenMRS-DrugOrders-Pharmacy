@@ -15,15 +15,22 @@
 	<require_version>${openMRSVersion}</require_version>
 	<!-- / Module Properties -->
 
-        
+    <aware_of_modules>
+	    <aware_of_module>org.openmrs.module.uiframework</aware_of_module>
+	    <aware_of_module>org.openmrs.module.appui</aware_of_module>
+	    <aware_of_module>org.openmrs.module.emrapi</aware_of_module>
+	    <aware_of_module>org.openmrs.module.appframework</aware_of_module>
+	    <aware_of_module>org.openmrs.module.legacyui</aware_of_module>
+	</aware_of_modules>   
+	 
 	<require_modules>
 		<require_module version="${uiframeworkVersion}">
 			org.openmrs.module.uiframework
-		</require_module>
+ </require_module>
                 
-                <require_module version="${allergyapiVersion}">
+              <!--    <require_module version="${allergyapiVersion}">
 			org.openmrs.module.allergyapi
-		</require_module>
+		</require_module> -->
                 
                 <require_module version="${htmlformentryVersion}">
 			org.openmrs.module.htmlformentry

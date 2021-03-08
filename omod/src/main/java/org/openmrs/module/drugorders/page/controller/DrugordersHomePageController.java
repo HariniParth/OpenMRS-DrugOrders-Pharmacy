@@ -18,6 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
+import org.openmrs.Allergies;
+import org.openmrs.Allergy;
 import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
@@ -31,10 +33,8 @@ import org.openmrs.Person;
 import org.openmrs.Provider;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OrderContext;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.allergyapi.Allergies;
-import org.openmrs.module.allergyapi.Allergy;
-import org.openmrs.module.allergyapi.api.PatientService;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.api.newplansService;
 import org.openmrs.module.drugorders.api.planordersService;
@@ -567,7 +567,7 @@ public class DrugordersHomePageController {
         DrugOrder order = new DrugOrder();
         // Save the drug concept associated with the order.
         order.setConcept(ConceptName(drugNameConfirmed));
-        order.setDrug(Context.getConceptService().getDrugByNameOrId(drugNameConfirmed));
+        order.setDrug(Context.getConceptService().getDrugByUuid(drugNameConfirmed));
                   
         // Save the care setting.
         CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");

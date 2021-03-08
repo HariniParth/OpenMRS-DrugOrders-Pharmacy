@@ -1,4 +1,7 @@
 
+// screen width
+$maxWidth: 1000px;
+
 //fonts
 $primaryFont: "OpenSans";
 $primaryBoldFont: "OpenSansBold";
@@ -6,6 +9,7 @@ $primaryLightFont: "OpenSansLight";
 $primaryItalicFont: "OpenSansItalic";
 $iconFont: "FontAwesome";
 $fontPath: "../../fonts";
+$fa-font-path: "../../font-awesome-5";
 
 //colors
 $alertBackground: #FFFDF0;

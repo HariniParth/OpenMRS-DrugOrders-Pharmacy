@@ -4,7 +4,7 @@
 body {
   font-family: $primaryFont, Arial, sans-serif;
   -webkit-font-smoothing: subpixel-antialiased;
-  max-width: 1000px;
+  max-width: $maxWidth;
   margin: 10px auto;
   background: $bodyBackground;
   color: $text;
@@ -13,7 +13,7 @@ body {
 
 #body-wrapper {
   margin-top: 10px;
-  padding: 10px;
+  padding: 10px 0px 10px 0px;
   background-color: white;
   @include border-radius(5px);
 }
@@ -32,11 +32,11 @@ i {
   &.link {
     font-size: 0.7em;
   }
-  
+
   &.small {
     font-size: 1.2em;
   }
-  
+
   &.medium {
     font-size: 2em;
   }
@@ -318,25 +318,25 @@ table {
     padding: 5px 10px;
     border: 1px solid #DDD;
   }
-  
+
   tr {
     border: 1px solid $bodyBackground;
   }
-  
+
   tr:nth-child(even) {
     background: $focus;
   }
-  
+
   tr:nth-child(odd) {
     background: white;
   }
-  
+
   tr.hover{
     background: lighten(desaturate($link, 20%), 20%);
     color: white;
     cursor: pointer;
   }
-  
+
   tr.selected{
     background: $link;
     color: white;
@@ -345,7 +345,7 @@ table {
       color: white
     }
   }
-  
+
   thead th {
     border-bottom: 1px solid #DDD;
     background: $lighterGrey;
@@ -399,7 +399,7 @@ table {
 
 .highlighted {
   background-color: $highlight;
-  color: $white; 
+  color: $white;
   padding: 5px;
   margin: 5px
  }
@@ -418,4 +418,9 @@ input.ng-touched.ng-invalid {
 
 .invisible {
   visibility: hidden;
+}
+
+// see: https://github.com/FortAwesome/Font-Awesome/issues/8309
+.fa, [class^="icon-"] {
+  box-sizing: content-box;
 }
