@@ -15,6 +15,8 @@ package org.openmrs.module.drugorders.extension.html;
  */
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.openmrs.module.Extension;
+import org.openmrs.module.web.extension.AdministrationSectionExt;
 
 
 public class AdminList extends AdministrationSectionExt {
@@ -43,6 +45,7 @@ public class AdminList extends AdministrationSectionExt {
 	 */
         @Override
 	public Map<String, String> getLinks() {
+        	
             LinkedHashMap<String, String> map = new LinkedHashMap<>();
             map.put("/pages/drugorders/administration.page", "drugorders.administration");
             return map;
