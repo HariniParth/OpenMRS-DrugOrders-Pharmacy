@@ -21,9 +21,10 @@
     </organization>
 
     <scm>
-        <connection>scm:git:git@github.com:openmrs/openmrs-module-drugorders.git</connection>
-        <developerConnection>scm:git:git@github.com:openmrs/openmrs-module-drugorders.git</developerConnection>
-        <url>https://github.com/openmrs/openmrs-module-drugorders</url>
+        <connection>scm:git:git@github.com:digitalhealthcaresociety/OpenMRS-DrugOrders-Pharmacy.git</connection>
+        <developerConnection>scm:git:git@github.com:digitalhealthcaresociety/OpenMRS-DrugOrders-Pharmacy.git</developerConnection>
+        <url>https://github.com/digitalhealthcaresociety/OpenMRS-DrugOrders-Pharmacy</url>
+         <tag>HEAD</tag>
     </scm>
 
    <properties>
@@ -219,7 +220,7 @@
     </distributionManagement>
 
     <modules>
-        <module>api</module>
+       <!-- <module>api</module> --> 
         <module>omod</module>
     </modules>
 </project>
