@@ -159,7 +159,9 @@
             </table>
             <br/>
                <div class='print-button'>
-	           <svg class='icon-x'><use xlink:href='#icon-print'></use></svg> 
+	           <svg class='icon-x'>
+	           <use xlink:href='#icon-print'>
+	           </use></svg> 
 	          <span>Print This page</span>
 </div>
         </form>
