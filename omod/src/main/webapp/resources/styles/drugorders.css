@@ -304,6 +304,20 @@ and open the template in the editor.
 .wordBreak{
     word-break: break-all;
 }
+.print-button{
+	border: 1px solid $highlight
+	padding: $pad $pad*1.5
+	background: $white
+	border-radius: $corner
+	cursor: pointer
+	* //
+		balance()
+	position: absolute
+	top: 50%
+	left: 50%
+	transform: translate(-50%, -50%)
+	
+	}
 
 #dashboardOrderList{
     max-height: 200px;
