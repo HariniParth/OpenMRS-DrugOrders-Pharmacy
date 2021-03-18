@@ -114,8 +114,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
     </div>
     
     <div class='print-button'>
-	<svg class='icon-x'><use xlink:href='#icon-print'></use></svg> 
-	<span><button>Print This page<button></span>
+	<svg class='icon-x'><use xlink:href='drugorders-omod/src/main/webapp/resources/images/printer-svgrepo-com.svg'></use></svg> 
+	<span><button><use xlink:href='drugorders-omod/src/main/webapp/resources/images/printer-svgrepo-com.svg'><button></span>
 </div>
 
 </div>
