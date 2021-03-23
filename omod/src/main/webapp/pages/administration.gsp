@@ -18,6 +18,11 @@
 <br/>
 
 <div class="info-body">
+   <div>
+        <h3>
+            <strong>${ ui.message("NAME OF THE CLINIC ") }</strong>
+        </h3>
+    <div>
     
     <div id="planList">
         <div id="line-break"></div>
