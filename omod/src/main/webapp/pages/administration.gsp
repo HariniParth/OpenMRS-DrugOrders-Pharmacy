@@ -167,7 +167,7 @@
 	           <svg class='icon-x'>
 	           <use xlink:href='#icon-print'>
 	           </use></svg> 
-	          <span>Print This page</span>
+	          <button>Print This page</button>
 </div>
         </form>
     </div>
