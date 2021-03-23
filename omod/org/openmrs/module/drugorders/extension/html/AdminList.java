@@ -18,13 +18,8 @@ import java.util.Map;
 import org.openmrs.module.Extension;
 import org.openmrs.module.web.extension.AdministrationSectionExt;
 
-
 public class AdminList extends AdministrationSectionExt {
 	
-	/**
-         * @return 
-	 * @see AdministrationSectionExt#getMediaType()
-	 */
         @Override
 	public Extension.MEDIA_TYPE getMediaType() {
             return Extension.MEDIA_TYPE.html;

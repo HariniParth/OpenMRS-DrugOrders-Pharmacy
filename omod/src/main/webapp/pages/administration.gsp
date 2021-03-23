@@ -18,6 +18,11 @@
 <br/>
 
 <div class="info-body">
+   <div>
+        <h3>
+            <strong>${ ui.message("NAME OF THE CLINIC ") }</strong>
+        </h3>
+    <div>
     
     <div id="planList">
         <div id="line-break"></div>
@@ -157,6 +162,13 @@
                     
                 </tbody>
             </table>
+            <br/>
+               <div class='print-button'>
+	           <svg class='icon-x'>
+	           <use xlink:href='#icon-print'>
+	           </use></svg> 
+	          <button>Print This page</button>
+</div>
         </form>
     </div>
 
@@ -165,6 +177,12 @@
     </div>
     
 </div>
+<script>
+  jq('.print-button').on('click', function() {  
+  window.print();  
+  return false; // why false?
+});
+</script>
 
 <script>
     jq('#medPlansTable').dataTable({

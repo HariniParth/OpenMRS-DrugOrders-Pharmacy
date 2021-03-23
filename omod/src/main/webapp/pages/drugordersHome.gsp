@@ -5,6 +5,10 @@
 %>
 
 <div id="pageRedirect"></div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="../jQuery.print.js"></script>
+
 <script type="text/javascript">
     var breadcrumbs = [
         { icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
@@ -110,6 +114,11 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
     </div>
 </div>
 
+<script>
+   jq('.print-button').on('click', function() {  
+  window.print();  
+  return false; // why false?
+});
 
 <script type="text/javascript">
     jq("#activeOrderWindow > .icon-plus-sign").show();
