@@ -24,6 +24,7 @@ import org.openmrs.module.drugorders.drugorders;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -31,9 +32,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author harini-parthasarathy
  */
 public class PharmacyPatientPageController {
-
+     
     public void controller(PageModel model, HttpSession session,
-            @RequestParam("patientId") Patient patient, @SpringBean("allergyService") PatientService patientService,
+            @RequestParam("patientId") Patient patient, @SpringBean("patientService") PatientService patientService,
             @RequestParam(value = "action", required = false) String action,
             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
             @RequestParam(value = "pharmaGroupAction", required = false) String groupAction,
