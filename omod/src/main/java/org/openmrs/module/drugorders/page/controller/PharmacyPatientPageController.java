@@ -44,7 +44,7 @@ public class PharmacyPatientPageController {
             @RequestParam(value = "groupComments", required = false) String groupComments,
             @RequestParam(value = "drugExpiryDate", required = false) String[] drugExpiryDate,
             @RequestParam(value = "commentForPatient", required = false) String[] commentForPatient) throws ParseException {
-//    	 @SpringBean("allergyService") 
+
         /*
           Get the list of drugs the Patient is allergic to
         */
