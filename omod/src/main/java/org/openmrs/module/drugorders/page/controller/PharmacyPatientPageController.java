@@ -32,10 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author harini-parthasarathy
  */
 public class PharmacyPatientPageController {
-    
-	 @Autowired
-	 Allergy Allergy;
-	 
+     
     public void controller(PageModel model, HttpSession session,
             @RequestParam("patientId") Patient patient, @SpringBean("patientService") PatientService patientService,
             @RequestParam(value = "action", required = false) String action,
