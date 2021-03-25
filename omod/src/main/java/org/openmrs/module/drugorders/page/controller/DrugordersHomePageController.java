@@ -101,7 +101,7 @@ public class DrugordersHomePageController {
       Using the @RequestParam annotation, we access the values entered in the 'Create Drug Order', 'Select Med Plans', 'Discontinue/Renew Drug Order' forms.
     */
     public void controller( PageModel model, @RequestParam("patientId") Patient patient, HttpSession session,
-                            @SpringBean("allergyService") PatientService patientService, 
+                            @SpringBean("patientService") PatientService patientService, 
                             @RequestParam(value = "drugName", required = false) String drugName,
                             @RequestParam(value = "startDate", required = false) Date startDate,
                             @RequestParam(value = "route", required = false) String route,

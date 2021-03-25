@@ -37,7 +37,7 @@ public class PharmacyPatientPageController {
 	 Allergy Allergy;
 	 
     public void controller(PageModel model, HttpSession session,
-            @RequestParam("patientId") Patient patient, @SpringBean("allergyService") PatientService patientService,
+            @RequestParam("patientId") Patient patient, @SpringBean("patientService") PatientService patientService,
             @RequestParam(value = "action", required = false) String action,
             @RequestParam(value = "groupCheckBox", required=false) long[] groupCheckBox,
             @RequestParam(value = "pharmaGroupAction", required = false) String groupAction,

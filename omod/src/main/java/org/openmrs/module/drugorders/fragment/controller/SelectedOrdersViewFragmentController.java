@@ -54,7 +54,7 @@ public class SelectedOrdersViewFragmentController {
     
     public void controller(FragmentModel model, HttpSession session,
                             @RequestParam("patientId") Patient patient, 
-                            @SpringBean("allergyService") PatientService patientService,
+                            @SpringBean("patientService") PatientService patientService,
                             @RequestParam(value = "planID", required = false) String planID,
                             @RequestParam(value = "groupID", required = false) String groupID,
                             @RequestParam(value = "orderID", required = false) String orderID){
