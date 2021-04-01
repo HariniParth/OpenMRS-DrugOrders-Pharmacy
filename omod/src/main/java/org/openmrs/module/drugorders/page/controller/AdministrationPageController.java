@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.OrderFrequency;
 import org.openmrs.api.APIException;
@@ -22,13 +24,19 @@ import org.openmrs.module.drugorders.newplans;
 import org.openmrs.module.drugorders.standardplans;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
 import org.openmrs.ui.framework.page.PageModel;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
  * @author harini-parthasarathy
+ * @author co developer sharif Magembe
  */
 public class AdministrationPageController {
+	
+	protected final Log log = LogFactory.getLog(getClass());
         
     public void controller(PageModel model, HttpSession session,
                             @RequestParam(value = "definePlanId", required = false) String definePlanId,
@@ -263,5 +271,14 @@ public class AdministrationPageController {
         orderFrequency.setConcept(ConceptName(Frequency));
         orderFrequency = (OrderFrequency) Context.getOrderService().saveOrderFrequency(orderFrequency);
         return orderFrequency;
+    }
+    
+    @RequestMapping(value="/pages/drugorders/administration.page", method = RequestMethod.GET)
+    public void administrationPage(ModelMap model) {
+    	model.addAttribute("user", Context.getAuthenticatedUser());
+    	
+    	
+    	
+    	
     }
 }
