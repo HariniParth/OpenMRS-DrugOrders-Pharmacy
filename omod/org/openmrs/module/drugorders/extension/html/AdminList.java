@@ -20,7 +20,7 @@ import org.openmrs.module.web.extension.AdministrationSectionExt;
 
 public class AdminList extends AdministrationSectionExt {
 	
-        @Override
+   
 	public Extension.MEDIA_TYPE getMediaType() {
             return Extension.MEDIA_TYPE.html;
 	}
@@ -29,7 +29,7 @@ public class AdminList extends AdministrationSectionExt {
          * @return 
 	 * @see AdministrationSectionExt#getTitle()
 	 */
-        @Override
+     
 	public String getTitle() {
             return "drugorders.title";
 	}
@@ -38,10 +38,10 @@ public class AdminList extends AdministrationSectionExt {
          * @return 
 	 * @see AdministrationSectionExt#getLinks()
 	 */
-        @Override
+ 
 	public Map<String, String> getLinks() {
         	
-            LinkedHashMap<String, String> map = new LinkedHashMap<>();
+            LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
             map.put("/pages/drugorders/administration.page", "drugorders.administration");
             return map;
 	}
