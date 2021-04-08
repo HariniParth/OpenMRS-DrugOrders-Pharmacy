@@ -48,8 +48,8 @@ The DrugordersPageController has methods to take appropriate actions to
   
  ===============================
   
- The Pharmacy Patient page displays the list of active drug orders (individual, group and medication plan) for a Paient.
- It hosts a fragments that display the details of the selected drug order(s) and a mail fragment with options to send an email to the orderer.
+ The Pharmacy Patient page displays the list of active drug orders (individual, group and medication plan) for a Patient.
+ It hosts a fragment that displays the details of the selected drug order(s) and a mail fragment with options to send an email to the orderer.
  The PharmacyPageController has methods to take appropriate actions to
   - mark a drug order dispatched
   - put a drug order on hold
