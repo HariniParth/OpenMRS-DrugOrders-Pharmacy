@@ -6,7 +6,7 @@ E-prescription and Pharmacy software system
 <a href="https://docs.google.com/document/d/1ME-nferIxI1oFyrmQTWWXIV9yA1YiFN4HA0mHD2rXcw/">Developer Guide</a>
 
 <a href="https://docs.google.com/document/d/1a2xIBwTHdAfR3QnrwrF_sYl9cclufymMoUSns3TSngw/">User Guide</a>
-
+ <a href ="https://docs.google.com/document/d/1Pe-L3aSUtW4Xv-LmG5hv626pyfXYh5t2mi_kJjSSmrc/edit?usp=sharing"> Adding DrugOrders Administration Page on the HomePage </a>
 
 This is the code developed for Drug Orders and Pharmacy module.
 The module has four pages (Administration page, Drug Orders page, Pharmacy home page and Pharmacy Patient page).
