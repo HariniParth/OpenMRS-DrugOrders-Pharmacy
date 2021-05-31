@@ -78,7 +78,7 @@
                         <% if(currentOrders.contains(medplan.drugId.getDisplayString().toUpperCase())) { %>
                             <input type="checkbox" class="unchecked" disabled="disabled" />
                         <% } else { %>
-                            <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ medplan.drugId }" checked="true" />
+                            <input type="checkbox" class="groupCheckBox" name="groupCheckBox" value="${ medplan.id }" checked="true" />
                         <% } %>
                         
                         <i class="icon-plus-sign  edit-action" title="${ ui.message("Show") }"></i>
