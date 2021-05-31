@@ -31,7 +31,7 @@ form#retrospectiveCheckin {
     color: #444444;
     text-decoration: underline;
   }
-  
+
   #htmlFormEntryBanner {
     background-color: #e0e0e0;
     text-align: center;
@@ -106,7 +106,7 @@ form#retrospectiveCheckin {
     }
 
     border-left: 3px solid #EEE;
-    
+
     text-align: left;
     padding: 10px;
     background: #F9F9F9;
@@ -163,111 +163,133 @@ form#retrospectiveCheckin {
   }
 }
 
+#nav-buttons {
+  background: #ffffff;
+  padding: 10px;
+}
+
+// we don't display the next/previous button on Bootstrap lg or xl sizes
+@media (min-width: 992px) {   // 992px is set to Bootstrap "lg" size
+  #nav-buttons {
+    display: none;
+  }
+}
+
+// we don't display the form breadcrumb when in Bootstrap xs,sm, or md screen sizes
 ul#formBreadcrumb {
-  float: left;
-  vertical-align: top;
-  width: 220px;
+  display: none;
+}
 
-  li {
-    border: 1px solid #EEE;
-    border-bottom: none;
-    border-right: none;
+@media (min-width: 992px) { // 992px is set to Bootstrap "lg" size
+  ul#formBreadcrumb {
+    display: block;
+    float: left;
+    vertical-align: top;
+    width: 220px;
 
-    span {
-      padding: 5px;
-      font-family: $primaryBoldFont;
-    }
+    li {
+      border: 1px solid #EEE;
+      border-bottom: none;
+      border-right: none;
 
-    &:first-child {
-      @include border-top-left-radius(4px);
-    }
+      span {
+        padding: 5px;
+        font-family: $primaryBoldFont;
+      }
 
-    &:last-child {
-      border-bottom: 1px solid #EEE;
-      @include border-bottom-left-radius(4px);
-    }
+      &:first-child {
+        @include border-top-left-radius(4px);
+      }
 
-    &.doing {
-      border-left: 5px solid $link;
+      &:last-child {
+        border-bottom: 1px solid #EEE;
+        @include border-bottom-left-radius(4px);
+      }
 
-      ul {
-        display: block;
+      &.doing {
+        border-left: 5px solid $link;
 
-        li {
-          span {
-            padding-left: 27px;
-            padding-right: 0;
-            font-weight: normal;
-            font-family: $primaryFont;
+        ul {
+          display: block;
+
+          li {
+            span {
+              padding-left: 27px;
+              padding-right: 0;
+              font-weight: normal;
+              font-family: $primaryFont;
+            }
+
+            border: none;
+            @include border-radius(0);
+
+            &.focused {
+              color: #FFF;
+              background-color: $link;
+            }
+          }
+        }
+
+        .question-legend {
+          .icon-ok {
+            display: none;
+            font-size: 0.7em;
+            border: 2px solid;
+            color: rgb(40, 201, 0);
+            padding: 3px 2px;
+            margin-left: 4px;
           }
 
-          border: none;
-          @include border-radius(0);
+          &.done {
+            span {
+              padding-left: 2px;
+              padding-right: 0;
+              display: inline-block;
+            }
+
+            .icon-ok {
+              display: inline-block;
+            }
+          }
 
           &.focused {
-            color: #FFF;
-            background-color: $link;
+            .icon-ok {
+              color: white;
+            }
           }
         }
       }
 
-      .question-legend {
-        .icon-ok {
-          display: none;
-          font-size: 0.7em;
-          border: 2px solid;
-          color: rgb(40, 201, 0);
-          padding: 3px 2px;
-          margin-left: 4px;
-        }
+      i {
+        display: inline-block;
+        font-size: 1em;
+        border: 3px solid;
+        @include border-radius(50%);
 
-        &.done {
-          span {
-            padding-left: 2px;
-            padding-right: 0;
-            display: inline-block;
-          }
-           
-          .icon-ok {
-            display: inline-block;
-          }
-        }
-
-        &.focused {
-          .icon-ok {
-            color: white;
-          }
+        span {
+          font-style: normal;
+          font-weight: 700;
+          padding: 0px 5px;
+          margin-top: -3px;
         }
       }
-    }
 
-    i {
-      display: inline-block;
-      font-size: 1em;
-      border: 3px solid;
-      @include border-radius(50%);
-      
       span {
-        font-style: normal;
-        font-weight: 700;
-        padding: 0px 5px;
-        margin-top: -3px;
+        display: inline-block;
+        vertical-align: middle;
+
+        em {
+          display: block;
+          font-size: .7em;
+          text-align: left;
+        }
+      }
+
+      ul {
+        display: none;
       }
     }
-
-    span {
-      display: inline-block;
-      vertical-align: middle;
-
-      em {
-        display: block;
-        font-size: .7em;
-        text-align: left;
-      }
-    }
-
-    ul {
-      display: none;
-    }
-  } 
+  }
 }
+
+

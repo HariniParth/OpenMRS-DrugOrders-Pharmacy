@@ -64,6 +64,13 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+            
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>legacyui-omod</artifactId>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- End OpenMRS modules -->
         <dependency>

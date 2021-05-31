@@ -6,12 +6,10 @@
 package org.openmrs.module.drugorders.fragment.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import org.openmrs.DrugOrder;
-import org.openmrs.Patient;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.Doc;
@@ -25,11 +23,14 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.lang.StringUtils;
+import org.openmrs.Allergies;
+import org.openmrs.Allergy;
 import org.openmrs.Concept;
+import org.openmrs.DrugOrder;
+import org.openmrs.Patient;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.allergyapi.Allergies;
-import org.openmrs.module.allergyapi.Allergy;
-import org.openmrs.module.allergyapi.api.PatientService;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.api.planordersService;
 import org.openmrs.module.drugorders.drugorders;
@@ -38,18 +39,22 @@ import org.openmrs.module.drugorders.planorders;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
-import org.springframework.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  *
- * @author harini-parthasarathy
+ * @author harini-parthasarathy, MAGEMBE SHARIF
  */
 public class SelectedOrdersViewFragmentController {
+	
+	@Autowired
+	PharmacyPatientPageController pharmacyPatientPageController;
     
     public void controller(FragmentModel model, HttpSession session,
                             @RequestParam("patientId") Patient patient, 
-                            @SpringBean("allergyService") PatientService patientService,
+                            @SpringBean("patientService") PatientService patientService,
                             @RequestParam(value = "planID", required = false) String planID,
                             @RequestParam(value = "groupID", required = false) String groupID,
                             @RequestParam(value = "orderID", required = false) String orderID){

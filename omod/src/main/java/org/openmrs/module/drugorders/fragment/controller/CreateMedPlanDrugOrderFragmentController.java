@@ -40,7 +40,7 @@ public class CreateMedPlanDrugOrderFragmentController {
      * @param patient
      */
     
-    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient,
+    public void controller(FragmentModel model, @RequestParam("patientId") Patient patient,UiUtils ui,
                             @RequestParam(value = "planName", required = false) String planName){
 
         model.addAttribute("planName", planName.trim());
@@ -57,6 +57,7 @@ public class CreateMedPlanDrugOrderFragmentController {
                 if(standardplan.getPlanStatus().equals("Active"))
                     medplans.add(standardplan);
         }
+        
         model.addAttribute("medplans", medplans);
     }
     

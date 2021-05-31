@@ -19,6 +19,10 @@
   @include action-icon($link);
 }
 
+.view-action {
+  @include action-icon($link);
+}
+
 .add-action {
   @include action-icon($brightGreen);
 }

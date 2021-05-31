@@ -9,23 +9,18 @@
  */
 package org.openmrs.module.drugorders.extension.html;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.openmrs.module.Extension;
-import org.openmrs.module.web.extension.AdministrationSectionExt;
-
 /**
  * This class defines the links that will appear on the administration page under the
  * "drugorders.title" heading. 
  */
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.openmrs.module.Extension;
+import org.openmrs.module.web.extension.AdministrationSectionExt;
+
 public class AdminList extends AdministrationSectionExt {
 	
-	/**
-         * @return 
-	 * @see AdministrationSectionExt#getMediaType()
-	 */
-        @Override
+   
 	public Extension.MEDIA_TYPE getMediaType() {
             return Extension.MEDIA_TYPE.html;
 	}
@@ -34,7 +29,7 @@ public class AdminList extends AdministrationSectionExt {
          * @return 
 	 * @see AdministrationSectionExt#getTitle()
 	 */
-        @Override
+     
 	public String getTitle() {
             return "drugorders.title";
 	}
@@ -43,9 +38,10 @@ public class AdminList extends AdministrationSectionExt {
          * @return 
 	 * @see AdministrationSectionExt#getLinks()
 	 */
-        @Override
+ 
 	public Map<String, String> getLinks() {
-            LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        	
+            LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
             map.put("/pages/drugorders/administration.page", "drugorders.administration");
             return map;
 	}

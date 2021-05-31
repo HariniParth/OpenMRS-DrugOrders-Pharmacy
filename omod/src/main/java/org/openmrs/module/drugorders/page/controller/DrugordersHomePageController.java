@@ -18,6 +18,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openmrs.Allergies;
+import org.openmrs.Allergy;
 import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
@@ -31,10 +35,8 @@ import org.openmrs.Person;
 import org.openmrs.Provider;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OrderContext;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.allergyapi.Allergies;
-import org.openmrs.module.allergyapi.Allergy;
-import org.openmrs.module.allergyapi.api.PatientService;
 import org.openmrs.module.drugorders.api.drugordersService;
 import org.openmrs.module.drugorders.api.newplansService;
 import org.openmrs.module.drugorders.api.planordersService;
@@ -45,15 +47,61 @@ import org.openmrs.module.drugorders.standardplans;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/*
+ * Controller class for the admin page 
+ */
+@Controller
+@RequestMapping(value = "pages/drugorders/administration.form")
 public class DrugordersHomePageController {
+	
+	/** Logger for this class and subclasses */
+	protected final Log log = LogFactory.getLog(getClass());
+	
+	/** Success form view name */
+	private final String SUCCESS_FORM_VIEW = "/pages/drugorders/administration.form";
+	
+	/**
+	 * Initially called after the formBackingObject method to get the landing form name
+	 * 
+	 * @return String form view name
+	 */
+	@RequestMapping(method = RequestMethod.GET)
+	public String showForm() {
+		return SUCCESS_FORM_VIEW;
+	}
+	
+	/**
+	 * All the parameters are optional based on the necessity
+	 * 
+	 * @param httpSession
+	 * @param anyRequestObject
+	 * @param errors
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	public String onSubmit(HttpSession httpSession, @ModelAttribute("anyRequestObject") Object anyRequestObject,
+	        BindingResult errors) {
+		
+		if (errors.hasErrors()) {
+			// return error view
+		}
+		
+		return SUCCESS_FORM_VIEW;
+	}
+	
     
     /*
       Using the @RequestParam annotation, we access the values entered in the 'Create Drug Order', 'Select Med Plans', 'Discontinue/Renew Drug Order' forms.
     */
     public void controller( PageModel model, @RequestParam("patientId") Patient patient, HttpSession session,
-                            @SpringBean("allergyService") PatientService patientService, 
+                            @SpringBean("patientService") PatientService patientService, 
                             @RequestParam(value = "drugName", required = false) String drugName,
                             @RequestParam(value = "startDate", required = false) Date startDate,
                             @RequestParam(value = "route", required = false) String route,
@@ -194,7 +242,7 @@ public class DrugordersHomePageController {
                         List<standardplans> standardPlans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(selectedPlan)).getId());
                         for(standardplans standardPlan : standardPlans){
                             // If the given standard plan drug is selected to be ordered, create a drug order for the drug.
-                            if(planOrderList.contains(standardPlan.getDrugId().toString()) && standardPlan.getPlanStatus().equals("Active")){
+                            if(planOrderList.contains(standardPlan.getId().toString()) && standardPlan.getPlanStatus().equals("Active")){
                                 DrugOrder drugOrder = null;
                                 drugorders drugorder = null;
                                 
@@ -567,7 +615,7 @@ public class DrugordersHomePageController {
         DrugOrder order = new DrugOrder();
         // Save the drug concept associated with the order.
         order.setConcept(ConceptName(drugNameConfirmed));
-        order.setDrug(Context.getConceptService().getDrugByNameOrId(drugNameConfirmed));
+        order.setDrug(Context.getConceptService().getDrugByUuid(drugNameConfirmed));
                   
         // Save the care setting.
         CareSetting careSetting = Context.getOrderService().getCareSettingByName("Outpatient");

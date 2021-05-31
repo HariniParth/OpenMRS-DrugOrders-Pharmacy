@@ -86,12 +86,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
+      <!--   <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>allergyapi-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
+                     -->
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>appframework-api</artifactId>
