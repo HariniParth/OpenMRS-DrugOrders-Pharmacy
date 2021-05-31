@@ -242,7 +242,7 @@ public class DrugordersHomePageController {
                         List<standardplans> standardPlans = Context.getService(standardplansService.class).getMedPlansByPlanID(Context.getService(newplansService.class).getMedPlanByPlanName(ConceptName(selectedPlan)).getId());
                         for(standardplans standardPlan : standardPlans){
                             // If the given standard plan drug is selected to be ordered, create a drug order for the drug.
-                            if(planOrderList.contains(standardPlan.getDrugId().toString()) && standardPlan.getPlanStatus().equals("Active")){
+                            if(planOrderList.contains(standardPlan.getId().toString()) && standardPlan.getPlanStatus().equals("Active")){
                                 DrugOrder drugOrder = null;
                                 drugorders drugorder = null;
                                 
