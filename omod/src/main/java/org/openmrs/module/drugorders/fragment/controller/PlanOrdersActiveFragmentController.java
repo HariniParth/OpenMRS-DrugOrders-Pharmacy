@@ -163,7 +163,7 @@ public class PlanOrdersActiveFragmentController {
             planorders p_order = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
 
             // If the selected plan related orders are not already retrieved, retrieve the orders
-            if(!DraftPlanMain.containsKey(p_order.getStandardPlanId())){
+             if(p_order != null && !DraftPlanMain.containsKey(p_order.getStandardPlanId())){
 
                 // Store the mapping of plan name to plan ID
                 planName.put(p_order.getStandardPlanId(), order.getAssociatedDiagnosis());
