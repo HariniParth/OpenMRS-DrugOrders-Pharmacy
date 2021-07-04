@@ -264,7 +264,7 @@ public class DrugordersHomePageController {
                                     }
                                 }
                                 // Create a planorders record.
-                                createPlanOrder(order, planID);
+                               createPlanOrder(order, standardPlan.getId());
                             }
                         }
                         InfoErrorMessageUtil.flashInfoMessage(session, "Plan Saved!");
