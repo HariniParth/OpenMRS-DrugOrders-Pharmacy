@@ -78,7 +78,7 @@ public class PlanOrdersNonActiveFragmentController {
             
             // If the selected plan related orders are not already retrieved, retrieve the orders
             if(!NonActivePlanMain.containsKey(nonActiveMedPlan.getStandardPlanId())){
-                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(nonActiveMedPlan.getStandardPlanId());
+                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(nonActiveMedPlan.getId());
                 
                 // Storing HashMap<Plan-Name, HashMap<Order-ID, DrugOrder>>
                 HashMap<Concept, HashMap<Integer, DrugOrder>> p_main = new HashMap<>();

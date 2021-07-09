@@ -62,7 +62,7 @@ public class HibernateplanordersDAO implements planordersDAO {
     public List<planorders> getPlanOrdersByPlanID(Integer planId){
         Criteria crit = sessionFactory.getCurrentSession().createCriteria(
                 planorders.class);
-        crit.add(Restrictions.eq("standardPlanId", planId));
+        crit.add(Restrictions.idEq(planId));
         return crit.list();
     };
         

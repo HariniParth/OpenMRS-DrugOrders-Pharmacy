@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>drugorders-api</name>
+	<name>drugorders-omod</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -22,7 +22,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1625805645656</id>
+			<id>1625805645662</id>
 			<name></name>
 			<type>30</type>
 			<matcher>

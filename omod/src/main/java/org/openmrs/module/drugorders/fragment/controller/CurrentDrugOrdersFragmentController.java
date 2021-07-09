@@ -74,7 +74,7 @@ public class CurrentDrugOrdersFragmentController {
             // If the drug orders associated with this standard plan are not retrieved yet, then retrieve the orders.
             if(!patientPlanOrders.containsKey(planOrder.getStandardPlanId())){
                 // Retrieve the set of drug orders that are associated with the given planorders ID.
-                List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planOrder.getStandardPlanId());
+                List<planorders> planOrders = Context.getService(planordersService.class).getPlanOrdersByPlanID(planOrder.getId());
                 List<drugorders> activePlanOrders = new ArrayList<>();
                 
                 // From the set of retrieved drug orders, select the orders that are currently active.

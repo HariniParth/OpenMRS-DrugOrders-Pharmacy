@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
@@ -29,6 +31,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author harini-parthasarathy
  */
 public class PlanOrdersActiveFragmentController {
+
+    /** Logger for this class and subclasses */
+	protected final Log log = LogFactory.getLog(getClass());
     
     public void controller(FragmentModel model, @RequestParam("patientId") Patient patient, HttpSession session,
                             @RequestParam(value = "activatePlan", required = false) Integer activatePlan){
@@ -99,12 +104,14 @@ public class PlanOrdersActiveFragmentController {
         }
         
         for(drugorders order : drugorders){
+
+            log.error(" Inside drug order " + order.getOrderId());
             // Retrieve the corresponding planorders record.
             planorders p_order = Context.getService(planordersService.class).getPlanOrderByOrderID(order.getOrderId());
-            
+            log.error(" after getting plan order standard planorder" + p_order.getStandardPlanId());
             // If the selected plan related drug orders are not already retrieved, retrieve the orders and store the objects in ActivePlanMain and ActivePlanExtn HashMap.
             if(!ActivePlanMain.containsKey(p_order.getStandardPlanId())){
-                
+               
                 // Store the mapping of plan name to plan ID
                 planName.put(p_order.getStandardPlanId(), order.getAssociatedDiagnosis());
                 // Storing HashMap<Order-ID, DrugOrder>
@@ -113,12 +120,14 @@ public class PlanOrdersActiveFragmentController {
                 HashMap<Integer,drugorders> extn = new HashMap<>();
                 
                 // Fetch the references to the related drug orders made as a part of the same plan order.
-                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getStandardPlanId());
+                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getId());
 
                 for(planorders plan : plans){
                     int id = plan.getOrderId();
                     // Select the drug orders that are currently active.
                     if(Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus().equals("Active-Plan")){
+                        log.error(" Inside plan order + order id " + plan.getOrderId());
+                        
                         main.put(id, (DrugOrder) Context.getOrderService().getOrder(id));
                         extn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                     }
@@ -173,12 +182,13 @@ public class PlanOrdersActiveFragmentController {
                 HashMap<Integer,drugorders> extn = new HashMap<>();
                 
                 // Fetch the references to the related drug orders made as a part of the same plan order.
-                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getStandardPlanId());
+                List<planorders> plans = Context.getService(planordersService.class).getPlanOrdersByPlanID(p_order.getId());
 
                 for(planorders plan : plans){
                     int id = plan.getOrderId();
                     // Select the drug orders that are currently in draft status.
                     if(Context.getService(drugordersService.class).getDrugOrderByOrderID(id).getOrderStatus().equals("Draft-Plan")){
+                        log.error(" Inside draft plan order + order id " + plan.getOrderId());
                         main.put(id, (DrugOrder) Context.getOrderService().getOrder(id));
                         extn.put(id, Context.getService(drugordersService.class).getDrugOrderByOrderID(id));
                     }
