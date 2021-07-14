@@ -16,5 +16,17 @@
         "url": "drugorders/pharmacyHome.page",
         "icon": "icon-signin",
         "requiredPrivilege": "App: drugorders.pharmacy"
+    },
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.medicationPlan",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "MedicationPlan",
+        "url": "/pages/drugorders/administration.page",
+        "icon": "icon-list-alt",
+        "requiredPrivilege": "App: drugorders.medicationPlan"
     }
+
+
+
 ]
